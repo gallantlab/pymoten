@@ -41,4 +41,4 @@ gabor_param = gabor_parameters[334]
 ani = moten.plot_3dgabor(gabor_param, aspect_ratio=aspect_ratio)
 
 
-ani = moten.plot_3dgabor(gabor_param, aspect_ratio=aspect_ratio, fps=24, tdim=100)
+ani = moten.plot_3dgabor(gabor_param, aspect_ratio=aspect_ratio, fps=24, tdim=16)
