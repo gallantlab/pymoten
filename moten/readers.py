@@ -99,7 +99,7 @@ def resize_image(im, size=(96,96), filter=Image.ANTIALIAS):
     Parameters
     ----------
     im : str, np.ndarray(uint8), or PIL.Image object
-        The path to the image, image array, or a loaded PIL.Image
+        The path to the image, an image array, or a loaded PIL.Image
     size : tuple, (vdim, hdim)
         The desired output image size
 
