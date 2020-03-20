@@ -6,9 +6,12 @@ reload(readers)
 # Video example
 ##############################
 
+# This can also be a local file or an HTTP link
+video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
+
 # single image
 ##############################
-video_buffer = readers.video_buffer('avsnr150s24fps_sd.mp4')
+video_buffer = readers.video_buffer(video_file)
 image_rgb = video_buffer.__next__() # load a single image
 vdim, hdim, cdim = image_rgb.shape
 aspect_ratio = hdim/vdim
@@ -39,7 +42,7 @@ assert corr > 0.999
 ##############################
 
 # load only 100 images
-video_buffer = readers.video_buffer('avsnr150s24fps_sd.mp4', nimages=100)
+video_buffer = readers.video_buffer(video_file, nimages=100)
 
 images_rgb = np.asarray([image for image in video_buffer])
 nimages, vdim, hdim, cdim = images_rgb.shape
@@ -54,7 +57,7 @@ assert np.allclose(images_luminance_resized[0], image_luminance_resized[0])
 
 # test video2luminance generator
 nimages = 256
-video_buffer = readers.video_buffer('avsnr150s24fps_sd.mp4', nimages=nimages)
+video_buffer = readers.video_buffer(video_file, nimages=nimages)
 # load and downsample 1000 images
 aspect_ratio = 16/9.0
 small_size = (96, int(96*aspect_ratio))
@@ -62,14 +65,23 @@ small_size = (96, int(96*aspect_ratio))
 luminance_images = np.asarray([readers.imagearray2luminance(image, size=small_size).squeeze() \
                                for image in video_buffer])
 
-lum = readers.video2luminance('avsnr150s24fps_sd.mp4', size=small_size, nimages=nimages)
+lum = readers.video2luminance(video_file, size=small_size, nimages=nimages)
 assert np.allclose(luminance_images, lum)
 
 
 ##############################
 # Example with PNG images
 ##############################
+import PIL
 from glob import glob
+
+# Convert the first 100 video frames to PNGs
+video_buffer = readers.video_buffer(video_file, nimages=100)
+for frameidx, video_frame in enumerate(video_buffer):
+    image_object = PIL.Image.fromarray(video_frame)
+    image_object.save('frame%08i.png'%frameidx)
+
+
 image_files = sorted(glob('*.png'))
 files_luminance = readers.load_image_luminance(image_files)
 

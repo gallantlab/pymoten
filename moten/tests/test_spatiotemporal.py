@@ -3,12 +3,15 @@ from importlib import reload
 reload(readers)
 reload(moten)
 
+# This can also be a local file or an HTTP link
+video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
 
 nimages = 100
 aspect_ratio = 16/9.0
 small_size = (96, int(96*aspect_ratio))
-luminance_images = readers.video2luminance('avsnr150s24fps_sd.mp4',
-                                           size=small_size, nimages=nimages)
+
+luminance_images = readers.video2luminance(video_file,size=small_size, nimages=nimages)
+
 
 # inferred aspect ratio
 moten_features_defaults = moten.compute_filter_responses(luminance_images, 24,
