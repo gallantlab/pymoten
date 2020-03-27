@@ -440,7 +440,7 @@ class GaborPyramid(object):
         self.parameters = parameter_values
         self.filters = filters
         self.aspect_ratio = aspect_ratio
-        self.gabor_xyt_size = (hdim, vdim, gabor_duration)
+        self.gabor_hvt_size = (hdim, vdim, gabor_duration)
 
     def get_gabor_components(self, gaborid):
         '''Spatial and temporal quadrature pairs for motion-energy filter.
@@ -464,9 +464,9 @@ class GaborPyramid(object):
         '''
         aspect_ratio = self.aspect_ratio
         gabor_parameters = self.filters[gaborid]
-        gabor_xyt_size = self.gabor_xyt_size
+        gabor_hvt_size = self.gabor_hvt_size
         print(gabor_parameters)
-        quadratures = mk_3d_gabor(gabor_xyt_size,
+        quadratures = mk_3d_gabor(gabor_hvt_size,
                                   aspect_ratio=aspect_ratio,
                                   **gabor_parameters)
         return quadratures
@@ -476,13 +476,13 @@ class GaborPyramid(object):
         '''
         # define gabor filter according to stimulus
         nimages, vdim, hdim = stimulus.shape
-        gabor_xyt_size = (hdim, vdim, self.gabor_duration)
+        gabor_hvt_size = (hdim, vdim, self.gabor_duration)
 
         # get quadratures
         aspect_ratio = self.aspect_ratio
         gabor_parameters = self.filters[gaborid]
         print(gabor_parameters)
-        quadratures = mk_3d_gabor(gabor_xyt_size,
+        quadratures = mk_3d_gabor(gabor_hvt_size,
                                   aspect_ratio=aspect_ratio,
                                   **gabor_parameters)
 
@@ -498,11 +498,11 @@ class GaborPyramid(object):
         gabor_movie_array = mk_spatiotemporal_gabor(*spatiotemporal_gabor_components)
         return gabor_movie_array
 
-    def view_gabor(self, gaborid, speed=1.0):
+    def view_gabor(self, gaborid, speed=1.0, background=None):
         '''Animation of motion-energy filter
         '''
         # Get dimensions of movie
-        hdim, vdim, tdim = self.gabor_xyt_size
+        hdim, vdim, tdim = self.gabor_hvt_size
         aspect_ratio = self.aspect_ratio
         fps = self.movie_fps
 
@@ -519,7 +519,7 @@ class GaborPyramid(object):
                 title += '\n'
 
         return plot_3dgabor(gabor_params, vdim=vdim, hdim=hdim, tdim=tdim,
-                            fps=fps, aspect_ratio=aspect_ratio,
+                            fps=fps, aspect_ratio=aspect_ratio, background=background,
                             title=title, speed=speed)
 
 
@@ -527,7 +527,7 @@ class GaborPyramid(object):
 # core functionality
 ##############################
 
-def mk_3d_gabor(xyt,
+def mk_3d_gabor(hvt,
                 centerx=0.5,
                 centery=0.5,
                 direction=45.0,
@@ -548,7 +548,7 @@ def mk_3d_gabor(xyt,
 
     Parameters
     ----------
-    xyt : array-like, (hdim, vdim, tdim)
+    hvt : array-like, (hdim, vdim, tdim)
         Defines the 3D field-of-view of the filter
         `hdim` : horizontal dimension size
         `vdim` : vertical dimension size
@@ -588,7 +588,7 @@ def mk_3d_gabor(xyt,
     Same method as Nishimoto, et al., 2011.
     '''
 
-    szx, szy, szt = np.asarray(xyt).astype(np.float)
+    szx, szy, szt = np.asarray(hvt).astype(np.float)
 
     dx = np.linspace(0,aspect_ratio,szx, endpoint=True)
     dy = np.linspace(0,1,szy, endpoint=True)
@@ -706,7 +706,7 @@ def dotdelay_frames(spatial_gabor_sin, spatial_gabor_cos,
     return channel_sin, channel_cos
 
 
-def generate_3dgabor_array(gabor_xyt_size=(576, 1024, 24),
+def generate_3dgabor_array(gabor_hvt_size=(576, 1024, 24),
                            aspect_ratio='auto',
                            centerx=0.5,
                            centery=0.5,
@@ -717,12 +717,12 @@ def generate_3dgabor_array(gabor_xyt_size=(576, 1024, 24),
                            temporal_env=0.3,
                            phase_offset=0.0):
     '''
-    gabor_xyt_size : (vdim, hdim, tdim),
+    gabor_hvt_size : (vdim, hdim, tdim),
     '''
     if aspect_ratio == 'auto':
         aspect_ratio = hdim/float(vdim)
 
-    gabor_components = mk_3d_gabor(gabor_xyt_size,
+    gabor_components = mk_3d_gabor(gabor_hvt_size,
                                    aspect_ratio=aspect_ratio,
                                    centerx=centerx,
                                    centery=centery,
@@ -738,7 +738,7 @@ def generate_3dgabor_array(gabor_xyt_size=(576, 1024, 24),
     return gabor_video
 
 
-def plot_3dgabor(gabor_params,
+def plot_3dgabor(gabor_params, background=None,
                  vdim=576, hdim=1024, tdim=16,
                  fps=24, aspect_ratio=1.0, title=None,
                  speed=1.0, time_padding=False):
@@ -750,6 +750,10 @@ def plot_3dgabor(gabor_params,
     '''
     import matplotlib.pyplot as plt
     import matplotlib.animation as animation
+
+    if background is not None:
+        nimgs, vdim, hdim = background.shape[:3]
+
 
     # get the 3D gabor as an array
     spatiotemporal_gabor_components = mk_3d_gabor((hdim, vdim, tdim),
@@ -765,7 +769,16 @@ def plot_3dgabor(gabor_params,
     fig, ax = plt.subplots()
     images = []
     for frameidx in range(nframes):
-        im = ax.imshow(gabor_video[..., frameidx], vmin=-1, vmax=1, cmap='coolwarm')
+        if background is None:
+            image_view = gabor_video[..., frameidx]
+
+        else:
+            gmask = np.abs(gabor_video[...,frameidx]) > 0.01
+            image_view = background[frameidx].copy()
+            image_view[gmask] *= gabor_video[...,frameidx][gmask]
+
+        im = ax.imshow(image_view, vmin=-1, vmax=1,
+                       cmap='coolwarm' if background is None else 'Greys')
         framenum = ax.text(0,0,'frame #%04i/%04i (fps=%i)'%(frameidx+1, nframes, fps))
         images.append([framenum, im])
 
