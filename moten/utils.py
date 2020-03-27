@@ -1,5 +1,17 @@
 '''
 '''
+import numpy as np
+
+##############################
+# helper functions
+##############################
+
+def log_compress(x, offset=1e-05):
+    return np.log(x + offset)
+
+
+def sqrt_sum_squares(x,y):
+    return np.sqrt(x**2 + y**2)
 
 
 class DotDict(dict):
