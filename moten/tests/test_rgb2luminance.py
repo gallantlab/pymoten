@@ -1,6 +1,7 @@
-from moten import readers, colorspace
+import numpy as np
+from moten import io, colorspace
 from importlib import reload
-reload(readers)
+reload(io)
 
 ##############################
 # Video example
@@ -11,18 +12,18 @@ video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
 
 # single image
 ##############################
-video_buffer = readers.video_buffer(video_file)
+video_buffer = io.video_buffer(video_file)
 image_rgb = video_buffer.__next__() # load a single image
 vdim, hdim, cdim = image_rgb.shape
 aspect_ratio = hdim/vdim
 
 # single images
-image_luminance = readers.imagearray2luminance(image_rgb, size=None)
-image_luminance_resized = readers.imagearray2luminance(image_rgb, size=(96, int(96*aspect_ratio)))
+image_luminance = io.imagearray2luminance(image_rgb, size=None)
+image_luminance_resized = io.imagearray2luminance(image_rgb, size=(96, int(96*aspect_ratio)))
 
 # process is reversible
-resized_image = readers.resize_image(image_rgb, size=(96, int(96*aspect_ratio)))
-resized_image_luminance = readers.imagearray2luminance(resized_image, size=None)
+resized_image = io.resize_image(image_rgb, size=(96, int(96*aspect_ratio)))
+resized_image_luminance = io.imagearray2luminance(resized_image, size=None)
 assert np.allclose(image_luminance_resized[0], resized_image_luminance[0])
 
 # NB: skimage comparison.
@@ -42,30 +43,30 @@ assert corr > 0.999
 ##############################
 
 # load only 100 images
-video_buffer = readers.video_buffer(video_file, nimages=100)
+video_buffer = io.video_buffer(video_file, nimages=100)
 
 images_rgb = np.asarray([image for image in video_buffer])
 nimages, vdim, hdim, cdim = images_rgb.shape
 aspect_ratio = hdim/vdim
 
-images_luminance = readers.imagearray2luminance(images_rgb,
+images_luminance = io.imagearray2luminance(images_rgb,
                                                size=None)
-images_luminance_resized = readers.imagearray2luminance(images_rgb,
+images_luminance_resized = io.imagearray2luminance(images_rgb,
                                                         size=(96, int(96*aspect_ratio)))
 
 assert np.allclose(images_luminance_resized[0], image_luminance_resized[0])
 
 # test video2luminance generator
 nimages = 256
-video_buffer = readers.video_buffer(video_file, nimages=nimages)
+video_buffer = io.video_buffer(video_file, nimages=nimages)
 # load and downsample 1000 images
 aspect_ratio = 16/9.0
 small_size = (96, int(96*aspect_ratio))
 
-luminance_images = np.asarray([readers.imagearray2luminance(image, size=small_size).squeeze() \
+luminance_images = np.asarray([io.imagearray2luminance(image, size=small_size).squeeze() \
                                for image in video_buffer])
 
-lum = readers.video2luminance(video_file, size=small_size, nimages=nimages)
+lum = io.video2luminance(video_file, size=small_size, nimages=nimages)
 assert np.allclose(luminance_images, lum)
 
 
@@ -76,17 +77,17 @@ import PIL
 from glob import glob
 
 # Convert the first 100 video frames to PNGs
-video_buffer = readers.video_buffer(video_file, nimages=100)
+video_buffer = io.video_buffer(video_file, nimages=100)
 for frameidx, video_frame in enumerate(video_buffer):
     image_object = PIL.Image.fromarray(video_frame)
     image_object.save('frame%08i.png'%frameidx)
 
 
 image_files = sorted(glob('*.png'))
-files_luminance = readers.load_image_luminance(image_files)
+files_luminance = io.load_image_luminance(image_files)
 
-files_luminance_resized = readers.load_image_luminance(image_files,
-                                                       vdim=96, hdim=int(96*aspect_ratio))
+files_luminance_resized = io.load_image_luminance(image_files,
+                                                  vdim=96, hdim=int(96*aspect_ratio))
 
 assert np.allclose(files_luminance, images_luminance)
 assert np.allclose(files_luminance_resized, images_luminance_resized)

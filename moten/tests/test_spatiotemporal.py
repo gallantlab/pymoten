@@ -1,7 +1,7 @@
-from moten import readers, colorspace, moten
+import numpy as np
 from importlib import reload
-reload(readers)
-reload(moten)
+
+import moten
 
 # This can also be a local file or an HTTP link
 video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
@@ -10,20 +10,20 @@ nimages = 100
 aspect_ratio = 16/9.0
 small_size = (96, int(96*aspect_ratio))
 
-luminance_images = readers.video2luminance(video_file,size=small_size, nimages=nimages)
+luminance_images = moten.io.video2luminance(video_file,size=small_size, nimages=nimages)
 
 
 # inferred aspect ratio
-moten_features_defaults = moten.compute_filter_responses(luminance_images, 24,
+moten_features_defaults = moten.core.compute_filter_responses(luminance_images, 24,
                                                          dtype=np.float32)
 
 # wrong aspect ratio
-moten_features_wrong = moten.compute_filter_responses(luminance_images, 24,
+moten_features_wrong = moten.core.compute_filter_responses(luminance_images, 24,
                                                       aspect_ratio=1.0,
                                                       dtype=np.float32)
 
 # exact aspect ratio
-moten_features_exact = moten.compute_filter_responses(luminance_images, 24,
+moten_features_exact = moten.core.compute_filter_responses(luminance_images, 24,
                                                       aspect_ratio=aspect_ratio,
                                                       dtype=np.float32)
 
@@ -39,15 +39,13 @@ pyramid_parameters = dict(temporal_frequencies=[0,2,4],
                           max_temp_env=0.3,
                           include_edges=True)
 
-moten_features_custom = moten.compute_filter_responses(luminance_images, 24,
-                                                       aspect_ratio=aspect_ratio,
-                                                       dtype=np.float32,
-                                                       pyramid_parameters=pyramid_parameters)
+moten_features_custom = moten.core.compute_filter_responses(luminance_images, 24,
+                                                            aspect_ratio=aspect_ratio,
+                                                            dtype=np.float32,
+                                                            pyramid_parameters=pyramid_parameters)
 
 
 # spatial only
 ##############################
-reload(moten)
-gabor_features_custom = moten.compute_spatial_gabor_responses(luminance_images,
-                                                              dtype=np.float32,
-                                                              )
+gabor_features_custom = moten.core.compute_spatial_gabor_responses(luminance_images,
+                                                                   dtype=np.float32)
