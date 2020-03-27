@@ -3,7 +3,8 @@
 from PIL import Image
 import numpy as np
 
-from tqdm import tqdm
+from moten.utils import iterator_func
+from moten.colorspace import rgb2lab
 
 def video_buffer(video_file, nimages=np.inf):
     '''Generator for a video file.
@@ -44,9 +45,8 @@ def video2luminance(video_file, size=None, nimages=np.inf):
     '''
     vbuffer = video_buffer(video_file, nimages=nimages)
     luminance_video = []
-
-    from moten.progress_bar import bar
-    for imageidx, image_rgb in tqdm(enumerate(vbuffer), '%s.video2luminance'%__name__):
+    for imageidx, image_rgb in iterator_func(enumerate(vbuffer),
+                                             '%s.video2luminance'%__name__):
         luminance_image = imagearray2luminance(image_rgb, size=size).squeeze()
         luminance_video.append(luminance_image)
     return np.asarray(luminance_video)
@@ -126,8 +126,7 @@ def resize_image(im, size=(96,96), filter=Image.ANTIALIAS):
     return im
 
 
-def load_image_luminance(image_files, hdim=None, vdim=None, verbose=False,
-                         progress_bar=True):
+def load_image_luminance(image_files, hdim=None, vdim=None):
     '''Load a set of RGB images and return its luminance representation
 
     Parameters
@@ -138,16 +137,13 @@ def load_image_luminance(image_files, hdim=None, vdim=None, verbose=False,
     vdim, hdim : int, optional
         Vertical and horizontal dimensions, respectively.
         If provided the images will be scaled to this size.
-    progress_bar : bool
-        If True, display a command-line progress-bar.
 
     Returns
     -------
     arr : 3D np.array (n,vdim,hdim)
         The luminance representation of the images
     '''
-    from moten.colorspace import rgb2lab
-    from moten.progress_bar import bar
+
 
     if (hdim and vdim):
         loader = lambda stim,sz: resize_image(stim,sz)
@@ -156,10 +152,9 @@ def load_image_luminance(image_files, hdim=None, vdim=None, verbose=False,
 
     stimuli = []
 
-    for fdx, fl in enumerate(bar(image_files, title="load_image_luminance",
-                                 use_it=progress_bar)):
-        if verbose:
-            if fdx % 500 == 1: print(fdx),
+    for fdx, fl in iterator_func(enumerate(image_files),
+                                 "load_image_luminance",
+                                 total=len(image_files)):
         stimulus = Image.open(fl)
         stimulus = loader(stimulus,(vdim,hdim))
         stimulus = rgb2lab(stimulus/255.)[...,0]
