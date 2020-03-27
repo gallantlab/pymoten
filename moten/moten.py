@@ -9,9 +9,7 @@ from PIL import Image
 
 import numpy as np
 
-from tqdm import tqdm
-from moten.progress_bar import bar
-
+from moten.utils import iterator_func, DotDict
 
 ##############################
 # helper functions
@@ -28,7 +26,7 @@ def _sqrt_sum_squares(x,y):
 ##############################
 
 def compute_spatial_gabor_responses(stimulus,
-                                    aspect_ratio=True,
+                                    aspect_ratio='auto',
                                     spatial_frequencies=[0,2,4,8,16,32],
                                     quadrature_combination=_sqrt_sum_squares,
                                     output_nonlinearity=_log_compress,
@@ -62,29 +60,35 @@ def compute_spatial_gabor_responses(stimulus,
     """
     nimages, vdim, hdim = stimulus.shape
 
-    if isinstance(aspect_ratio, bool):
-        assert aspect_ratio is True # undefined o/w
+    if aspect_ratio == 'auto':
         aspect_ratio = hdim/float(vdim)
 
     stimulus = stimulus.reshape(stimulus.shape[0], -1)
-    gabor_parameters = mk_moten_pyramid_params(1.,
-                                               1.,
-                                               aspect_ratio=aspect_ratio,
-                                               temporal_frequencies=[0.],
-                                               spatial_directions=[0.],
-                                               spatial_frequencies=spatial_frequencies,
-                                               )
+    parameter_names, gabor_parameters = mk_moten_pyramid_params(
+        1.,
+        1.,
+        aspect_ratio=aspect_ratio,
+        temporal_frequencies=[0.],
+        spatial_directions=[0.],
+        spatial_frequencies=spatial_frequencies,
+        )
+
+
+    ngabors = gabor_parameters.shape[0]
+    filters = [{name : gabor_parameters[idx, pdx] for pdx, name \
+                in enumerate(parameter_names)} \
+               for idx in range(ngabors)]
 
     info = 'Computing responses for #%i filters across #%i images (aspect_ratio=%0.03f)'
     print(info%(len(gabor_parameters), nimages, aspect_ratio))
 
     channels = np.zeros((nimages, len(gabor_parameters)), dtype=dtype)
-    for idx, gabor_param in tqdm(enumerate(gabor_parameters),
-                                 '%s.compute_spatial_gabor_responses'%__name__,
-                                 total=len(gabor_parameters)):
+    for idx, gabor_param_dict in iterator_func(enumerate(filters),
+                                          '%s.compute_spatial_gabor_responses'%__name__,
+                                          total=len(gabor_parameters)):
         sgabor_sin, sgabor_cos, _, _ = mk_3d_gabor((hdim,vdim,1.0),
-                                                   *gabor_param,
-                                                   aspect_ratio=aspect_ratio)
+                                                   aspect_ratio=aspect_ratio,
+                                                   **gabor_param_dict)
 
         channel_sin, channel_cos = dotspatial_frames(sgabor_sin, sgabor_cos, stimulus)
         channel = quadrature_combination(channel_sin, channel_cos)
@@ -98,11 +102,11 @@ def compute_spatial_gabor_responses(stimulus,
 
 def compute_filter_responses(stimulus,
                              stimulus_fps,
-                             gabor_temporal_window=None,
+                             gabor_duration='auto',
                              quadrature_combination=_sqrt_sum_squares,
                              output_nonlinearity=_log_compress,
                              dozscore=True,
-                             aspect_ratio=True,
+                             aspect_ratio='auto',
                              dtype=np.float64,
                              pyramid_parameters={}):
     """Compute the motion-energy filters' response to the stimuli.
@@ -116,9 +120,9 @@ def compute_filter_responses(stimulus,
     aspect_ratio : bool, or scalar
         Defaults to hdim/vdim. Otherwise, pass as scalar
 
-    gabor_temporal_window : scalar, None
+    gabor_duration : scalar, None
         The number of frames in one filter.
-        If None, it defaults to floor(2/3) of `stimulus_fps`
+        If None, it defaults to `floor(stimulus_fps*(2/3))`.
         Similar to Nishimoto, 2011.
 
     quadrature_combination : function, optional
@@ -146,29 +150,33 @@ def compute_filter_responses(stimulus,
     nimages, vdim, hdim = stimulus.shape
     stimulus = stimulus.reshape(stimulus.shape[0], -1)
 
-    if isinstance(aspect_ratio, bool):
-        assert aspect_ratio is True # undefined o/w
+    if aspect_ratio == 'auto':
         aspect_ratio = hdim/float(vdim)
 
-    if gabor_temporal_window is None:
-        gabor_temporal_window = int(stimulus_fps*(2./3.))
+    if gabor_duration == 'auto':
+        gabor_duration = int(stimulus_fps*(2./3.))
 
-    gabor_parameters = mk_moten_pyramid_params(stimulus_fps,
-                                               gabor_temporal_window,
-                                               aspect_ratio=aspect_ratio,
-                                               **pyramid_parameters)
+    parameter_names, gabor_parameters = mk_moten_pyramid_params(stimulus_fps,
+                                                                gabor_duration,
+                                                                aspect_ratio=aspect_ratio,
+                                                                **pyramid_parameters)
+    ngabors = gabor_parameters.shape[0]
+    filters = [{name : gabor_parameters[idx, pdx] for pdx, name \
+                in enumerate(parameter_names)} \
+               for idx in range(ngabors)]
 
     info = 'Computing responses for #%i filters across #%i images (aspect_ratio=%0.03f)'
     print(info%(len(gabor_parameters), nimages, aspect_ratio))
 
     channels = np.zeros((nimages, len(gabor_parameters)), dtype=dtype)
-    for idx, gabor_param in tqdm(enumerate(gabor_parameters),
-                                 '%s.compute_filter_responses'%__name__,
-                                 total=len(gabor_parameters),
-                                 ):
-        gabor = mk_3d_gabor((hdim,vdim,gabor_temporal_window),
-                            *gabor_param,
-                            aspect_ratio=aspect_ratio)
+    for idx, gabor_param_dict in iterator_func(enumerate(filters),
+                                          '%s.compute_filter_responses'%__name__,
+                                          total=len(filters)):
+
+        gabor = mk_3d_gabor((hdim,vdim,gabor_duration),
+                            aspect_ratio=aspect_ratio,
+                            **gabor_param_dict)
+
         gabor0, gabor90, tgabor0, tgabor90 = gabor
 
         channel_sin, channel_cos = dotdelay_frames(gabor0, gabor90,
@@ -211,8 +219,8 @@ def mk_spatiotemporal_gabor(spatial_gabor_sin, spatial_gabor_cos,
     return (a+b).reshape(x,y,t)
 
 
-def mk_moten_pyramid_params(movie_hz,
-                            gabor_hz,
+def mk_moten_pyramid_params(movie_fps,
+                            gabor_duration,
                             aspect_ratio=1.0,
                             temporal_frequencies=[0,2,4],
                             spatial_frequencies=[0,2,4,8,16,32],
@@ -228,9 +236,9 @@ def mk_moten_pyramid_params(movie_hz,
 
     Parameters
     ----------
-    movie_hz : scalar, Hz
+    movie_fps : scalar, Hz
         Temporal resolution of the stimulus (e..g. 15)
-    gabor_hz : scalar, Hz
+    gabor_duration : scalar, Hz
         Temporal window of the motion-energy filter (e.g. 10)
     temporal_frequencies : array-like, Hz
         Temporal frequencies of the filters for use on the stimulus
@@ -267,17 +275,18 @@ def mk_moten_pyramid_params(movie_hz,
     gabor_parameters : np.array, (nfilters, 7)
         Parameters that defined the motion-energy filter
         Each of the `nfilters` has the following parameters:
-            * centerx,centery : horizontal and vertical position
+            * centerx,centery : horizontal and vertical position ('0,0' is top left)
             * direction       : direction of motion
             * spatial_freq    : spatial frequency
             * spatial_env     : spatial envelope (gaussian s.d.)
-            * temporal_freq   : temporal frequency
+            * temporal_freq   : temporal frequency (scaled `tfq*(gabor_duration/movie_fps)`)
             * temporal_env    : temporal envelope (gaussian s.d.)
 
     Notes
     -----
     Same method as Nishimoto, et al., 2011.
     """
+    assert isinstance(aspect_ratio, (float, np.ndarray))
 
     def compute_envelope(freq, ratio):
         return np.inf if freq == 0 else (1.0/freq)*ratio
@@ -288,7 +297,7 @@ def mk_moten_pyramid_params(movie_hz,
     include_edges = int(include_edges)
 
     # normalize temporal frequency to wavelet size
-    temporal_frequencies = temporal_frequencies*(gabor_hz/float(movie_hz))
+    temporal_frequencies = temporal_frequencies*(gabor_duration/float(movie_fps))
 
     # We have to deal with zero frequency spatial filters differently
     include_local_dc = True if 0 in spatial_frequencies else False
@@ -343,8 +352,176 @@ def mk_moten_pyramid_params(movie_hz,
                                              temp_env,
                                              ])
 
+    parameter_names = ('centerx',
+                       'centery',
+                       'direction',
+                       'spatial_freq',
+                       'spatial_env',
+                       'temporal_freq',
+                       'temporal_env')
     gabor_parameters = np.asarray(gabor_parameters)
-    return gabor_parameters
+    return parameter_names, gabor_parameters
+
+
+class GaborPyramid(object):
+    '''
+    '''
+    def __init__(self,
+                 movie_fps,
+                 vdim=576,
+                 hdim=1024,
+                 aspect_ratio='auto',
+                 gabor_duration='auto',
+                 temporal_frequencies=[0,2,4],
+                 spatial_frequencies=[0,2,4,8,16,32],
+                 spatial_directions=[0,45,90,135,180,225,270,315],
+                 sf_gauss_ratio=0.6,
+                 max_spatial_env=0.3,
+                 gabor_spacing=3.5,
+                 tf_gauss_ratio=10.,
+                 max_temp_env=0.3,
+                 include_edges=False):
+        '''
+        '''
+        # Update aspect ratio
+        if aspect_ratio == 'auto':
+            aspect_ratio = hdim/float(vdim)
+
+        # update gabor temporal window
+        if gabor_duration == 'auto':
+            gabor_duration = int(movie_fps*(2/3.0))
+
+        # Set parameters as object attribute
+        for local_name, local_values in locals().items():
+            if local_name == 'self':
+                continue
+            setattr(self, local_name, np.asarray(local_values, dtype=np.float))
+
+        # construct the gabor pyramid
+        parameter_names, gabor_parameters = mk_moten_pyramid_params(
+            movie_fps,
+            gabor_duration,
+            aspect_ratio=aspect_ratio,
+            temporal_frequencies=temporal_frequencies,
+            spatial_frequencies=spatial_frequencies,
+            spatial_directions=spatial_directions,
+            sf_gauss_ratio=sf_gauss_ratio,
+            max_spatial_env=max_spatial_env,
+            gabor_spacing=gabor_spacing,
+            tf_gauss_ratio=tf_gauss_ratio,
+            max_temp_env=max_temp_env,
+            include_edges=include_edges,
+            )
+
+        ngabors = gabor_parameters.shape[0]
+
+        # in the order they are stored in the pyramid
+        # parameter_names = ('centerx',
+        #                    'centery',
+        #                    'direction',
+        #                    'spatial_freq',
+        #                    'spatial_env',
+        #                    'temporal_freq',
+        #                    'temporal_env')
+
+        # make the parameters accessible
+        parameter_values = DotDict({name : gabor_parameters[:,idx] for idx, name \
+                                           in enumerate(parameter_names)})
+
+        # make the individual filters accessible
+        filters = [DotDict({name : gabor_parameters[idx, pdx] for pdx, name \
+                                   in enumerate(parameter_names)}) \
+                   for idx in range(ngabors)]
+
+        # Store as attributes
+        self.ngabors = ngabors
+        self.gabor_parameters = gabor_parameters
+        self.parameter_names = parameter_names
+        self.parameters = parameter_values
+        self.filters = filters
+        self.aspect_ratio = aspect_ratio
+        self.gabor_xyt_size = (hdim, vdim, gabor_duration)
+
+    def get_gabor_components(self, gaborid):
+        '''Spatial and temporal quadrature pairs for motion-energy filter.
+
+        A motion-energy filter is a 3D gabor with two spatial and
+        one temporal dimension.
+
+        The spatial and temporal dimensions are each defined by
+        two sine waves which differ in phase by 90 degrees.
+        The sine waves are then multiplied by a gaussian.
+
+        Returns
+        -------
+        spatial_gabor_sin, spatial_gabor_cos : np.array, (vdim,hdim)
+            Spatial gabor quadrature pair. `spatial_gabor_cos` has
+            a 90 degree phase offset relative to `spatial_gabor_sin`
+
+        temporal_gabor_sin, temporal_gabor_cos : np.array, (tdim)
+            Temporal gabor quadrature pair. `temporal_gabor_cos` has
+            a 90 degree phase offset relative to `temporal_gabor_sin`
+        '''
+        aspect_ratio = self.aspect_ratio
+        gabor_parameters = self.filters[gaborid]
+        gabor_xyt_size = self.gabor_xyt_size
+        print(gabor_parameters)
+        quadratures = mk_3d_gabor(gabor_xyt_size,
+                                  aspect_ratio=aspect_ratio,
+                                  **gabor_parameters)
+        return quadratures
+
+    def project_stimuli(self, gaborid, stimulus):
+        '''Responses of the motion-energy filter to the stimuli
+        '''
+        # define gabor filter according to stimulus
+        nimages, vdim, hdim = stimulus.shape
+        gabor_xyt_size = (hdim, vdim, self.gabor_duration)
+
+        # get quadratures
+        aspect_ratio = self.aspect_ratio
+        gabor_parameters = self.filters[gaborid]
+        print(gabor_parameters)
+        quadratures = mk_3d_gabor(gabor_xyt_size,
+                                  aspect_ratio=aspect_ratio,
+                                  **gabor_parameters)
+
+        stimulus = stimulus.reshape(nimages, -1)
+        channel_sin, channel_cos = dotdelay_frames(*quadratures,
+                                                   stimulus)
+        return channel_sin, channel_cos
+
+    def get_3dgabor_array(self, gaborid):
+        '''Array representation of motion-energy filter.
+        '''
+        spatiotemporal_gabor_components = self.get_gabor_components(gaborid)
+        gabor_movie_array = mk_spatiotemporal_gabor(*spatiotemporal_gabor_components)
+        return gabor_movie_array
+
+    def view_gabor(self, gaborid, speed=1.0):
+        '''Animation of motion-energy filter
+        '''
+        # Get dimensions of movie
+        hdim, vdim, tdim = self.gabor_xyt_size
+        aspect_ratio = self.aspect_ratio
+        fps = self.movie_fps
+
+        # extract parameters for this gaborid
+        gabor_params = self.filters[gaborid]
+
+        # construct title from parameters
+        title = ''
+        for pdx, (pname, pval) in enumerate(sorted(self.filters[gaborid].items())):
+            if pname == 'temporal_freq':
+                pval = pval*(fps/tdim)
+            title += '%s=%0.02f, '%(pname, pval)
+            if np.mod(pdx, 3) == 0 and pdx > 0:
+                title += '\n'
+
+        return plot_3dgabor(gabor_params, vdim=vdim, hdim=hdim, tdim=tdim,
+                            fps=fps, aspect_ratio=aspect_ratio,
+                            title=title, speed=speed)
+
 
 ##############################
 # core functionality
@@ -528,35 +705,116 @@ def dotdelay_frames(spatial_gabor_sin, spatial_gabor_cos,
     channel_cos = noutc.sum(-1)
     return channel_sin, channel_cos
 
-def plot_3dgabor(gabor_params, vdim=720, hdim=1280, tdim=16, fps=24, aspect_ratio=1.0):
-    '''WIP
+
+def generate_3dgabor_array(gabor_xyt_size=(576, 1024, 24),
+                           aspect_ratio='auto',
+                           centerx=0.5,
+                           centery=0.5,
+                           direction=45.0,
+                           spatial_freq=16.0,
+                           spatial_env=0.3,
+                           temporal_freq=2.0,
+                           temporal_env=0.3,
+                           phase_offset=0.0):
+    '''
+    gabor_xyt_size : (vdim, hdim, tdim),
+    '''
+    if aspect_ratio == 'auto':
+        aspect_ratio = hdim/float(vdim)
+
+    gabor_components = mk_3d_gabor(gabor_xyt_size,
+                                   aspect_ratio=aspect_ratio,
+                                   centerx=centerx,
+                                   centery=centery,
+                                   direction=direction,
+                                   spatial_freq=spatial_freq,
+                                   spatial_env=spatial_env,
+                                   temporal_freq=temporal_freq,
+                                   temporal_env=temporal_env,
+                                   phase_offset=phase_offset,
+                                   )
+
+    gabor_video = mk_spatiotemporal_gabor(*gabor_components)
+    return gabor_video
+
+
+def plot_3dgabor(gabor_params,
+                 vdim=576, hdim=1024, tdim=16,
+                 fps=24, aspect_ratio=1.0, title=None,
+                 speed=1.0, time_padding=False):
+    '''Show an aniimation of the 3D Gabor
+
+    Parameters
+    ----------
+
     '''
     import matplotlib.pyplot as plt
     import matplotlib.animation as animation
 
-    spatiotemmporal_gabor_components = mk_3d_gabor((hdim, vdim, tdim),
-                                                   *gabor_params,
-                                                   aspect_ratio=aspect_ratio)
-    gabor_video = mk_spatiotemporal_gabor(*spatiotemmporal_gabor_components)
+    # get the 3D gabor as an array
+    spatiotemporal_gabor_components = mk_3d_gabor((hdim, vdim, tdim),
+                                                   aspect_ratio=aspect_ratio,
+                                                  **gabor_params)
+
+    gabor_video = mk_spatiotemporal_gabor(*spatiotemporal_gabor_components)
     assert gabor_video.min() >= -1 and gabor_video.max() <= 1
 
-
-    fig, ax = plt.subplots()
+    ## TODO: wrap plot_3dgabor_array
+    # generate individual frames
     nframes = gabor_video.shape[-1]
-
+    fig, ax = plt.subplots()
     images = []
     for frameidx in range(nframes):
         im = ax.imshow(gabor_video[..., frameidx], vmin=-1, vmax=1, cmap='coolwarm')
-        images.append([im])
+        framenum = ax.text(0,0,'frame #%04i/%04i (fps=%i)'%(frameidx+1, nframes, fps))
+        images.append([framenum, im])
 
+
+    # create animation
+    repeat_delay = 1000*(fps - np.mod(nframes, fps))/fps if time_padding else 0.0
     ani = animation.ArtistAnimation(fig, images,
-                                    interval=1./fps,
-                                    blit=True,
-                                    repeat_delay=0)
+                                    interval=(1000*(1./fps))*speed,
+                                    blit=False,
+                                    repeat=True,
+                                    repeat_delay=repeat_delay)
+    fig.suptitle(title)
     return ani
 
 
+def plot_3dgabor_array(gabor_video,
+                       vdim=576, hdim=1024, tdim=16,
+                       fps=24, aspect_ratio=1.0, title=None,
+                       background=False,
+                       speed=1.0, time_padding=False):
+    '''
+    '''
+    import matplotlib.pyplot as plt
+    import matplotlib.animation as animation
 
+    # generate individual frames
+    nframes = gabor_video.shape[-1]
+    fig, ax = plt.subplots()
+    images = []
+    for frameidx in range(nframes):
+        if background is None:
+            gabor_view = gabor_video[..., frameidx]
+        else:
+            gabor_view = background[frameidx]*gabor_video[...,frameidx]
+
+        im = ax.imshow(gabor_view, vmin=-1, vmax=1, cmap='coolwarm')
+        framenum = ax.text(0,0,'frame #%04i/%04i (fps=%i)'%(frameidx+1, nframes, fps))
+        images.append([framenum, im])
+
+
+    # create animation
+    repeat_delay = 1000*(fps - np.mod(nframes, fps))/fps if time_padding else 0.0
+    ani = animation.ArtistAnimation(fig, images,
+                                    interval=(1000*(1./fps))*speed,
+                                    blit=False,
+                                    repeat=True,
+                                    repeat_delay=repeat_delay)
+    fig.suptitle(title)
+    return ani
 
 
 if __name__ == '__main__':
