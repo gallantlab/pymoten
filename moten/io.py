@@ -42,6 +42,9 @@ def video_buffer(video_file, nimages=np.inf):
 
 def video2luminance(video_file, size=None, nimages=np.inf):
     '''
+    size (optional) : tuple, (vdim, hdim)
+        The desired output image size
+
     '''
     vbuffer = video_buffer(video_file, nimages=nimages)
     luminance_video = []
@@ -50,6 +53,23 @@ def video2luminance(video_file, size=None, nimages=np.inf):
         luminance_image = imagearray2luminance(image_rgb, size=size).squeeze()
         luminance_video.append(luminance_image)
     return np.asarray(luminance_video)
+
+
+def video2grey(video_file, size=None, nimages=np.inf):
+    '''
+    size (optional) : tuple, (vdim, hdim)
+        The desired output image size
+
+    '''
+    vbuffer = video_buffer(video_file, nimages=nimages)
+    grey_video = []
+    for imageidx, image_rgb in iterator_func(enumerate(vbuffer),
+                                             '%s.video2grey'%__name__):
+        if size is not None:
+            image_rgb = resize_image(image_rgb, size=size)
+        grey_image = image_rgb.mean(-1)/255.0
+        grey_video.append(grey_image)
+    return np.asarray(grey_video)
 
 
 
