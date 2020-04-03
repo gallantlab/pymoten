@@ -49,11 +49,15 @@ class GaborPyramid(object):
         if gabor_duration == 'auto':
             gabor_duration = int(movie_fps*(2/3.0))
 
-        # Set parameters as object attribute
+        # set parameters as object attribute
         for local_name, local_values in locals().items():
             if local_name == 'self':
                 continue
-            setattr(self, local_name, np.asarray(local_values, dtype=np.float))
+            setattr(self, local_name, local_values)
+
+        # sanity checks
+        assert isinstance(gabor_duration, int)
+        assert isinstance(movie_fps, int)
 
         # construct the gabor pyramid
         parameter_names, gabor_parameters = core.mk_moten_pyramid_params(
@@ -90,6 +94,15 @@ class GaborPyramid(object):
         self.filters = filters
         self.aspect_ratio = aspect_ratio
         self.gabor_hvt_size = (hdim, vdim, gabor_duration)
+
+    def __repr__(self):
+        info = '<%s.%s [#%i filters (ntfq=%i, nsfq=%i, ndirs=%i) aspect=%0.03f]>'
+        details = (__name__, type(self).__name__, self.ngabors,
+                   len(self.temporal_frequencies),
+                   len(self.spatial_frequencies),
+                   len(self.spatial_directions),
+                   self.aspect_ratio)
+        return info%details
 
     def get_gabor_components(self, gaborid):
         '''Spatial and temporal quadrature pairs for motion-energy filter.
