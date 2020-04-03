@@ -83,8 +83,7 @@ def mk_3d_gabor(hvt,
     -----
     Same method as Nishimoto, et al., 2011.
     '''
-
-    szx, szy, szt = np.asarray(hvt).astype(np.float)
+    szx, szy, szt = hvt
 
     dx = np.linspace(0,aspect_ratio,szx, endpoint=True)
     dy = np.linspace(0,1,szy, endpoint=True)
@@ -323,7 +322,7 @@ def compute_spatial_gabor_responses(stimulus,
     for idx, gabor_param_dict in iterator_func(enumerate(filters),
                                           '%s.compute_spatial_gabor_responses'%__name__,
                                           total=len(gabor_parameters)):
-        sgabor_sin, sgabor_cos, _, _ = mk_3d_gabor((hdim,vdim,1.0),
+        sgabor_sin, sgabor_cos, _, _ = mk_3d_gabor((hdim,vdim, 1),
                                                    aspect_ratio=aspect_ratio,
                                                    **gabor_param_dict)
 
