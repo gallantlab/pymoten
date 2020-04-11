@@ -32,7 +32,7 @@ def mk_3d_gabor(hvt,
                 temporal_freq=2.0,
                 temporal_env=0.3,
                 phase_offset=0.0,
-                aspect_ratio=1.0,
+                aspect_ratio='auto',
                 ):
     '''Make a motion-energy filter.
 
@@ -64,7 +64,8 @@ def mk_3d_gabor(hvt,
         Temporal envelope (s.d. of gaussian)
     phase_offset : float, degrees
         Phase offset for the spatial sinusoid
-    aspect_ratio : float-like,
+    aspect_ratio : optional, 'auto' or float-like,
+        Defaults to stimulus aspect ratio: hdim/vdim
         Useful for preserving the spatial gabors circular even
         when images have non-square aspect ratios. For example,
         a 16:9 image would have `aspect_ratio`=16/9.
@@ -83,28 +84,31 @@ def mk_3d_gabor(hvt,
     -----
     Same method as Nishimoto, et al., 2011.
     '''
-    szx, szy, szt = hvt
+    hdim, vdim, tdim = hvt
 
-    dx = np.linspace(0,aspect_ratio,szx, endpoint=True)
-    dy = np.linspace(0,1,szy, endpoint=True)
+    if aspect_ratio == 'auto':
+        aspect_ratio = hdim/float(vdim)
+
+    dh = np.linspace(0, aspect_ratio, hdim, endpoint=True)
+    dv = np.linspace(0, 1, vdim, endpoint=True)
+    dt = np.linspace(0, 1, tdim, endpoint=False)
     # AN: Actually, `dt` should include endpoint.
     # Currently, the center of the filter width is +(1./fps)/2.
     # However, this would break backwards compatibility.
     # TODO: Allow for `dt_endpoint` as an argument
     # and set default to False.
-    dt = np.linspace(0,1,szt, endpoint=False)
 
-    ixs, iys = np.meshgrid(dx,dy)
+    ihs, ivs = np.meshgrid(dh,dv)
 
-    fx = -spatial_freq*np.cos(direction/180.*np.pi)*2*np.pi
-    fy = spatial_freq*np.sin(direction/180.*np.pi)*2*np.pi
+    fh = -spatial_freq*np.cos(direction/180.*np.pi)*2*np.pi
+    fv = spatial_freq*np.sin(direction/180.*np.pi)*2*np.pi
     ft = np.real(temporal_freq)*2*np.pi
 
     # spatial filters
-    spatial_gaussian = np.exp(-((ixs - centerh)**2 + (iys - centerv)**2)/(2*spatial_env**2))
+    spatial_gaussian = np.exp(-((ihs - centerh)**2 + (ivs - centerv)**2)/(2*spatial_env**2))
 
-    spatial_grating_sin = np.sin((ixs - centerh)*fx + (iys - centerv)*fy + phase_offset)
-    spatial_grating_cos = np.cos((ixs - centerh)*fx + (iys - centerv)*fy + phase_offset)
+    spatial_grating_sin = np.sin((ihs - centerh)*fh + (ivs - centerv)*fv + phase_offset)
+    spatial_grating_cos = np.cos((ihs - centerh)*fh + (ivs - centerv)*fv + phase_offset)
 
     spatial_gabor_sin = spatial_gaussian * spatial_grating_sin
     spatial_gabor_cos = spatial_gaussian * spatial_grating_cos
