@@ -87,7 +87,13 @@ def mk_3d_gabor(hvt,
 
     dx = np.linspace(0,aspect_ratio,szx, endpoint=True)
     dy = np.linspace(0,1,szy, endpoint=True)
+    # AN: Actually, `dt` should include endpoint.
+    # Currently, the center of the filter width is +(1./fps)/2.
+    # However, this would break backwards compatibility.
+    # TODO: Allow for `dt_endpoint` as an argument
+    # and set default to False.
     dt = np.linspace(0,1,szt, endpoint=False)
+
     ixs, iys = np.meshgrid(dx,dy)
 
     fx = -spatial_freq*np.cos(direction/180.*np.pi)*2*np.pi
@@ -338,7 +344,7 @@ def compute_spatial_gabor_responses(stimulus,
 
 def compute_filter_responses(stimulus,
                              stimulus_fps,
-                             gabor_nframes='auto',
+                             filter_temporal_width='auto',
                              quadrature_combination=sqrt_sum_squares,
                              output_nonlinearity=log_compress,
                              dozscore=True,
@@ -355,12 +361,9 @@ def compute_filter_responses(stimulus,
         The temporal frequency of the stimulus
     aspect_ratio : bool, or scalar
         Defaults to hdim/vdim. Otherwise, pass as scalar
-
-    gabor_nframes : scalar, None
+    filter_temporal_width : int, None
         The number of frames in one filter.
-        If None, it defaults to `floor(stimulus_fps*(2/3))`.
-        Similar to Nishimoto, 2011.
-
+        Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).
     quadrature_combination : function, optional
         Specifies how to combine the channel reponses quadratures.
         The function must take the sin and cos as arguments in order.
@@ -389,11 +392,11 @@ def compute_filter_responses(stimulus,
     if aspect_ratio == 'auto':
         aspect_ratio = hdim/float(vdim)
 
-    if gabor_nframes == 'auto':
-        gabor_nframes = int(stimulus_fps*(2./3.))
+    if filter_temporal_width == 'auto':
+        filter_temporal_width = int(stimulus_fps*(2./3.))
 
     parameter_names, gabor_parameters = mk_moten_pyramid_params(stimulus_fps,
-                                                                gabor_nframes,
+                                                                filter_temporal_width,
                                                                 aspect_ratio=aspect_ratio,
                                                                 **pyramid_parameters)
     ngabors = gabor_parameters.shape[0]
@@ -409,7 +412,7 @@ def compute_filter_responses(stimulus,
                                           '%s.compute_filter_responses'%__name__,
                                           total=len(filters)):
 
-        gabor = mk_3d_gabor((hdim,vdim,gabor_nframes),
+        gabor = mk_3d_gabor((hdim,vdim,filter_temporal_width),
                             aspect_ratio=aspect_ratio,
                             **gabor_param_dict)
 
@@ -429,7 +432,7 @@ def compute_filter_responses(stimulus,
 
 
 def mk_moten_pyramid_params(movie_fps,
-                            gabor_nframes,
+                            filter_temporal_width,
                             aspect_ratio=1.0,
                             temporal_frequencies=[0,2,4],
                             spatial_frequencies=[0,2,4,8,16,32],
@@ -447,8 +450,9 @@ def mk_moten_pyramid_params(movie_fps,
     ----------
     movie_fps : scalar, Hz
         Temporal resolution of the stimulus (e..g. 15)
-    gabor_nframes : scalar, Hz
+    filter_temporal_width : int, Hz
         Temporal window of the motion-energy filter (e.g. 10)
+        Defaults to approximately 0.666[secs] (int(stimulus_fps*(2/3))).
     temporal_frequencies : array-like, Hz
         Temporal frequencies of the filters for use on the stimulus
     spatial_frequencies : array-like, degrees
@@ -488,7 +492,7 @@ def mk_moten_pyramid_params(movie_fps,
             * direction       : direction of motion
             * spatial_freq    : spatial frequency
             * spatial_env     : spatial envelope (gaussian s.d.)
-            * temporal_freq   : temporal frequency (scaled `tfq*(gabor_nframes/movie_fps)`)
+            * temporal_freq   : temporal frequency (scaled `tfq*(filter_temporal_width/movie_fps)`)
             * temporal_env    : temporal envelope (gaussian s.d.)
 
     Notes
@@ -506,7 +510,7 @@ def mk_moten_pyramid_params(movie_fps,
     include_edges = int(include_edges)
 
     # normalize temporal frequency to wavelet size
-    temporal_frequencies = temporal_frequencies*(gabor_nframes/float(movie_fps))
+    temporal_frequencies = temporal_frequencies*(filter_temporal_width/float(movie_fps))
 
     # We have to deal with zero frequency spatial filters differently
     include_local_dc = True if 0 in spatial_frequencies else False
