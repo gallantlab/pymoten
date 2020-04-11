@@ -26,7 +26,7 @@ from moten import (utils,
 #
 ##############################
 
-class PyramidConstructor(object):
+class MotionEnergyPyramid(object):
     '''Construct a motion-energy pyramid that tiles the stimulus.
 
     Generates motion-energy filters at the desired
@@ -37,33 +37,17 @@ class PyramidConstructor(object):
 
     Parameters
     ----------
-    stimulus_hvt_fov : tuple of ints
+    stimulus_hvsize : tuple of ints
         Resolution of the stimulus (hdim, vdim, fps)
-    temporal_frequencies : array-like, [Hz]
-        Temporal frequencies of the filters for use on the stimulus
+    stimulus_fps : int, [Hz]
+        The temporal frequency of the stimulus.
     spatial_frequencies : array-like, [cycles-per-image]
         Spatial frequencies for the filters
     spatial_directions : array-like, [degrees]
         Direction of filter motion. Degree position corresponds
         to standard unit-circle coordinates.
-
-    sf_gauss_ratio : scalar
-        The ratio of spatial frequency to gaussian s.d.
-        This controls the number of cycles in a filter
-    max_spatial_env : scalar
-        Defines the maximum s.d. of the gaussian
-    gabor_spacing : scalar
-        Defines the spacing between spatial gabors
-        (in s.d. units)
-    tf_gauss_ratio : scalar
-        The ratio of temporal frequency to gaussian s.d.
-        This controls the number of temporal cycles
-    max_temp_env : scalar
-        Defines the maximum s.d. of the temporal gaussian
-    include_edges : bool
-        Determines whether to include filters at the edge
-        of the image which might be partially outside the
-        stimulus field-of-view
+    temporal_frequencies : array-like, [Hz]
+        Temporal frequencies of the filters for use on the stimulus
     filter_temporal_width : int
         Temporal window of the motion-energy filter (e.g. 10).
         Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).
@@ -74,6 +58,8 @@ class PyramidConstructor(object):
         Display the selected filter as a matplotlib animation.
     filters_at_hvposition(hvpos=(0.5, 0.5))
         Center spatio-temporal filters to requested hv-position.
+    project_stimulus(stimulus)
+        Compute the motion-energy filter responses to the stimuli.
 
     Attributes
     ----------
@@ -98,7 +84,8 @@ class PyramidConstructor(object):
     parameters_names  : tuple of strings
     '''
     def __init__(self,
-                 stimulus_hvt_fov=(1024, 576, 24),
+                 stimulus_hvsize=(1024, 576),
+                 stimulus_fps=24,
                  temporal_frequencies=(0,2,4),
                  spatial_frequencies=(0,2,4,8,16,32),
                  spatial_directions=(0,45,90,135,180,225,270,315),
@@ -108,16 +95,38 @@ class PyramidConstructor(object):
                  tf_gauss_ratio=10.,
                  max_temp_env=0.3,
                  include_edges=False,
+                 spatial_phase_offset=0.0,
                  filter_temporal_width='auto'):
+        '''...More parameters
+
+        Parameters
+        ----------
+        sf_gauss_ratio : scalar
+            The ratio of spatial frequency to gaussian s.d.
+            This controls the number of cycles in a filter
+        max_spatial_env : scalar
+            Defines the maximum s.d. of the gaussian
+        gabor_spacing : scalar
+            Defines the spacing between spatial gabors
+            (in s.d. units)
+        tf_gauss_ratio : scalar
+            The ratio of temporal frequency to gaussian s.d.
+            This controls the number of temporal cycles
+        max_temp_env : scalar
+            Defines the maximum s.d. of the temporal gaussian
+        include_edges : bool
+            Determines whether to include filters at the edge
+            of the image which might be partially outside the
+            stimulus field-of-view
         '''
-        '''
-        hdim, vdim, stimulus_fps = stimulus_hvt_fov
-        filter_aspect_ratio = hdim/float(vdim) # same as stimulus
+        hdim, vdim = stimulus_hvsize
+        aspect_ratio = hdim/float(vdim) # same as stimulus
 
         if filter_temporal_width == 'auto':
             # default to 2/3 stimulus frame rate
             filter_temporal_width = int(stimulus_fps*(2/3.))
 
+        stimulus_hvt_fov = (hdim, vdim, stimulus_fps)
         filter_hvt_fov = (hdim, vdim, filter_temporal_width)
 
         # store pyramid parameters
@@ -135,7 +144,7 @@ class PyramidConstructor(object):
         parameter_names, filter_params_array = core.mk_moten_pyramid_params(
             stimulus_fps,
             filter_temporal_width,
-            aspect_ratio=filter_aspect_ratio,
+            aspect_ratio=aspect_ratio,
             temporal_frequencies=temporal_frequencies,
             spatial_frequencies=spatial_frequencies,
             spatial_directions=spatial_directions,
@@ -172,7 +181,7 @@ class PyramidConstructor(object):
                    len(self.definition.temporal_frequencies),
                    len(self.definition.spatial_frequencies),
                    len(self.definition.spatial_directions),
-                   self.definition.filter_aspect_ratio)
+                   self.definition.aspect_ratio)
         return info%details
 
     def filters_at_hvposition(self, centerh, centerv):
@@ -227,8 +236,9 @@ class PyramidConstructor(object):
         '''
         # Get dimensions of movie
         hdim, vdim, stimulus_fps = self.definition.stimulus_hvt_fov
-        aspect_ratio = self.definition.filter_aspect_ratio
-        tdim = self.definition.filter_temporal_width
+        aspect_ratio = self.definition.aspect_ratio
+        filter_width = self.definition.filter_temporal_width
+        spatial_phase_offset = self.definition.spatial_phase_offset
 
         # extract parameters for this gaborid
         if isinstance(gaborid, dict):
@@ -241,14 +251,122 @@ class PyramidConstructor(object):
         title = ''
         for pdx, (pname, pval) in enumerate(sorted(gabor_params.items())):
             if pname == 'temporal_freq':
-                pval = pval*(stimulus_fps/tdim)
+                pval = pval*(stimulus_fps/filter_width)
             title += '%s=%0.02f, '%(pname, pval)
             if np.mod(pdx, 3) == 0 and pdx > 0:
                 title += '\n'
 
-        return viz.plot_3dgabor(gabor_params, vdim=vdim, hdim=hdim, tdim=tdim,
-                                fps=stimulus_fps, aspect_ratio=aspect_ratio, background=background,
+        return viz.plot_3dgabor(gabor_params, vdim=vdim, hdim=hdim, tdim=filter_width,
+                                fps=stimulus_fps,
+                                aspect_ratio=aspect_ratio,
+                                spatial_phase_offset=spatial_phase_offset,
+                                background=background,
                                 title=title, speed=speed)
+
+    def project_stimulus(self,
+                         stimulus,
+                         filters='all',
+                         quadrature_combination=utils.sqrt_sum_squares,
+                         output_nonlinearity=utils.log_compress,
+                         dtype=np.float32):
+        '''
+        Parameters
+        ----------
+        stimulus : np.array, (nimages, vdim, hdim)
+            The movie frames.
+
+        Returns
+        -------
+        filter_responses : np.ndarray, (nimages, nfilters)
+        '''
+        if filters == 'all':
+            filters = self.filters
+
+        # parameters
+        nimages, vdim, hdim = stimulus.shape
+        original_hdim, original_vdim = self.definition.stimulus_hvsize
+        assert vdim == original_vdim and hdim == original_hdim
+
+        stimulus = stimulus.reshape(stimulus.shape[0], -1)
+
+        nfilters = len(filters)
+        filter_width = self.definition.filter_temporal_width
+        filter_hvt_fov = (hdim, vdim, filter_width)
+        aspect_ratio = self.definition.aspect_ratio
+        spatial_phase_offset = self.definition.spatial_phase_offset
+
+        # Compute responses
+        filter_responses = np.zeros((nimages, nfilters), dtype=dtype)
+        for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
+                                                             '%s.project_stim'%type(self).__name__,
+                                                             total=len(filters)):
+
+            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(filter_hvt_fov,
+                                                                    aspect_ratio=aspect_ratio,
+                                                                    phase_offset=spatial_phase_offset,
+                                                                    **gabor_parameters)
+
+            channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
+                                                            tgabor0, tgabor90,
+                                                            stimulus)
+
+            channel_response = quadrature_combination(channel_sin, channel_cos)
+            channel_response = output_nonlinearity(channel_response)
+            filter_responses[:, gaborid] = channel_response
+        return filter_responses
+
+
+    def raw_project_stimulus(self, stimulus, filters='all', dtype=np.float32):
+        '''Obtain stimulus responses from all filter quadrature-pairs.
+
+        Parameters
+        ----------
+        stimulus : np.array, (nimages, vdim, hdim)
+            The movie frames.
+        filters : optional, 'all' or list of dicts
+            By default compute the responses for all filters.
+            Otherwise, provide a list of filter definitions to use.
+
+        Returns
+        -------
+        output_sin : np.ndarray, (nimages, nfilters)
+        output_cos : np.ndarray, (nimages, nfilters)
+        '''
+        if filters == 'all':
+            filters = self.filters
+
+        # parameters
+        nimages, vdim, hdim = stimulus.shape
+        original_hdim, original_vdim = self.definition.stimulus_hvsize
+        assert vdim == original_vdim and hdim == original_hdim
+
+        stimulus = stimulus.reshape(stimulus.shape[0], -1)
+
+        nfilters = len(filters)
+        filter_width = self.definition.filter_temporal_width
+        filter_hvt_fov = (hdim, vdim, filter_width)
+        aspect_ratio = self.definition.aspect_ratio
+        spatial_phase_offset = self.definition.spatial_phase_offset
+
+        # Compute responses
+        output_sin = np.zeros((nimages,nfilters), dtype=dtype)
+        output_cos = np.zeros((nimages,nfilters), dtype=dtype)
+        for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
+                                                             '%s.raw_projection'%type(self).__name__,
+                                                             total=len(filters)):
+
+            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(filter_hvt_fov,
+                                                                    aspect_ratio=aspect_ratio,
+                                                                    phase_offset=spatial_phase_offset,
+                                                                    **gabor_parameters)
+
+            channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
+                                                            tgabor0, tgabor90,
+                                                            stimulus)
+            output_sin[:, gaborid] = channel_sin
+            output_cos[:, gaborid] = channel_cos
+
+        return output_sin, output_cos
 
 
 class StimulusMotionEnergy(object):
@@ -279,15 +397,14 @@ class StimulusMotionEnergy(object):
 
     stimulus : 2D np.ndarray, (nimages, vdim*hdim)
         Time-space representation of stimulus
-    view : :class:`PyramidConstructor`
+    view : :class:`MotionEnergyPyramid`
         Full description of the motion-energy pyramid.
     nimages : int
     nfilters : int
     aspect_ratio : scalar, (hdim/vdim)
     stimulus_fps : int (fps)
-    stimulus_hvt_fov : tuple of ints, (hdim, vdim, fps)
+    stimulus_hvsize : tuple of ints, (hdim, vdim, fps)
     original_stimulus : 3D np.ndarray, (nimages, vdim, hdim)
-
 
     Methods
     -------
@@ -314,36 +431,40 @@ class StimulusMotionEnergy(object):
                  tf_gauss_ratio=10.,
                  max_temp_env=0.3,
                  include_edges=False,
+                 spatial_phase_offset=0.0,
                  filter_temporal_width='auto'):
         '''
         Notes
         -----
-        See :class:`PyramidConstructor` for more detail on
+        See :class:`MotionEnergyPyramid` for more detail on
         keyword arguments used to construct the motion-energy pyramid.
         '''
         nimages, vdim, hdim = stimulus.shape
-        stimulus_hvt_fov = (hdim, vdim, stimulus_fps)
+        stimulus_hvsize = (hdim, vdim, stimulus_fps)
         original_stimulus = stimulus
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
         aspect_ratio = hdim/vdim
 
-        pyramid = PyramidConstructor(stimulus_hvt_fov=stimulus_hvt_fov,
-                                     filter_temporal_width=filter_temporal_width,
-                                     temporal_frequencies=temporal_frequencies,
-                                     spatial_frequencies=spatial_frequencies,
-                                     spatial_directions=spatial_directions,
-                                     sf_gauss_ratio=sf_gauss_ratio,
-                                     max_spatial_env=max_spatial_env,
-                                     filter_spacing=filter_spacing,
-                                     tf_gauss_ratio=tf_gauss_ratio,
-                                     max_temp_env=max_temp_env,
-                                     include_edges=include_edges)
+        pyramid = MotionEnergyPyramid(stimulus_hvsize=(hdim, vdim),
+                                      stimulus_fps=stimulus_fps,
+                                      filter_temporal_width=filter_temporal_width,
+                                      temporal_frequencies=temporal_frequencies,
+                                      spatial_frequencies=spatial_frequencies,
+                                      spatial_directions=spatial_directions,
+                                      sf_gauss_ratio=sf_gauss_ratio,
+                                      max_spatial_env=max_spatial_env,
+                                      filter_spacing=filter_spacing,
+                                      tf_gauss_ratio=tf_gauss_ratio,
+                                      max_temp_env=max_temp_env,
+                                      spatial_phase_offset=spatial_phase_offset,
+                                      include_edges=include_edges)
 
         self.nimages = nimages
         self.stimulus = stimulus
-        self.aspect_ratio = aspect_ratio
         self.stimulus_fps = stimulus_fps
-        self.stimulus_hvt_fov=stimulus_hvt_fov
+        self.stimulus_hvsize=stimulus_hvsize
+        self.original_stimulus = original_stimulus
+        self.aspect_ratio = aspect_ratio
 
         self.view = pyramid
         self.nfilters = pyramid.nfilters
@@ -357,11 +478,7 @@ class StimulusMotionEnergy(object):
                    self.aspect_ratio)
         return info%details
 
-    def project_stimulus(self, stimulus,
-                         filters='all',
-                         quadrature_combination=utils.sqrt_sum_squares,
-                         output_nonlinearity=utils.log_compress,
-                         dtype=np.float32):
+    def project_stimulus(self, *args, **kwargs):
         '''
         Parameters
         ----------
@@ -372,37 +489,7 @@ class StimulusMotionEnergy(object):
         -------
         filter_responses : np.ndarray, (nframes, nfilters)
         '''
-        if filters == 'all':
-            filters = self.view.filters
-
-        # parameters
-        nimages, vdim, hdim = stimulus.shape
-        stimulus_hvt_fov = self.stimulus_hvt_fov
-        original_hdim, original_vdim, original_fps = stimulus_hvt_fov
-        stimulus = stimulus.reshape(stimulus.shape[0], -1)
-        assert vdim == original_vdim and hdim == original_hdim
-
-        nfilters = len(filters)
-        filter_hvt_fov = self.view.definition.filter_hvt_fov
-        filter_aspect_ratio = self.view.definition.filter_aspect_ratio
-
-        # Compute responses
-        filter_responses = np.zeros((nimages,nfilters), dtype=dtype)
-        for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
-                                                             '%s.project_stim'%type(self).__name__,
-                                                             total=len(filters)):
-
-            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(filter_hvt_fov,
-                                                                    aspect_ratio=filter_aspect_ratio,
-                                                                    **gabor_parameters)
-
-            channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
-                                                            tgabor0, tgabor90,
-                                                            stimulus)
-
-            channel_response = quadrature_combination(channel_sin, channel_cos)
-            channel_response = output_nonlinearity(channel_response)
-            filter_responses[:, gaborid] = channel_response
+        filter_responses  = self.view.project_stimulus(*args, **kwargs)
 
         return filter_responses
 
@@ -435,31 +522,14 @@ class StimulusMotionEnergy(object):
         '''
         if filters == 'all':
             filters = self.view.filters
+        stimulus = self.original_stimulus
 
-        # Set parameters
-        stimulus = self.stimulus
-        nimages = self.nimages
-        nfilters = len(filters)
-        filter_hvt_fov = self.view.definition.filter_hvt_fov
-        filter_aspect_ratio = self.view.definition.filter_aspect_ratio
-
-        # Compute responses
-        filter_responses = np.zeros((nimages,nfilters), dtype=dtype)
-        for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
-                                                             '%s.project'%type(self).__name__,
-                                                             total=len(filters)):
-
-            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(filter_hvt_fov,
-                                                                    aspect_ratio=filter_aspect_ratio,
-                                                                    **gabor_parameters)
-
-            channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
-                                                            tgabor0, tgabor90,
-                                                            stimulus)
-
-            channel_response = quadrature_combination(channel_sin, channel_cos)
-            channel_response = output_nonlinearity(channel_response)
-            filter_responses[:, gaborid] = channel_response
+        filter_responses = self.view.project_stimulus(
+            stimulus,
+            filters=filters,
+            quadrature_combination=quadrature_combination,
+            output_nonlinearity=output_nonlinearity,
+            dtype=dtype)
 
         return filter_responses
 
@@ -490,11 +560,15 @@ class StimulusMotionEnergy(object):
         '''
         # center all spatial and temporal filters at desired hv-position
         filters = self.view.filters_at_hvposition(centerh, centerv)
+        stimulus = self.original_stimulus
 
-        filter_responses = self.project(filters,
-                                        quadrature_combination=quadrature_combination,
-                                        output_nonlinearity=output_nonlinearity,
-                                        dtype=dtype)
+        filter_responses = self.view.project_stimulus(
+            stimulus,
+            filters=filters,
+            quadrature_combination=quadrature_combination,
+            output_nonlinearity=output_nonlinearity,
+            dtype=dtype)
+
         return filters, filter_responses
 
     def raw_projection(self, filters='all', dtype=np.float32):
@@ -513,29 +587,38 @@ class StimulusMotionEnergy(object):
         '''
         if filters == 'all':
             filters = self.view.filters
-        nfilters = len(filters)
+        stimulus = self.original_stimulus
 
-        stimulus = self.stimulus
-        nimages = self.nimages
-
-        filter_hvt_fov = self.view.definition.filter_hvt_fov
-        filter_aspect_ratio = self.view.definition.filter_aspect_ratio
-
-        # Compute responses
-        output_sin = np.zeros((nimages,nfilters), dtype=dtype)
-        output_cos = np.zeros((nimages,nfilters), dtype=dtype)
-        for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
-                                                             '%s.raw_projection'%type(self).__name__,
-                                                             total=len(filters)):
-
-            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(filter_hvt_fov,
-                                                                    aspect_ratio=filter_aspect_ratio,
-                                                                    **gabor_parameters)
-
-            channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
-                                                            tgabor0, tgabor90,
-                                                            stimulus)
-            output_sin[:, gaborid] = channel_sin
-            output_cos[:, gaborid] = channel_cos
+        output_sin, output_cos = self.view.raw_project_stimulus(
+            stimulus, filters=filters, dtype=dtype)
 
         return output_sin, output_cos
+
+
+class StimulusStaticGaborPyramid(StimulusMotionEnergy):
+    '''
+    '''
+    def __init__(self,
+                 stimulus,
+                 spatial_frequencies=[0,2,4,8,16,32],
+                 spatial_orientations=(0,45,90,135),
+                 sf_gauss_ratio=0.6,
+                 max_spatial_env=0.3,
+                 filter_spacing=3.5,
+                 include_edges=False,
+                 phase_offset=0.0,
+                 ):
+        super(type(self), self).__init__(stimulus,
+                                         spatial_frequencies=spatial_frequencies,
+                                         spatial_directions=spatial_orientations,
+                                         spatial_phase_offset=phase_offset,
+                                         include_edges=include_edges,
+                                         sf_gauss_ratio=sf_gauss_ratio,
+                                         max_spatial_env=max_spatial_env,
+                                         filter_spacing=filter_spacing,
+                                         # fixed parameters for static filters:
+                                         max_temp_env=np.inf,
+                                         stimulus_fps=1,
+                                         temporal_frequencies=[0],
+                                         filter_temporal_width=1,
+                                         tf_gauss_ratio=10)
