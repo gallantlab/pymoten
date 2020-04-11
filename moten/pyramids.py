@@ -639,41 +639,41 @@ class DefaultPyramids(object):
     @property
     def pyramid15fps512x512(self):
         pyramid =  MotionEnergyPyramid(stimulus_hvsize=(512, 512),
-                            stimulus_fps=15)
+                                       stimulus_fps=15)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid15fps96x96(self):
         pyramid =  MotionEnergyPyramid(stimulus_hvsize=(96, 96),
-                                   stimulus_fps=15)
+                                       stimulus_fps=15)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps800x600(self):
         pyramid =  MotionEnergyPyramid(stimulus_hvsize=(800, 600),
-                                   stimulus_fps=24)
+                                       stimulus_fps=24)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps640x480(self):
-        pyramid =  MotionEnergyPyramid(stimulus_hvsize=(800, 600),
-                                   stimulus_fps=24)
+        pyramid =  MotionEnergyPyramid(stimulus_hvsize=(640, 480),
+                                       stimulus_fps=24)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps128x72(self):
         pyramid =  MotionEnergyPyramid(stimulus_hvsize=(128, 72),
-                                   stimulus_fps=24)
+                                       stimulus_fps=24)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps256x144(self):
         pyramid =  MotionEnergyPyramid(stimulus_hvsize=(256, 144),
-                                   stimulus_fps=24)
+                                       stimulus_fps=24)
         print(pyramid)
         return pyramid
