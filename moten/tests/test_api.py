@@ -1,11 +1,12 @@
 import numpy as np
 import matplotlib
 
-from moten import (io,
-                   api,
-                   core,
+from moten import (pyramids,
                    utils,
+                   core,
+                   io,
                    )
+
 
 if 1:
     video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
@@ -21,7 +22,7 @@ stimulus_fps = 24
 DTYPE = np.float64
 
 # static gabor pyramid
-static_pyramid = api.StimulusStaticGaborPyramid(luminance_images,
+static_pyramid = pyramids.StimulusStaticGaborPyramid(luminance_images,
                                                 spatial_frequencies=(0,1,2,4, 8))
 
 print(static_pyramid)
@@ -41,10 +42,10 @@ if 0:
 ##############################
 # motion-energy pyramid
 ##############################
-pyramid = api.MotionEnergyPyramid(stimulus_hvsize=(hdim, vdim),
-                                  stimulus_fps=stimulus_fps,
-                                  spatial_frequencies=(0,1,2,4),
-                                  filter_temporal_width=16)
+pyramid = pyramids.MotionEnergyPyramid(stimulus_hvsize=(hdim, vdim),
+                                       stimulus_fps=stimulus_fps,
+                                       spatial_frequencies=(0,1,2,4),
+                                       filter_temporal_width=16)
 print(pyramid)
 
 # project stimulus
@@ -54,10 +55,10 @@ outsin, outcos = pyramid.raw_project_stimulus(luminance_images, dtype=DTYPE)
 ##################################################
 # stimulus-specific motion-energy pyramid
 ##################################################
-stim_pyramid = api.StimulusMotionEnergy(luminance_images,
-                                        stimulus_fps,
-                                        spatial_frequencies=(0,1,2,4),
-                                        filter_temporal_width=16)
+stim_pyramid = pyramids.StimulusMotionEnergy(luminance_images,
+                                             stimulus_fps,
+                                             spatial_frequencies=(0,1,2,4),
+                                             filter_temporal_width=16)
 
 # the pyramid is an attribute
 print(stim_pyramid.view)
