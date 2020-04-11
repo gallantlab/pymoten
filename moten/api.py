@@ -64,10 +64,9 @@ class PyramidConstructor(object):
         Determines whether to include filters at the edge
         of the image which might be partially outside the
         stimulus field-of-view
-    filter_nframes : int
+    filter_temporal_width : int
         Temporal window of the motion-energy filter (e.g. 10).
-        Defaults to the stimulus `fps`.
-        This is called `gabor_nframes` in `moten.core`.
+        Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).
 
     Methods
     -------
@@ -109,17 +108,17 @@ class PyramidConstructor(object):
                  tf_gauss_ratio=10.,
                  max_temp_env=0.3,
                  include_edges=False,
-                 filter_nframes='auto'):
+                 filter_temporal_width='auto'):
         '''
         '''
         hdim, vdim, stimulus_fps = stimulus_hvt_fov
         filter_aspect_ratio = hdim/float(vdim) # same as stimulus
 
-        if filter_nframes == 'auto':
-            # default to stimulus frame rate
-            filter_nframes = stimulus_fps
+        if filter_temporal_width == 'auto':
+            # default to 2/3 stimulus frame rate
+            filter_temporal_width = int(stimulus_fps*(2/3.))
 
-        filter_hvt_fov = (hdim, vdim, filter_nframes)
+        filter_hvt_fov = (hdim, vdim, filter_temporal_width)
 
         # store pyramid parameters
         definition = utils.DotDict()
@@ -130,12 +129,12 @@ class PyramidConstructor(object):
 
         # sanity checks
         assert isinstance(stimulus_fps, int)
-        assert isinstance(filter_nframes, int)
+        assert isinstance(filter_temporal_width, int)
 
         # construct the gabor pyramid
         parameter_names, filter_params_array = core.mk_moten_pyramid_params(
             stimulus_fps,
-            filter_nframes,
+            filter_temporal_width,
             aspect_ratio=filter_aspect_ratio,
             temporal_frequencies=temporal_frequencies,
             spatial_frequencies=spatial_frequencies,
@@ -229,7 +228,7 @@ class PyramidConstructor(object):
         # Get dimensions of movie
         hdim, vdim, stimulus_fps = self.definition.stimulus_hvt_fov
         aspect_ratio = self.definition.filter_aspect_ratio
-        tdim = self.definition.filter_nframes
+        tdim = self.definition.filter_temporal_width
 
         # extract parameters for this gaborid
         if isinstance(gaborid, dict):
@@ -277,15 +276,18 @@ class StimulusMotionEnergy(object):
 
     Attributes
     ----------
+
     stimulus : 2D np.ndarray, (nimages, vdim*hdim)
         Time-space representation of stimulus
     view : :class:`PyramidConstructor`
         Full description of the motion-energy pyramid.
     nimages : int
+    nfilters : int
     aspect_ratio : scalar, (hdim/vdim)
     stimulus_fps : int (fps)
     stimulus_hvt_fov : tuple of ints, (hdim, vdim, fps)
-    nfilters : int
+    original_stimulus : 3D np.ndarray, (nimages, vdim, hdim)
+
 
     Methods
     -------
@@ -312,7 +314,7 @@ class StimulusMotionEnergy(object):
                  tf_gauss_ratio=10.,
                  max_temp_env=0.3,
                  include_edges=False,
-                 filter_nframes='auto'):
+                 filter_temporal_width='auto'):
         '''
         Notes
         -----
@@ -321,11 +323,12 @@ class StimulusMotionEnergy(object):
         '''
         nimages, vdim, hdim = stimulus.shape
         stimulus_hvt_fov = (hdim, vdim, stimulus_fps)
+        original_stimulus = stimulus
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
         aspect_ratio = hdim/vdim
 
         pyramid = PyramidConstructor(stimulus_hvt_fov=stimulus_hvt_fov,
-                                     filter_nframes=filter_nframes,
+                                     filter_temporal_width=filter_temporal_width,
                                      temporal_frequencies=temporal_frequencies,
                                      spatial_frequencies=spatial_frequencies,
                                      spatial_directions=spatial_directions,
@@ -353,6 +356,56 @@ class StimulusMotionEnergy(object):
                    self.nfilters,
                    self.aspect_ratio)
         return info%details
+
+    def project_stimulus(self, stimulus,
+                         filters='all',
+                         quadrature_combination=utils.sqrt_sum_squares,
+                         output_nonlinearity=utils.log_compress,
+                         dtype=np.float32):
+        '''
+        Parameters
+        ----------
+        new_stimulus : np.array, (nframes, vdim, hdim)
+            The movie frames.
+
+        Returns
+        -------
+        filter_responses : np.ndarray, (nframes, nfilters)
+        '''
+        if filters == 'all':
+            filters = self.view.filters
+
+        # parameters
+        nimages, vdim, hdim = stimulus.shape
+        stimulus_hvt_fov = self.stimulus_hvt_fov
+        original_hdim, original_vdim, original_fps = stimulus_hvt_fov
+        stimulus = stimulus.reshape(stimulus.shape[0], -1)
+        assert vdim == original_vdim and hdim == original_hdim
+
+        nfilters = len(filters)
+        filter_hvt_fov = self.view.definition.filter_hvt_fov
+        filter_aspect_ratio = self.view.definition.filter_aspect_ratio
+
+        # Compute responses
+        filter_responses = np.zeros((nimages,nfilters), dtype=dtype)
+        for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
+                                                             '%s.project_stim'%type(self).__name__,
+                                                             total=len(filters)):
+
+            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(filter_hvt_fov,
+                                                                    aspect_ratio=filter_aspect_ratio,
+                                                                    **gabor_parameters)
+
+            channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
+                                                            tgabor0, tgabor90,
+                                                            stimulus)
+
+            channel_response = quadrature_combination(channel_sin, channel_cos)
+            channel_response = output_nonlinearity(channel_response)
+            filter_responses[:, gaborid] = channel_response
+
+        return filter_responses
+
 
     def project(self, filters='all',
                 quadrature_combination=utils.sqrt_sum_squares,
