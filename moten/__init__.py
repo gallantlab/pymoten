@@ -1,10 +1,12 @@
-'''Motion-energy filters (after Nishimoto, 2011)
-
-Adapted from MATLAB code written by S. Nishimoto.
-
-Anwar O. Nunez-Elizalde (Jan, 2016)
 '''
-import numpy as np
+'''
+#
+# Adapted from MATLAB code written by S. Nishimoto (see Nishimoto, et al., 2011).
+# Anwar O. Nunez-Elizalde (Jan, 2016)
+#
+# Updates:
+#  Anwar O. Nunez-Elizalde (Apr, 2020)
+
 
 ##############################
 # internal imports
@@ -21,8 +23,13 @@ from moten import (pyramids,
 default_pyramids = pyramids.DefaultPyramids()
 
 
-def get_default_pyramid(hvsize=(256, 144), fps=14):
+def get_default_pyramid(hvsize=(256, 144), fps=24, **kwargs):
     '''Construct a motion-energy pyramid
+
+    A motion-energy pyramid consists of a set of
+    spatio-temporal Gabor filters that tile the screen.
+    Motion-energy features are extracted by convolving the
+    spatio-temporal Gabor filters with the stimulus movie.
 
     Parameters
     ----------
@@ -31,10 +38,22 @@ def get_default_pyramid(hvsize=(256, 144), fps=14):
     fps : int
         Stimulus frame rate
 
-    Return
+    Returns
+    -------
+    pyramid : :class:`moten.pyramids.MotionEnergyPyramid`
+
+    Examples
+    --------
+    >>> import moten
+    >>> video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
+    >>> luminance_images = moten.io.video2luminance(video_file, nimages=100)
+    >>> nimages, vdim, hdim = luminance_images.shape
+    >>> pyramid = moten.get_default_pyramid(hvsize=(hdim, vdim), fps=24)
+    >>> moten_features = pyramid.project_stimulus(luminance_images)
     '''
     return pyramids.MotionEnergyPyramid(stimulus_hvsize=hvsize,
-                                        stimulus_fps=fps)
+                                        stimulus_fps=fps,
+                                        **kwargs)
 
 
 __all__ = ['utils', 'core', 'viz', 'io']

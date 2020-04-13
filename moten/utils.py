@@ -1,6 +1,13 @@
 '''
 '''
+# Anwar O. Nunez-Elizalde (Jan, 2016)
+#
+# Updates:
+#  Anwar O. Nunez-Elizalde (Apr, 2020)
+#
+#
 import numpy as np
+
 
 ##############################
 # helper functions

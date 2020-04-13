@@ -1,9 +1,12 @@
-'''Motion-energy filters (after Nishimoto, 2011)
-
-Adapted from MATLAB code written by S. Nishimoto.
-
-Anwar O. Nunez-Elizalde (Jan, 2016)
 '''
+'''
+#
+# Adapted from MATLAB code written by S. Nishimoto (see Nishimoto, et al., 2011).
+# Anwar O. Nunez-Elizalde (Jan, 2016)
+#
+# Updates:
+#  Anwar O. Nunez-Elizalde (Apr, 2020)
+#
 import itertools
 from PIL import Image
 

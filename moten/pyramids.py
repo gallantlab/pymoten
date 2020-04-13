@@ -1,12 +1,13 @@
-'''Motion-energy filters (after Nishimoto, 2011)
-
-Adapted from MATLAB code written by S. Nishimoto.
-
-Anwar O. Nunez-Elizalde (Jan, 2016)
-
-Updates:
- Anwar O. Nunez-Elizalde (Apr, 2020)
 '''
+'''
+#
+# Adapted from MATLAB code written by S. Nishimoto (see Nishimoto, et al., 2011).
+# Anwar O. Nunez-Elizalde (Jan, 2016)
+#
+# Updates:
+#  Anwar O. Nunez-Elizalde (Apr, 2020)
+#
+#
 # Implementation notes:
 #
 # The terminology here is "pyramid" and "filters".
@@ -58,9 +59,13 @@ class MotionEnergyPyramid(object):
         Temporal window of the motion-energy filter (e.g. 10).
         Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).
 
+    Notes
+    -----
+    See :func:`moten.core.mk_moten_pyramid_params` for more details.
+
     Methods
     -------
-    show_filter(gaborid=0)
+    MotionEnergyPyramid.show_filter(gaborid=0)
         Display the selected filter as a matplotlib animation.
     filters_at_hvposition(hvpos=(0.5, 0.5))
         Center spatio-temporal filters to requested hv-position.
@@ -92,9 +97,9 @@ class MotionEnergyPyramid(object):
     def __init__(self,
                  stimulus_hvsize=(1024, 576),
                  stimulus_fps=24,
-                 temporal_frequencies=(0,2,4),
-                 spatial_frequencies=(0,2,4,8,16,32),
-                 spatial_directions=(0,45,90,135,180,225,270,315),
+                 temporal_frequencies=[0,2,4],
+                 spatial_frequencies=[0,2,4,8,16],
+                 spatial_directions=[0,45,90,135,180,225,270,315],
                  sf_gauss_ratio=0.6,
                  max_spatial_env=0.3,
                  filter_spacing=3.5,
@@ -429,7 +434,7 @@ class StimulusMotionEnergy(object):
                  stimulus,
                  stimulus_fps,
                  temporal_frequencies=[0,2,4],
-                 spatial_frequencies=[0,2,4,8,16,32],
+                 spatial_frequencies=[0,2,4,8,16],
                  spatial_directions=[0,45,90,135,180,225,270,315],
                  sf_gauss_ratio=0.6,
                  max_spatial_env=0.3,
@@ -606,7 +611,7 @@ class StimulusStaticGaborPyramid(StimulusMotionEnergy):
     '''
     def __init__(self,
                  stimulus,
-                 spatial_frequencies=[0,2,4,8,16,32],
+                 spatial_frequencies=[0,2,4,8,16],
                  spatial_orientations=(0,45,90,135),
                  sf_gauss_ratio=0.6,
                  max_spatial_env=0.3,

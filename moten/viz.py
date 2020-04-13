@@ -1,5 +1,11 @@
 '''
 '''
+# Anwar O. Nunez-Elizalde (Apr, 2020)
+#
+# Updates:
+#
+#
+#
 import numpy as np
 
 from moten.core import (mk_spatiotemporal_gabor,

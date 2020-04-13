@@ -73,17 +73,23 @@ assert np.allclose(luminance_images, lum)
 ##############################
 # Example with PNG images
 ##############################
+import os
 import PIL
+import tempfile
 from glob import glob
 
 # Convert the first 100 video frames to PNGs
 video_buffer = io.video_buffer(video_file, nimages=100)
+
+# store frames in temporary directory
+tmpdir = tempfile.mkdtemp()
+
 for frameidx, video_frame in enumerate(video_buffer):
     image_object = PIL.Image.fromarray(video_frame)
-    image_object.save('frame%08i.png'%frameidx)
+    image_object.save(os.path.join(tmpdir, 'frame%08i.png'%frameidx))
 
 
-image_files = sorted(glob('*.png'))
+image_files = sorted(glob(os.path.join(tmpdir, '*.png')))
 files_luminance = io.load_image_luminance(image_files)
 
 files_luminance_resized = io.load_image_luminance(image_files,

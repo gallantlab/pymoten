@@ -1,16 +1,20 @@
 '''Code to convert RGB to other color spaces
-
-Color transformations from
-/auto/k1/shinji/matlab/colorspace/colorspace2.m
-/auto/k1/shinji/matlab/strflab_adds/preprocColorSpace.m
-
-Code originally by Pascal Getreuer (https://getreuer.info/) 2005-2006:
-https://www.mathworks.com/matlabcentral/fileexchange/28790-colorspace-transformations
-
-Only a few transformations were converted to python.
-
-Anwar O. Nunez-Elizalde (2016).
 '''
+#
+# Color transformations from
+# /auto/k1/shinji/matlab/colorspace/colorspace2.m
+# /auto/k1/shinji/matlab/strflab_adds/preprocColorSpace.m
+#
+# Code originally by Pascal Getreuer (https://getreuer.info/) 2005-2006:
+# https://www.mathworks.com/matlabcentral/fileexchange/28790-colorspace-transformations
+#
+# Only a few transformations were converted to python.
+#
+# Anwar O. Nunez-Elizalde (2016).
+#
+# Updates:
+#
+#
 import numpy as np
 
 
