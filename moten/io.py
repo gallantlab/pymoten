@@ -46,6 +46,31 @@ def video_buffer(video_file, nimages=np.inf):
             break
 
 
+def generate_frames_from_greyvideo(video_file, size=None, nimages=np.inf):
+    vbuffer = video_buffer(video_file, nimages=nimages)
+    grey_video = []
+    for imageidx, image_rgb in enumerate(vbuffer):
+        if size is not None:
+            image_rgb = resize_image(image_rgb, size=size)
+        grey_image = image_rgb[...,0]/255.0
+        yield grey_image
+
+
+def generate_frame_difference_from_greyvideo(video_file,
+                                             size=None,
+                                             nimages=np.inf,
+                                             dtype=np.float32):
+    vbuffer = video_buffer(video_file, nimages=nimages)
+    previous_frame = 0
+    for frame_index, image_rgb in enumerate(vbuffer):
+        if size is not None:
+            image_rgb = resize_image(image_rgb, size=size)
+        current_image = np.asarray(image_rgb[...,0]/255.0, dtype=dtype)
+        frame_difference = current_image - previous_frame
+        previous_frame = current_image
+        yield frame_difference
+
+
 def video2luminance(video_file, size=None, nimages=np.inf):
     '''
     size (optional) : tuple, (vdim, hdim)
@@ -76,7 +101,6 @@ def video2grey(video_file, size=None, nimages=np.inf):
         grey_image = image_rgb.mean(-1)/255.0
         grey_video.append(grey_image)
     return np.asarray(grey_video)
-
 
 
 def imagearray2luminance(uint8arr, size=None, filter=Image.ANTIALIAS, dtype=np.float64):
