@@ -154,7 +154,7 @@ class MotionEnergyPyramid(object):
         # construct the gabor pyramid
         parameter_names, filter_params_array = core.mk_moten_pyramid_params(
             stimulus_fps,
-            filter_temporal_width,
+            filter_temporal_width=filter_temporal_width,
             aspect_ratio=aspect_ratio,
             temporal_frequencies=temporal_frequencies,
             spatial_frequencies=spatial_frequencies,
@@ -250,26 +250,24 @@ class MotionEnergyPyramid(object):
         aspect_ratio = self.definition.aspect_ratio
         filter_width = self.definition.filter_temporal_width
         spatial_phase_offset = self.definition.spatial_phase_offset
+        hvsize = (hdim, vdim)
 
         # extract parameters for this gaborid
         if isinstance(gaborid, dict):
-            gabor_params = gaborid.copy()
+            gabor_params_dict = gaborid.copy()
             gaborid = 0
         else:
-            gabor_params = self.filters[gaborid]
+            gabor_params_dict = self.filters[gaborid]
 
         # construct title from parameters
         title = ''
-        for pdx, (pname, pval) in enumerate(sorted(gabor_params.items())):
-            if pname == 'temporal_freq':
-                pval = pval*(stimulus_fps/filter_width)
+        for pdx, (pname, pval) in enumerate(sorted(gabor_params_dict.items())):
             title += '%s=%0.02f, '%(pname, pval)
             if np.mod(pdx, 3) == 0 and pdx > 0:
                 title += '\n'
 
-        return viz.plot_3dgabor(gabor_params, vdim=vdim, hdim=hdim, tdim=filter_width,
-                                fps=stimulus_fps,
-                                aspect_ratio=aspect_ratio,
+        return viz.plot_3dgabor(hvsize,
+                                gabor_params_dict,
                                 spatial_phase_offset=spatial_phase_offset,
                                 background=background,
                                 title=title, speed=speed)
@@ -298,6 +296,7 @@ class MotionEnergyPyramid(object):
         original_hdim, original_vdim = self.definition.stimulus_hvsize
         assert vdim == original_vdim and hdim == original_hdim
 
+        hvsize = (hdim, vdim)
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
 
         nfilters = len(filters)
@@ -312,9 +311,7 @@ class MotionEnergyPyramid(object):
                                                              '%s.project_stim'%type(self).__name__,
                                                              total=len(filters)):
 
-            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(filter_hvt_fov,
-                                                                    aspect_ratio=aspect_ratio,
-                                                                    phase_offset=spatial_phase_offset,
+            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(hvsize,
                                                                     **gabor_parameters)
 
             channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
@@ -351,6 +348,7 @@ class MotionEnergyPyramid(object):
         original_hdim, original_vdim = self.definition.stimulus_hvsize
         assert vdim == original_vdim and hdim == original_hdim
 
+        hvsize = (hdim, vdim)
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
 
         nfilters = len(filters)
@@ -366,9 +364,7 @@ class MotionEnergyPyramid(object):
                                                              '%s.raw_projection'%type(self).__name__,
                                                              total=len(filters)):
 
-            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(filter_hvt_fov,
-                                                                    aspect_ratio=aspect_ratio,
-                                                                    phase_offset=spatial_phase_offset,
+            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(hvsize,
                                                                     **gabor_parameters)
 
             channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
