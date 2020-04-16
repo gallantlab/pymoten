@@ -67,7 +67,7 @@ class MotionEnergyPyramid(object):
     -------
     MotionEnergyPyramid.show_filter(gaborid=0)
         Display the selected filter as a matplotlib animation.
-    filters_at_hvposition(hvpos=(0.5, 0.5))
+    filters_at_vhposition(0.5, 0.5)
         Center spatio-temporal filters to requested hv-position.
     project_stimulus(stimulus)
         Compute the motion-energy filter responses to the stimuli.
@@ -95,7 +95,7 @@ class MotionEnergyPyramid(object):
     parameters_names  : tuple of strings
     '''
     def __init__(self,
-                 stimulus_hvsize=(1024, 576),
+                 stimulus_vhsize=(576, 1024),
                  stimulus_fps=24,
                  temporal_frequencies=[0,2,4],
                  spatial_frequencies=[0,2,4,8,16],
@@ -130,15 +130,15 @@ class MotionEnergyPyramid(object):
             of the image which might be partially outside the
             stimulus field-of-view
         '''
-        hdim, vdim = stimulus_hvsize
+        vdim, hdim = stimulus_vhsize
         aspect_ratio = hdim/float(vdim) # same as stimulus
 
         if filter_temporal_width == 'auto':
             # default to 2/3 stimulus frame rate
             filter_temporal_width = int(stimulus_fps*(2/3.))
 
-        stimulus_hvt_fov = (hdim, vdim, stimulus_fps)
-        filter_hvt_fov = (hdim, vdim, filter_temporal_width)
+        stimulus_vht_fov = (vdim, hdim, stimulus_fps)
+        filter_vht_fov = (vdim, hdim, filter_temporal_width)
 
         # store pyramid parameters
         definition = utils.DotDict()
@@ -196,7 +196,12 @@ class MotionEnergyPyramid(object):
         return info%details
 
     def filters_at_hvposition(self, centerh, centerv):
-        '''Center spatio-temporal filters to requested hv-position.
+        '''
+        '''
+        return self.filters_at_vhposition(centerh, centerv)
+
+    def filters_at_vhposition(self, centerv, centerh):
+        '''Center spatio-temporal filters to requested vh-position.
 
         Parameters
         ----------
@@ -208,7 +213,7 @@ class MotionEnergyPyramid(object):
         Returns
         -------
         centered_filters : dict
-            Spatio-temporal filter parameters at hv-position.
+            Spatio-temporal filter parameters at vh-position.
         '''
         unique_parameters = np.unique(self.parameters_matrix[:, 2:], axis=0)
         nunique = unique_parameters.shape[0]
@@ -246,11 +251,11 @@ class MotionEnergyPyramid(object):
         >>> pyramid.show_filter(12)
         '''
         # Get dimensions of movie
-        hdim, vdim, stimulus_fps = self.definition.stimulus_hvt_fov
+        vdim, hdim, stimulus_fps = self.definition.stimulus_vht_fov
         aspect_ratio = self.definition.aspect_ratio
         filter_width = self.definition.filter_temporal_width
         spatial_phase_offset = self.definition.spatial_phase_offset
-        hvsize = (hdim, vdim)
+        vhsize = (vdim, hdim)
 
         # extract parameters for this gaborid
         if isinstance(gaborid, dict):
@@ -266,7 +271,7 @@ class MotionEnergyPyramid(object):
             if np.mod(pdx, 3) == 0 and pdx > 0:
                 title += '\n'
 
-        return viz.plot_3dgabor(hvsize,
+        return viz.plot_3dgabor(vhsize,
                                 gabor_params_dict,
                                 spatial_phase_offset=spatial_phase_offset,
                                 background=background,
@@ -293,15 +298,15 @@ class MotionEnergyPyramid(object):
 
         # parameters
         nimages, vdim, hdim = stimulus.shape
-        original_hdim, original_vdim = self.definition.stimulus_hvsize
+        original_vdim, original_hdim = self.definition.stimulus_vhsize
         assert vdim == original_vdim and hdim == original_hdim
 
-        hvsize = (hdim, vdim)
+        vhsize = (vdim, hdim)
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
 
         nfilters = len(filters)
         filter_width = self.definition.filter_temporal_width
-        filter_hvt_fov = (hdim, vdim, filter_width)
+        filter_vht_fov = (vdim, hdim, filter_width)
         aspect_ratio = self.definition.aspect_ratio
         spatial_phase_offset = self.definition.spatial_phase_offset
 
@@ -311,7 +316,7 @@ class MotionEnergyPyramid(object):
                                                              '%s.project_stim'%type(self).__name__,
                                                              total=len(filters)):
 
-            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(hvsize,
+            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(vhsize,
                                                                     **gabor_parameters)
 
             channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
@@ -345,15 +350,15 @@ class MotionEnergyPyramid(object):
 
         # parameters
         nimages, vdim, hdim = stimulus.shape
-        original_hdim, original_vdim = self.definition.stimulus_hvsize
+        original_vdim, original_hdim = self.definition.stimulus_vhsize
         assert vdim == original_vdim and hdim == original_hdim
 
-        hvsize = (hdim, vdim)
+        vhsize = (vdim, hdim)
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
 
         nfilters = len(filters)
         filter_width = self.definition.filter_temporal_width
-        filter_hvt_fov = (hdim, vdim, filter_width)
+        filter_vht_fov = (vdim, hdim, filter_width)
         aspect_ratio = self.definition.aspect_ratio
         spatial_phase_offset = self.definition.spatial_phase_offset
 
@@ -364,7 +369,7 @@ class MotionEnergyPyramid(object):
                                                              '%s.raw_projection'%type(self).__name__,
                                                              total=len(filters)):
 
-            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(hvsize,
+            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(vhsize,
                                                                     **gabor_parameters)
 
             channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
@@ -418,8 +423,8 @@ class StimulusMotionEnergy(object):
     project()
         Compute the motion-energy filter responses to the stimulus.
 
-    project_at_hvposition(centerh, centerv)
-        Center the motion-energy filters at hv-position in the stimulus
+    project_at_vhposition(centerv, centerh)
+        Center the motion-energy filters at vh-position in the stimulus
         and compute the filter responses.
 
     raw_projection()
@@ -447,12 +452,12 @@ class StimulusMotionEnergy(object):
         keyword arguments used to construct the motion-energy pyramid.
         '''
         nimages, vdim, hdim = stimulus.shape
-        stimulus_hvsize = (hdim, vdim, stimulus_fps)
+        stimulus_vhsize = (vdim, hdim)
         original_stimulus = stimulus
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
         aspect_ratio = hdim/vdim
 
-        pyramid = MotionEnergyPyramid(stimulus_hvsize=(hdim, vdim),
+        pyramid = MotionEnergyPyramid(stimulus_vhsize=(vdim, hdim),
                                       stimulus_fps=stimulus_fps,
                                       filter_temporal_width=filter_temporal_width,
                                       temporal_frequencies=temporal_frequencies,
@@ -469,7 +474,7 @@ class StimulusMotionEnergy(object):
         self.nimages = nimages
         self.stimulus = stimulus
         self.stimulus_fps = stimulus_fps
-        self.stimulus_hvsize=stimulus_hvsize
+        self.stimulus_vhsize = stimulus_vhsize
         self.original_stimulus = original_stimulus
         self.aspect_ratio = aspect_ratio
 
@@ -540,7 +545,7 @@ class StimulusMotionEnergy(object):
 
         return filter_responses
 
-    def project_at_hvposition(self, centerh, centerv,
+    def project_at_vhposition(self, centerv, centerh,
                               quadrature_combination=utils.sqrt_sum_squares,
                               output_nonlinearity=utils.log_compress,
                               dtype=np.float32):
@@ -566,7 +571,7 @@ class StimulusMotionEnergy(object):
 
         '''
         # center all spatial and temporal filters at desired hv-position
-        filters = self.view.filters_at_hvposition(centerh, centerv)
+        filters = self.view.filters_at_vhposition(centerv, centerh)
         stimulus = self.original_stimulus
 
         filter_responses = self.view.project_stimulus(
@@ -613,12 +618,12 @@ class StimulusStaticGaborPyramid(StimulusMotionEnergy):
                  max_spatial_env=0.3,
                  filter_spacing=3.5,
                  include_edges=False,
-                 phase_offset=0.0,
+                 spatial_phase_offset=0.0,
                  ):
         super(type(self), self).__init__(stimulus,
                                          spatial_frequencies=spatial_frequencies,
                                          spatial_directions=spatial_orientations,
-                                         spatial_phase_offset=phase_offset,
+                                         spatial_phase_offset=spatial_phase_offset,
                                          include_edges=include_edges,
                                          sf_gauss_ratio=sf_gauss_ratio,
                                          max_spatial_env=max_spatial_env,
@@ -639,42 +644,42 @@ class DefaultPyramids(object):
 
     @property
     def pyramid15fps512x512(self):
-        pyramid =  MotionEnergyPyramid(stimulus_hvsize=(512, 512),
+        pyramid =  MotionEnergyPyramid(stimulus_vhsize=(512, 512),
                                        stimulus_fps=15)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid15fps96x96(self):
-        pyramid =  MotionEnergyPyramid(stimulus_hvsize=(96, 96),
+        pyramid =  MotionEnergyPyramid(stimulus_vhsize=(96, 96),
                                        stimulus_fps=15)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps800x600(self):
-        pyramid =  MotionEnergyPyramid(stimulus_hvsize=(800, 600),
+        pyramid =  MotionEnergyPyramid(stimulus_vhsize=(600, 800),
                                        stimulus_fps=24)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps640x480(self):
-        pyramid =  MotionEnergyPyramid(stimulus_hvsize=(640, 480),
+        pyramid =  MotionEnergyPyramid(stimulus_vhsize=(480, 640),
                                        stimulus_fps=24)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps128x72(self):
-        pyramid =  MotionEnergyPyramid(stimulus_hvsize=(128, 72),
+        pyramid =  MotionEnergyPyramid(stimulus_vhsize=(72, 128),
                                        stimulus_fps=24)
         print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps256x144(self):
-        pyramid =  MotionEnergyPyramid(stimulus_hvsize=(256, 144),
+        pyramid =  MotionEnergyPyramid(stimulus_vhsize=(144, 256),
                                        stimulus_fps=24)
         print(pyramid)
         return pyramid

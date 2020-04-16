@@ -23,7 +23,7 @@ from moten import (pyramids,
 default_pyramids = pyramids.DefaultPyramids()
 
 
-def get_default_pyramid(hvsize=(256, 144), fps=24, **kwargs):
+def get_default_pyramid(vhsize=(144, 256), fps=24, **kwargs):
     '''Construct a motion-energy pyramid
 
     A motion-energy pyramid consists of a set of
@@ -33,7 +33,7 @@ def get_default_pyramid(hvsize=(256, 144), fps=24, **kwargs):
 
     Parameters
     ----------
-    hvsize : tuple of ints
+    vhsize : tuple of ints
         Horizontal and vertical size of the stimulus in [pixels]
     fps : int
         Stimulus frame rate
@@ -48,10 +48,10 @@ def get_default_pyramid(hvsize=(256, 144), fps=24, **kwargs):
     >>> video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
     >>> luminance_images = moten.io.video2luminance(video_file, nimages=100)
     >>> nimages, vdim, hdim = luminance_images.shape
-    >>> pyramid = moten.get_default_pyramid(hvsize=(hdim, vdim), fps=24)
+    >>> pyramid = moten.get_default_pyramid(vhsize=(vdim, hdim), fps=24)
     >>> moten_features = pyramid.project_stimulus(luminance_images)
     '''
-    return pyramids.MotionEnergyPyramid(stimulus_hvsize=hvsize,
+    return pyramids.MotionEnergyPyramid(stimulus_vhsize=vhsize,
                                         stimulus_fps=fps,
                                         **kwargs)
 

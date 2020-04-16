@@ -15,7 +15,7 @@ from moten.core import (mk_spatiotemporal_gabor,
                         mk_3d_gabor,
                         )
 
-def plot_3dgabor(hvsize=(1024, 576),
+def plot_3dgabor(vhsize=(576, 1024),
                  gabor_params_dict={},
                  background=None,
                  spatial_phase_offset=0.0,
@@ -31,7 +31,7 @@ def plot_3dgabor(hvsize=(1024, 576),
     import matplotlib.animation as animation
 
     # get the 3D gabor as an array
-    spatiotemporal_gabor_components = mk_3d_gabor(hvsize,
+    spatiotemporal_gabor_components = mk_3d_gabor(vhsize,
                                                   **gabor_params_dict)
 
     gabor_video = mk_spatiotemporal_gabor(*spatiotemporal_gabor_components)

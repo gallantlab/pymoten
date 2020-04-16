@@ -21,12 +21,23 @@ stimulus_fps = 24
 # need high accuracy for tests
 DTYPE = np.float64
 
+##############################
 # static gabor pyramid
+##############################
 static_pyramid = pyramids.StimulusStaticGaborPyramid(luminance_images,
-                                                spatial_frequencies=(0,1,2,4, 8))
+                                                     spatial_frequencies=(0,1,2,4),
+                                                     spatial_phase_offset=0.0)
 
 print(static_pyramid)
 static_pyramid.view.show_filter(5)
+
+
+static_pyramid_90 = pyramids.StimulusStaticGaborPyramid(luminance_images,
+                                                     spatial_frequencies=(0,1,2,4),
+                                                     spatial_phase_offset=90.0)
+
+print(static_pyramid_90)
+static_pyramid_90.view.show_filter(5)
 
 if 0:
     if static_pyramid.nfilters > 25:
@@ -39,10 +50,11 @@ if 0:
         for idx in range(static_pyramid.nfilters):
             static_pyramid.view.show_filter(idx)
 
+
 ##############################
 # motion-energy pyramid
 ##############################
-pyramid = pyramids.MotionEnergyPyramid(stimulus_hvsize=(hdim, vdim),
+pyramid = pyramids.MotionEnergyPyramid(stimulus_vhsize=(vdim, hdim),
                                        stimulus_fps=stimulus_fps,
                                        spatial_frequencies=(0,1,2,4),
                                        filter_temporal_width=16)
@@ -51,6 +63,14 @@ print(pyramid)
 # project stimulus
 output = pyramid.project_stimulus(luminance_images, dtype=DTYPE)
 outsin, outcos = pyramid.raw_project_stimulus(luminance_images, dtype=DTYPE)
+
+# stand-alone function
+##############################
+filter_definitions = pyramid.filters
+func_proj = core.project_stimulus(luminance_images, filter_definitions,
+                                  vhsize=(vdim, hdim), dtype=DTYPE)
+
+assert np.allclose(func_proj, output)
 
 ##################################################
 # stimulus-specific motion-energy pyramid
@@ -72,7 +92,7 @@ stim_pyramid.view.show_filter(10)
 assert np.allclose(filter_responses, output)
 
 # centered projection
-hvcentered_filters, hvcentered_responses = stim_pyramid.project_at_hvposition(1.11, 0.33, dtype=DTYPE)
+hvcentered_filters, hvcentered_responses = stim_pyramid.project_at_vhposition(0.33, 1.11, dtype=DTYPE)
 example_filter = hvcentered_filters[10]
 stim_pyramid.view.show_filter(example_filter)
 

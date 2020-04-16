@@ -29,7 +29,7 @@ def project_stimulus(stimulus,
                      quadrature_combination=sqrt_sum_squares,
                      output_nonlinearity=log_compress,
                      spatial_phase_offset=0.0,
-                     hvsize=(),
+                     vhsize=(),
                      dtype=np.float32):
     '''
     Parameters
@@ -37,7 +37,7 @@ def project_stimulus(stimulus,
     stimulus : np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)
         The movie frames.
         If `stimulus` is two-dimensional with shape (nimages, npixels), then
-        `hvsize=(hdim,vdim)` is required and `npixels == ndim*vdim`.
+        `vhsize=(hdim,vdim)` is required and `npixels == ndim*vdim`.
 
     Returns
     -------
@@ -47,12 +47,12 @@ def project_stimulus(stimulus,
     if stimulus.ndim == 3:
         nimages, vdim, hdim = stimulus.shape
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
-        hvsize = (hdim, vdim)
+        vhsize = (vdim, hdim)
 
     # checks for 2D stimuli
     assert stimulus.ndim == 2                             # (nimages, pixels)
-    assert isinstance(hvsize, tuple) and len(hvsize) == 2 # (hdim, vdim)
-    assert np.product(hvsize) == stimulus.shape[1]        # hdim*vdim == pixels
+    assert isinstance(vhsize, tuple) and len(vhsize) == 2 # (hdim, vdim)
+    assert np.product(vhsize) == stimulus.shape[1]        # hdim*vdim == pixels
 
     # NB:
     # special case spatial phase b/c only really useful for 2D gabors
@@ -61,16 +61,16 @@ def project_stimulus(stimulus,
     # Compute responses
     nfilters = len(filters)
     filter_responses = np.zeros((nimages, nfilters), dtype=dtype)
-    for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
-                                                         '%s.project_stim'%type(self).__name__,
-                                                         total=len(filters)):
+    for gaborid, gabor_parameters in iterator_func(enumerate(filters),
+                                                   'project_stimulus',
+                                                   total=len(filters)):
 
-        sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(
-            hvsize, spatial_phase_offset=spatial_phase_offset, **gabor_parameters)
+        sgabor0, sgabor90, tgabor0, tgabor90 = mk_3d_gabor(
+            vhsize, spatial_phase_offset=spatial_phase_offset, **gabor_parameters)
 
-        channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
-                                                        tgabor0, tgabor90,
-                                                        stimulus)
+        channel_sin, channel_cos = dotdelay_frames(sgabor0, sgabor90,
+                                                   tgabor0, tgabor90,
+                                                   stimulus)
 
         channel_response = quadrature_combination(channel_sin, channel_cos)
         channel_response = output_nonlinearity(channel_response)
@@ -182,7 +182,7 @@ class StimulusTotalMotionEnergy(object):
 # core functionality
 ##############################
 
-def mk_3d_gabor(hvsize,
+def mk_3d_gabor(vhsize,
                 stimulus_fps,
                 aspect_ratio='auto',
                 filter_temporal_width='auto',
@@ -193,7 +193,7 @@ def mk_3d_gabor(hvsize,
                 spatial_env=0.3,
                 temporal_freq=2.0,
                 temporal_env=0.3,
-                phase_offset=0.0,
+                spatial_phase_offset=0.0,
                 ):
     '''Make a motion-energy filter.
 
@@ -223,7 +223,7 @@ def mk_3d_gabor(hvsize,
         Temporal frequency
     temporal_env : float
         Temporal envelope (s.d. of gaussian)
-    phase_offset : float, degrees
+    spatial_phase_offset : float, degrees
         Phase offset for the spatial sinusoid
     aspect_ratio : optional, 'auto' or float-like,
         Defaults to stimulus aspect ratio: hdim/vdim
@@ -245,7 +245,7 @@ def mk_3d_gabor(hvsize,
     -----
     Same method as Nishimoto, et al., 2011.
     '''
-    hdim, vdim = hvsize
+    vdim, hdim = vhsize
     if aspect_ratio == 'auto':
         aspect_ratio = hdim/float(vdim)
 
@@ -275,8 +275,8 @@ def mk_3d_gabor(hvsize,
     # spatial filters
     spatial_gaussian = np.exp(-((ihs - centerh)**2 + (ivs - centerv)**2)/(2*spatial_env**2))
 
-    spatial_grating_sin = np.sin((ihs - centerh)*fh + (ivs - centerv)*fv + phase_offset)
-    spatial_grating_cos = np.cos((ihs - centerh)*fh + (ivs - centerv)*fv + phase_offset)
+    spatial_grating_sin = np.sin((ihs - centerh)*fh + (ivs - centerv)*fv + spatial_phase_offset)
+    spatial_grating_cos = np.cos((ihs - centerh)*fh + (ivs - centerv)*fv + spatial_phase_offset)
 
     spatial_gabor_sin = spatial_gaussian * spatial_grating_sin
     spatial_gabor_cos = spatial_gaussian * spatial_grating_cos
@@ -292,7 +292,7 @@ def mk_3d_gabor(hvsize,
     return spatial_gabor_sin, spatial_gabor_cos, temporal_gabor_sin, temporal_gabor_cos
 
 
-def generate_3dgabor_array(hvsize=(576, 1024),
+def generate_3dgabor_array(vhsize=(1024, 576),
                            stimulus_fps=24,
                            aspect_ratio='auto',
                            filter_temporal_width='auto',
@@ -307,14 +307,14 @@ def generate_3dgabor_array(hvsize=(576, 1024),
     '''
     gabor_hvt_size : (vdim, hdim, tdim),
     '''
-    hvsize = (hdim, vdim)
+    vdim, hdim = vhsize
     if aspect_ratio == 'auto':
         aspect_ratio = hdim/float(vdim)
 
     if filter_temporal_width == 'auto':
         filter_temporal_width = int(stimulus_fps*(2/3.))
 
-    gabor_components = mk_3d_gabor(hvsize,
+    gabor_components = mk_3d_gabor(vhsize,
                                    stimulus_fps=stimulus_fps,
                                    aspect_ratio=aspect_ratio,
                                    filter_temporal_width=filter_temporal_width,
@@ -481,7 +481,7 @@ def compute_spatial_gabor_responses(stimulus,
     filter_responses : np.array, (n, nfilters)
     """
     nimages, vdim, hdim = stimulus.shape
-    hvsize = (hdim, vdim)
+    vhsize = (vdim, hdim)
 
     if aspect_ratio == 'auto':
         aspect_ratio = hdim/float(vdim)
@@ -509,7 +509,7 @@ def compute_spatial_gabor_responses(stimulus,
     for idx, gabor_param_dict in iterator_func(enumerate(filters),
                                           '%s.compute_spatial_gabor_responses'%__name__,
                                           total=len(gabor_parameters)):
-        sgabor_sin, sgabor_cos, _, _ = mk_3d_gabor(hvsize,
+        sgabor_sin, sgabor_cos, _, _ = mk_3d_gabor(vhsize,
                                                    **gabor_param_dict)
 
         channel_sin, channel_cos = dotspatial_frames(sgabor_sin, sgabor_cos, stimulus)
@@ -568,7 +568,7 @@ def compute_filter_responses(stimulus,
     """
     nimages, vdim, hdim = stimulus.shape
     stimulus = stimulus.reshape(stimulus.shape[0], -1)
-    hvsize = (hdim,vdim)
+    vhsize = (vdim, hdim)
 
     if aspect_ratio == 'auto':
         aspect_ratio = hdim/float(vdim)
@@ -596,7 +596,7 @@ def compute_filter_responses(stimulus,
                                           '%s.compute_filter_responses'%__name__,
                                           total=len(filters)):
 
-        gabor = mk_3d_gabor(hvsize,
+        gabor = mk_3d_gabor(vhsize,
                             **gabor_param_dict)
 
         gabor0, gabor90, tgabor0, tgabor90 = gabor
