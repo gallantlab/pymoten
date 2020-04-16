@@ -20,6 +20,64 @@ from moten.utils import (DotDict,
                          )
 
 
+##############################
+#
+##############################
+
+def project_stimulus(stimulus,
+                     filters,
+                     quadrature_combination=sqrt_sum_squares,
+                     output_nonlinearity=log_compress,
+                     spatial_phase_offset=0.0,
+                     hvsize=(),
+                     dtype=np.float32):
+    '''
+    Parameters
+    ----------
+    stimulus : np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)
+        The movie frames.
+        If `stimulus` is two-dimensional with shape (nimages, npixels), then
+        `hvsize=(hdim,vdim)` is required and `npixels == ndim*vdim`.
+
+    Returns
+    -------
+    filter_responses : np.ndarray, (nimages, nfilters)
+    '''
+    # parameters
+    if stimulus.ndim == 3:
+        nimages, vdim, hdim = stimulus.shape
+        stimulus = stimulus.reshape(stimulus.shape[0], -1)
+        hvsize = (hdim, vdim)
+
+    # checks for 2D stimuli
+    assert stimulus.ndim == 2                             # (nimages, pixels)
+    assert isinstance(hvsize, tuple) and len(hvsize) == 2 # (hdim, vdim)
+    assert np.product(hvsize) == stimulus.shape[1]        # hdim*vdim == pixels
+
+    # NB:
+    # special case spatial phase b/c only really useful for 2D gabors
+    # spatial phase offset is not in the filter parameters defined by pyramid
+
+    # Compute responses
+    nfilters = len(filters)
+    filter_responses = np.zeros((nimages, nfilters), dtype=dtype)
+    for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
+                                                         '%s.project_stim'%type(self).__name__,
+                                                         total=len(filters)):
+
+        sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(
+            hvsize, spatial_phase_offset=spatial_phase_offset, **gabor_parameters)
+
+        channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
+                                                        tgabor0, tgabor90,
+                                                        stimulus)
+
+        channel_response = quadrature_combination(channel_sin, channel_cos)
+        channel_response = output_nonlinearity(channel_response)
+        filter_responses[:, gaborid] = channel_response
+    return filter_responses
+
+
 class StimulusTotalMotionEnergy(object):
     '''
     '''
