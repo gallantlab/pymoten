@@ -37,7 +37,7 @@ def project_stimulus(stimulus,
     stimulus : np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)
         The movie frames.
         If `stimulus` is two-dimensional with shape (nimages, npixels), then
-        `vhsize=(hdim,vdim)` is required and `npixels == ndim*vdim`.
+        `vhsize=(vdim,hdim)` is required and `npixels == vdim*hdim`.
 
     Returns
     -------
@@ -60,6 +60,7 @@ def project_stimulus(stimulus,
 
     # Compute responses
     nfilters = len(filters)
+    nimages = stimulus.shape[0]
     filter_responses = np.zeros((nimages, nfilters), dtype=dtype)
     for gaborid, gabor_parameters in iterator_func(enumerate(filters),
                                                    'project_stimulus',

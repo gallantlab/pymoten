@@ -67,10 +67,17 @@ outsin, outcos = pyramid.raw_project_stimulus(luminance_images, dtype=DTYPE)
 # stand-alone function
 ##############################
 filter_definitions = pyramid.filters
-func_proj = core.project_stimulus(luminance_images, filter_definitions,
-                                  vhsize=(vdim, hdim), dtype=DTYPE)
+func_proj_3darray = core.project_stimulus(luminance_images,
+                                          filter_definitions,
+                                          dtype=DTYPE)
+assert np.allclose(func_proj_3darray, output)
 
-assert np.allclose(func_proj, output)
+func_proj_2darray = core.project_stimulus(luminance_images.reshape(luminance_images.shape[0], -1),
+                                          filter_definitions,
+                                          vhsize=(vdim, hdim), dtype=DTYPE)
+
+assert np.allclose(func_proj_2darray, output)
+
 
 ##################################################
 # stimulus-specific motion-energy pyramid
