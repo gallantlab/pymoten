@@ -30,7 +30,7 @@ class my_install(install):
     def run(self):
         install.run(self)
         optfile = [f for f in self.get_outputs() if 'defaults.cfg' in f]
-        set_default_options(optfile[0])
+        # set_default_options(optfile[0])
 
 
 if not 'extra_setuptools_args' in globals():
