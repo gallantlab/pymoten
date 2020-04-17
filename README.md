@@ -1,4 +1,5 @@
 # pymoten
+[![Build Status](https://travis-ci.com/gallantlab/pymoten.svg?token=DG1xpt4Upohy9kdU6zzg&branch=master)](https://travis-ci.com/gallantlab/pymoten)
 
 ```python
 >>> import moten
