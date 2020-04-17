@@ -1,4 +1,5 @@
 numpy
+scipy
 Pillow
 matplotlib
 opencv-python
