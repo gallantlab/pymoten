@@ -5,8 +5,6 @@ import numpy as np
 from scipy import linalg
 from importlib import reload
 
-
-from tqdm import tqdm
 from moten import (pyramids,
                    utils,
                    core,
