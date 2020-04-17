@@ -27,16 +27,17 @@ resized_image_luminance = io.imagearray2luminance(resized_image, size=None)
 assert np.allclose(image_luminance_resized[0], resized_image_luminance[0])
 
 # NB: skimage comparison.
-import skimage.color
-skimage_cielab = skimage.color.rgb2lab(image_rgb)
-skimage_luminance = skimage_cielab[...,0]
-# skimage is not the same...
-assert np.allclose(skimage_luminance, image_luminance[0]) is False
-# ...But it is highly correlated.
-corr = np.corrcoef(skimage_luminance.ravel(), image_luminance[0].ravel())[0,1]
-assert corr > 0.999
-# Neither the observer nor the illuminant options account for this difference.
-# TODO: Figure out the exact reason for this difference.
+if 0:
+    import skimage.color
+    skimage_cielab = skimage.color.rgb2lab(image_rgb)
+    skimage_luminance = skimage_cielab[...,0]
+    # skimage is not the same...
+    assert np.allclose(skimage_luminance, image_luminance[0]) is False
+    # ...But it is highly correlated.
+    corr = np.corrcoef(skimage_luminance.ravel(), image_luminance[0].ravel())[0,1]
+    assert corr > 0.999
+    # Neither the observer nor the illuminant options account for this difference.
+    # TODO: Figure out the exact reason for this difference.
 
 
 # multiple images
