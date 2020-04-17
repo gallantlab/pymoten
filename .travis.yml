@@ -1,0 +1,18 @@
+sudo: true  # To use travis container infrastructure
+
+before_install:
+  - sudo apt-get install libblas-dev
+  - sudo apt-get install liblapack-dev
+
+language: python
+python:
+  - "3.7"
+
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+  - python setup.py install
+
+# command to run tests
+script:
+  - py.test -v --doctest-modules
