@@ -3,6 +3,7 @@ sudo: true  # To use travis container infrastructure
 before_install:
   - sudo apt-get install libblas-dev
   - sudo apt-get install liblapack-dev
+  - sudo apt-get install libopenblas-dev
 
 language: python
 python:
