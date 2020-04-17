@@ -250,7 +250,7 @@ class MotionEnergyPyramid(object):
         --------
         >>> import moten
         >>> pyramid = moten.get_default_pyramid()
-        >>> pyramid.show_filter(12)
+        >>> _ = pyramid.show_filter(12)
         '''
         # Get dimensions of movie
         vdim, hdim, stimulus_fps = self.definition.stimulus_vht_fov
