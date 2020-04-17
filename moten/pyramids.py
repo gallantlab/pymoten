@@ -248,6 +248,8 @@ class MotionEnergyPyramid(object):
 
         Examples
         --------
+        >>> import moten
+        >>> pyramid = moten.get_default_pyramid()
         >>> pyramid.show_filter(12)
         '''
         # Get dimensions of movie
