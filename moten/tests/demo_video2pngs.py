@@ -1,16 +1,11 @@
 import os
 import PIL
 import tempfile
-
-
-from moten import readers
-from importlib import reload
-reload(readers)
-
+from moten import io
 
 # This can also be a local file or an HTTP link
 video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
-video_buffer = readers.video_buffer(video_file)
+video_buffer = io.video_buffer(video_file)
 
 # store frames in temporary directory
 tmpdir = tempfile.mkdtemp()
