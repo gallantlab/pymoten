@@ -17,3 +17,4 @@ install:
 # command to run tests
 script:
   - py.test -v --doctest-modules
+  - py.test -v
