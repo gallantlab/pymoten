@@ -92,7 +92,7 @@ def pixbypix_covariance_from_frames_generator(data_generator,
                     total=0,
                     unit='[frames]')
     else:
-        print(desc='Computing pixel-by-pixel covariance (p=%i)...'%npixels, end='')
+        print('Computing pixel-by-pixel covariance (p=%i)...'%npixels, end='')
 
     RUN = True
     while RUN:
