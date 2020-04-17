@@ -74,10 +74,9 @@ def pixbypix_covariance_from_frames_generator(data_generator,
     >>> import moten
     >>> video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
     >>> small_size = (36, 64)  # downsample to (vdim, hdim) 16:9 aspect ratio
-    >>> frame_diff_generator = moten.io.generate_frame_difference_from_greyvideo(
-            video_file, size=small_size, nimages=333)
+    >>> fdiffgen = moten.io.generate_frame_difference_from_greyvideo(video_file, size=small_size, nimages=333)
     >>>
-    >>> nimages, XTX = moten.utils.pixbypix_covariance_from_frames_generator(frame_diff_generator)
+    >>> nimages, XTX = moten.utils.pixbypix_covariance_from_frames_generator(fdiffgen)
     '''
     first_frame = data_generator.__next__()
     vdim, hdim = first_frame.shape
