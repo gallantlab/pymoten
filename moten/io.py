@@ -29,8 +29,11 @@ def video_buffer(video_file, nimages=np.inf):
 
     Example
     -------
-    >>> image_buffer = video_buffer("myvideo.mp4")               # doctest: +SKIP
-    >>> movie = np.asarray([frame for frame in in image_buffer]) # doctest: +SKIP
+    >>> video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
+    >>> image_buffer = video_buffer(video_file, nimages=50)
+    >>> movie = np.asarray([frame for frame in image_buffer])
+    >>> print(movie.shape) # (nimages, vdim, hdim, color)
+    (50, 144, 256, 3)
     '''
     import cv2
     cap = cv2.VideoCapture(video_file)
