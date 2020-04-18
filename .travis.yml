@@ -8,6 +8,7 @@ before_install:
 language: python
 python:
   - "3.7"
+  - "3.8"
 
 # command to install dependencies
 install:
@@ -16,4 +17,4 @@ install:
 
 # command to run tests
 script:
-  - pytest
+  - pytest -v --doctest-modules
