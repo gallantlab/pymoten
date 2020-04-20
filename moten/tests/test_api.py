@@ -27,20 +27,24 @@ stimulus_fps = 24
 ##############################
 # static gabor pyramid
 ##############################
-static_pyramid = pyramids.StimulusStaticGaborPyramid(luminance_images,
-                                                     spatial_frequencies=(0,1,2,4),
-                                                     spatial_phase_offset=0.0)
+def test_static():
 
-print(static_pyramid)
-static_pyramid.view.show_filter(5)
+    static_pyramid = pyramids.StimulusStaticGaborPyramid(luminance_images,
+                                                         spatial_frequencies=(0,1,2,4),
+                                                         spatial_phase_offset=0.0)
+
+    print(static_pyramid)
+    static_pyramid.view.show_filter(5)
 
 
-static_pyramid_90 = pyramids.StimulusStaticGaborPyramid(luminance_images,
-                                                     spatial_frequencies=(0,1,2,4),
-                                                     spatial_phase_offset=90.0)
+    # TODO: FIX phase offset!!!
+    static_pyramid_90 = pyramids.StimulusStaticGaborPyramid(luminance_images,
+                                                         spatial_frequencies=(0,1,2,4),
+                                                         spatial_phase_offset=90.0)
 
-print(static_pyramid_90)
-static_pyramid_90.view.show_filter(5)
+    print(static_pyramid_90)
+    static_pyramid_90.view.show_filter(5)
+
 
 def test_smoke_test():
     maxshow = 10
