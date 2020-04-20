@@ -45,9 +45,7 @@ def test_static():
     print(static_pyramid_90)
     static_pyramid_90.view.show_filter(5)
 
-
-def test_smoke_test():
-    maxshow = 10
+    maxshow = 5
     if static_pyramid.nfilters > maxshow:
         idxs = np.arange(static_pyramid.nfilters)
         # idx = np.sort(np.random.permutation(static_pyramid.nfilters)
