@@ -146,7 +146,7 @@ class StimulusTotalMotionEnergy(object):
 
         # store: (npixels, npcs)
         self.decomposition_spatial_pcs = np.asarray(Q[:, :npcs], dtype=self.dtype)
-        self.decomposition_eigenvalues = np.asarray(L[::-1], dtype=self.dtype)
+        self.decomposition_eigenvalues = np.asarray(L, dtype=self.dtype)
 
     def compute_temporal_pcs(self, generator=None, skip_first=False):
         '''
