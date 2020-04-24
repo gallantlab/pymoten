@@ -30,17 +30,17 @@ print(pyramid)
 
 # centered projection
 # hvsize=(0,0): top left
-location_filters = {'BL' : [pyramid.filters_at_hvposition(0.9, 0.1)[0]],
-                    'BR' : [pyramid.filters_at_hvposition(0.9, 0.9*aspect_ratio)[0]],
-                    'TL' : [pyramid.filters_at_hvposition(0.1, 0.1)[0]],
-                    'TR' : [pyramid.filters_at_hvposition(0.1, 0.9*aspect_ratio)[0]]}
+location_filters = {'TL' : [pyramid.filters_at_vhposition(0.1, 0.1)[0]],
+                    'TR' : [pyramid.filters_at_vhposition(0.1, 0.9*aspect_ratio)[0]],
+                    'BL' : [pyramid.filters_at_vhposition(0.9, 0.1)[0]],
+                    'BR' : [pyramid.filters_at_vhposition(0.9, 0.9*aspect_ratio)[0]]}
 
 # store pyramid results
 output = {}
 controls = {}
 
 
-def test_hvorientation():
+def test_vhorientation():
     '''Check images and filters are oriented the same
     '''
     # normal output

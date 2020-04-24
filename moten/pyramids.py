@@ -199,7 +199,7 @@ class MotionEnergyPyramid(object):
     def filters_at_hvposition(self, centerh, centerv):
         '''
         '''
-        return self.filters_at_vhposition(centerh, centerv)
+        return self.filters_at_vhposition(centerv, centerh)
 
     def filters_at_vhposition(self, centerv, centerh):
         '''Center spatio-temporal filters to requested vh-position.
@@ -318,7 +318,8 @@ class MotionEnergyPyramid(object):
                          filters='all',
                          quadrature_combination=utils.sqrt_sum_squares,
                          output_nonlinearity=utils.log_compress,
-                         dtype=np.float32):
+                         dtype=np.float32,
+                         use_cuda=False):
         '''
         Parameters
         ----------
@@ -332,40 +333,19 @@ class MotionEnergyPyramid(object):
         if filters == 'all':
             filters = self.filters
 
-        # parameters
-        nimages, vdim, hdim = stimulus.shape
-        original_vdim, original_hdim = self.definition.stimulus_vhsize
-        assert vdim == original_vdim and hdim == original_hdim
+        vdim, hdim = self.definition.stimulus_vhsize
 
-        vhsize = (vdim, hdim)
-        stimulus = stimulus.reshape(stimulus.shape[0], -1)
+        output = core.project_stimulus(stimulus,
+                                       filters,
+                                       quadrature_combination=quadrature_combination,
+                                       output_nonlinearity=output_nonlinearity,
+                                       vhsize=(vdim, hdim),
+                                       dtype=dtype)
 
-        nfilters = len(filters)
-        filter_width = self.definition.filter_temporal_width
-        filter_vht_fov = (vdim, hdim, filter_width)
-        aspect_ratio = self.definition.aspect_ratio
-
-        # Compute responses
-        filter_responses = np.zeros((nimages, nfilters), dtype=dtype)
-        for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
-                                                             '%s.project_stim'%type(self).__name__,
-                                                             total=len(filters)):
-
-            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(vhsize,
-                                                                    **gabor_parameters)
-
-            channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
-                                                            tgabor0, tgabor90,
-                                                            stimulus)
-
-            channel_response = quadrature_combination(channel_sin, channel_cos)
-            channel_response = output_nonlinearity(channel_response)
-            filter_responses[:, gaborid] = channel_response
-        return filter_responses
-
+        return output
 
     def raw_project_stimulus(self, stimulus, filters='all', dtype=np.float32):
-        '''Obtain stimulus responses from all filter quadrature-pairs.
+        '''Obtain responses to the stimuli from all filter quadrature-pairs.
 
         Parameters
         ----------
@@ -383,34 +363,12 @@ class MotionEnergyPyramid(object):
         if filters == 'all':
             filters = self.filters
 
-        # parameters
-        nimages, vdim, hdim = stimulus.shape
-        original_vdim, original_hdim = self.definition.stimulus_vhsize
-        assert vdim == original_vdim and hdim == original_hdim
+        vdim, hdim = self.definition.stimulus_vhsize
 
-        vhsize = (vdim, hdim)
-        stimulus = stimulus.reshape(stimulus.shape[0], -1)
-
-        nfilters = len(filters)
-        filter_width = self.definition.filter_temporal_width
-        filter_vht_fov = (vdim, hdim, filter_width)
-        aspect_ratio = self.definition.aspect_ratio
-
-        # Compute responses
-        output_sin = np.zeros((nimages,nfilters), dtype=dtype)
-        output_cos = np.zeros((nimages,nfilters), dtype=dtype)
-        for gaborid, gabor_parameters in utils.iterator_func(enumerate(filters),
-                                                             '%s.raw_projection'%type(self).__name__,
-                                                             total=len(filters)):
-
-            sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(vhsize,
-                                                                    **gabor_parameters)
-
-            channel_sin, channel_cos = core.dotdelay_frames(sgabor0, sgabor90,
-                                                            tgabor0, tgabor90,
-                                                            stimulus)
-            output_sin[:, gaborid] = channel_sin
-            output_cos[:, gaborid] = channel_cos
+        output_sin, output_cos = core.raw_project_stimulus(stimulus,
+                                                           filters,
+                                                           vhsize=(vdim, hdim),
+                                                           dtype=dtype)
 
         return output_sin, output_cos
 

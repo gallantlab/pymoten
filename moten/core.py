@@ -24,13 +24,67 @@ from moten.utils import (DotDict,
 #
 ##############################
 
+def raw_project_stimulus(stimulus,
+                         filters,
+                         quadrature_combination=sqrt_sum_squares,
+                         output_nonlinearity=log_compress,
+                         vhsize=(),
+                         dtype=np.float32):
+    '''Obtain responses to the stimuli from all filter quadrature-pairs.
+
+    Parameters
+    ----------
+    stimulus : np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)
+        The movie frames.
+        If `stimulus` is two-dimensional with shape (nimages, npixels), then
+        `vhsize=(vdim,hdim)` is required and `npixels == vdim*hdim`.
+
+    Returns
+    -------
+    output_sin : np.ndarray, (nimages, nfilters)
+    output_cos : np.ndarray, (nimages, nfilters)
+    '''
+    # parameters
+    if stimulus.ndim == 3:
+        nimages, vdim, hdim = stimulus.shape
+        stimulus = stimulus.reshape(stimulus.shape[0], -1)
+        vhsize = (vdim, hdim)
+
+    # checks for 2D stimuli
+    assert stimulus.ndim == 2                             # (nimages, pixels)
+    assert isinstance(vhsize, tuple) and len(vhsize) == 2 # (hdim, vdim)
+    assert np.product(vhsize) == stimulus.shape[1]        # hdim*vdim == pixels
+
+    # Compute responses
+    nfilters = len(filters)
+    nimages = stimulus.shape[0]
+    sin_responses = np.zeros((nimages, nfilters), dtype=dtype)
+    cos_responses = np.zeros((nimages, nfilters), dtype=dtype)
+
+    for gaborid, gabor_parameters in iterator_func(enumerate(filters),
+                                                   'project_stimulus',
+                                                   total=len(filters)):
+
+        sgabor0, sgabor90, tgabor0, tgabor90 = mk_3d_gabor(vhsize, **gabor_parameters)
+
+        channel_sin, channel_cos = dotdelay_frames(sgabor0, sgabor90,
+                                                   tgabor0, tgabor90,
+                                                   stimulus)
+
+        sin_responses[:, gaborid] = channel_sin
+        cos_responses[:, gaborid] = channel_cos
+
+    return sin_responses, cos_responses
+
+
 def project_stimulus(stimulus,
                      filters,
                      quadrature_combination=sqrt_sum_squares,
                      output_nonlinearity=log_compress,
                      vhsize=(),
                      dtype=np.float32):
-    '''
+    '''Compute the motion-energy filter responses to the stimuli.
+
     Parameters
     ----------
     stimulus : np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)
@@ -53,10 +107,6 @@ def project_stimulus(stimulus,
     assert isinstance(vhsize, tuple) and len(vhsize) == 2 # (hdim, vdim)
     assert np.product(vhsize) == stimulus.shape[1]        # hdim*vdim == pixels
 
-    # NB:
-    # special case spatial phase b/c only really useful for 2D gabors
-    # spatial phase offset is not in the filter parameters defined by pyramid
-
     # Compute responses
     nfilters = len(filters)
     nimages = stimulus.shape[0]
@@ -75,6 +125,7 @@ def project_stimulus(stimulus,
         channel_response = output_nonlinearity(channel_response)
         filter_responses[:, gaborid] = channel_response
     return filter_responses
+
 
 
 class StimulusTotalMotionEnergy(object):
