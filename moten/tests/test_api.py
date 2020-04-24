@@ -45,6 +45,10 @@ def test_static():
     print(static_pyramid_90)
     static_pyramid_90.view.show_filter(5)
 
+    s00, _ = static_pyramid.view.get_filter_spatial_quadrature(5)
+    s90, _ = static_pyramid_90.view.get_filter_spatial_quadrature(5)
+    assert not np.allclose(s00, s90)
+
     maxshow = 5
     if static_pyramid.nfilters > maxshow:
         idxs = np.arange(static_pyramid.nfilters)

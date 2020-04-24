@@ -18,7 +18,6 @@ from moten.core import (mk_spatiotemporal_gabor,
 def plot_3dgabor(vhsize=(576, 1024),
                  gabor_params_dict={},
                  background=None,
-                 spatial_phase_offset=0.0,
                  title=None,
                  speed=1.0, time_padding=False):
     '''Show an animation of the 3D Gabor

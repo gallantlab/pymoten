@@ -165,6 +165,7 @@ class MotionEnergyPyramid(object):
             tf_gauss_ratio=tf_gauss_ratio,
             max_temp_env=max_temp_env,
             include_edges=include_edges,
+            spatial_phase_offset=spatial_phase_offset,
             )
 
         nfilters = filter_params_array.shape[0]
@@ -226,6 +227,41 @@ class MotionEnergyPyramid(object):
             filt['centerv'] = centerv
         return new_filters
 
+    def get_filter_spatiotemporal_quadratures(self, gaborid=0):
+        '''
+
+        Returns
+        -------
+        spatial_gabor_sin, spatial_gabor_cos : np.array, (vdim,hdim)
+            Spatial gabor quadrature pair. `spatial_gabor_cos` has
+            a 90 degree phase offset relative to `spatial_gabor_sin`
+
+        temporal_gabor_sin, temporal_gabor_cos : np.array, (tdim)
+            Temporal gabor quadrature pair. `temporal_gabor_cos` has
+            a 90 degree phase offset relative to `temporal_gabor_sin`
+        '''
+        vhsize = (self.definition.vdim, self.definition.hdim)
+
+        # extract parameters for this gaborid
+        if isinstance(gaborid, dict):
+            gabor_parameters_dict = gaborid.copy()
+        else:
+            gabor_parameters_dict = self.filters[gaborid]
+
+        sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(vhsize,
+                                                                **gabor_parameters_dict)
+        return sgabor0, sgabor90, tgabor0, tgabor90
+
+    def get_filter_temporal_quadrature(self, gaborid=0):
+        _,_, tgabor0, tgabor90 = self.get_filter_spatiotemporal_quadratures(gaborid=gaborid)
+        return tgabor0, tgabor90
+
+    def get_filter_spatial_quadrature(self, gaborid=0):
+        sgabor0, sgabor90, _, _ = self.get_filter_spatiotemporal_quadratures(gaborid=gaborid)
+        return sgabor0, sgabor90
+
+
+
     def show_filter(self, gaborid=0, speed=1.0, background=None):
         '''Display the motion-energy filter as an animation.
 
@@ -256,7 +292,6 @@ class MotionEnergyPyramid(object):
         vdim, hdim, stimulus_fps = self.definition.stimulus_vht_fov
         aspect_ratio = self.definition.aspect_ratio
         filter_width = self.definition.filter_temporal_width
-        spatial_phase_offset = self.definition.spatial_phase_offset
         vhsize = (vdim, hdim)
 
         # extract parameters for this gaborid
@@ -275,7 +310,6 @@ class MotionEnergyPyramid(object):
 
         return viz.plot_3dgabor(vhsize,
                                 gabor_params_dict,
-                                spatial_phase_offset=spatial_phase_offset,
                                 background=background,
                                 title=title, speed=speed)
 
@@ -310,7 +344,6 @@ class MotionEnergyPyramid(object):
         filter_width = self.definition.filter_temporal_width
         filter_vht_fov = (vdim, hdim, filter_width)
         aspect_ratio = self.definition.aspect_ratio
-        spatial_phase_offset = self.definition.spatial_phase_offset
 
         # Compute responses
         filter_responses = np.zeros((nimages, nfilters), dtype=dtype)
@@ -362,7 +395,6 @@ class MotionEnergyPyramid(object):
         filter_width = self.definition.filter_temporal_width
         filter_vht_fov = (vdim, hdim, filter_width)
         aspect_ratio = self.definition.aspect_ratio
-        spatial_phase_offset = self.definition.spatial_phase_offset
 
         # Compute responses
         output_sin = np.zeros((nimages,nfilters), dtype=dtype)

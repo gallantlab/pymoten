@@ -28,7 +28,6 @@ def project_stimulus(stimulus,
                      filters,
                      quadrature_combination=sqrt_sum_squares,
                      output_nonlinearity=log_compress,
-                     spatial_phase_offset=0.0,
                      vhsize=(),
                      dtype=np.float32):
     '''
@@ -66,8 +65,7 @@ def project_stimulus(stimulus,
                                                    'project_stimulus',
                                                    total=len(filters)):
 
-        sgabor0, sgabor90, tgabor0, tgabor90 = mk_3d_gabor(
-            vhsize, spatial_phase_offset=spatial_phase_offset, **gabor_parameters)
+        sgabor0, sgabor90, tgabor0, tgabor90 = mk_3d_gabor(vhsize, **gabor_parameters)
 
         channel_sin, channel_cos = dotdelay_frames(sgabor0, sgabor90,
                                                    tgabor0, tgabor90,
@@ -626,6 +624,7 @@ def mk_moten_pyramid_params(stimulus_fps,
                             gabor_spacing=3.5,
                             tf_gauss_ratio=10.,
                             max_temp_env=0.3,
+                            spatial_phase_offset=0.0,
                             include_edges=False,
                             ):
     """Parametrize a motion-energy pyramid that tiles the stimulus.
@@ -739,6 +738,7 @@ def mk_moten_pyramid_params(stimulus_fps,
                                          filter_temporal_width,
                                          aspect_ratio,
                                          stimulus_fps,
+                                         spatial_phase_offset,
                                          ])
 
                 if spatial_direction == 0 and include_local_dc:
@@ -753,6 +753,7 @@ def mk_moten_pyramid_params(stimulus_fps,
                                              filter_temporal_width,
                                              aspect_ratio,
                                              stimulus_fps,
+                                             spatial_phase_offset,
                                              ])
 
     parameter_names = ('centerh',
@@ -765,6 +766,7 @@ def mk_moten_pyramid_params(stimulus_fps,
                        'filter_temporal_width',
                        'aspect_ratio',
                        'stimulus_fps',
+                       'spatial_phase_offset',
                        )
 
     gabor_parameters = np.asarray(gabor_parameters)
