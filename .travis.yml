@@ -1,20 +1,43 @@
-sudo: true  # To use travis container infrastructure
-
-before_install:
-  - sudo apt-get install libblas-dev
-  - sudo apt-get install liblapack-dev
-  - sudo apt-get install libopenblas-dev
-
 language: python
+
 python:
   - "3.7"
   - "3.8"
 
+cache:
+  - pip
+
+before_install:
+  - travis_retry sudo apt-get install -y libblas-dev liblapack-dev libopenblas-dev
+
 # command to install dependencies
 install:
-  - pip install -r requirements.txt
-  - python setup.py install
+  - travis_retry pip install -q -r requirements.txt
+  - pip install -e .
 
 # command to run tests
 script:
-  - pytest -v --doctest-modules
+  # install necessary packages to run tests and run tests
+  - travis_retry pip install -q pytest pytest-cov codecov
+  - pytest --cov=./
+  # test installation
+  - python setup.py install
+  # install packages for docs and make docs
+  - travis_retry pip install -q ipython Sphinx sphinx-gallery numpydoc
+  - cd docs && make html && cd ..
+  # Tell GitHub not to use jekyll to compile the docs
+  - touch docs/build/html/.nojekyll
+
+after_success:
+  - codecov
+
+deploy:
+  - provider: pages
+    skip_cleanup: true
+    github_token: $GITHUB_TOKEN  # Set in travis-ci.org dashboard, marked secure
+    keep-history: true
+    on:
+      branch: master
+      # push only once
+      python: "3.8"
+    local_dir: docs/build/html/
