@@ -24,7 +24,10 @@ script:
   - python setup.py install
   # install packages for docs and make docs
   - travis_retry pip install -q ipython Sphinx sphinx-gallery numpydoc
-  - cd docs && make html && cd ..
+  - cd docs
+  - sphinx-apidoc -o source/autodoc ../moten
+  - sphinx-autogen source/index.rst
+  - make html && cd ..
   # Tell GitHub not to use jekyll to compile the docs
   - touch docs/build/html/.nojekyll
 
