@@ -35,26 +35,1147 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="moten-colorspace-module">
-<h2>moten.colorspace module<a class="headerlink" href="#moten-colorspace-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-moten.colorspace">
+<span id="moten-colorspace-module"></span><h2>moten.colorspace module<a class="headerlink" href="#module-moten.colorspace" title="Permalink to this headline">¶</a></h2>
+<p>Code to convert RGB to other color spaces</p>
+<dl class="py function">
+<dt id="moten.colorspace.rgb2lab">
+<code class="sig-prename descclassname">moten.colorspace.</code><code class="sig-name descname">rgb2lab</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.colorspace.rgb2lab" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert RGB to CIE LAB color space <strong>in-place</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">3D numpy float array</span></dt><dd><p>Array must be in [0,1] range. Last
+dimension corresponds to RGB channels.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>LAB</strong><span class="classifier">3D numpy float array</span></dt><dd><p>The CIE LAB representation in the image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.colorspace.rgb2lch">
+<code class="sig-prename descclassname">moten.colorspace.</code><code class="sig-name descname">rgb2lch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.colorspace.rgb2lch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert RGB to CIE LCH color space <strong>in-place</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">3D numpy float array</span></dt><dd><p>Array must be in [0,1] range. Last
+dimension corresponds to RGB channels.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>LCH</strong><span class="classifier">3D numpy float array</span></dt><dd><p>The CIE LCH representation in the image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.colorspace.rgb2xyz">
+<code class="sig-prename descclassname">moten.colorspace.</code><code class="sig-name descname">rgb2xyz</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.colorspace.rgb2xyz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert RGB to CIE XYZ color space <strong>in-place</strong></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">3D numpy float array</span></dt><dd><p>Array must be in [0,1] range. Last
+dimension corresponds to RGB channels.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>LAB</strong><span class="classifier">3D numpy float array</span></dt><dd><p>The CIE XYZ representation in the image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="moten-core-module">
-<h2>moten.core module<a class="headerlink" href="#moten-core-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-moten.core">
+<span id="moten-core-module"></span><h2>moten.core module<a class="headerlink" href="#module-moten.core" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="moten.core.StimulusTotalMotionEnergy">
+<em class="property">class </em><code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">StimulusTotalMotionEnergy</code><span class="sig-paren">(</span><em class="sig-param">video_file</em>, <em class="sig-param">size=None</em>, <em class="sig-param">nimages=inf</em>, <em class="sig-param">batch_size=100</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#moten.core.StimulusTotalMotionEnergy.compute_temporal_pcs" title="moten.core.StimulusTotalMotionEnergy.compute_temporal_pcs"><code class="xref py py-obj docutils literal notranslate"><span class="pre">compute_temporal_pcs</span></code></a>(self[, generator, …])</p></td>
+<td><p>first_frame : str</p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 78%" />
+<col style="width: 22%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>compute_pixelby_pixel_covariance</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><strong>compute_spatial_pcs</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><strong>get_frame_difference_generator</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="moten.core.StimulusTotalMotionEnergy.compute_pixelby_pixel_covariance">
+<code class="sig-name descname">compute_pixelby_pixel_covariance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">generator</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy.compute_pixelby_pixel_covariance" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.core.StimulusTotalMotionEnergy.compute_spatial_pcs">
+<code class="sig-name descname">compute_spatial_pcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">npcs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy.compute_spatial_pcs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.core.StimulusTotalMotionEnergy.compute_temporal_pcs">
+<code class="sig-name descname">compute_temporal_pcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">generator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_first</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy.compute_temporal_pcs" title="Permalink to this definition">¶</a></dt>
+<dd><p>first_frame : str</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="moten.core.StimulusTotalMotionEnergy.get_frame_difference_generator">
+<code class="sig-name descname">get_frame_difference_generator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy.get_frame_difference_generator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.compute_filter_responses">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_filter_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">stimulus_fps</em>, <em class="sig-param">aspect_ratio='auto'</em>, <em class="sig-param">filter_temporal_width='auto'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">dozscore=True</em>, <em class="sig-param">dtype=&lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">pyramid_parameters={}</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.compute_filter_responses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the motion-energy filters’ response to the stimuli.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stimulus</strong><span class="classifier">3D np.array (n, vdim, hdim)</span></dt><dd><p>The movie frames.</p>
+</dd>
+<dt><strong>stimulus_fps</strong><span class="classifier">scalar</span></dt><dd><p>The temporal frequency of the stimulus</p>
+</dd>
+<dt><strong>aspect_ratio</strong><span class="classifier">bool, or scalar</span></dt><dd><p>Defaults to hdim/vdim. Otherwise, pass as scalar</p>
+</dd>
+<dt><strong>filter_temporal_width</strong><span class="classifier">int, None</span></dt><dd><p>The number of frames in one filter.
+Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).</p>
+</dd>
+<dt><strong>quadrature_combination</strong><span class="classifier">function, optional</span></dt><dd><p>Specifies how to combine the channel reponses quadratures.
+The function must take the sin and cos as arguments in order.
+Defaults to: (sin^2 + cos^2)^1/2</p>
+</dd>
+<dt><strong>output_nonlinearity</strong><span class="classifier">function, optional</span></dt><dd><p>Passes the channels (after <cite>quadrature_combination</cite>) through a
+non-linearity. The function input is the (<cite>n</cite>,`nfilters`) array.
+Defaults to: ln(x + 1e-05)</p>
+</dd>
+<dt><strong>dozscore</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to z-score the channel responses in time</p>
+</dd>
+<dt><strong>dtype</strong><span class="classifier">np.dtype</span></dt><dd><p>Defaults to np.float64</p>
+</dd>
+<dt><strong>pyramid_parameters: dict</strong></dt><dd><p>See <a class="reference internal" href="#moten.core.mk_moten_pyramid_params" title="moten.core.mk_moten_pyramid_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">mk_moten_pyramid_params()</span></code></a> for details on parameters
+specifiying a motion-energy pyramid.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>filter_responses</strong><span class="classifier">np.array, (n, nfilters)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.compute_spatial_gabor_responses">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_spatial_gabor_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus, aspect_ratio='auto', spatial_frequencies=[0, 2, 4, 8, 16, 32], quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;, output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;, dtype=&lt;class 'numpy.float64'&gt;, dozscore=True</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.compute_spatial_gabor_responses" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the spatial gabor filters’ response to each stimulus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stimulus</strong><span class="classifier">3D np.array (n, vdim, hdim)</span></dt><dd><p>The stimulus frames.</p>
+</dd>
+<dt><strong>spatial_frequencies</strong><span class="classifier">array-like</span></dt><dd><p>The spatial frequencies to compute. The spatial envelope is determined by this.</p>
+</dd>
+<dt><strong>quadrature_combination</strong><span class="classifier">function, optional</span></dt><dd><p>Specifies how to combine the channel reponses quadratures.
+The function must take the sin and cos as arguments in order.
+Defaults to: (sin^2 + cos^2)^1/2</p>
+</dd>
+<dt><strong>output_nonlinearity</strong><span class="classifier">function, optional</span></dt><dd><p>Passes the channels (after <cite>quadrature_combination</cite>) through a
+non-linearity. The function input is the (<cite>n</cite>,`nfilters`) array.
+Defaults to: ln(x + 1e-05)</p>
+</dd>
+<dt><strong>dozscore</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to z-score the channel responses in time</p>
+</dd>
+<dt><strong>dtype</strong><span class="classifier">np.dtype</span></dt><dd><p>Defaults to np.float64</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>filter_responses</strong><span class="classifier">np.array, (n, nfilters)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.dotdelay_frames">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">dotdelay_frames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spatial_gabor_sin</span></em>, <em class="sig-param"><span class="n">spatial_gabor_cos</span></em>, <em class="sig-param"><span class="n">temporal_gabor_sin</span></em>, <em class="sig-param"><span class="n">temporal_gabor_cos</span></em>, <em class="sig-param"><span class="n">stimulus</span></em>, <em class="sig-param"><span class="n">masklimit</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.dotdelay_frames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convolve the motion-energy filter with a stimulus</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>spatial_gabor_sin, spatial_gabor_cos</strong><span class="classifier">np.array, (vdim,hdim)</span></dt><dd><p>Spatial gabor quadrature pair</p>
+</dd>
+<dt><strong>temporal_gabor_sin, temporal_gabor_cos</strong><span class="classifier">np.array, (tdim)</span></dt><dd><p>Temporal gabor quadrature pair</p>
+</dd>
+<dt><strong>stimulus</strong><span class="classifier">2D np.array (n, vdim*hdim)</span></dt><dd><p>The movie frames with the spatial dimension collapsed.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>channel_sin, channel_cos</strong><span class="classifier">np.ndarray, (n, )</span></dt><dd><p>The filter response to the stimulus at each time point
+The quadrature pair can be combined: (x^2 + y^2)^0.5</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.dotspatial_frames">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">dotspatial_frames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spatial_gabor_sin</span></em>, <em class="sig-param"><span class="n">spatial_gabor_cos</span></em>, <em class="sig-param"><span class="n">stimuli</span></em>, <em class="sig-param"><span class="n">masklimit</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.dotspatial_frames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dot the spatial gabor filters filter with the stimuli</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>spatial_gabor_sin, spatial_gabor_cos</strong><span class="classifier">np.array, (vdim,hdim)</span></dt><dd><p>Spatial gabor quadrature pair</p>
+</dd>
+<dt><strong>stimuli</strong><span class="classifier">2D np.array (n, vdim*hdim)</span></dt><dd><p>The movie frames with the spatial dimension collapsed.</p>
+</dd>
+<dt><strong>masklimit</strong><span class="classifier">float-like</span></dt><dd><p>Threshold to find the non-zero filter region</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>channel_sin, channel_cos</strong><span class="classifier">np.ndarray, (n, )</span></dt><dd><p>The filter response to each stimulus
+The quadrature pair can be combined: (x^2 + y^2)^0.5</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.generate_3dgabor_array">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">generate_3dgabor_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vhsize</span><span class="o">=</span><span class="default_value">1024, 576</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span><span class="o">=</span><span class="default_value">24</span></em>, <em class="sig-param"><span class="n">aspect_ratio</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">centerh</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">centerv</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">direction</span><span class="o">=</span><span class="default_value">45.0</span></em>, <em class="sig-param"><span class="n">spatial_freq</span><span class="o">=</span><span class="default_value">16.0</span></em>, <em class="sig-param"><span class="n">spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">temporal_freq</span><span class="o">=</span><span class="default_value">2.0</span></em>, <em class="sig-param"><span class="n">temporal_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.generate_3dgabor_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>gabor_hvt_size : (vdim, hdim, tdim),</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.mk_3d_gabor">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">mk_3d_gabor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vhsize</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span></em>, <em class="sig-param"><span class="n">aspect_ratio</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">centerh</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">centerv</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">direction</span><span class="o">=</span><span class="default_value">45.0</span></em>, <em class="sig-param"><span class="n">spatial_freq</span><span class="o">=</span><span class="default_value">16.0</span></em>, <em class="sig-param"><span class="n">spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">temporal_freq</span><span class="o">=</span><span class="default_value">2.0</span></em>, <em class="sig-param"><span class="n">temporal_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.mk_3d_gabor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a motion-energy filter.</p>
+<p>A motion-energy filter is a 3D gabor with
+two spatial and one temporal dimension.
+Each dimension is defined by two sine waves which
+differ in phase by 90 degrees. The sine waves are
+then multiplied by a gaussian.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>hvt</strong><span class="classifier">array-like, (hdim, vdim, tdim)</span></dt><dd><p>Defines the 3D field-of-view of the filter
+<cite>hdim</cite> : horizontal dimension size
+<cite>vdim</cite> : vertical dimension size
+<cite>tdim</cite> : temporal dimension size</p>
+</dd>
+<dt><strong>centerh, centerv</strong><span class="classifier">float</span></dt><dd><p>Horizontal and vertical position in space, respectively.
+The image center is (0.5,0.5) for square aspect ratios</p>
+</dd>
+<dt><strong>direction</strong><span class="classifier">float, degrees</span></dt><dd><p>Direction of spatial motion</p>
+</dd>
+<dt><strong>spatial_freq</strong><span class="classifier">float</span></dt><dd><p>Spatial frequency</p>
+</dd>
+<dt><strong>spatial_env</strong><span class="classifier">float</span></dt><dd><p>Spatial envelope (s.d. of the gaussian)</p>
+</dd>
+<dt><strong>temporal_freq</strong><span class="classifier">float</span></dt><dd><p>Temporal frequency</p>
+</dd>
+<dt><strong>temporal_env</strong><span class="classifier">float</span></dt><dd><p>Temporal envelope (s.d. of gaussian)</p>
+</dd>
+<dt><strong>spatial_phase_offset</strong><span class="classifier">float, degrees</span></dt><dd><p>Phase offset for the spatial sinusoid</p>
+</dd>
+<dt><strong>aspect_ratio</strong><span class="classifier">optional, ‘auto’ or float-like,</span></dt><dd><p>Defaults to stimulus aspect ratio: hdim/vdim
+Useful for preserving the spatial gabors circular even
+when images have non-square aspect ratios. For example,
+a 16:9 image would have <a href="#id1"><span class="problematic" id="id2">`</span></a>aspect_ratio`=16/9.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>spatial_gabor_sin, spatial_gabor_cos</strong><span class="classifier">np.array, (vdim,hdim)</span></dt><dd><p>Spatial gabor quadrature pair. <cite>spatial_gabor_cos</cite> has
+a 90 degree phase offset relative to <cite>spatial_gabor_sin</cite></p>
+</dd>
+<dt><strong>temporal_gabor_sin, temporal_gabor_cos</strong><span class="classifier">np.array, (tdim)</span></dt><dd><p>Temporal gabor quadrature pair. <cite>temporal_gabor_cos</cite> has
+a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Same method as Nishimoto, et al., 2011.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.mk_moten_pyramid_params">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">mk_moten_pyramid_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus_fps</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">aspect_ratio</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">temporal_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4]</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16, 32]</span></em>, <em class="sig-param"><span class="n">spatial_directions</span><span class="o">=</span><span class="default_value">[0, 45, 90, 135, 180, 225, 270, 315]</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">gabor_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="default_value">10.0</span></em>, <em class="sig-param"><span class="n">max_temp_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.mk_moten_pyramid_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parametrize a motion-energy pyramid that tiles the stimulus.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stimulus_fps</strong><span class="classifier">scalar, Hz</span></dt><dd><p>Temporal resolution of the stimulus (e..g. 15)</p>
+</dd>
+<dt><strong>filter_temporal_width</strong><span class="classifier">int, Hz</span></dt><dd><p>Temporal window of the motion-energy filter (e.g. 10)
+Defaults to approximately 0.666[secs] (int(stimulus_fps*(2/3))).</p>
+</dd>
+<dt><strong>temporal_frequencies</strong><span class="classifier">array-like, Hz</span></dt><dd><p>Temporal frequencies of the filters for use on the stimulus</p>
+</dd>
+<dt><strong>spatial_frequencies</strong><span class="classifier">array-like, degrees</span></dt><dd><p>Spatial frequencies for the filters</p>
+</dd>
+<dt><strong>spatial_directions</strong><span class="classifier">array-like, degrees</span></dt><dd><p>Direction of filter motion. Degree position corresponds
+to standard unit-circle coordinates.</p>
+</dd>
+<dt><strong>sf_gauss_ratio</strong><span class="classifier">scalar</span></dt><dd><p>The ratio of spatial frequency to gaussian s.d.
+This controls the number of cycles in a filter</p>
+</dd>
+<dt><strong>max_spatial_env</strong><span class="classifier">scalar</span></dt><dd><p>Defines the maximum s.d. of the gaussian</p>
+</dd>
+<dt><strong>gabor_spacing</strong><span class="classifier">scalar</span></dt><dd><p>Defines the spacing between spatial gabors
+(in s.d. units)</p>
+</dd>
+<dt><strong>tf_gauss_ratio</strong><span class="classifier">scalar</span></dt><dd><p>The ratio of temporal frequency to gaussian s.d.
+This controls the number of temporal cycles</p>
+</dd>
+<dt><strong>max_temp_env</strong><span class="classifier">scalar</span></dt><dd><p>Defines the maximum s.d. of the temporal gaussian</p>
+</dd>
+<dt><strong>aspect_ratio</strong><span class="classifier">scalar, horizontal/vertical</span></dt><dd><p>The image aspect ratio. This ensures full image
+coverage for non-square images (e.g. 16:9)</p>
+</dd>
+<dt><strong>include_edges</strong><span class="classifier">bool</span></dt><dd><p>Determines whether to include filters at the edge
+of the image which might be partially outside the
+stimulus field-of-view</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl>
+<dt><strong>gabor_parameters</strong><span class="classifier">np.array, (nfilters, 7)</span></dt><dd><p>Parameters that defined the motion-energy filter
+Each of the <cite>nfilters</cite> has the following parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>centerh,centerv : x:horizontal and y:vertical position (‘0,0’ is top left)</p></li>
+<li><p>direction       : direction of motion</p></li>
+<li><p>spatial_freq    : spatial frequency</p></li>
+<li><p>spatial_env     : spatial envelope (gaussian s.d.)</p></li>
+<li><p>temporal_freq   : temporal frequency [Hz]</p></li>
+<li><p>temporal_env    : temporal envelope (gaussian s.d.)</p></li>
+<li><p>filter_temporal_width : duration of filter in integer [frames]</p></li>
+<li><p>aspect_ratio    : stimulus aspect ratio e.g. 16:9 ~ 1.78</p></li>
+<li><p>stimulus_fps    : stimulus frames per second [Hz]</p></li>
+</ul>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Same method as Nishimoto, et al., 2011.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.mk_spatiotemporal_gabor">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">mk_spatiotemporal_gabor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spatial_gabor_sin</span></em>, <em class="sig-param"><span class="n">spatial_gabor_cos</span></em>, <em class="sig-param"><span class="n">temporal_gabor_sin</span></em>, <em class="sig-param"><span class="n">temporal_gabor_cos</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.mk_spatiotemporal_gabor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make 3D motion-energy filter defined by the spatial and temporal gabors.</p>
+<p>Takes the output of <a class="reference internal" href="#moten.core.mk_3d_gabor" title="moten.core.mk_3d_gabor"><code class="xref py py-func docutils literal notranslate"><span class="pre">mk_3d_gabor()</span></code></a> and constructs the 3D filter.
+This is useful for visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>spatial_gabor_sin, spatial_gabor_cos</strong><span class="classifier">np.array, (vdim,hdim)</span></dt><dd><p>Spatial gabor quadrature pair</p>
+</dd>
+<dt><strong>temporal_gabor_sin, temporal_gabor_cos</strong><span class="classifier">np.array, (tdim)</span></dt><dd><p>Temporal gabor quadrature pair</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>motion_energy_filter</strong><span class="classifier">np.array, (vdim, hdim, tdim)</span></dt><dd><p>The 3D motion-energy filter</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.project_stimulus">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the motion-energy filter responses to the stimuli.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stimulus</strong><span class="classifier">np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)</span></dt><dd><p>The movie frames.
+If <cite>stimulus</cite> is two-dimensional with shape (nimages, npixels), then
+<cite>vhsize=(vdim,hdim)</cite> is required and <cite>npixels == vdim*hdim</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>filter_responses</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.core.raw_project_stimulus">
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">raw_project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.raw_project_stimulus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain responses to the stimuli from all filter quadrature-pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stimulus</strong><span class="classifier">np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)</span></dt><dd><p>The movie frames.
+If <cite>stimulus</cite> is two-dimensional with shape (nimages, npixels), then
+<cite>vhsize=(vdim,hdim)</cite> is required and <cite>npixels == vdim*hdim</cite>.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>output_sin</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
+<dt><strong>output_cos</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="moten-io-module">
-<h2>moten.io module<a class="headerlink" href="#moten-io-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-moten.io">
+<span id="moten-io-module"></span><h2>moten.io module<a class="headerlink" href="#module-moten.io" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="moten.io.generate_frame_difference_from_greyvideo">
+<code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">generate_frame_difference_from_greyvideo</code><span class="sig-paren">(</span><em class="sig-param">video_file</em>, <em class="sig-param">size=None</em>, <em class="sig-param">nimages=inf</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.io.generate_frame_difference_from_greyvideo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="moten.io.generate_frames_from_greyvideo">
+<code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">generate_frames_from_greyvideo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.io.generate_frames_from_greyvideo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="moten.io.imagearray2luminance">
+<code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">imagearray2luminance</code><span class="sig-paren">(</span><em class="sig-param">uint8arr</em>, <em class="sig-param">size=None</em>, <em class="sig-param">filter=1</em>, <em class="sig-param">dtype=&lt;class 'numpy.float64'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.io.imagearray2luminance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an array of uint8 RGB images to a luminance image</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>uint8arr</strong><span class="classifier">4D np.ndarray (n, vdim, hdim, rgb)</span></dt><dd><p>The uint8 RGB frames.</p>
+</dd>
+<dt><strong>size (optional)</strong><span class="classifier">tuple, (vdim, hdim)</span></dt><dd><p>The desired output image size</p>
+</dd>
+<dt><strong>filter: to be passed to PIL</strong></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>luminance_array = 3D np.ndarray (n, vdim, hdim)</dt><dd><p>The luminance image representation (0-100 range)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.io.load_image_luminance">
+<code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">load_image_luminance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image_files</span></em>, <em class="sig-param"><span class="n">hdim</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vdim</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.io.load_image_luminance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load a set of RGB images and return its luminance representation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image_files</strong><span class="classifier">list-like, (n,)</span></dt><dd><p>A list of file names.
+The images should be in RGB uint8 format</p>
+</dd>
+<dt><strong>vdim, hdim</strong><span class="classifier">int, optional</span></dt><dd><p>Vertical and horizontal dimensions, respectively.
+If provided the images will be scaled to this size.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>arr</strong><span class="classifier">3D np.array (n,vdim,hdim)</span></dt><dd><p>The luminance representation of the images</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.io.resize_image">
+<code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">resize_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">im</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">96, 96</span></em>, <em class="sig-param"><span class="n">filter</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.io.resize_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize an image and return its array representation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>im</strong><span class="classifier">str, np.ndarray(uint8), or PIL.Image object</span></dt><dd><p>The path to the image, an image array, or a loaded PIL.Image</p>
+</dd>
+<dt><strong>size</strong><span class="classifier">tuple, (vdim, hdim)</span></dt><dd><p>The desired output image size</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>arr</strong><span class="classifier">uint8 np.array, (vdim, hdim, 3)</span></dt><dd><p>The resized image array</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.io.video2grey">
+<code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">video2grey</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.io.video2grey" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>size (optional)<span class="classifier">tuple, (vdim, hdim)</span></dt><dd><p>The desired output image size</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.io.video2luminance">
+<code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">video2luminance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.io.video2luminance" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>size (optional)<span class="classifier">tuple, (vdim, hdim)</span></dt><dd><p>The desired output image size</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.io.video_buffer">
+<code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">video_buffer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.io.video_buffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generator for a video file.</p>
+<p>Yields individual uint8 images from a video file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>video_file</strong><span class="classifier">str</span></dt><dd><p>Full path to the video file</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>vbuff</strong><span class="classifier">generator</span></dt><dd><p>Each <code class="docutils literal notranslate"><span class="pre">__next()__</span></code> call yields an RGB frame from video.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="moten-pyramids-module">
-<h2>moten.pyramids module<a class="headerlink" href="#moten-pyramids-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-moten.pyramids">
+<span id="moten-pyramids-module"></span><h2>moten.pyramids module<a class="headerlink" href="#module-moten.pyramids" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="moten.pyramids.MotionEnergyPyramid">
+<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">MotionEnergyPyramid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="default_value">576, 1024</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span><span class="o">=</span><span class="default_value">24</span></em>, <em class="sig-param"><span class="n">temporal_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4]</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16]</span></em>, <em class="sig-param"><span class="n">spatial_directions</span><span class="o">=</span><span class="default_value">[0, 45, 90, 135, 180, 225, 270, 315]</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">filter_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="default_value">10.0</span></em>, <em class="sig-param"><span class="n">max_temp_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Construct a motion-energy pyramid that tiles the stimulus.</p>
+<p>Generates motion-energy filters at the desired
+spatio-temporal frequencies and directions of motion.
+Multiple motion-energy filters per spatio-temporal frequency
+are constructed and each is centered at different locations
+in the image in order to tile the stimulus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stimulus_hvsize</strong><span class="classifier">tuple of ints</span></dt><dd><p>Resolution of the stimulus (hdim, vdim, fps)</p>
+</dd>
+<dt><strong>stimulus_fps</strong><span class="classifier">int, [Hz]</span></dt><dd><p>The temporal frequency of the stimulus.</p>
+</dd>
+<dt><strong>spatial_frequencies</strong><span class="classifier">array-like, [cycles-per-image]</span></dt><dd><p>Spatial frequencies for the filters</p>
+</dd>
+<dt><strong>spatial_directions</strong><span class="classifier">array-like, [degrees]</span></dt><dd><p>Direction of filter motion. Degree position corresponds
+to standard unit-circle coordinates.</p>
+</dd>
+<dt><strong>temporal_frequencies</strong><span class="classifier">array-like, [Hz]</span></dt><dd><p>Temporal frequencies of the filters for use on the stimulus</p>
+</dd>
+<dt><strong>filter_temporal_width</strong><span class="classifier">int</span></dt><dd><p>Temporal window of the motion-energy filter (e.g. 10).
+Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>See <a class="reference internal" href="#moten.core.mk_moten_pyramid_params" title="moten.core.mk_moten_pyramid_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">moten.core.mk_moten_pyramid_params()</span></code></a> for more details.</p>
+<dl class="field-list">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl>
+<dt><strong>nfilters</strong><span class="classifier">int</span></dt><dd></dd>
+<dt><strong>filters</strong><span class="classifier">list of dicts</span></dt><dd><p>Each item is a dict defining a motion-energy filter.
+Each of the <cite>nfilters</cite> has the following parameters:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>centerh,centerv : x:horizontal and y:vertical position (‘0,0’ is top left)</p></li>
+<li><p>direction       : direction of motion</p></li>
+<li><p>spatial_freq    : spatial frequency</p></li>
+<li><p>spatial_env     : spatial envelope (gaussian s.d.)</p></li>
+<li><p>temporal_freq   : temporal frequency</p></li>
+<li><p>temporal_env    : temporal envelope (gaussian s.d.)</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt><strong>parameters</strong><span class="classifier">dict of arrays</span></dt><dd><p>The individual parameter values across all filters.
+Each item is an array of length <cite>nfilters</cite></p>
+</dd>
+<dt><strong>definition</strong><span class="classifier">dict</span></dt><dd><p>Parameters used to construct pyramid</p>
+</dd>
+<dt><strong>parameters_matrix</strong><span class="classifier">np.array, (nfilters, 7)</span></dt><dd><p>Parameters that defined the motion-energy filter</p>
+</dd>
+<dt><strong>parameters_names</strong><span class="classifier">tuple of strings</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 56%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>MotionEnergyPyramid.show_filter(gaborid=0)</strong></p></td>
+<td><p>Display the selected filter as a matplotlib animation.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>filters_at_vhposition(0.5, 0.5)</strong></p></td>
+<td><p>Center spatio-temporal filters to requested hv-position.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>project_stimulus(stimulus)</strong></p></td>
+<td><p>Compute the motion-energy filter responses to the stimuli.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="moten.pyramids.MotionEnergyPyramid.filters_at_hvposition">
+<code class="sig-name descname">filters_at_hvposition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">centerh</span></em>, <em class="sig-param"><span class="n">centerv</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.filters_at_hvposition" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.MotionEnergyPyramid.filters_at_vhposition">
+<code class="sig-name descname">filters_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">centerv</span></em>, <em class="sig-param"><span class="n">centerh</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.filters_at_vhposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Center spatio-temporal filters to requested vh-position.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>centerh</strong><span class="classifier">scalar</span></dt><dd><p>Horizontal filter position from left of frame (min=0, max=aspect_ratio).</p>
+</dd>
+<dt><strong>centerv</strong><span class="classifier">scalar</span></dt><dd><p>Vertical filter from top of frame (min=0, max=1.0).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>centered_filters</strong><span class="classifier">dict</span></dt><dd><p>Spatio-temporal filter parameters at vh-position.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature">
+<code class="sig-name descname">get_filter_spatial_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures">
+<code class="sig-name descname">get_filter_spatiotemporal_quadratures</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>spatial_gabor_sin, spatial_gabor_cos</strong><span class="classifier">np.array, (vdim,hdim)</span></dt><dd><p>Spatial gabor quadrature pair. <cite>spatial_gabor_cos</cite> has
+a 90 degree phase offset relative to <cite>spatial_gabor_sin</cite></p>
+</dd>
+<dt><strong>temporal_gabor_sin, temporal_gabor_cos</strong><span class="classifier">np.array, (tdim)</span></dt><dd><p>Temporal gabor quadrature pair. <cite>temporal_gabor_cos</cite> has
+a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature">
+<code class="sig-name descname">get_filter_temporal_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.MotionEnergyPyramid.project_stimulus">
+<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em>, <em class="sig-param">use_cuda=False</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stimulus</strong><span class="classifier">np.array, (nimages, vdim, hdim)</span></dt><dd><p>The movie frames.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>filter_responses</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.MotionEnergyPyramid.raw_project_stimulus">
+<code class="sig-name descname">raw_project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.raw_project_stimulus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain responses to the stimuli from all filter quadrature-pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stimulus</strong><span class="classifier">np.array, (nimages, vdim, hdim)</span></dt><dd><p>The movie frames.</p>
+</dd>
+<dt><strong>filters</strong><span class="classifier">optional, ‘all’ or list of dicts</span></dt><dd><p>By default compute the responses for all filters.
+Otherwise, provide a list of filter definitions to use.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>output_sin</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
+<dt><strong>output_cos</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.MotionEnergyPyramid.show_filter">
+<code class="sig-name descname">show_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">speed</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.show_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display the motion-energy filter as an animation.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl>
+<dt><strong>gaborid</strong><span class="classifier">int, or dict</span></dt><dd><p>If int, it’s the index of the filter to display.
+If dict, it’s a motion-energy filter definition. E.g.:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>{‘centerh’: 0.5,</dt><dd><p>‘centerv’: 0.5,
+‘direction’: 0.0,
+‘spatial_freq’: 2.0,
+‘spatial_env’: 0.3,
+‘temporal_freq’: 0.0,
+‘temporal_env’: 0.3}</p>
+</dd>
+</dl>
+</div></blockquote>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>animation</strong><span class="classifier">matplotlib.animation</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">moten</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">get_default_pyramid</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">show_filter</span><span class="p">(</span><span class="mi">12</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="moten-utils-module">
-<h2>moten.utils module<a class="headerlink" href="#moten-utils-module" title="Permalink to this headline">¶</a></h2>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="moten.pyramids.StimulusMotionEnergy">
+<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">StimulusMotionEnergy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span></em>, <em class="sig-param"><span class="n">temporal_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4]</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16]</span></em>, <em class="sig-param"><span class="n">spatial_directions</span><span class="o">=</span><span class="default_value">[0, 45, 90, 135, 180, 225, 270, 315]</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">filter_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="default_value">10.0</span></em>, <em class="sig-param"><span class="n">max_temp_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Parametrize a motion-energy pyramid that tiles the stimulus.</p>
+<p>Generates motion-energy filters at the desired
+spatio-temporal frequencies and directions of motion.
+Multiple motion-energy filters per spatio-temporal frequency
+are constructed and each is centered at different locations
+in the image in order to tile the stimulus.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>stimulus</strong><span class="classifier">np.array, (n, vdim, hdim)</span></dt><dd><p>The movie frames.</p>
+</dd>
+<dt><strong>stimulus_fps</strong><span class="classifier">int, [Hz]</span></dt><dd><p>The temporal frequency of the stimulus.</p>
+</dd>
+<dt><strong>spatial_frequencies</strong><span class="classifier">array-like, [cycles-per-image]</span></dt><dd><p>Spatial frequencies for the filters.</p>
+</dd>
+<dt><strong>spatial_directions</strong><span class="classifier">array-like, [degrees]</span></dt><dd><p>Direction of filter motion. Degree position corresponds
+to standard unit-circle coordinates.</p>
+</dd>
+<dt><strong>temporal_frequencies</strong><span class="classifier">array-like, [Hz]</span></dt><dd><p>Temporal frequencies of the filters for use on the stimulus.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes</dt>
+<dd class="field-even"><dl>
+<dt><strong>stimulus</strong><span class="classifier">2D np.ndarray, (nimages, vdim*hdim)</span></dt><dd><p>Time-space representation of stimulus</p>
+</dd>
+<dt><strong>view</strong><span class="classifier"><a class="reference internal" href="#moten.pyramids.MotionEnergyPyramid" title="moten.pyramids.MotionEnergyPyramid"><code class="xref py py-class docutils literal notranslate"><span class="pre">MotionEnergyPyramid</span></code></a></span></dt><dd><p>Full description of the motion-energy pyramid.</p>
+</dd>
+<dt><strong>nimages</strong><span class="classifier">int</span></dt><dd></dd>
+<dt><strong>nfilters</strong><span class="classifier">int</span></dt><dd></dd>
+<dt><strong>aspect_ratio</strong><span class="classifier">scalar, (hdim/vdim)</span></dt><dd></dd>
+<dt><strong>stimulus_fps</strong><span class="classifier">int (fps)</span></dt><dd></dd>
+<dt><strong>stimulus_hvsize</strong><span class="classifier">tuple of ints, (hdim, vdim, fps)</span></dt><dd></dd>
+<dt><strong>original_stimulus</strong><span class="classifier">3D np.ndarray, (nimages, vdim, hdim)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 31%" />
+<col style="width: 69%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>project()</strong></p></td>
+<td><p>Compute the motion-energy filter responses to the stimulus.</p></td>
+</tr>
+<tr class="row-even"><td><p><strong>project_at_vhposition(centerv, centerh)</strong></p></td>
+<td><p>Center the motion-energy filters at vh-position in the stimulus and compute the filter responses.</p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>raw_projection()</strong></p></td>
+<td><p>Return the filter quadrature-pair responses to the stimuli at 0 and 90 degree phase offsets.</p></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="moten.pyramids.StimulusMotionEnergy.project">
+<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the motion-energy filter responses to the stimuli.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>quadrature_combination</strong><span class="classifier">function, optional</span></dt><dd><p>Specifies how to combine the channel reponses quadratures.
+The function must take the sin and cos as arguments in order.
+Defaults to: (sin^2 + cos^2)^1/2</p>
+</dd>
+<dt><strong>output_nonlinearity</strong><span class="classifier">function, optional</span></dt><dd><p>Passes the channels (after <cite>quadrature_combination</cite>) through a
+non-linearity. The function input is the (<cite>nimages</cite>,`nfilters`) array.
+Defaults to: ln(x + 1e-05)</p>
+</dd>
+<dt><strong>dtype</strong><span class="classifier">np.dtype</span></dt><dd><p>Defaults to np.float32</p>
+</dd>
+<dt><strong>filters</strong><span class="classifier">optional, ‘all’ or list of dicts</span></dt><dd><p>By default compute the responses for all filters.
+Otherwise, provide a list of filter definitions to use.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>filter_responses</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.StimulusMotionEnergy.project_at_vhposition">
+<code class="sig-name descname">project_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">centerv</em>, <em class="sig-param">centerh</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_at_vhposition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Center filters at hv-position and compute their response to the stimulus.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>centerh</strong><span class="classifier">scalar</span></dt><dd><p>Horizontal filter position from left of frame (min=0, max=aspect_ratio).</p>
+</dd>
+<dt><strong>centerv</strong><span class="classifier">scalar</span></dt><dd><p>Vertical filter from top of frame (min=0, max=1.0).</p>
+</dd>
+<dt><strong>quadrature_combination</strong><span class="classifier">function, optional</span></dt><dd><p>Defaults to: (sin^2 + cos^2)^1/2</p>
+</dd>
+<dt><strong>output_nonlinearity</strong><span class="classifier">function, optional</span></dt><dd><p>Defaults to: ln(x + 1e-05)</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>hv_centered_filters</strong><span class="classifier">list of dicts</span></dt><dd><p>Definition of filters used. All centered at hv-position.</p>
+</dd>
+<dt><strong>filter_responses</strong><span class="classifier">np.ndarray, (nimages, len(hv_centered_filters))</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.StimulusMotionEnergy.project_stimulus">
+<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>new_stimulus</strong><span class="classifier">np.array, (nframes, vdim, hdim)</span></dt><dd><p>The movie frames.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>filter_responses</strong><span class="classifier">np.ndarray, (nframes, nfilters)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.StimulusMotionEnergy.raw_projection">
+<code class="sig-name descname">raw_projection</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.raw_projection" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain stimulus responses from all filter quadrature-pairs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>filters</strong><span class="classifier">optional, ‘all’ or list of dicts</span></dt><dd><p>By default compute the responses for all filters.
+Otherwise, provide a list of filter definitions to use.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>output_sin</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
+<dt><strong>output_cos</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="moten.pyramids.StimulusStaticGaborPyramid">
+<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">StimulusStaticGaborPyramid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16]</span></em>, <em class="sig-param"><span class="n">spatial_orientations</span><span class="o">=</span><span class="default_value">0, 45, 90, 135</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">filter_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusStaticGaborPyramid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#moten.pyramids.StimulusMotionEnergy" title="moten.pyramids.StimulusMotionEnergy"><code class="xref py py-class docutils literal notranslate"><span class="pre">moten.pyramids.StimulusMotionEnergy</span></code></a></p>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">project</span></code>(self[, filters, …])</p></td>
+<td><p>Compute the motion-energy filter responses to the stimuli.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_at_vhposition</span></code>(self, centerv, centerh)</p></td>
+<td><p>Center filters at hv-position and compute their response to the stimulus.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">project_stimulus</span></code>(self, \*args, \*\*kwargs)</p></td>
+<td><p><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p></p></dd>
+</dl>
+</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">raw_projection</span></code>(self[, filters, dtype])</p></td>
+<td><p>Obtain stimulus responses from all filter quadrature-pairs.</p></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="py class">
+<dt id="moten.pyramids.DefaultPyramids">
+<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">DefaultPyramids</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>pyramid15fps512x512</strong></dt><dd></dd>
+<dt><strong>pyramid15fps96x96</strong></dt><dd></dd>
+<dt><strong>pyramid24fps128x72</strong></dt><dd></dd>
+<dt><strong>pyramid24fps256x144</strong></dt><dd></dd>
+<dt><strong>pyramid24fps640x480</strong></dt><dd></dd>
+<dt><strong>pyramid24fps800x600</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="moten.pyramids.DefaultPyramids.pyramid15fps512x512">
+<em class="property">property </em><code class="sig-name descname">pyramid15fps512x512</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid15fps512x512" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.DefaultPyramids.pyramid15fps96x96">
+<em class="property">property </em><code class="sig-name descname">pyramid15fps96x96</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid15fps96x96" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.DefaultPyramids.pyramid24fps128x72">
+<em class="property">property </em><code class="sig-name descname">pyramid24fps128x72</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid24fps128x72" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.DefaultPyramids.pyramid24fps256x144">
+<em class="property">property </em><code class="sig-name descname">pyramid24fps256x144</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid24fps256x144" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.DefaultPyramids.pyramid24fps640x480">
+<em class="property">property </em><code class="sig-name descname">pyramid24fps640x480</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid24fps640x480" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="moten.pyramids.DefaultPyramids.pyramid24fps800x600">
+<em class="property">property </em><code class="sig-name descname">pyramid24fps800x600</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid24fps800x600" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="moten-viz-module">
-<h2>moten.viz module<a class="headerlink" href="#moten-viz-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-moten.utils">
+<span id="moten-utils-module"></span><h2>moten.utils module<a class="headerlink" href="#module-moten.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="moten.utils.DotDict">
+<em class="property">class </em><code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">DotDict</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.DotDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
+<p>A subclass of dictionary with dot syntax.</p>
+<p class="rubric">Notes</p>
+<p>Copied from pykilosort (written by C. Rossant).</p>
+<p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">clear</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fromkeys</span></code>(iterable[, value])</p></td>
+<td><p>Create a new dictionary with keys from iterable and values set to value.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code>(self, key[, default])</p></td>
+<td><p>Return the value for key if key is in the dictionary, else default.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">items</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">keys</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">pop</span></code>()</p></td>
+<td><p>If key is not found, d is returned if given, otherwise KeyError is raised</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">popitem</span></code>(self, /)</p></td>
+<td><p>Remove and return a (key, value) pair as a 2-tuple.</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">setdefault</span></code>(self, key[, default])</p></td>
+<td><p>Insert key with a value of default if key is not in the dictionary.</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">update</span></code>()</p></td>
+<td><p>If E is present and has a .keys() method, then does:  for k in E: D[k] = E[k] If E is present and lacks a .keys() method, then does:  for k, v in E: D[k] = v In either case, this is followed by: for k in F:  D[k] = F[k]</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">values</span></code>()</p></td>
+<td><p></p></td>
+</tr>
+</tbody>
+</table>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 44%" />
+<col style="width: 56%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><strong>copy</strong></p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="py method">
+<dt id="moten.utils.DotDict.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.DotDict.copy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.utils.iterator_func">
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">iterator_func</code><span class="sig-paren">(</span><em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.iterator_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>If available, show iteration progress with <cite>tqdm</cite>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.utils.log_compress">
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">log_compress</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">1e-05</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.log_compress" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="moten.utils.pixbypix_covariance_from_frames_generator">
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pixbypix_covariance_from_frames_generator</code><span class="sig-paren">(</span><em class="sig-param">data_generator</em>, <em class="sig-param">batch_size=1000</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square at 0x7f718d3c1d30&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.pixbypix_covariance_from_frames_generator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>data_generator</strong><span class="classifier">generator object</span></dt><dd><p>Yields an frame of shape (vdim, hdim)</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">moten</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">small_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>  <span class="c1"># downsample to (vdim, hdim) 16:9 aspect ratio</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">fdiffgen</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">generate_frame_difference_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">small_size</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">333</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nimages</span><span class="p">,</span> <span class="n">XTX</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">pixbypix_covariance_from_frames_generator</span><span class="p">(</span><span class="n">fdiffgen</span><span class="p">)</span> 
+</pre></div>
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.utils.pointwise_square">
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pointwise_square</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.pointwise_square" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="moten.utils.sqrt_sum_squares">
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">sqrt_sum_squares</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.sqrt_sum_squares" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-moten.viz">
+<span id="moten-viz-module"></span><h2>moten.viz module<a class="headerlink" href="#module-moten.viz" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="moten.viz.plot_3dgabor">
+<code class="sig-prename descclassname">moten.viz.</code><code class="sig-name descname">plot_3dgabor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vhsize</span><span class="o">=</span><span class="default_value">576, 1024</span></em>, <em class="sig-param"><span class="n">gabor_params_dict</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">speed</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">time_padding</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.viz.plot_3dgabor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show an animation of the 3D Gabor</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="moten.viz.plot_3dgabor_array">
+<code class="sig-prename descclassname">moten.viz.</code><code class="sig-name descname">plot_3dgabor_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">gabor_video</span></em>, <em class="sig-param"><span class="n">fps</span><span class="o">=</span><span class="default_value">24</span></em>, <em class="sig-param"><span class="n">aspect_ratio</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">speed</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">time_padding</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.viz.plot_3dgabor_array" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-moten">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-moten" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
