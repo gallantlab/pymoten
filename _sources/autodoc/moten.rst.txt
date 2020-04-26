@@ -4,54 +4,15 @@ moten package
 Submodules
 ----------
 
-moten.colorspace module
------------------------
+.. toctree::
+   :maxdepth: 4
 
-.. automodule:: moten.colorspace
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-moten.core module
------------------
-
-.. automodule:: moten.core
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-moten.io module
----------------
-
-.. automodule:: moten.io
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-moten.pyramids module
----------------------
-
-.. automodule:: moten.pyramids
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-moten.utils module
-------------------
-
-.. automodule:: moten.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-moten.viz module
-----------------
-
-.. automodule:: moten.viz
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
+   moten.colorspace
+   moten.core
+   moten.io
+   moten.pyramids
+   moten.utils
+   moten.viz
 
 Module contents
 ---------------
