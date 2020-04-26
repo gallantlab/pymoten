@@ -25,7 +25,7 @@ script:
   # install packages for docs and make docs
   - travis_retry pip install -q ipython Sphinx sphinx-gallery numpydoc sphinx-bootstrap-theme
   - cd docs
-  - sphinx-apidoc -o source/autodoc ../moten
+  - sphinx-apidoc -o source/autodoc ../moten -e
   - sphinx-autogen source/index.rst
   - make html && cd ..
   # Tell GitHub not to use jekyll to compile the docs
