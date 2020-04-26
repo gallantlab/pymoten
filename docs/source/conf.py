@@ -14,7 +14,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 import sphinx_bootstrap_theme
-
+import numpydoc
 
 # -- Project information -----------------------------------------------------
 
@@ -34,12 +34,16 @@ release = '0.0.1'
 extensions = ['numpydoc',
               'sphinx.ext.mathjax',
               'sphinx.ext.autodoc',
+              'sphinx.ext.autosummary',
+              'sphinx.ext.coverage',
+              'sphinx.ext.inheritance_diagram',
+              'sphinx.ext.viewcode',
+              'sphinx.ext.napoleon',
 ]
 
 autosummary_generate = True
 numpydoc_class_members_toctree = True
 numpydoc_show_class_members = True
-
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -57,12 +61,23 @@ exclude_patterns = []
 #
 html_theme = 'bootstrap'
 html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-
 html_theme_options = {'bootswatch_theme' : 'cosmo',
-                      'bootstrap_version' : '3'}
+                      'bootstrap_version' : '3',
+                      # Render the next and previous page links in navbar. (Default: true)
+                      'navbar_sidebarrel': True,
+                      # Render the current pages TOC in the navbar. (Default: true)
+                      'navbar_pagenav': True,
+                      # Tab name for the current pages TOC. (Default: "Page")
+                      'navbar_pagenav_name': "Page content",
+                      'globaltoc_depth': 2,
+                      # 'navbar_links': [
+                      #     ("Examples", "examples"),
+                      #     ("Link", "http://example.com", True),
+                      # ],
+                      }
 
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+# html_static_path = ['_static']

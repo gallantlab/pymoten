@@ -11,7 +11,6 @@ Learn more:
 ===========
 
 .. autosummary:: moten
-   :maxdepth: 3
    :toctree: modules
 
 
