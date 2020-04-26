@@ -6,6 +6,7 @@
     <title>moten.utils module &#8212; pymoten 0.0.1 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -58,7 +59,7 @@
      id="dLabelLocalToc"
      data-toggle="dropdown"
      data-target="#"
-     href="#">Page <b class="caret"></b></a>
+     href="#">Page content <b class="caret"></b></a>
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
@@ -106,7 +107,7 @@
 <span id="moten-utils-module"></span><h1>moten.utils module<a class="headerlink" href="#module-moten.utils" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="moten.utils.DotDict">
-<em class="property">class </em><code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">DotDict</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.DotDict" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">DotDict</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/utils.html#DotDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.utils.DotDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></p>
 <p>A subclass of dictionary with dot syntax.</p>
 <p class="rubric">Notes</p>
@@ -163,25 +164,25 @@
 </table>
 <dl class="py method">
 <dt id="moten.utils.DotDict.copy">
-<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.DotDict.copy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/utils.html#DotDict.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.utils.DotDict.copy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt id="moten.utils.iterator_func">
-<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">iterator_func</code><span class="sig-paren">(</span><em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.iterator_func" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">iterator_func</code><span class="sig-paren">(</span><em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/utils.html#iterator_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.utils.iterator_func" title="Permalink to this definition">¶</a></dt>
 <dd><p>If available, show iteration progress with <cite>tqdm</cite>.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt id="moten.utils.log_compress">
-<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">log_compress</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">1e-05</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.log_compress" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">log_compress</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">offset</span><span class="o">=</span><span class="default_value">1e-05</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/utils.html#log_compress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.utils.log_compress" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="moten.utils.pixbypix_covariance_from_frames_generator">
-<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pixbypix_covariance_from_frames_generator</code><span class="sig-paren">(</span><em class="sig-param">data_generator</em>, <em class="sig-param">batch_size=1000</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square at 0x7f4677d77040&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.pixbypix_covariance_from_frames_generator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pixbypix_covariance_from_frames_generator</code><span class="sig-paren">(</span><em class="sig-param">data_generator</em>, <em class="sig-param">batch_size=1000</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square at 0x7f73fcb72ee0&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/utils.html#pixbypix_covariance_from_frames_generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.utils.pixbypix_covariance_from_frames_generator" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -203,12 +204,12 @@
 
 <dl class="py function">
 <dt id="moten.utils.pointwise_square">
-<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pointwise_square</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.pointwise_square" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pointwise_square</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/utils.html#pointwise_square"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.utils.pointwise_square" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py function">
 <dt id="moten.utils.sqrt_sum_squares">
-<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">sqrt_sum_squares</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.sqrt_sum_squares" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">sqrt_sum_squares</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/utils.html#sqrt_sum_squares"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.utils.sqrt_sum_squares" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

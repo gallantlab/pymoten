@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>moten.pyramids &#8212; pymoten 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pymoten</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page content <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for moten.pyramids</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="c1">#</span>
+<span class="c1"># Adapted from MATLAB code written by S. Nishimoto (see Nishimoto, et al., 2011).</span>
+<span class="c1"># Anwar O. Nunez-Elizalde (Jan, 2016)</span>
+<span class="c1">#</span>
+<span class="c1"># Updates:</span>
+<span class="c1">#  Anwar O. Nunez-Elizalde (Apr, 2020)</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="c1"># Implementation notes:</span>
+<span class="c1">#</span>
+<span class="c1"># The terminology here is &quot;pyramid&quot; and &quot;filters&quot;.</span>
+<span class="c1"># In moten.core, the termilogy is inconsistent.</span>
+<span class="c1">#</span>
+<span class="c1"># TODO: Fix terminology in moten.core to match API.</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<span class="kn">from</span> <span class="nn">moten</span> <span class="kn">import</span> <span class="p">(</span><span class="n">utils</span><span class="p">,</span>
+                   <span class="n">core</span><span class="p">,</span>
+                   <span class="n">viz</span><span class="p">,</span>
+                   <span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;MotionEnergyPyramid&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;StimulusMotionEnergy&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;StimulusStaticGaborPyramid&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;DefaultPyramids&#39;</span><span class="p">,</span>
+           <span class="p">]</span>
+
+<span class="c1">##############################</span>
+<span class="c1">#</span>
+<span class="c1">##############################</span>
+
+<div class="viewcode-block" id="MotionEnergyPyramid"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid">[docs]</a><span class="k">class</span> <span class="nc">MotionEnergyPyramid</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Construct a motion-energy pyramid that tiles the stimulus.</span>
+
+<span class="sd">    Generates motion-energy filters at the desired</span>
+<span class="sd">    spatio-temporal frequencies and directions of motion.</span>
+<span class="sd">    Multiple motion-energy filters per spatio-temporal frequency</span>
+<span class="sd">    are constructed and each is centered at different locations</span>
+<span class="sd">    in the image in order to tile the stimulus.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stimulus_hvsize : tuple of ints</span>
+<span class="sd">        Resolution of the stimulus (hdim, vdim, fps)</span>
+<span class="sd">    stimulus_fps : int, [Hz]</span>
+<span class="sd">        The temporal frequency of the stimulus.</span>
+<span class="sd">    spatial_frequencies : array-like, [cycles-per-image]</span>
+<span class="sd">        Spatial frequencies for the filters</span>
+<span class="sd">    spatial_directions : array-like, [degrees]</span>
+<span class="sd">        Direction of filter motion. Degree position corresponds</span>
+<span class="sd">        to standard unit-circle coordinates.</span>
+<span class="sd">    temporal_frequencies : array-like, [Hz]</span>
+<span class="sd">        Temporal frequencies of the filters for use on the stimulus</span>
+<span class="sd">    filter_temporal_width : int</span>
+<span class="sd">        Temporal window of the motion-energy filter (e.g. 10).</span>
+<span class="sd">        Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    See :func:`moten.core.mk_moten_pyramid_params` for more details.</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    MotionEnergyPyramid.show_filter(gaborid=0)</span>
+<span class="sd">        Display the selected filter as a matplotlib animation.</span>
+<span class="sd">    filters_at_vhposition(0.5, 0.5)</span>
+<span class="sd">        Center spatio-temporal filters to requested hv-position.</span>
+<span class="sd">    project_stimulus(stimulus)</span>
+<span class="sd">        Compute the motion-energy filter responses to the stimuli.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    nfilters : int</span>
+<span class="sd">    filters : list of dicts</span>
+<span class="sd">        Each item is a dict defining a motion-energy filter.</span>
+<span class="sd">        Each of the `nfilters` has the following parameters:</span>
+<span class="sd">            * centerh,centerv : x:horizontal and y:vertical position (&#39;0,0&#39; is top left)</span>
+<span class="sd">            * direction       : direction of motion</span>
+<span class="sd">            * spatial_freq    : spatial frequency</span>
+<span class="sd">            * spatial_env     : spatial envelope (gaussian s.d.)</span>
+<span class="sd">            * temporal_freq   : temporal frequency</span>
+<span class="sd">            * temporal_env    : temporal envelope (gaussian s.d.)</span>
+
+<span class="sd">    parameters : dict of arrays</span>
+<span class="sd">        The individual parameter values across all filters.</span>
+<span class="sd">        Each item is an array of length `nfilters`</span>
+<span class="sd">    definition : dict</span>
+<span class="sd">        Parameters used to construct pyramid</span>
+<span class="sd">    parameters_matrix : np.array, (nfilters, 7)</span>
+<span class="sd">        Parameters that defined the motion-energy filter</span>
+<span class="sd">    parameters_names  : tuple of strings</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">576</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
+                 <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
+                 <span class="n">temporal_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+                 <span class="n">spatial_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">],</span>
+                 <span class="n">spatial_directions</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">135</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">225</span><span class="p">,</span><span class="mi">270</span><span class="p">,</span><span class="mi">315</span><span class="p">],</span>
+                 <span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                 <span class="n">max_spatial_env</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                 <span class="n">filter_spacing</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span>
+                 <span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span>
+                 <span class="n">max_temp_env</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                 <span class="n">include_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">spatial_phase_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">filter_temporal_width</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;...More parameters</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        sf_gauss_ratio : scalar</span>
+<span class="sd">            The ratio of spatial frequency to gaussian s.d.</span>
+<span class="sd">            This controls the number of cycles in a filter</span>
+<span class="sd">        max_spatial_env : scalar</span>
+<span class="sd">            Defines the maximum s.d. of the gaussian</span>
+<span class="sd">        gabor_spacing : scalar</span>
+<span class="sd">            Defines the spacing between spatial gabors</span>
+<span class="sd">            (in s.d. units)</span>
+<span class="sd">        tf_gauss_ratio : scalar</span>
+<span class="sd">            The ratio of temporal frequency to gaussian s.d.</span>
+<span class="sd">            This controls the number of temporal cycles</span>
+<span class="sd">        max_temp_env : scalar</span>
+<span class="sd">            Defines the maximum s.d. of the temporal gaussian</span>
+<span class="sd">        include_edges : bool</span>
+<span class="sd">            Determines whether to include filters at the edge</span>
+<span class="sd">            of the image which might be partially outside the</span>
+<span class="sd">            stimulus field-of-view</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">stimulus_vhsize</span>
+        <span class="n">aspect_ratio</span> <span class="o">=</span> <span class="n">hdim</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">vdim</span><span class="p">)</span> <span class="c1"># same as stimulus</span>
+
+        <span class="k">if</span> <span class="n">filter_temporal_width</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+            <span class="c1"># default to 2/3 stimulus frame rate</span>
+            <span class="n">filter_temporal_width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">stimulus_fps</span><span class="o">*</span><span class="p">(</span><span class="mi">2</span><span class="o">/</span><span class="mf">3.</span><span class="p">))</span>
+
+        <span class="n">stimulus_vht_fov</span> <span class="o">=</span> <span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">,</span> <span class="n">stimulus_fps</span><span class="p">)</span>
+        <span class="n">filter_vht_fov</span> <span class="o">=</span> <span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">,</span> <span class="n">filter_temporal_width</span><span class="p">)</span>
+
+        <span class="c1"># store pyramid parameters</span>
+        <span class="n">definition</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">DotDict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">local_name</span><span class="p">,</span> <span class="n">local_values</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">local_name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;self&#39;</span><span class="p">,</span> <span class="s1">&#39;definition&#39;</span><span class="p">)</span> <span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">definition</span><span class="p">[</span><span class="n">local_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_values</span>
+
+        <span class="c1"># sanity checks</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">stimulus_fps</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_temporal_width</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+
+        <span class="c1"># construct the gabor pyramid</span>
+        <span class="n">parameter_names</span><span class="p">,</span> <span class="n">filter_params_array</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">mk_moten_pyramid_params</span><span class="p">(</span>
+            <span class="n">stimulus_fps</span><span class="p">,</span>
+            <span class="n">filter_temporal_width</span><span class="o">=</span><span class="n">filter_temporal_width</span><span class="p">,</span>
+            <span class="n">aspect_ratio</span><span class="o">=</span><span class="n">aspect_ratio</span><span class="p">,</span>
+            <span class="n">temporal_frequencies</span><span class="o">=</span><span class="n">temporal_frequencies</span><span class="p">,</span>
+            <span class="n">spatial_frequencies</span><span class="o">=</span><span class="n">spatial_frequencies</span><span class="p">,</span>
+            <span class="n">spatial_directions</span><span class="o">=</span><span class="n">spatial_directions</span><span class="p">,</span>
+            <span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="n">sf_gauss_ratio</span><span class="p">,</span>
+            <span class="n">max_spatial_env</span><span class="o">=</span><span class="n">max_spatial_env</span><span class="p">,</span>
+            <span class="n">gabor_spacing</span><span class="o">=</span><span class="n">filter_spacing</span><span class="p">,</span>
+            <span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="n">tf_gauss_ratio</span><span class="p">,</span>
+            <span class="n">max_temp_env</span><span class="o">=</span><span class="n">max_temp_env</span><span class="p">,</span>
+            <span class="n">include_edges</span><span class="o">=</span><span class="n">include_edges</span><span class="p">,</span>
+            <span class="n">spatial_phase_offset</span><span class="o">=</span><span class="n">spatial_phase_offset</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="n">nfilters</span> <span class="o">=</span> <span class="n">filter_params_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># make individual filters readable</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="p">[</span><span class="n">utils</span><span class="o">.</span><span class="n">DotDict</span><span class="p">({</span><span class="n">name</span> <span class="p">:</span> <span class="n">filter_params_array</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">pdx</span><span class="p">]</span> <span class="k">for</span> <span class="n">pdx</span><span class="p">,</span> <span class="n">name</span> \
+                                  <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parameter_names</span><span class="p">)})</span> \
+                   <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nfilters</span><span class="p">)]</span>
+
+        <span class="c1"># parameters across filters</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">DotDict</span><span class="p">({</span><span class="n">name</span> <span class="p">:</span> <span class="n">filter_params_array</span><span class="p">[:,</span><span class="n">idx</span><span class="p">]</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">name</span> \
+                                    <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">parameter_names</span><span class="p">)})</span>
+
+        <span class="c1"># store pyramid information as attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span> <span class="o">=</span> <span class="n">nfilters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="n">parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">definition</span> <span class="o">=</span> <span class="n">definition</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters_matrix</span> <span class="o">=</span> <span class="n">filter_params_array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parameters_names</span> <span class="o">=</span> <span class="n">parameter_names</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="s1">&#39;&lt;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1"> [#</span><span class="si">%i</span><span class="s1"> filters (ntfq=</span><span class="si">%i</span><span class="s1">, nsfq=</span><span class="si">%i</span><span class="s1">, ndirs=</span><span class="si">%i</span><span class="s1">) aspect=</span><span class="si">%0.03f</span><span class="s1">]&gt;&#39;</span>
+        <span class="n">details</span> <span class="o">=</span> <span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span><span class="p">,</span>
+                   <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">temporal_frequencies</span><span class="p">),</span>
+                   <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">spatial_frequencies</span><span class="p">),</span>
+                   <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">spatial_directions</span><span class="p">),</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">aspect_ratio</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">info</span><span class="o">%</span><span class="n">details</span>
+
+<div class="viewcode-block" id="MotionEnergyPyramid.filters_at_hvposition"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.filters_at_hvposition">[docs]</a>    <span class="k">def</span> <span class="nf">filters_at_hvposition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centerh</span><span class="p">,</span> <span class="n">centerv</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters_at_vhposition</span><span class="p">(</span><span class="n">centerv</span><span class="p">,</span> <span class="n">centerh</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MotionEnergyPyramid.filters_at_vhposition"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.filters_at_vhposition">[docs]</a>    <span class="k">def</span> <span class="nf">filters_at_vhposition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centerv</span><span class="p">,</span> <span class="n">centerh</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Center spatio-temporal filters to requested vh-position.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        centerh : scalar</span>
+<span class="sd">            Horizontal filter position from left of frame (min=0, max=aspect_ratio).</span>
+<span class="sd">        centerv : scalar</span>
+<span class="sd">            Vertical filter from top of frame (min=0, max=1.0).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        centered_filters : dict</span>
+<span class="sd">            Spatio-temporal filter parameters at vh-position.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">unique_parameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters_matrix</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">nunique</span> <span class="o">=</span> <span class="n">unique_parameters</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">new_filters</span> <span class="o">=</span> <span class="p">[</span><span class="n">utils</span><span class="o">.</span><span class="n">DotDict</span><span class="p">({</span><span class="n">name</span> <span class="p">:</span> <span class="n">unique_parameters</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="n">pdx</span><span class="p">]</span> <span class="k">for</span> <span class="n">pdx</span><span class="p">,</span> <span class="n">name</span> \
+                                      <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters_names</span><span class="p">[</span><span class="mi">2</span><span class="p">:])})</span> \
+                       <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nunique</span><span class="p">)]</span>
+        <span class="k">for</span> <span class="n">filt</span> <span class="ow">in</span> <span class="n">new_filters</span><span class="p">:</span>
+            <span class="n">filt</span><span class="p">[</span><span class="s1">&#39;centerh&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">centerh</span>
+            <span class="n">filt</span><span class="p">[</span><span class="s1">&#39;centerv&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">centerv</span>
+        <span class="k">return</span> <span class="n">new_filters</span></div>
+
+<div class="viewcode-block" id="MotionEnergyPyramid.get_filter_spatiotemporal_quadratures"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures">[docs]</a>    <span class="k">def</span> <span class="nf">get_filter_spatiotemporal_quadratures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gaborid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        spatial_gabor_sin, spatial_gabor_cos : np.array, (vdim,hdim)</span>
+<span class="sd">            Spatial gabor quadrature pair. `spatial_gabor_cos` has</span>
+<span class="sd">            a 90 degree phase offset relative to `spatial_gabor_sin`</span>
+
+<span class="sd">        temporal_gabor_sin, temporal_gabor_cos : np.array, (tdim)</span>
+<span class="sd">            Temporal gabor quadrature pair. `temporal_gabor_cos` has</span>
+<span class="sd">            a 90 degree phase offset relative to `temporal_gabor_sin`</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">vhsize</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">vdim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">hdim</span><span class="p">)</span>
+
+        <span class="c1"># extract parameters for this gaborid</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gaborid</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">gabor_parameters_dict</span> <span class="o">=</span> <span class="n">gaborid</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gabor_parameters_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="n">gaborid</span><span class="p">]</span>
+
+        <span class="n">sgabor0</span><span class="p">,</span> <span class="n">sgabor90</span><span class="p">,</span> <span class="n">tgabor0</span><span class="p">,</span> <span class="n">tgabor90</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">mk_3d_gabor</span><span class="p">(</span><span class="n">vhsize</span><span class="p">,</span>
+                                                                <span class="o">**</span><span class="n">gabor_parameters_dict</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sgabor0</span><span class="p">,</span> <span class="n">sgabor90</span><span class="p">,</span> <span class="n">tgabor0</span><span class="p">,</span> <span class="n">tgabor90</span></div>
+
+<div class="viewcode-block" id="MotionEnergyPyramid.get_filter_temporal_quadrature"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature">[docs]</a>    <span class="k">def</span> <span class="nf">get_filter_temporal_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gaborid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">_</span><span class="p">,</span><span class="n">_</span><span class="p">,</span> <span class="n">tgabor0</span><span class="p">,</span> <span class="n">tgabor90</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filter_spatiotemporal_quadratures</span><span class="p">(</span><span class="n">gaborid</span><span class="o">=</span><span class="n">gaborid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tgabor0</span><span class="p">,</span> <span class="n">tgabor90</span></div>
+
+<div class="viewcode-block" id="MotionEnergyPyramid.get_filter_spatial_quadrature"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature">[docs]</a>    <span class="k">def</span> <span class="nf">get_filter_spatial_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gaborid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">sgabor0</span><span class="p">,</span> <span class="n">sgabor90</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filter_spatiotemporal_quadratures</span><span class="p">(</span><span class="n">gaborid</span><span class="o">=</span><span class="n">gaborid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">sgabor0</span><span class="p">,</span> <span class="n">sgabor90</span></div>
+
+
+
+<div class="viewcode-block" id="MotionEnergyPyramid.show_filter"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.show_filter">[docs]</a>    <span class="k">def</span> <span class="nf">show_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gaborid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Display the motion-energy filter as an animation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        gaborid : int, or dict</span>
+<span class="sd">            If int, it&#39;s the index of the filter to display.</span>
+<span class="sd">            If dict, it&#39;s a motion-energy filter definition. E.g.:</span>
+<span class="sd">                {&#39;centerh&#39;: 0.5,</span>
+<span class="sd">                 &#39;centerv&#39;: 0.5,</span>
+<span class="sd">                 &#39;direction&#39;: 0.0,</span>
+<span class="sd">                 &#39;spatial_freq&#39;: 2.0,</span>
+<span class="sd">                 &#39;spatial_env&#39;: 0.3,</span>
+<span class="sd">                 &#39;temporal_freq&#39;: 0.0,</span>
+<span class="sd">                 &#39;temporal_env&#39;: 0.3}</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        animation : matplotlib.animation</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+<span class="sd">        &gt;&gt;&gt; import moten</span>
+<span class="sd">        &gt;&gt;&gt; pyramid = moten.get_default_pyramid()</span>
+<span class="sd">        &gt;&gt;&gt; _ = pyramid.show_filter(12)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># Get dimensions of movie</span>
+        <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">,</span> <span class="n">stimulus_fps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">stimulus_vht_fov</span>
+        <span class="n">aspect_ratio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">aspect_ratio</span>
+        <span class="n">filter_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">filter_temporal_width</span>
+        <span class="n">vhsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">)</span>
+
+        <span class="c1"># extract parameters for this gaborid</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gaborid</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="n">gabor_params_dict</span> <span class="o">=</span> <span class="n">gaborid</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">gaborid</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">gabor_params_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="n">gaborid</span><span class="p">]</span>
+
+        <span class="c1"># construct title from parameters</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">pdx</span><span class="p">,</span> <span class="p">(</span><span class="n">pname</span><span class="p">,</span> <span class="n">pval</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">gabor_params_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())):</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">=</span><span class="si">%0.02f</span><span class="s1">, &#39;</span><span class="o">%</span><span class="p">(</span><span class="n">pname</span><span class="p">,</span> <span class="n">pval</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">pdx</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">pdx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">title</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+        <span class="k">return</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_3dgabor</span><span class="p">(</span><span class="n">vhsize</span><span class="p">,</span>
+                                <span class="n">gabor_params_dict</span><span class="p">,</span>
+                                <span class="n">background</span><span class="o">=</span><span class="n">background</span><span class="p">,</span>
+                                <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="n">speed</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MotionEnergyPyramid.project_stimulus"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.project_stimulus">[docs]</a>    <span class="k">def</span> <span class="nf">project_stimulus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                         <span class="n">stimulus</span><span class="p">,</span>
+                         <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+                         <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">sqrt_sum_squares</span><span class="p">,</span>
+                         <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">log_compress</span><span class="p">,</span>
+                         <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                         <span class="n">use_cuda</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stimulus : np.array, (nimages, vdim, hdim)</span>
+<span class="sd">            The movie frames.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        filter_responses : np.ndarray, (nimages, nfilters)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">filters</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="n">filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span>
+
+        <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">stimulus_vhsize</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span>
+                                       <span class="n">filters</span><span class="p">,</span>
+                                       <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">quadrature_combination</span><span class="p">,</span>
+                                       <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">output_nonlinearity</span><span class="p">,</span>
+                                       <span class="n">vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
+                                       <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="MotionEnergyPyramid.raw_project_stimulus"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.raw_project_stimulus">[docs]</a>    <span class="k">def</span> <span class="nf">raw_project_stimulus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stimulus</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Obtain responses to the stimuli from all filter quadrature-pairs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stimulus : np.array, (nimages, vdim, hdim)</span>
+<span class="sd">            The movie frames.</span>
+<span class="sd">        filters : optional, &#39;all&#39; or list of dicts</span>
+<span class="sd">            By default compute the responses for all filters.</span>
+<span class="sd">            Otherwise, provide a list of filter definitions to use.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output_sin : np.ndarray, (nimages, nfilters)</span>
+<span class="sd">        output_cos : np.ndarray, (nimages, nfilters)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">filters</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="n">filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span>
+
+        <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">stimulus_vhsize</span>
+
+        <span class="n">output_sin</span><span class="p">,</span> <span class="n">output_cos</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">raw_project_stimulus</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span>
+                                                           <span class="n">filters</span><span class="p">,</span>
+                                                           <span class="n">vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
+                                                           <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output_sin</span><span class="p">,</span> <span class="n">output_cos</span></div></div>
+
+
+<div class="viewcode-block" id="StimulusMotionEnergy"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy">[docs]</a><span class="k">class</span> <span class="nc">StimulusMotionEnergy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Parametrize a motion-energy pyramid that tiles the stimulus.</span>
+
+<span class="sd">    Generates motion-energy filters at the desired</span>
+<span class="sd">    spatio-temporal frequencies and directions of motion.</span>
+<span class="sd">    Multiple motion-energy filters per spatio-temporal frequency</span>
+<span class="sd">    are constructed and each is centered at different locations</span>
+<span class="sd">    in the image in order to tile the stimulus.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    stimulus : np.array, (n, vdim, hdim)</span>
+<span class="sd">        The movie frames.</span>
+<span class="sd">    stimulus_fps : int, [Hz]</span>
+<span class="sd">        The temporal frequency of the stimulus.</span>
+<span class="sd">    spatial_frequencies : array-like, [cycles-per-image]</span>
+<span class="sd">        Spatial frequencies for the filters.</span>
+<span class="sd">    spatial_directions : array-like, [degrees]</span>
+<span class="sd">        Direction of filter motion. Degree position corresponds</span>
+<span class="sd">        to standard unit-circle coordinates.</span>
+<span class="sd">    temporal_frequencies : array-like, [Hz]</span>
+<span class="sd">        Temporal frequencies of the filters for use on the stimulus.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    stimulus : 2D np.ndarray, (nimages, vdim*hdim)</span>
+<span class="sd">        Time-space representation of stimulus</span>
+<span class="sd">    view : :class:`MotionEnergyPyramid`</span>
+<span class="sd">        Full description of the motion-energy pyramid.</span>
+<span class="sd">    nimages : int</span>
+<span class="sd">    nfilters : int</span>
+<span class="sd">    aspect_ratio : scalar, (hdim/vdim)</span>
+<span class="sd">    stimulus_fps : int (fps)</span>
+<span class="sd">    stimulus_hvsize : tuple of ints, (hdim, vdim, fps)</span>
+<span class="sd">    original_stimulus : 3D np.ndarray, (nimages, vdim, hdim)</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    -------</span>
+<span class="sd">    project()</span>
+<span class="sd">        Compute the motion-energy filter responses to the stimulus.</span>
+
+<span class="sd">    project_at_vhposition(centerv, centerh)</span>
+<span class="sd">        Center the motion-energy filters at vh-position in the stimulus</span>
+<span class="sd">        and compute the filter responses.</span>
+
+<span class="sd">    raw_projection()</span>
+<span class="sd">        Return the filter quadrature-pair responses to the stimuli</span>
+<span class="sd">        at 0 and 90 degree phase offsets.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">stimulus</span><span class="p">,</span>
+                 <span class="n">stimulus_fps</span><span class="p">,</span>
+                 <span class="n">temporal_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
+                 <span class="n">spatial_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">],</span>
+                 <span class="n">spatial_directions</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">135</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">225</span><span class="p">,</span><span class="mi">270</span><span class="p">,</span><span class="mi">315</span><span class="p">],</span>
+                 <span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                 <span class="n">max_spatial_env</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                 <span class="n">filter_spacing</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span>
+                 <span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="mf">10.</span><span class="p">,</span>
+                 <span class="n">max_temp_env</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                 <span class="n">include_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">spatial_phase_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="n">filter_temporal_width</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        See :class:`MotionEnergyPyramid` for more detail on</span>
+<span class="sd">        keyword arguments used to construct the motion-energy pyramid.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">stimulus_vhsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">)</span>
+        <span class="n">original_stimulus</span> <span class="o">=</span> <span class="n">stimulus</span>
+        <span class="n">stimulus</span> <span class="o">=</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">stimulus</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">aspect_ratio</span> <span class="o">=</span> <span class="n">hdim</span><span class="o">/</span><span class="n">vdim</span>
+
+        <span class="n">pyramid</span> <span class="o">=</span> <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
+                                      <span class="n">stimulus_fps</span><span class="o">=</span><span class="n">stimulus_fps</span><span class="p">,</span>
+                                      <span class="n">filter_temporal_width</span><span class="o">=</span><span class="n">filter_temporal_width</span><span class="p">,</span>
+                                      <span class="n">temporal_frequencies</span><span class="o">=</span><span class="n">temporal_frequencies</span><span class="p">,</span>
+                                      <span class="n">spatial_frequencies</span><span class="o">=</span><span class="n">spatial_frequencies</span><span class="p">,</span>
+                                      <span class="n">spatial_directions</span><span class="o">=</span><span class="n">spatial_directions</span><span class="p">,</span>
+                                      <span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="n">sf_gauss_ratio</span><span class="p">,</span>
+                                      <span class="n">max_spatial_env</span><span class="o">=</span><span class="n">max_spatial_env</span><span class="p">,</span>
+                                      <span class="n">filter_spacing</span><span class="o">=</span><span class="n">filter_spacing</span><span class="p">,</span>
+                                      <span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="n">tf_gauss_ratio</span><span class="p">,</span>
+                                      <span class="n">max_temp_env</span><span class="o">=</span><span class="n">max_temp_env</span><span class="p">,</span>
+                                      <span class="n">spatial_phase_offset</span><span class="o">=</span><span class="n">spatial_phase_offset</span><span class="p">,</span>
+                                      <span class="n">include_edges</span><span class="o">=</span><span class="n">include_edges</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">nimages</span> <span class="o">=</span> <span class="n">nimages</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stimulus</span> <span class="o">=</span> <span class="n">stimulus</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stimulus_fps</span> <span class="o">=</span> <span class="n">stimulus_fps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stimulus_vhsize</span> <span class="o">=</span> <span class="n">stimulus_vhsize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">original_stimulus</span> <span class="o">=</span> <span class="n">original_stimulus</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">aspect_ratio</span> <span class="o">=</span> <span class="n">aspect_ratio</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">pyramid</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">nfilters</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="s1">&#39;&lt;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1"> [</span><span class="si">%i</span><span class="s1"> nframes @ </span><span class="si">%i</span><span class="s1"> fps. #</span><span class="si">%i</span><span class="s1"> filters. aspect=</span><span class="si">%0.03f</span><span class="s1">]&gt;&#39;</span>
+        <span class="n">details</span> <span class="o">=</span> <span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">nimages</span><span class="p">,</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">stimulus_fps</span><span class="p">,</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span><span class="p">,</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">aspect_ratio</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">info</span><span class="o">%</span><span class="n">details</span>
+
+<div class="viewcode-block" id="StimulusMotionEnergy.project_stimulus"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy.project_stimulus">[docs]</a>    <span class="k">def</span> <span class="nf">project_stimulus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        new_stimulus : np.array, (nframes, vdim, hdim)</span>
+<span class="sd">            The movie frames.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        filter_responses : np.ndarray, (nframes, nfilters)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">filter_responses</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">filter_responses</span></div>
+
+
+<div class="viewcode-block" id="StimulusMotionEnergy.project"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy.project">[docs]</a>    <span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+                <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">sqrt_sum_squares</span><span class="p">,</span>
+                <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">log_compress</span><span class="p">,</span>
+                <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Compute the motion-energy filter responses to the stimuli.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        quadrature_combination : function, optional</span>
+<span class="sd">            Specifies how to combine the channel reponses quadratures.</span>
+<span class="sd">            The function must take the sin and cos as arguments in order.</span>
+<span class="sd">            Defaults to: (sin^2 + cos^2)^1/2</span>
+<span class="sd">        output_nonlinearity : function, optional</span>
+<span class="sd">            Passes the channels (after `quadrature_combination`) through a</span>
+<span class="sd">            non-linearity. The function input is the (`nimages`,`nfilters`) array.</span>
+<span class="sd">            Defaults to: ln(x + 1e-05)</span>
+<span class="sd">        dtype : np.dtype</span>
+<span class="sd">            Defaults to np.float32</span>
+<span class="sd">        filters : optional, &#39;all&#39; or list of dicts</span>
+<span class="sd">            By default compute the responses for all filters.</span>
+<span class="sd">            Otherwise, provide a list of filter definitions to use.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        filter_responses : np.ndarray, (nimages, nfilters)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">filters</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="n">filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">filters</span>
+        <span class="n">stimulus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_stimulus</span>
+
+        <span class="n">filter_responses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span>
+            <span class="n">stimulus</span><span class="p">,</span>
+            <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span>
+            <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">quadrature_combination</span><span class="p">,</span>
+            <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">output_nonlinearity</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">filter_responses</span></div>
+
+<div class="viewcode-block" id="StimulusMotionEnergy.project_at_vhposition"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy.project_at_vhposition">[docs]</a>    <span class="k">def</span> <span class="nf">project_at_vhposition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centerv</span><span class="p">,</span> <span class="n">centerh</span><span class="p">,</span>
+                              <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">sqrt_sum_squares</span><span class="p">,</span>
+                              <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">log_compress</span><span class="p">,</span>
+                              <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Center filters at hv-position and compute their response to the stimulus.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        centerh : scalar</span>
+<span class="sd">            Horizontal filter position from left of frame (min=0, max=aspect_ratio).</span>
+<span class="sd">        centerv : scalar</span>
+<span class="sd">            Vertical filter from top of frame (min=0, max=1.0).</span>
+
+<span class="sd">        quadrature_combination : function, optional</span>
+<span class="sd">            Defaults to: (sin^2 + cos^2)^1/2</span>
+<span class="sd">        output_nonlinearity : function, optional</span>
+<span class="sd">            Defaults to: ln(x + 1e-05)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        hv_centered_filters : list of dicts</span>
+<span class="sd">            Definition of filters used. All centered at hv-position.</span>
+<span class="sd">        filter_responses : np.ndarray, (nimages, len(hv_centered_filters))</span>
+
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="c1"># center all spatial and temporal filters at desired hv-position</span>
+        <span class="n">filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">filters_at_vhposition</span><span class="p">(</span><span class="n">centerv</span><span class="p">,</span> <span class="n">centerh</span><span class="p">)</span>
+        <span class="n">stimulus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_stimulus</span>
+
+        <span class="n">filter_responses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span>
+            <span class="n">stimulus</span><span class="p">,</span>
+            <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span>
+            <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">quadrature_combination</span><span class="p">,</span>
+            <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">output_nonlinearity</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">filters</span><span class="p">,</span> <span class="n">filter_responses</span></div>
+
+<div class="viewcode-block" id="StimulusMotionEnergy.raw_projection"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy.raw_projection">[docs]</a>    <span class="k">def</span> <span class="nf">raw_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;Obtain stimulus responses from all filter quadrature-pairs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        filters : optional, &#39;all&#39; or list of dicts</span>
+<span class="sd">            By default compute the responses for all filters.</span>
+<span class="sd">            Otherwise, provide a list of filter definitions to use.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        output_sin : np.ndarray, (nimages, nfilters)</span>
+<span class="sd">        output_cos : np.ndarray, (nimages, nfilters)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">filters</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="n">filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">filters</span>
+        <span class="n">stimulus</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">original_stimulus</span>
+
+        <span class="n">output_sin</span><span class="p">,</span> <span class="n">output_cos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">raw_project_stimulus</span><span class="p">(</span>
+            <span class="n">stimulus</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output_sin</span><span class="p">,</span> <span class="n">output_cos</span></div></div>
+
+
+<div class="viewcode-block" id="StimulusStaticGaborPyramid"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusStaticGaborPyramid">[docs]</a><span class="k">class</span> <span class="nc">StimulusStaticGaborPyramid</span><span class="p">(</span><span class="n">StimulusMotionEnergy</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">stimulus</span><span class="p">,</span>
+                 <span class="n">spatial_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">],</span>
+                 <span class="n">spatial_orientations</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">135</span><span class="p">),</span>
+                 <span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+                 <span class="n">max_spatial_env</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                 <span class="n">filter_spacing</span><span class="o">=</span><span class="mf">3.5</span><span class="p">,</span>
+                 <span class="n">include_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">spatial_phase_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+                 <span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">),</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span>
+                                         <span class="n">spatial_frequencies</span><span class="o">=</span><span class="n">spatial_frequencies</span><span class="p">,</span>
+                                         <span class="n">spatial_directions</span><span class="o">=</span><span class="n">spatial_orientations</span><span class="p">,</span>
+                                         <span class="n">spatial_phase_offset</span><span class="o">=</span><span class="n">spatial_phase_offset</span><span class="p">,</span>
+                                         <span class="n">include_edges</span><span class="o">=</span><span class="n">include_edges</span><span class="p">,</span>
+                                         <span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="n">sf_gauss_ratio</span><span class="p">,</span>
+                                         <span class="n">max_spatial_env</span><span class="o">=</span><span class="n">max_spatial_env</span><span class="p">,</span>
+                                         <span class="n">filter_spacing</span><span class="o">=</span><span class="n">filter_spacing</span><span class="p">,</span>
+                                         <span class="c1"># fixed parameters for static filters:</span>
+                                         <span class="n">max_temp_env</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                                         <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                         <span class="n">temporal_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                         <span class="n">filter_temporal_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                         <span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="DefaultPyramids"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.DefaultPyramids">[docs]</a><span class="k">class</span> <span class="nc">DefaultPyramids</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pyramid15fps512x512</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span>
+                                       <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyramid</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pyramid15fps96x96</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">96</span><span class="p">,</span> <span class="mi">96</span><span class="p">),</span>
+                                       <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyramid</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pyramid24fps800x600</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">800</span><span class="p">),</span>
+                                       <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyramid</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pyramid24fps640x480</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">),</span>
+                                       <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyramid</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pyramid24fps128x72</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+                                       <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyramid</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pyramid24fps256x144</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">144</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
+                                       <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyramid</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020, Anwar O. Nunez-Elizalde.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.2.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

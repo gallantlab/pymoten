@@ -6,6 +6,7 @@
     <title>moten.pyramids module &#8212; pymoten 0.0.1 documentation</title>
     <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -58,7 +59,7 @@
      id="dLabelLocalToc"
      data-toggle="dropdown"
      data-target="#"
-     href="#">Page <b class="caret"></b></a>
+     href="#">Page content <b class="caret"></b></a>
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
@@ -106,7 +107,7 @@
 <span id="moten-pyramids-module"></span><h1>moten.pyramids module<a class="headerlink" href="#module-moten.pyramids" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="moten.pyramids.MotionEnergyPyramid">
-<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">MotionEnergyPyramid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="default_value">576, 1024</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span><span class="o">=</span><span class="default_value">24</span></em>, <em class="sig-param"><span class="n">temporal_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4]</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16]</span></em>, <em class="sig-param"><span class="n">spatial_directions</span><span class="o">=</span><span class="default_value">[0, 45, 90, 135, 180, 225, 270, 315]</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">filter_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="default_value">10.0</span></em>, <em class="sig-param"><span class="n">max_temp_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">MotionEnergyPyramid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="default_value">576, 1024</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span><span class="o">=</span><span class="default_value">24</span></em>, <em class="sig-param"><span class="n">temporal_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4]</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16]</span></em>, <em class="sig-param"><span class="n">spatial_directions</span><span class="o">=</span><span class="default_value">[0, 45, 90, 135, 180, 225, 270, 315]</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">filter_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="default_value">10.0</span></em>, <em class="sig-param"><span class="n">max_temp_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Construct a motion-energy pyramid that tiles the stimulus.</p>
 <p>Generates motion-energy filters at the desired
@@ -184,12 +185,12 @@ Each item is an array of length <cite>nfilters</cite></p>
 </table>
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.filters_at_hvposition">
-<code class="sig-name descname">filters_at_hvposition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">centerh</span></em>, <em class="sig-param"><span class="n">centerv</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.filters_at_hvposition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">filters_at_hvposition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">centerh</span></em>, <em class="sig-param"><span class="n">centerv</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.filters_at_hvposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.filters_at_hvposition" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.filters_at_vhposition">
-<code class="sig-name descname">filters_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">centerv</span></em>, <em class="sig-param"><span class="n">centerh</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.filters_at_vhposition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">filters_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">centerv</span></em>, <em class="sig-param"><span class="n">centerh</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.filters_at_vhposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.filters_at_vhposition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Center spatio-temporal filters to requested vh-position.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -211,12 +212,12 @@ Each item is an array of length <cite>nfilters</cite></p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature">
-<code class="sig-name descname">get_filter_spatial_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_filter_spatial_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_spatial_quadrature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures">
-<code class="sig-name descname">get_filter_spatiotemporal_quadratures</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_filter_spatiotemporal_quadratures</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_spatiotemporal_quadratures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -233,12 +234,12 @@ a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature">
-<code class="sig-name descname">get_filter_temporal_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_filter_temporal_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_temporal_quadrature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.project_stimulus">
-<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f4677dd28b0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f467aeea700&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em>, <em class="sig-param">use_cuda=False</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f73fcbd5790&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f73ffcec5e0&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em>, <em class="sig-param">use_cuda=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -256,7 +257,7 @@ a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.raw_project_stimulus">
-<code class="sig-name descname">raw_project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.raw_project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">raw_project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.raw_project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.raw_project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain responses to the stimuli from all filter quadrature-pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -279,7 +280,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.show_filter">
-<code class="sig-name descname">show_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">speed</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.show_filter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">show_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">speed</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.show_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.show_filter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display the motion-energy filter as an animation.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
@@ -318,7 +319,7 @@ If dict, it’s a motion-energy filter definition. E.g.:</p>
 
 <dl class="py class">
 <dt id="moten.pyramids.StimulusMotionEnergy">
-<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">StimulusMotionEnergy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span></em>, <em class="sig-param"><span class="n">temporal_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4]</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16]</span></em>, <em class="sig-param"><span class="n">spatial_directions</span><span class="o">=</span><span class="default_value">[0, 45, 90, 135, 180, 225, 270, 315]</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">filter_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="default_value">10.0</span></em>, <em class="sig-param"><span class="n">max_temp_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">StimulusMotionEnergy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span></em>, <em class="sig-param"><span class="n">temporal_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4]</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16]</span></em>, <em class="sig-param"><span class="n">spatial_directions</span><span class="o">=</span><span class="default_value">[0, 45, 90, 135, 180, 225, 270, 315]</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">filter_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="default_value">10.0</span></em>, <em class="sig-param"><span class="n">max_temp_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Parametrize a motion-energy pyramid that tiles the stimulus.</p>
 <p>Generates motion-energy filters at the desired
@@ -377,7 +378,7 @@ to standard unit-circle coordinates.</p>
 </table>
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.project">
-<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f4677dd28b0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f467aeea700&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f73fcbd5790&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f73ffcec5e0&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filter responses to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -407,7 +408,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.project_at_vhposition">
-<code class="sig-name descname">project_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">centerv</em>, <em class="sig-param">centerh</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f4677dd28b0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f467aeea700&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_at_vhposition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">centerv</em>, <em class="sig-param">centerh</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f73fcbd5790&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f73ffcec5e0&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project_at_vhposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_at_vhposition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Center filters at hv-position and compute their response to the stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -434,7 +435,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.project_stimulus">
-<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">\*args</em>, <em class="sig-param">\*\*kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -452,7 +453,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.raw_projection">
-<code class="sig-name descname">raw_projection</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.raw_projection" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">raw_projection</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.raw_projection"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.raw_projection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain stimulus responses from all filter quadrature-pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -475,7 +476,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py class">
 <dt id="moten.pyramids.StimulusStaticGaborPyramid">
-<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">StimulusStaticGaborPyramid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16]</span></em>, <em class="sig-param"><span class="n">spatial_orientations</span><span class="o">=</span><span class="default_value">0, 45, 90, 135</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">filter_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusStaticGaborPyramid" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">StimulusStaticGaborPyramid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16]</span></em>, <em class="sig-param"><span class="n">spatial_orientations</span><span class="o">=</span><span class="default_value">0, 45, 90, 135</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">filter_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusStaticGaborPyramid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusStaticGaborPyramid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#moten.pyramids.StimulusMotionEnergy" title="moten.pyramids.StimulusMotionEnergy"><code class="xref py py-class docutils literal notranslate"><span class="pre">moten.pyramids.StimulusMotionEnergy</span></code></a></p>
 <p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
@@ -506,7 +507,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py class">
 <dt id="moten.pyramids.DefaultPyramids">
-<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">DefaultPyramids</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">moten.pyramids.</code><code class="sig-name descname">DefaultPyramids</code><a class="reference internal" href="../_modules/moten/pyramids.html#DefaultPyramids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.DefaultPyramids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Attributes</dt>
@@ -523,32 +524,38 @@ Otherwise, provide a list of filter definitions to use.</p>
 <dl class="py method">
 <dt id="moten.pyramids.DefaultPyramids.pyramid15fps512x512">
 <em class="property">property </em><code class="sig-name descname">pyramid15fps512x512</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid15fps512x512" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>!! processed by numpydoc !!</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.DefaultPyramids.pyramid15fps96x96">
 <em class="property">property </em><code class="sig-name descname">pyramid15fps96x96</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid15fps96x96" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>!! processed by numpydoc !!</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.DefaultPyramids.pyramid24fps128x72">
 <em class="property">property </em><code class="sig-name descname">pyramid24fps128x72</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid24fps128x72" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>!! processed by numpydoc !!</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.DefaultPyramids.pyramid24fps256x144">
 <em class="property">property </em><code class="sig-name descname">pyramid24fps256x144</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid24fps256x144" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>!! processed by numpydoc !!</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.DefaultPyramids.pyramid24fps640x480">
 <em class="property">property </em><code class="sig-name descname">pyramid24fps640x480</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid24fps640x480" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>!! processed by numpydoc !!</p>
+</dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.DefaultPyramids.pyramid24fps800x600">
 <em class="property">property </em><code class="sig-name descname">pyramid24fps800x600</code><a class="headerlink" href="#moten.pyramids.DefaultPyramids.pyramid24fps800x600" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>!! processed by numpydoc !!</p>
+</dd></dl>
 
 </dd></dl>
 
