@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 
 <html>
   <head>
     <meta charset="utf-8" />
     <title>moten package &#8212; pymoten 0.0.1 documentation</title>
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
@@ -14,22 +13,105 @@
     <script src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../_static/bootstrap-sphinx.js "></script>
 
   </head><body>
-  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../index.html">
+          pymoten</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
 
-          <div class="body" role="main">
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
             
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"></ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">moten package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-moten.colorspace">moten.colorspace module</a></li>
+<li><a class="reference internal" href="#module-moten.core">moten.core module</a></li>
+<li><a class="reference internal" href="#module-moten.io">moten.io module</a></li>
+<li><a class="reference internal" href="#module-moten.pyramids">moten.pyramids module</a></li>
+<li><a class="reference internal" href="#module-moten.utils">moten.utils module</a></li>
+<li><a class="reference internal" href="#module-moten.viz">moten.viz module</a></li>
+<li><a class="reference internal" href="#module-moten">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../_sources/autodoc/moten.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
   <div class="section" id="moten-package">
 <h1>moten package<a class="headerlink" href="#moten-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
@@ -162,7 +244,7 @@ dimension corresponds to RGB channels.</p>
 
 <dl class="py function">
 <dt id="moten.core.compute_filter_responses">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_filter_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">stimulus_fps</em>, <em class="sig-param">aspect_ratio='auto'</em>, <em class="sig-param">filter_temporal_width='auto'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">dozscore=True</em>, <em class="sig-param">dtype=&lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">pyramid_parameters={}</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.compute_filter_responses" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_filter_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">stimulus_fps</em>, <em class="sig-param">aspect_ratio='auto'</em>, <em class="sig-param">filter_temporal_width='auto'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f9c968ad940&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f9c999c2790&gt;</em>, <em class="sig-param">dozscore=True</em>, <em class="sig-param">dtype=&lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">pyramid_parameters={}</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.compute_filter_responses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filters’ response to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -203,7 +285,7 @@ specifiying a motion-energy pyramid.</p>
 
 <dl class="py function">
 <dt id="moten.core.compute_spatial_gabor_responses">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_spatial_gabor_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus, aspect_ratio='auto', spatial_frequencies=[0, 2, 4, 8, 16, 32], quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;, output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;, dtype=&lt;class 'numpy.float64'&gt;, dozscore=True</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.compute_spatial_gabor_responses" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_spatial_gabor_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus, aspect_ratio='auto', spatial_frequencies=[0, 2, 4, 8, 16, 32], quadrature_combination=&lt;function sqrt_sum_squares at 0x7f9c968ad940&gt;, output_nonlinearity=&lt;function log_compress at 0x7f9c999c2790&gt;, dtype=&lt;class 'numpy.float64'&gt;, dozscore=True</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.compute_spatial_gabor_responses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the spatial gabor filters’ response to each stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -436,7 +518,7 @@ This is useful for visualization.</p>
 
 <dl class="py function">
 <dt id="moten.core.project_stimulus">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f9c968ad940&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f9c999c2790&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filter responses to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -457,7 +539,7 @@ If <cite>stimulus</cite> is two-dimensional with shape (nimages, npixels), then
 
 <dl class="py function">
 <dt id="moten.core.raw_project_stimulus">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">raw_project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.raw_project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">raw_project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f9c968ad940&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f9c999c2790&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.core.raw_project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain responses to the stimuli from all filter quadrature-pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -735,7 +817,7 @@ a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.project_stimulus">
-<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em>, <em class="sig-param">use_cuda=False</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f9c968ad940&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f9c999c2790&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em>, <em class="sig-param">use_cuda=False</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -874,7 +956,7 @@ to standard unit-circle coordinates.</p>
 </table>
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.project">
-<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f9c968ad940&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f9c999c2790&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filter responses to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -904,7 +986,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.project_at_vhposition">
-<code class="sig-name descname">project_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">centerv</em>, <em class="sig-param">centerh</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f718d3a45e0&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71904d9430&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_at_vhposition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">centerv</em>, <em class="sig-param">centerh</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f9c968ad940&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f9c999c2790&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_at_vhposition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Center filters at hv-position and compute their response to the stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1129,7 +1211,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py function">
 <dt id="moten.utils.pixbypix_covariance_from_frames_generator">
-<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pixbypix_covariance_from_frames_generator</code><span class="sig-paren">(</span><em class="sig-param">data_generator</em>, <em class="sig-param">batch_size=1000</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square at 0x7f718d3c1d30&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.pixbypix_covariance_from_frames_generator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pixbypix_covariance_from_frames_generator</code><span class="sig-paren">(</span><em class="sig-param">data_generator</em>, <em class="sig-param">batch_size=1000</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square at 0x7f9c968510d0&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#moten.utils.pixbypix_covariance_from_frames_generator" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -1180,66 +1262,21 @@ Otherwise, provide a list of filter definitions to use.</p>
 </div>
 
 
-          </div>
-          
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">pymoten</a></h1>
-
-
-
-
-
-
-
-
-<h3>Navigation</h3>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
-      <input type="submit" value="Go" />
-    </form>
     </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &copy;2020, Anwar O. Nunez-Elizalde.
       
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
       
-      |
-      <a href="../_sources/autodoc/moten.rst.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
+    </p>
+    <p>
+        &copy; Copyright 2020, Anwar O. Nunez-Elizalde.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.2.<br/>
+    </p>
+  </div>
+</footer>
   </body>
 </html>
