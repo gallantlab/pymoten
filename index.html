@@ -78,6 +78,7 @@
 <li><a class="reference internal" href="#what-is-pymoten">What is pymoten?</a></li>
 <li><a class="reference internal" href="#installation">Installation</a></li>
 <li><a class="reference internal" href="#getting-started">Getting started</a></li>
+<li><a class="reference internal" href="#references">References</a></li>
 <li><a class="reference internal" href="#learn-more">Learn more</a></li>
 <li><a class="reference internal" href="#api-reference">API Reference</a></li>
 </ul>
@@ -127,30 +128,31 @@
       
   <div class="section" id="welcome-to-pymoten">
 <h1>Welcome to pymoten!<a class="headerlink" href="#welcome-to-pymoten" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="https://travis-ci.com/gallantlab/pymoten"><img alt="Build Status" src="https://travis-ci.com/gallantlab/pymoten.svg?token=DG1xpt4Upohy9kdU6zzg&amp;branch=master" /></a> <a class="reference external" href="https://github.com/gallantlab/pymoten"><img alt="Github" src="https://img.shields.io/badge/github-pymoten-blue" /></a></p>
+<p><a class="reference external" href="https://travis-ci.com/gallantlab/pymoten"><img alt="Build Status" src="https://travis-ci.com/gallantlab/pymoten.svg?token=DG1xpt4Upohy9kdU6zzg&amp;branch=master" /></a> <a class="reference external" href="https://github.com/gallantlab/pymoten"><img alt="Github" src="https://img.shields.io/badge/github-pymoten-blue" /></a> <a class="reference external" href="https://www.python.org/downloads/release/python-370"><img alt="Python" src="https://img.shields.io/badge/python-3.7%2B-blue" /></a></p>
 <div class="section" id="what-is-pymoten">
 <h2>What is pymoten?<a class="headerlink" href="#what-is-pymoten" title="Permalink to this headline">¶</a></h2>
 <p>A python package that provides a convenient way to extract motion-energy
 features from video using spatio-temporal Gabor filters. The 3D Gabor filters
 are created at multiple spatial and temporal frequencies, directions of motion,
-x-y positions, and sizes. Each filter quadrature-pair is convolved in with the
+x-y positions, and sizes. Each filter quadrature-pair is convolved with the
 video and their activation energy is computed for each frame. These features
 provide a good basis to model brain responses to natural movies
-(Nishimoto, et al., 2011a,b).</p>
+<a class="footnote-reference brackets" href="#id3" id="id1">1</a> <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>Clone the repo from GitHub and do the usual python install</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">gallantlab</span><span class="o">/</span><span class="n">pymoten</span><span class="o">.</span><span class="n">git</span>
-<span class="n">cd</span> <span class="n">pymoten</span>
-<span class="n">sudo</span> <span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/gallantlab/pymoten.git
+<span class="nb">cd</span> pymoten
+sudo python setup.py install
 </pre></div>
 </div>
 </div>
 <div class="section" id="getting-started">
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
 <p>Synthetic data example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="n">noise_movie</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
 <span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">noise_movie</span><span class="o">.</span><span class="n">shape</span>
 <span class="n">pyramid</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">get_default_pyramid</span><span class="p">(</span><span class="n">vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span> <span class="n">fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
@@ -158,7 +160,7 @@ provide a good basis to model brain responses to natural movies
 </pre></div>
 </div>
 <p>Simple example</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
 <span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
 <span class="n">luminance_images</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">video2luminance</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 <span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">luminance_images</span><span class="o">.</span><span class="n">shape</span>
@@ -167,6 +169,22 @@ provide a good basis to model brain responses to natural movies
 </pre></div>
 </div>
 </div>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<dl class="footnote brackets">
+<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Nishimoto, S., Vu, A. T., Naselaris, T., Benjamini, Y., Yu, B., &amp;
+Gallant, J. L. (2011). Reconstructing visual experiences from brain activity
+evoked by natural movies. Current Biology, 21(19), 1641-1646.</p>
+</dd>
+<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Nishimoto, S., &amp; Gallant, J. L. (2011). A three-dimensional
+spatiotemporal receptive field model explains responses of area MT neurons
+to naturalistic movies. Journal of Neuroscience, 31(41), 14551-14564.</p>
+</dd>
+</dl>
+</div>
+<hr class="docutils" />
 <div class="section" id="learn-more">
 <h2>Learn more<a class="headerlink" href="#learn-more" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
