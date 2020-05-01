@@ -26,8 +26,6 @@ from moten.utils import (DotDict,
 
 def raw_project_stimulus(stimulus,
                          filters,
-                         quadrature_combination=sqrt_sum_squares,
-                         output_nonlinearity=log_compress,
                          vhsize=(),
                          dtype=np.float32):
     '''Obtain responses to the stimuli from all filter quadrature-pairs.
@@ -127,7 +125,6 @@ def project_stimulus(stimulus,
     return filter_responses
 
 
-
 class StimulusTotalMotionEnergy(object):
     '''
     '''
@@ -155,7 +152,6 @@ class StimulusTotalMotionEnergy(object):
             self.video_file, size=self.size, nimages=self.nimages, dtype=self.dtype)
 
         return generator
-
 
     def compute_pixelby_pixel_covariance(self,
                                          generator=None,
@@ -199,8 +195,6 @@ class StimulusTotalMotionEnergy(object):
 
     def compute_temporal_pcs(self, generator=None, skip_first=False):
         '''
-        first_frame : str
-
         '''
         import moten.utils
 
@@ -723,8 +717,8 @@ def mk_moten_pyramid_params(stimulus_fps,
         Parameters that defined the motion-energy filter
         Each of the `nfilters` has the following parameters:
             * centerh,centerv : x:horizontal and y:vertical position ('0,0' is top left)
-            * direction       : direction of motion
-            * spatial_freq    : spatial frequency
+            * direction       : direction of motion [degrees] ('0' is rightwards)
+            * spatial_freq    : spatial frequency [cpi]
             * spatial_env     : spatial envelope (gaussian s.d.)
             * temporal_freq   : temporal frequency [Hz]
             * temporal_env    : temporal envelope (gaussian s.d.)
