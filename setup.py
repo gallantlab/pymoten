@@ -37,8 +37,9 @@ if not 'extra_setuptools_args' in globals():
     extra_setuptools_args = dict()
 
 
-long_description = """
-"""
+with open('README.rst', 'r') as fid:
+    long_description = fid.read()
+
 
 def main(**kwargs):
     setup(name='pymoten',
@@ -57,6 +58,7 @@ def main(**kwargs):
           cmdclass=dict(install=my_install),
           include_package_data=True,
           long_description=long_description,
+          long_description_content_type='text/x-rst',
           **kwargs)
 
 if __name__ == "__main__":

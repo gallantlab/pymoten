@@ -53,7 +53,7 @@ sphinx_gallery_conf = {
     # path where to save gallery generated examples
     'gallery_dirs'  : 'auto_examples',
     # which files to execute? only those starting with "plot_"
-    'filename_pattern' : '/demo_'
+    'filename_pattern' : '/demo_',
     }
 
 
