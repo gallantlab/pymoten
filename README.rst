@@ -11,7 +11,7 @@ What is pymoten?
 A python package that provides a convenient way to extract motion-energy
 features from video using spatio-temporal Gabor filters. The 3D Gabor filters
 are created at multiple spatial and temporal frequencies, directions of motion,
-x-y positions, and sizes. Each filter quadrature-pair is convolved in with the
+x-y positions, and sizes. Each filter quadrature-pair is convolved with the
 video and their activation energy is computed for each frame. These features
 provide a good basis to model brain responses to natural movies
 (Nishimoto, et al., 2011a,b).
