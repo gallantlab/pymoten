@@ -128,7 +128,7 @@ in the image in order to tile the stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>stimulus_hvsize</strong><span class="classifier">tuple of ints</span></dt><dd><p>Resolution of the stimulus (hdim, vdim, fps)</p>
+<dt><strong>stimulus_vhsize</strong><span class="classifier">tuple of ints</span></dt><dd><p>Resolution of the stimulus (vdim, hdim, fps)</p>
 </dd>
 <dt><strong>stimulus_fps</strong><span class="classifier">int, [Hz]</span></dt><dd><p>The temporal frequency of the stimulus.</p>
 </dd>
@@ -249,7 +249,7 @@ a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.project_stimulus">
-<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7fd95ab30400&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7fd9613c46a8&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em>, <em class="sig-param">use_cuda=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f71c7b85378&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71ce41a620&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em>, <em class="sig-param">use_cuda=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -363,7 +363,7 @@ to standard unit-circle coordinates.</p>
 <dt><strong>nfilters</strong><span class="classifier">int</span></dt><dd></dd>
 <dt><strong>aspect_ratio</strong><span class="classifier">scalar, (hdim/vdim)</span></dt><dd></dd>
 <dt><strong>stimulus_fps</strong><span class="classifier">int (fps)</span></dt><dd></dd>
-<dt><strong>stimulus_hvsize</strong><span class="classifier">tuple of ints, (hdim, vdim, fps)</span></dt><dd></dd>
+<dt><strong>stimulus_vhsize</strong><span class="classifier">tuple of ints, (vdim, hdim, fps)</span></dt><dd></dd>
 <dt><strong>original_stimulus</strong><span class="classifier">3D np.ndarray, (nimages, vdim, hdim)</span></dt><dd></dd>
 </dl>
 </dd>
@@ -388,7 +388,7 @@ to standard unit-circle coordinates.</p>
 </table>
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.project">
-<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7fd95ab30400&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7fd9613c46a8&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f71c7b85378&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71ce41a620&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filter responses to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -418,7 +418,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.project_at_vhposition">
-<code class="sig-name descname">project_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">centerv</em>, <em class="sig-param">centerh</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7fd95ab30400&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7fd9613c46a8&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project_at_vhposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_at_vhposition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">centerv</em>, <em class="sig-param">centerh</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f71c7b85378&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f71ce41a620&gt;</em>, <em class="sig-param">dtype=&lt;class 'numpy.float32'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project_at_vhposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_at_vhposition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Center filters at hv-position and compute their response to the stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
