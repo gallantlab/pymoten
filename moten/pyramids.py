@@ -44,8 +44,8 @@ class MotionEnergyPyramid(object):
 
     Parameters
     ----------
-    stimulus_hvsize : tuple of ints
-        Resolution of the stimulus (hdim, vdim, fps)
+    stimulus_vhsize : tuple of ints
+        Resolution of the stimulus (vdim, hdim, fps)
     stimulus_fps : int, [Hz]
         The temporal frequency of the stimulus.
     spatial_frequencies : array-like, [cycles-per-image]
@@ -407,7 +407,7 @@ class StimulusMotionEnergy(object):
     nfilters : int
     aspect_ratio : scalar, (hdim/vdim)
     stimulus_fps : int (fps)
-    stimulus_hvsize : tuple of ints, (hdim, vdim, fps)
+    stimulus_vhsize : tuple of ints, (vdim, hdim, fps)
     original_stimulus : 3D np.ndarray, (nimages, vdim, hdim)
 
     Methods
