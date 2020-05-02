@@ -49,19 +49,11 @@ def test_imagearray2luminance_reversible():
 
 
 def test_skimage_compare():
-    try:
-        import skimage.color
-        skimage_cielab = skimage.color.rgb2lab(image_rgb)
-        skimage_luminance = skimage_cielab[...,0]
-        # skimage is not the same...
-        assert np.allclose(skimage_luminance, image_luminance[0]) is False
-        # ...But it is highly correlated.
-        corr = np.corrcoef(skimage_luminance.ravel(), image_luminance[0].ravel())[0,1]
-        assert corr > 0.999
-        # Neither the observer nor the illuminant options account for this difference.
-        # TODO: Figure out the exact reason for this difference.
-    except:
-        pass
+    import skimage.color
+    skimage_luminance = skimage.color.rgb2lab(image_rgb)[..., 0]
+    pymoten_luminance = io.imagearray2luminance(image_rgb, size=None)[0]
+    np.testing.assert_array_almost_equal(skimage_luminance, pymoten_luminance,
+                                         decimal=5)
 
 # multiple images
 ##############################

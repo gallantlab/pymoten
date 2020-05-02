@@ -86,16 +86,14 @@ def rgb2xyz(image):
     LAB : 3D numpy float array
         The CIE XYZ representation in the image.
     '''
-    WhitePoint = np.asarray([0.950456,1.0,1.088754])
-    # image = rgb(image,SrcSpace);
     # % Undo gamma correction
     R = _invgammacorrection(image[:,:,0])
     G = _invgammacorrection(image[:,:,1])
     B = _invgammacorrection(image[:,:,2])
     # % Convert RGB to XYZ
-    trans = np.asarray([[3.240479,-1.53715,-0.498535],
-                        [-0.969256,1.875992,0.041556],
-                        [0.055648,-0.204043,1.057311]])
+    trans = np.asarray([[3.240481,-1.53715,-0.498536],
+                        [-0.969255,1.875990,0.041556],
+                        [0.055646,-0.204041,1.057311]])
     T = np.linalg.inv(trans).T.ravel()
     image[:,:,0] = T[0]*R + T[3]*G + T[6]*B # X
     image[:,:,1] = T[1]*R + T[4]*G + T[7]*B # Y
@@ -108,16 +106,16 @@ def _ff(Y):
     '''
     fY = np.real(Y**(1./3.))
     idx = Y < 0.008856
-    fY[idx] = Y[idx]*(841./108.) + (4./29.)
+    fY[idx] = Y[idx]*(7.787) + (4./29.)
     return fY
 
 
 def _invgammacorrection(Rp):
     '''
     '''
-    R = np.real(((Rp + 0.099)/1.099)**(1.0/0.45))
-    idx = R < 0.018
-    R[idx] = Rp[idx]/4.5138
+    R = np.real(((Rp + 0.055)/1.055)**(2.4))
+    idx = Rp < 0.04045
+    R[idx] = Rp[idx] / 12.92
     return R
 
 
