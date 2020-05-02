@@ -42,6 +42,26 @@ Motion-energy pyramids
    :hidden:
 
    /auto_examples/introduction/demo_example
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows the spatial components of the spatio-temporal filters used in motion energy ...">
+
+.. only:: html
+
+ .. figure:: /auto_examples/introduction/images/thumb/sphx_glr_demo_gabor_filters_thumb.png
+
+     :ref:`sphx_glr_auto_examples_introduction_demo_gabor_filters.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/introduction/demo_gabor_filters
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
