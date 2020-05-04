@@ -49,7 +49,12 @@ def test_imagearray2luminance_reversible():
 
 
 def test_skimage_compare():
-    import skimage.color
+    try:
+        import skimage.color
+    except ImportError:
+        import pytest
+        pytest.skip("scikit-image not installed.")
+
     skimage_luminance = skimage.color.rgb2lab(image_rgb)[..., 0]
     pymoten_luminance = io.imagearray2luminance(image_rgb, size=None)[0]
     np.testing.assert_array_almost_equal(skimage_luminance, pymoten_luminance,
