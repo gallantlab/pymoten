@@ -5,10 +5,10 @@
 
 Computation times
 =================
-**00:35.850** total execution time for **auto_examples_introduction** files:
+**00:33.016** total execution time for **auto_examples_introduction** files:
 
 +----------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_example.py` (``demo_example.py``)             | 00:34.607 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_example.py` (``demo_example.py``)             | 00:31.762 | 0.0 MB |
 +----------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_gabor_filters.py` (``demo_gabor_filters.py``) | 00:01.243 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_gabor_filters.py` (``demo_gabor_filters.py``) | 00:01.255 | 0.0 MB |
 +----------------------------------------------------------------------------------------------+-----------+--------+

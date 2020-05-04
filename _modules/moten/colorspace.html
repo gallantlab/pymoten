@@ -142,7 +142,7 @@
 <span class="sd">        The CIE LAB representation in the image.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="n">WhitePoint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.950456</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.088754</span><span class="p">])</span>
+    <span class="n">WhitePoint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.95047</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.08883</span><span class="p">])</span>
     <span class="c1"># Convert image to XYZ</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">rgb2xyz</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="c1"># % Convert XYZ to CIE L*a*b*</span>
@@ -195,17 +195,15 @@
 <span class="sd">    LAB : 3D numpy float array</span>
 <span class="sd">        The CIE XYZ representation in the image.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">WhitePoint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.950456</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.088754</span><span class="p">])</span>
-    <span class="c1"># image = rgb(image,SrcSpace);</span>
     <span class="c1"># % Undo gamma correction</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">_invgammacorrection</span><span class="p">(</span><span class="n">image</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">])</span>
     <span class="n">G</span> <span class="o">=</span> <span class="n">_invgammacorrection</span><span class="p">(</span><span class="n">image</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">])</span>
     <span class="n">B</span> <span class="o">=</span> <span class="n">_invgammacorrection</span><span class="p">(</span><span class="n">image</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">])</span>
     <span class="c1"># % Convert RGB to XYZ</span>
-    <span class="n">trans</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([[</span><span class="mf">3.240479</span><span class="p">,</span><span class="o">-</span><span class="mf">1.53715</span><span class="p">,</span><span class="o">-</span><span class="mf">0.498535</span><span class="p">],</span>
-                        <span class="p">[</span><span class="o">-</span><span class="mf">0.969256</span><span class="p">,</span><span class="mf">1.875992</span><span class="p">,</span><span class="mf">0.041556</span><span class="p">],</span>
-                        <span class="p">[</span><span class="mf">0.055648</span><span class="p">,</span><span class="o">-</span><span class="mf">0.204043</span><span class="p">,</span><span class="mf">1.057311</span><span class="p">]])</span>
-    <span class="n">T</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">trans</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">xyz_from_rgb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.412453</span><span class="p">,</span> <span class="mf">0.357580</span><span class="p">,</span> <span class="mf">0.180423</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">0.212671</span><span class="p">,</span> <span class="mf">0.715160</span><span class="p">,</span> <span class="mf">0.072169</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">0.019334</span><span class="p">,</span> <span class="mf">0.119193</span><span class="p">,</span> <span class="mf">0.950227</span><span class="p">]])</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">xyz_from_rgb</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
     <span class="n">image</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">R</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">G</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="n">B</span> <span class="c1"># X</span>
     <span class="n">image</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">R</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">G</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="n">B</span> <span class="c1"># Y</span>
     <span class="n">image</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">R</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="n">G</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">*</span><span class="n">B</span> <span class="c1"># Z</span>
@@ -217,16 +215,16 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">fY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">Y</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">))</span>
     <span class="n">idx</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">&lt;</span> <span class="mf">0.008856</span>
-    <span class="n">fY</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mf">841.</span><span class="o">/</span><span class="mf">108.</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">4.</span><span class="o">/</span><span class="mf">29.</span><span class="p">)</span>
+    <span class="n">fY</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mf">7.787</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">4.</span><span class="o">/</span><span class="mf">29.</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">fY</span>
 
 
 <span class="k">def</span> <span class="nf">_invgammacorrection</span><span class="p">(</span><span class="n">Rp</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(((</span><span class="n">Rp</span> <span class="o">+</span> <span class="mf">0.099</span><span class="p">)</span><span class="o">/</span><span class="mf">1.099</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="mf">0.45</span><span class="p">))</span>
-    <span class="n">idx</span> <span class="o">=</span> <span class="n">R</span> <span class="o">&lt;</span> <span class="mf">0.018</span>
-    <span class="n">R</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rp</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">/</span><span class="mf">4.5138</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(((</span><span class="n">Rp</span> <span class="o">+</span> <span class="mf">0.055</span><span class="p">)</span><span class="o">/</span><span class="mf">1.055</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">2.4</span><span class="p">))</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">Rp</span> <span class="o">&lt;</span> <span class="mf">0.04045</span>
+    <span class="n">R</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rp</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">/</span> <span class="mf">12.92</span>
     <span class="k">return</span> <span class="n">R</span>
 
 
