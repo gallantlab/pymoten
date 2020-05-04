@@ -53,7 +53,7 @@ def test_skimage_compare():
     skimage_luminance = skimage.color.rgb2lab(image_rgb)[..., 0]
     pymoten_luminance = io.imagearray2luminance(image_rgb, size=None)[0]
     np.testing.assert_array_almost_equal(skimage_luminance, pymoten_luminance,
-                                         decimal=5)
+                                         decimal=13)
 
 # multiple images
 ##############################

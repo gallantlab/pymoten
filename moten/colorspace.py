@@ -33,7 +33,7 @@ def rgb2lab(image):
         The CIE LAB representation in the image.
     '''
 
-    WhitePoint = np.asarray([0.950456,1.0,1.088754])
+    WhitePoint = np.asarray([0.95047,1.0,1.08883])
     # Convert image to XYZ
     image = rgb2xyz(image)
     # % Convert XYZ to CIE L*a*b*
@@ -91,10 +91,10 @@ def rgb2xyz(image):
     G = _invgammacorrection(image[:,:,1])
     B = _invgammacorrection(image[:,:,2])
     # % Convert RGB to XYZ
-    trans = np.asarray([[3.240481,-1.53715,-0.498536],
-                        [-0.969255,1.875990,0.041556],
-                        [0.055646,-0.204041,1.057311]])
-    T = np.linalg.inv(trans).T.ravel()
+    xyz_from_rgb = np.array([[0.412453, 0.357580, 0.180423],
+                            [0.212671, 0.715160, 0.072169],
+                            [0.019334, 0.119193, 0.950227]])
+    T = xyz_from_rgb.T.ravel()
     image[:,:,0] = T[0]*R + T[3]*G + T[6]*B # X
     image[:,:,1] = T[1]*R + T[4]*G + T[7]*B # Y
     image[:,:,2] = T[2]*R + T[5]*G + T[8]*B # Z
