@@ -10,15 +10,14 @@ cache:
 before_install:
   - travis_retry sudo apt-get install -y libblas-dev liblapack-dev libopenblas-dev
 
-# command to install dependencies
+# command to install dependencies and necessary packages to run tests
 install:
-  - travis_retry pip install -q -r requirements.txt
+  - travis_retry pip install -q -r test_requirements.txt
   - pip install -e .
 
 # command to run tests
 script:
-  # install necessary packages to run tests and run tests
-  - travis_retry pip install -q pytest pytest-cov codecov
+  # run tests
   - pytest --cov=./
   # test installation
   - python setup.py install
