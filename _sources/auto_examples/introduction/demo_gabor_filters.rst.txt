@@ -16,11 +16,11 @@ Spatial components of the motion energy filters
 This example shows the spatial components of the spatio-temporal filters used
 in motion energy features. It does not show the temporal components, since this
 gallery does not support animation. To visualize the filters with their
-temporal components, you can use `moten.viz.plot_3dgabor`.
+temporal components, you can use :func:`moten.viz.plot_3dgabor`.
 Here we demonstrate how the spatial filters vary in term of spatial
 frequencies, locations, and directions.
 
-First, let's define a motion energy pyramid, using `MotionEnergyPyramid`.
+First, let's define a motion energy pyramid, using :class:`MotionEnergyPyramid`.
 It defines a set of spatio-temporal Gabor filters.
 
 
@@ -149,7 +149,7 @@ Different directions
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.255 seconds)
+   **Total running time of the script:** ( 0 minutes  1.208 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_gabor_filters.py:
