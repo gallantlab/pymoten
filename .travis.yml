@@ -24,6 +24,7 @@ script:
   # install packages for docs and make docs
   - travis_retry pip install -q ipython Sphinx sphinx-gallery numpydoc sphinx-bootstrap-theme
   - cd docs
+  - mkdir -p build/html/_downloads/ # to save custom data with sphinx-examples
   - sphinx-apidoc -o source/autodoc ../moten -e
   - sphinx-autogen source/index.rst
   - make html && cd ..
