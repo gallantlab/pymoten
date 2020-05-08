@@ -125,7 +125,7 @@
 <div class="sphx-glr-example-title section" id="extracting-features-from-stimulus-batches">
 <span id="sphx-glr-auto-examples-introduction-demo-batching-py"></span><h1>Extracting features from stimulus batches<a class="headerlink" href="#extracting-features-from-stimulus-batches" title="Permalink to this headline">¶</a></h1>
 <p>This example shows how to use batches to extract motion-energy features from a video.</p>
-<p>When the stimulus is very high-resolution (e.g. 4K) or is multiple hours long, it might not be possible to fit the data in memory. In such situations, it is useful to load a small number of video frames and extract motion-energy features from that subset of frames alone. In order to do this properly, one must avoid edge effects. In this example we show how to batch</p>
+<p>When the stimulus is very high-resolution (e.g. 4K) or is multiple hours long, it might not be possible to fit the data in memory. In such situations, it is useful to load a small number of video frames and extract motion-energy features from that subset of frames alone. In order to do this properly, one must avoid edge effects. In this example we show how to do that.</p>
 <p>First, we’ll specify the stimulus we want to load.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -217,7 +217,7 @@ Batch 5/5 [240:300]
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">moten_features</span><span class="p">,</span> <span class="n">batched_data</span><span class="p">)</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  26.795 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  27.925 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-batching-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6db5a74126c37b12cecb8d78ab7220d1/demo_batching.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">demo_batching.py</span></code></a></p>
