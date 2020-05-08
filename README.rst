@@ -33,27 +33,39 @@ Clone the repo from GitHub and do the usual python install
 Getting started
 ===============
 
-Synthetic data example
+Example using synthetic data
 
 .. code-block:: python
 
    import moten
    import numpy as np
+
+   # Generate synthetic data
+   nimages, vdim, hdim = (100, 90, 180)
    noise_movie = np.random.randn(100, 90, 180)
-   nimages, vdim, hdim = noise_movie.shape
+
+   # Create a pyramid of spatio-temporal gabor filters
    pyramid = moten.get_default_pyramid(vhsize=(vdim, hdim), fps=24)
+
+   # Compute motion-energy features
    moten_features = pyramid.project_stimulus(noise_movie)
 
 
-Simple example
+Simple example using a short movie clip
 
 .. code-block:: python
 
    import moten
+
+   # Download and convert the movie clip into a sequence of luminance values
    video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
    luminance_images = moten.io.video2luminance(video_file, nimages=100)
+
+   # Create a pyramid of spatio-temporal gabor filters
    nimages, vdim, hdim = luminance_images.shape
    pyramid = moten.get_default_pyramid(vhsize=(vdim, hdim), fps=24)
+
+   # Compute motion-energy features
    moten_features = pyramid.project_stimulus(luminance_images)
 
 
