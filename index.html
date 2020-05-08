@@ -150,21 +150,33 @@ sudo python setup.py install
 </div>
 <div class="section" id="getting-started">
 <h2>Getting started<a class="headerlink" href="#getting-started" title="Permalink to this headline">¶</a></h2>
-<p>Synthetic data example</p>
+<p>Example using synthetic data</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="n">noise_movie</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
-<span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">noise_movie</span><span class="o">.</span><span class="n">shape</span>
+
+<span class="c1"># Generate synthetic data</span>
+<span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">)</span>
+<span class="n">noise_movie</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">)</span>
+
+<span class="c1"># Create a pyramid of spatio-temporal gabor filters</span>
 <span class="n">pyramid</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">get_default_pyramid</span><span class="p">(</span><span class="n">vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span> <span class="n">fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+
+<span class="c1"># Compute motion-energy features</span>
 <span class="n">moten_features</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">noise_movie</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Simple example</p>
+<p>Simple example using a short movie clip</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
+
+<span class="c1"># Download and convert the movie clip into a sequence of luminance values</span>
 <span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
 <span class="n">luminance_images</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">video2luminance</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># Create a pyramid of spatio-temporal gabor filters</span>
 <span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">luminance_images</span><span class="o">.</span><span class="n">shape</span>
 <span class="n">pyramid</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">get_default_pyramid</span><span class="p">(</span><span class="n">vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span> <span class="n">fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
+
+<span class="c1"># Compute motion-energy features</span>
 <span class="n">moten_features</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">)</span>
 </pre></div>
 </div>
