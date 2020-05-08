@@ -165,10 +165,10 @@ sudo python setup.py install
 <span class="n">moten_features</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">noise_movie</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Simple example using a movie</p>
+<p>Simple example using a video file</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
 
-<span class="c1"># Download and convert the movie into a sequence of luminance values</span>
+<span class="c1"># Download and convert the RGB video into a sequence of luminance images</span>
 <span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
 <span class="n">luminance_images</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">video2luminance</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 
