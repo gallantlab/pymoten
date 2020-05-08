@@ -42,7 +42,7 @@ Example using synthetic data
 
    # Generate synthetic data
    nimages, vdim, hdim = (100, 90, 180)
-   noise_movie = np.random.randn(100, 90, 180)
+   noise_movie = np.random.randn(nimages, vdim, hdim)
 
    # Create a pyramid of spatio-temporal gabor filters
    pyramid = moten.get_default_pyramid(vhsize=(vdim, hdim), fps=24)
