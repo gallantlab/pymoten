@@ -79,3 +79,4 @@ References
    to naturalistic movies. Journal of Neuroscience, 31(41), 14551-14564.
 =======
    
+A MATLAB implementation can be found `here <https://github.com/gallantlab/motion_energy_matlab/>`_. 
