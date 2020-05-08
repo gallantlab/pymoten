@@ -8,7 +8,7 @@ cache:
   - pip
 
 before_install:
-  - travis_retry sudo apt-get install -y libblas-dev liblapack-dev libopenblas-dev
+  - travis_retry sudo apt-get install -y libblas-dev liblapack-dev libopenblas-dev ffmpeg
 
 # command to install dependencies and necessary packages to run tests
 install:
