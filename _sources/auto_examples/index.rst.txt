@@ -62,6 +62,26 @@ Motion-energy pyramids
    :hidden:
 
    /auto_examples/introduction/demo_gabor_filters
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use batches to extract motion-energy features from a video.">
+
+.. only:: html
+
+ .. figure:: /auto_examples/introduction/images/thumb/sphx_glr_demo_batching_thumb.png
+
+     :ref:`sphx_glr_auto_examples_introduction_demo_batching.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/introduction/demo_batching
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
