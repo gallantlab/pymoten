@@ -51,13 +51,13 @@ Example using synthetic data
    moten_features = pyramid.project_stimulus(noise_movie)
 
 
-Simple example using a movie
+Simple example using a video file
 
 .. code-block:: python
 
    import moten
 
-   # Download and convert the movie into a sequence of luminance values
+   # Download and convert the RGB video into a sequence of luminance images
    video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
    luminance_images = moten.io.video2luminance(video_file, nimages=100)
 
