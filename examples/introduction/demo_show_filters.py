@@ -8,8 +8,7 @@ This example demonstrates how to display a motion-energy filter from the pyramid
 import moten
 
 pyramid = moten.pyramids.MotionEnergyPyramid(stimulus_vhsize=(768, 1024),
-                                             stimulus_fps=24,
-                                             filter_temporal_width=16)
+                                             stimulus_fps=24)
 animation = pyramid.show_filter(1337)
 
 # %%
