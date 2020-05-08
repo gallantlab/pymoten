@@ -5,7 +5,7 @@
 
 This example shows how to use batches to extract motion-energy features from a video.
 
-When the stimulus is very high-resolution (e.g. 4K) or is multiple hours long, it might not be possible to fit the data in memory. In such situations, it is useful to load a small number of video frames and extract motion-energy features from that subset of frames alone. In order to do this properly, one must avoid edge effects. In this example we show how to batch
+When the stimulus is very high-resolution (e.g. 4K) or is multiple hours long, it might not be possible to fit the data in memory. In such situations, it is useful to load a small number of video frames and extract motion-energy features from that subset of frames alone. In order to do this properly, one must avoid edge effects. In this example we show how to do that.
 '''
 
 
