@@ -171,7 +171,7 @@
 <div class="viewcode-block" id="generate_frame_difference_from_greyvideo"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.generate_frame_difference_from_greyvideo">[docs]</a><span class="k">def</span> <span class="nf">generate_frame_difference_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span>
                                              <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                              <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
-                                             <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">):</span>
+                                             <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
     <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
     <span class="n">previous_frame</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">frame_index</span><span class="p">,</span> <span class="n">image_rgb</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vbuffer</span><span class="p">):</span>
