@@ -25,7 +25,7 @@ script:
   - travis_retry pip install -q ipython Sphinx sphinx-gallery numpydoc sphinx-bootstrap-theme
   - cd docs
   # custom makefile directive
-  - make githubio-docs
+  - make githubio-docs && cd ..
 
 after_success:
   - codecov
