@@ -17,17 +17,17 @@ def test_oldapi():
 
     # inferred aspect ratio
     moten_features_defaults = moten.core.compute_filter_responses(luminance_images, 24,
-                                                                  dtype=np.float32)
+                                                                  dtype='float32')
 
     # wrong aspect ratio
     moten_features_wrong = moten.core.compute_filter_responses(luminance_images, 24,
                                                                aspect_ratio=1.0,
-                                                               dtype=np.float32)
+                                                               dtype='float32')
 
     # exact aspect ratio
     moten_features_exact = moten.core.compute_filter_responses(luminance_images, 24,
                                                           aspect_ratio=aspect_ratio,
-                                                          dtype=np.float32)
+                                                          dtype='float32')
 
 
     # custom pyramid
@@ -43,11 +43,11 @@ def test_oldapi():
 
     moten_features_custom = moten.core.compute_filter_responses(luminance_images, 24,
                                                                 aspect_ratio=aspect_ratio,
-                                                                dtype=np.float32,
+                                                                dtype='float32',
                                                                 pyramid_parameters=pyramid_parameters)
 
 
     # spatial only
     ##############################
     gabor_features_custom = moten.core.compute_spatial_gabor_responses(luminance_images,
-                                                                       dtype=np.float32)
+                                                                       dtype='float32')

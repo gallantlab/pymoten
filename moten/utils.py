@@ -62,7 +62,7 @@ def iterator_func(*args, **kwargs):
 def pixbypix_covariance_from_frames_generator(data_generator,
                                               batch_size=1000,
                                               output_nonlinearity=pointwise_square,
-                                              dtype=np.float32):
+                                              dtype='float32'):
     '''
     Parameters
     ----------

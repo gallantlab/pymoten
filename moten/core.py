@@ -27,7 +27,7 @@ from moten.utils import (DotDict,
 def raw_project_stimulus(stimulus,
                          filters,
                          vhsize=(),
-                         dtype=np.float32):
+                         dtype='float32'):
     '''Obtain responses to the stimuli from all filter quadrature-pairs.
 
     Parameters
@@ -80,7 +80,7 @@ def project_stimulus(stimulus,
                      quadrature_combination=sqrt_sum_squares,
                      output_nonlinearity=log_compress,
                      vhsize=(),
-                     dtype=np.float32):
+                     dtype='float32'):
     '''Compute the motion-energy filter responses to the stimuli.
 
     Parameters
@@ -134,7 +134,7 @@ class StimulusTotalMotionEnergy(object):
                  nimages=np.inf,
                  batch_size=100,
                  output_nonlinearity=pointwise_square,
-                 dtype=np.float32):
+                 dtype='float32'):
         '''
         '''
         self.size = size

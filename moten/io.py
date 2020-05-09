@@ -62,7 +62,7 @@ def generate_frames_from_greyvideo(video_file, size=None, nimages=np.inf):
 def generate_frame_difference_from_greyvideo(video_file,
                                              size=None,
                                              nimages=np.inf,
-                                             dtype=np.float32):
+                                             dtype='float32'):
     vbuffer = video_buffer(video_file, nimages=nimages)
     previous_frame = 0
     for frame_index, image_rgb in enumerate(vbuffer):
