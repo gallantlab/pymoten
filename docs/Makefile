@@ -25,7 +25,7 @@ githubio-docs:
 	@echo "Making API..."
 	@sphinx-apidoc -o $(API_DIR) ../$(PROJECTNAME) -e
 	@sphinx-autogen $(SOURCEDIR)/index.rst
-	@$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	@$(SPHINXBUILD) -b html "$(SOURCEDIR)" "$(HTMLOUTPATH)" $(SPHINXOPTS) $(O)
 	@echo
 	@echo "Build finished. The HTML pages are in $(HTMLOUTPATH)."
 
