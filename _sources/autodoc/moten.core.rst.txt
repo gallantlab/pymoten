@@ -1,0 +1,7 @@
+moten.core module
+=================
+
+.. automodule:: moten.core
+   :members:
+   :undoc-members:
+   :show-inheritance:

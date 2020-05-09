@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>moten.io &#8212; pymoten 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pymoten</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to pymoten!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html#motion-energy-pyramids">Motion-energy pyramids</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page content <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for moten.io</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="c1"># Anwar O. Nunez-Elizalde (Jan, 2016)</span>
+<span class="c1">#</span>
+<span class="c1"># Updates:</span>
+<span class="c1">#  Anwar O. Nunez-Elizalde (Apr, 2020)</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">moten.utils</span> <span class="kn">import</span> <span class="n">iterator_func</span>
+<span class="kn">from</span> <span class="nn">moten.colorspace</span> <span class="kn">import</span> <span class="n">rgb2lab</span>
+
+<div class="viewcode-block" id="video_buffer"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.video_buffer">[docs]</a><span class="k">def</span> <span class="nf">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Generator for a video file.</span>
+
+<span class="sd">    Yields individual uint8 images from a video file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    video_file : str</span>
+<span class="sd">        Full path to the video file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    vbuff : generator</span>
+<span class="sd">        Each ``__next()__`` call yields an RGB frame from video.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    &gt;&gt;&gt; video_file = &#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
+<span class="sd">    &gt;&gt;&gt; image_buffer = video_buffer(video_file, nimages=50)</span>
+<span class="sd">    &gt;&gt;&gt; movie = np.asarray([frame for frame in image_buffer])</span>
+<span class="sd">    &gt;&gt;&gt; print(movie.shape) # (nimages, vdim, hdim, color)</span>
+<span class="sd">    (50, 144, 256, 3)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">import</span> <span class="nn">cv2</span>
+    <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">video_file</span><span class="p">)</span>
+    <span class="n">frameidx</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">frameidx</span> <span class="o">&gt;=</span> <span class="n">nimages</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="n">flag</span><span class="p">,</span> <span class="n">im</span> <span class="o">=</span> <span class="n">cap</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+        <span class="n">frameidx</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">flag</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">im</span><span class="p">[</span><span class="o">...</span><span class="p">,::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># flip to RGB</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">break</span></div>
+
+
+<div class="viewcode-block" id="generate_frames_from_greyvideo"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.generate_frames_from_greyvideo">[docs]</a><span class="k">def</span> <span class="nf">generate_frames_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+    <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
+    <span class="n">grey_video</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">imageidx</span><span class="p">,</span> <span class="n">image_rgb</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vbuffer</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">image_rgb</span> <span class="o">=</span> <span class="n">resize_image</span><span class="p">(</span><span class="n">image_rgb</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">grey_image</span> <span class="o">=</span> <span class="n">image_rgb</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">255.0</span>
+        <span class="k">yield</span> <span class="n">grey_image</span></div>
+
+
+<div class="viewcode-block" id="generate_frame_difference_from_greyvideo"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.generate_frame_difference_from_greyvideo">[docs]</a><span class="k">def</span> <span class="nf">generate_frame_difference_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span>
+                                             <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                             <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                                             <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
+    <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
+    <span class="n">previous_frame</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">frame_index</span><span class="p">,</span> <span class="n">image_rgb</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vbuffer</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">image_rgb</span> <span class="o">=</span> <span class="n">resize_image</span><span class="p">(</span><span class="n">image_rgb</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">current_image</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">image_rgb</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="mf">255.0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">frame_difference</span> <span class="o">=</span> <span class="n">current_image</span> <span class="o">-</span> <span class="n">previous_frame</span>
+        <span class="n">previous_frame</span> <span class="o">=</span> <span class="n">current_image</span>
+        <span class="k">yield</span> <span class="n">frame_difference</span></div>
+
+
+<div class="viewcode-block" id="video2luminance"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.video2luminance">[docs]</a><span class="k">def</span> <span class="nf">video2luminance</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    size (optional) : tuple, (vdim, hdim)</span>
+<span class="sd">        The desired output image size</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
+    <span class="n">luminance_video</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">imageidx</span><span class="p">,</span> <span class="n">image_rgb</span> <span class="ow">in</span> <span class="n">iterator_func</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">vbuffer</span><span class="p">),</span>
+                                             <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.video2luminance&#39;</span><span class="o">%</span><span class="vm">__name__</span><span class="p">):</span>
+        <span class="n">luminance_image</span> <span class="o">=</span> <span class="n">imagearray2luminance</span><span class="p">(</span><span class="n">image_rgb</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+        <span class="n">luminance_video</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">luminance_image</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">luminance_video</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="video2grey"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.video2grey">[docs]</a><span class="k">def</span> <span class="nf">video2grey</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    size (optional) : tuple, (vdim, hdim)</span>
+<span class="sd">        The desired output image size</span>
+
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
+    <span class="n">grey_video</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">imageidx</span><span class="p">,</span> <span class="n">image_rgb</span> <span class="ow">in</span> <span class="n">iterator_func</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">vbuffer</span><span class="p">),</span>
+                                             <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">.video2grey&#39;</span><span class="o">%</span><span class="vm">__name__</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">image_rgb</span> <span class="o">=</span> <span class="n">resize_image</span><span class="p">(</span><span class="n">image_rgb</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">)</span>
+        <span class="n">grey_image</span> <span class="o">=</span> <span class="n">image_rgb</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="mf">255.0</span>
+        <span class="n">grey_video</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">grey_image</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">grey_video</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="imagearray2luminance"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.imagearray2luminance">[docs]</a><span class="k">def</span> <span class="nf">imagearray2luminance</span><span class="p">(</span><span class="n">uint8arr</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert an array of uint8 RGB images to a luminance image</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    uint8arr : 4D np.ndarray (n, vdim, hdim, rgb)</span>
+<span class="sd">        The uint8 RGB frames.</span>
+
+<span class="sd">    size (optional) : tuple, (vdim, hdim)</span>
+<span class="sd">        The desired output image size</span>
+
+<span class="sd">    filter: to be passed to PIL</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    luminance_array = 3D np.ndarray (n, vdim, hdim)</span>
+<span class="sd">        The luminance image representation (0-100 range)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">misc</span>
+    <span class="kn">from</span> <span class="nn">moten.colorspace</span> <span class="kn">import</span> <span class="n">rgb2lab</span>
+
+    <span class="k">if</span> <span class="n">uint8arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># handle single image case</span>
+        <span class="n">uint8arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">uint8arr</span><span class="p">])</span>
+
+    <span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">,</span> <span class="n">cdim</span> <span class="o">=</span> <span class="n">uint8arr</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">outshape</span> <span class="o">=</span> <span class="p">(</span><span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">)</span> <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="kc">None</span> \
+        <span class="k">else</span> <span class="p">(</span><span class="n">nimages</span><span class="p">,</span> <span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">luminance</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">outshape</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">imdx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nimages</span><span class="p">):</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">uint8arr</span><span class="p">[</span><span class="n">imdx</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+            <span class="n">im</span> <span class="o">=</span> <span class="n">resize_image</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">rgb2lab</span><span class="p">(</span><span class="n">im</span><span class="o">/</span><span class="mf">255.</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">luminance</span><span class="p">[</span><span class="n">imdx</span><span class="p">]</span> <span class="o">=</span> <span class="n">im</span>
+    <span class="k">return</span> <span class="n">luminance</span></div>
+
+
+<div class="viewcode-block" id="resize_image"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.resize_image">[docs]</a><span class="k">def</span> <span class="nf">resize_image</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">96</span><span class="p">,</span><span class="mi">96</span><span class="p">),</span> <span class="nb">filter</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Resize an image and return its array representation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    im : str, np.ndarray(uint8), or PIL.Image object</span>
+<span class="sd">        The path to the image, an image array, or a loaded PIL.Image</span>
+<span class="sd">    size : tuple, (vdim, hdim)</span>
+<span class="sd">        The desired output image size</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    arr : uint8 np.array, (vdim, hdim, 3)</span>
+<span class="sd">        The resized image array</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+    <span class="n">im</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+
+    <span class="c1"># flip to PIL.Image convention</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="n">size</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">_new</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">im</span><span class="o">.</span><span class="n">stretch</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="c1"># PIL 4.0.0 The stretch function on the core image object has been removed.</span>
+        <span class="c1"># This used to be for enlarging the image, but has been aliased to resize recently.</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">_new</span><span class="p">(</span><span class="n">im</span><span class="o">.</span><span class="n">im</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">filter</span><span class="p">))</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">im</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">im</span></div>
+
+
+<div class="viewcode-block" id="load_image_luminance"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.load_image_luminance">[docs]</a><span class="k">def</span> <span class="nf">load_image_luminance</span><span class="p">(</span><span class="n">image_files</span><span class="p">,</span> <span class="n">hdim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vdim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Load a set of RGB images and return its luminance representation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image_files : list-like, (n,)</span>
+<span class="sd">        A list of file names.</span>
+<span class="sd">        The images should be in RGB uint8 format</span>
+<span class="sd">    vdim, hdim : int, optional</span>
+<span class="sd">        Vertical and horizontal dimensions, respectively.</span>
+<span class="sd">        If provided the images will be scaled to this size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    arr : 3D np.array (n,vdim,hdim)</span>
+<span class="sd">        The luminance representation of the images</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">hdim</span> <span class="ow">and</span> <span class="n">vdim</span><span class="p">):</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">stim</span><span class="p">,</span><span class="n">sz</span><span class="p">:</span> <span class="n">resize_image</span><span class="p">(</span><span class="n">stim</span><span class="p">,</span><span class="n">sz</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loader</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">stim</span><span class="p">,</span><span class="n">sz</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">stim</span><span class="p">)</span>
+
+    <span class="n">stimuli</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">fdx</span><span class="p">,</span> <span class="n">fl</span> <span class="ow">in</span> <span class="n">iterator_func</span><span class="p">(</span><span class="nb">enumerate</span><span class="p">(</span><span class="n">image_files</span><span class="p">),</span>
+                                 <span class="s2">&quot;load_image_luminance&quot;</span><span class="p">,</span>
+                                 <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">image_files</span><span class="p">)):</span>
+        <span class="n">stimulus</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fl</span><span class="p">)</span>
+        <span class="n">stimulus</span> <span class="o">=</span> <span class="n">loader</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,(</span><span class="n">vdim</span><span class="p">,</span><span class="n">hdim</span><span class="p">))</span>
+        <span class="n">stimulus</span> <span class="o">=</span> <span class="n">rgb2lab</span><span class="p">(</span><span class="n">stimulus</span><span class="o">/</span><span class="mf">255.</span><span class="p">)[</span><span class="o">...</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">stimuli</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stimulus</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">stimuli</span><span class="p">)</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020, Anwar O. Nunez-Elizalde.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

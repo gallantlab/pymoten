@@ -1,0 +1,23 @@
+moten package
+=============
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   moten.colorspace
+   moten.core
+   moten.io
+   moten.pyramids
+   moten.utils
+   moten.viz
+
+Module contents
+---------------
+
+.. automodule:: moten
+   :members:
+   :undoc-members:
+   :show-inheritance:

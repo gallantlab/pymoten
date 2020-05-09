@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Computing motion-energy features from batches of stimuli &#8212; pymoten 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="Spatial components of the motion energy filters" href="demo_gabor_filters.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pymoten</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to pymoten!</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Gallery of examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#motion-energy-pyramids">Motion-energy pyramids</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page content <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li><a class="reference internal" href="#">Computing motion-energy features from batches of stimuli</a><ul>
+<li><a class="reference internal" href="#features-from-stimulus">Features from stimulus</a></li>
+<li><a class="reference internal" href="#features-from-stimulus-batches">Features from stimulus batches</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+              
+                
+  <li>
+    <a href="demo_gabor_filters.html" title="Previous Chapter: Spatial components of the motion energy filters"><span class="glyphicon glyphicon-chevron-left visible-sm"></span><span class="hidden-sm hidden-tablet">&laquo; Spatial compo...</span>
+    </a>
+  </li>
+              
+            
+            
+            
+            
+              <li class="hidden-sm">
+<div id="sourcelink">
+  <a href="../../_sources/auto_examples/introduction/demo_batching.rst.txt"
+     rel="nofollow">Source</a>
+</div></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-introduction-demo-batching-py"><span class="std std-ref">here</span></a>     to download the full example code</p>
+</div>
+<div class="sphx-glr-example-title section" id="computing-motion-energy-features-from-batches-of-stimuli">
+<span id="sphx-glr-auto-examples-introduction-demo-batching-py"></span><h1>Computing motion-energy features from batches of stimuli<a class="headerlink" href="#computing-motion-energy-features-from-batches-of-stimuli" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to extract motion-energy features from batches of a video.</p>
+<p>When the stimulus is very high-resolution (e.g. 4K) or is several hours long, it might not be possible to fit load the stimulus into memory. In such situations, it is useful to load a small number of video frames and extract motion-energy features from that subset of frames alone. In order to do this properly, one must avoid edge effects. In this example we show how to do that.</p>
+<div class="section" id="features-from-stimulus">
+<h2>Features from stimulus<a class="headerlink" href="#features-from-stimulus" title="Permalink to this headline">¶</a></h2>
+<p>First, we specify the stimulus we want to load.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">stimulus_fps</span> <span class="o">=</span> <span class="mi">24</span>
+<span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
+</pre></div>
+</div>
+<p>Load the first 300 images and spatially downsample the video.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">small_vhsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>        <span class="c1"># height x width</span>
+<span class="n">luminance_images</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">video2luminance</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">small_vhsize</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
+<span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">luminance_images</span><span class="o">.</span><span class="n">shape</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">matshow</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">[</span><span class="mi">200</span><span class="p">],</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;inferno&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+</pre></div>
+</div>
+<img alt="../../_images/sphx_glr_demo_batching_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_demo_batching_001.png" />
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>72 128
+
+[]
+</pre></div>
+</div>
+<p>Next we construct the pyramid and extract the motion-energy features from the full stimulus.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">pyramids</span><span class="o">.</span><span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
+                                             <span class="n">stimulus_fps</span><span class="o">=</span><span class="n">stimulus_fps</span><span class="p">,</span>
+                                             <span class="n">filter_temporal_width</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="n">moten_features</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">moten_features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(300, 2530)
+</pre></div>
+</div>
+</div>
+<div class="section" id="features-from-stimulus-batches">
+<h2>Features from stimulus batches<a class="headerlink" href="#features-from-stimulus-batches" title="Permalink to this headline">¶</a></h2>
+<p>Next, instead of computing the features from the full stimulus, we compute them from separate but continous stimulus chunks. These stimulus chunks are the stimulus batches.</p>
+<p>We have to include some padding to the batches in order to avoid convolution edge effects. The padding is determined by the temporal width of the motion-energy filter. By default, the temporal width is 2/3 of the stimulus frame rate (<cite>int(fps*(2/3))</cite>). This parameter can be specified when instantating a pyramid by passing e.g. <code class="docutils literal notranslate"><span class="pre">filter_temporal_width=16</span></code>. Once the pyramid is defined, the parameter can also be accessed from the <code class="docutils literal notranslate"><span class="pre">pyramid.definition</span></code> dictionary.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">filter_temporal_width</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">definition</span><span class="p">[</span><span class="s1">&#39;filter_temporal_width&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Finally, we define the padding window as half the temporal filter width.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">window</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">filter_temporal_width</span><span class="o">/</span><span class="mi">2</span><span class="p">)))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">filter_temporal_width</span><span class="p">,</span> <span class="n">window</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>16 8
+</pre></div>
+</div>
+<p>Now we are ready to extract motion-energy features in batches:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nbatches</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">batch_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">nimages</span><span class="o">/</span><span class="n">nbatches</span><span class="p">))</span>
+<span class="n">batched_data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">bdx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nbatches</span><span class="p">):</span>
+    <span class="n">start_frame</span><span class="p">,</span> <span class="n">end_frame</span> <span class="o">=</span> <span class="n">batch_size</span><span class="o">*</span><span class="n">bdx</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">*</span><span class="p">(</span><span class="n">bdx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Batch </span><span class="si">%i</span><span class="s1">/</span><span class="si">%i</span><span class="s1"> [</span><span class="si">%i</span><span class="s1">:</span><span class="si">%i</span><span class="s1">]&#39;</span><span class="o">%</span><span class="p">(</span><span class="n">bdx</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">nbatches</span><span class="p">,</span> <span class="n">start_frame</span><span class="p">,</span> <span class="n">end_frame</span><span class="p">))</span>
+
+    <span class="c1"># Padding</span>
+    <span class="n">batch_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">start_frame</span> <span class="o">-</span> <span class="n">window</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">batch_end</span> <span class="o">=</span> <span class="n">end_frame</span> <span class="o">+</span> <span class="n">window</span>
+    <span class="n">stimulus_batch</span> <span class="o">=</span> <span class="n">luminance_images</span><span class="p">[</span><span class="n">batch_start</span><span class="p">:</span><span class="n">batch_end</span><span class="p">]</span>
+    <span class="n">batched_responses</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">stimulus_batch</span><span class="p">)</span>
+
+    <span class="c1"># Trim edges</span>
+    <span class="k">if</span> <span class="n">bdx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">batched_responses</span> <span class="o">=</span> <span class="n">batched_responses</span><span class="p">[:</span><span class="o">-</span><span class="n">window</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">bdx</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">nbatches</span><span class="p">:</span>
+        <span class="n">batched_responses</span> <span class="o">=</span> <span class="n">batched_responses</span><span class="p">[</span><span class="n">window</span><span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">batched_responses</span> <span class="o">=</span> <span class="n">batched_responses</span><span class="p">[</span><span class="n">window</span><span class="p">:</span><span class="o">-</span><span class="n">window</span><span class="p">]</span>
+    <span class="n">batched_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batched_responses</span><span class="p">)</span>
+
+<span class="n">batched_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">batched_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="sphx-glr-script-out">Out:</p>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Batch 1/5 [0:60]
+Batch 2/5 [60:120]
+Batch 3/5 [120:180]
+Batch 4/5 [180:240]
+Batch 5/5 [240:300]
+</pre></div>
+</div>
+<p>They are exactly the same.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">assert</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">moten_features</span><span class="p">,</span> <span class="n">batched_data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In this example, the stimulus (<code class="docutils literal notranslate"><span class="pre">luminance_images</span></code>) is already in memory and so batching does not provide any benefits. However, there are situations in which the stimulus cannot be loaded all at once. In such situations, batching is necessary. One can modify the code above and write a function to load a subset of frames that can fit into memory (e.g. <code class="docutils literal notranslate"><span class="pre">stimulus_batch</span> <span class="pre">=</span> <span class="pre">load_my_video_frames_batch(`my_stimulus_video_file.avi`,</span> <span class="pre">batch_start,</span> <span class="pre">batch_end)</span></code>).</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  26.960 seconds)</p>
+<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-batching-py">
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/6db5a74126c37b12cecb8d78ab7220d1/demo_batching.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">demo_batching.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/058e63c5da1393fd3437e5be2d1c72f9/demo_batching.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">demo_batching.ipynb</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020, Anwar O. Nunez-Elizalde.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

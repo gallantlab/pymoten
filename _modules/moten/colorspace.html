@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>moten.colorspace &#8212; pymoten 0.0.1 documentation</title>
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-binder.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/gallery-dataframe.css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js "></script>
+<script type="text/javascript" src="../../_static/js/jquery-fix.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-3.3.7/js/bootstrap.min.js "></script>
+<script type="text/javascript" src="../../_static/bootstrap-sphinx.js "></script>
+
+  </head><body>
+
+  <div id="navbar" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          pymoten</a>
+        <span class="navbar-text navbar-version pull-left"><b></b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to pymoten!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html#motion-energy-pyramids">Motion-energy pyramids</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page content <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"></ul>
+</li>
+              
+            
+            
+              
+                
+              
+            
+            
+            
+            
+              <li class="hidden-sm"></li>
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="body col-md-12 content" role="main">
+      
+  <h1>Source code for moten.colorspace</h1><div class="highlight"><pre>
+<span></span><span class="sd">&#39;&#39;&#39;Code to convert RGB to other color spaces</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="c1">#</span>
+<span class="c1"># Color transformations from</span>
+<span class="c1"># /auto/k1/shinji/matlab/colorspace/colorspace2.m</span>
+<span class="c1"># /auto/k1/shinji/matlab/strflab_adds/preprocColorSpace.m</span>
+<span class="c1">#</span>
+<span class="c1"># Code originally by Pascal Getreuer (https://getreuer.info/) 2005-2006:</span>
+<span class="c1"># https://www.mathworks.com/matlabcentral/fileexchange/28790-colorspace-transformations</span>
+<span class="c1">#</span>
+<span class="c1"># Only a few transformations were converted to python.</span>
+<span class="c1">#</span>
+<span class="c1"># Anwar O. Nunez-Elizalde (2016).</span>
+<span class="c1">#</span>
+<span class="c1"># Updates:</span>
+<span class="c1">#</span>
+<span class="c1">#</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="rgb2lab"><a class="viewcode-back" href="../../autodoc/moten.colorspace.html#moten.colorspace.rgb2lab">[docs]</a><span class="k">def</span> <span class="nf">rgb2lab</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert RGB to CIE LAB color space **in-place**</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : 3D numpy float array</span>
+<span class="sd">        Array must be in [0,1] range. Last</span>
+<span class="sd">        dimension corresponds to RGB channels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    LAB : 3D numpy float array</span>
+<span class="sd">        The CIE LAB representation in the image.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">WhitePoint</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="mf">0.95047</span><span class="p">,</span><span class="mf">1.0</span><span class="p">,</span><span class="mf">1.08883</span><span class="p">])</span>
+    <span class="c1"># Convert image to XYZ</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">rgb2xyz</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="c1"># % Convert XYZ to CIE L*a*b*</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">image</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span><span class="o">/</span><span class="n">WhitePoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">image</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">WhitePoint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">image</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span><span class="o">/</span><span class="n">WhitePoint</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">fX</span> <span class="o">=</span> <span class="n">_ff</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">fY</span> <span class="o">=</span> <span class="n">_ff</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
+    <span class="n">fZ</span> <span class="o">=</span> <span class="n">_ff</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+    <span class="n">image</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">116.0</span><span class="o">*</span><span class="n">fY</span> <span class="o">-</span> <span class="mi">16</span>          <span class="c1"># L*</span>
+    <span class="n">image</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">500.0</span><span class="o">*</span><span class="p">(</span><span class="n">fX</span> <span class="o">-</span> <span class="n">fY</span><span class="p">)</span>        <span class="c1"># a*</span>
+    <span class="n">image</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">200.0</span><span class="o">*</span><span class="p">(</span><span class="n">fY</span> <span class="o">-</span> <span class="n">fZ</span><span class="p">)</span>        <span class="c1"># b*</span>
+    <span class="k">return</span> <span class="n">image</span></div>
+
+
+<div class="viewcode-block" id="rgb2lch"><a class="viewcode-back" href="../../autodoc/moten.colorspace.html#moten.colorspace.rgb2lch">[docs]</a><span class="k">def</span> <span class="nf">rgb2lch</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert RGB to CIE LCH color space **in-place**</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : 3D numpy float array</span>
+<span class="sd">        Array must be in [0,1] range. Last</span>
+<span class="sd">        dimension corresponds to RGB channels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    LCH : 3D numpy float array</span>
+<span class="sd">        The CIE LCH representation in the image.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">image</span> <span class="o">=</span> <span class="n">rgb2lab</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="n">image</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">],</span><span class="n">image</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span><span class="o">*</span><span class="mi">180</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mi">360</span><span class="o">*</span><span class="p">(</span><span class="n">H</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">)</span>
+    <span class="n">image</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">image</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">image</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># C</span>
+    <span class="n">image</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">H</span>                                           <span class="c1"># H</span>
+    <span class="k">return</span> <span class="n">image</span></div>
+
+
+<div class="viewcode-block" id="rgb2xyz"><a class="viewcode-back" href="../../autodoc/moten.colorspace.html#moten.colorspace.rgb2xyz">[docs]</a><span class="k">def</span> <span class="nf">rgb2xyz</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Convert RGB to CIE XYZ color space **in-place**</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : 3D numpy float array</span>
+<span class="sd">        Array must be in [0,1] range. Last</span>
+<span class="sd">        dimension corresponds to RGB channels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    LAB : 3D numpy float array</span>
+<span class="sd">        The CIE XYZ representation in the image.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># % Undo gamma correction</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">_invgammacorrection</span><span class="p">(</span><span class="n">image</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">G</span> <span class="o">=</span> <span class="n">_invgammacorrection</span><span class="p">(</span><span class="n">image</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">B</span> <span class="o">=</span> <span class="n">_invgammacorrection</span><span class="p">(</span><span class="n">image</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">])</span>
+    <span class="c1"># % Convert RGB to XYZ</span>
+    <span class="n">xyz_from_rgb</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.412453</span><span class="p">,</span> <span class="mf">0.357580</span><span class="p">,</span> <span class="mf">0.180423</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">0.212671</span><span class="p">,</span> <span class="mf">0.715160</span><span class="p">,</span> <span class="mf">0.072169</span><span class="p">],</span>
+                            <span class="p">[</span><span class="mf">0.019334</span><span class="p">,</span> <span class="mf">0.119193</span><span class="p">,</span> <span class="mf">0.950227</span><span class="p">]])</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">xyz_from_rgb</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+    <span class="n">image</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">R</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">G</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">*</span><span class="n">B</span> <span class="c1"># X</span>
+    <span class="n">image</span><span class="p">[:,:,</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">R</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">*</span><span class="n">G</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">*</span><span class="n">B</span> <span class="c1"># Y</span>
+    <span class="n">image</span><span class="p">[:,:,</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">T</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">*</span><span class="n">R</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="o">*</span><span class="n">G</span> <span class="o">+</span> <span class="n">T</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span><span class="o">*</span><span class="n">B</span> <span class="c1"># Z</span>
+    <span class="k">return</span> <span class="n">image</span></div>
+
+
+<span class="k">def</span> <span class="nf">_ff</span><span class="p">(</span><span class="n">Y</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Obscure helper function</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">fY</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(</span><span class="n">Y</span><span class="o">**</span><span class="p">(</span><span class="mf">1.</span><span class="o">/</span><span class="mf">3.</span><span class="p">))</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">&lt;</span> <span class="mf">0.008856</span>
+    <span class="n">fY</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mf">7.787</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mf">4.</span><span class="o">/</span><span class="mf">29.</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">fY</span>
+
+
+<span class="k">def</span> <span class="nf">_invgammacorrection</span><span class="p">(</span><span class="n">Rp</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span><span class="p">(((</span><span class="n">Rp</span> <span class="o">+</span> <span class="mf">0.055</span><span class="p">)</span><span class="o">/</span><span class="mf">1.055</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="mf">2.4</span><span class="p">))</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">Rp</span> <span class="o">&lt;</span> <span class="mf">0.04045</span>
+    <span class="n">R</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">Rp</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">/</span> <span class="mf">12.92</span>
+    <span class="k">return</span> <span class="n">R</span>
+
+
+<span class="k">def</span> <span class="nf">_gamma_correct</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do not use unless you know what you&#39;re doing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">gamma</span> <span class="o">!=</span> <span class="mf">1.0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">image</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="ow">and</span> <span class="mi">1</span> <span class="o">&gt;=</span> <span class="n">image</span><span class="o">.</span><span class="n">max</span><span class="p">()):</span>
+            <span class="n">image</span> <span class="o">/=</span> <span class="mf">255.</span>
+        <span class="n">image</span> <span class="o">=</span> <span class="n">image</span><span class="o">**</span><span class="n">gamma</span>
+    <span class="k">return</span> <span class="n">image</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+    </p>
+    <p>
+        &copy; Copyright 2020, Anwar O. Nunez-Elizalde.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 3.0.3.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
