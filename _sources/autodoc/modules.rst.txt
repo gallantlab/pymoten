@@ -1,7 +1,0 @@
-moten
-=====
-
-.. toctree::
-   :maxdepth: 4
-
-   moten
