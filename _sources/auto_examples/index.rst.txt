@@ -45,7 +45,7 @@ Motion-energy pyramids
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrate how to display a motion-energy filter from the pyramid.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to display a motion-energy filter from the pyramid.">
 
 .. only:: html
 

@@ -3,7 +3,7 @@
  Visualizing spatio-temporal Gabor filters
 ===========================================
 
-This example demonstrate how to display a motion-energy filter from the pyramid.
+This example demonstrates how to display a motion-energy filter from the pyramid.
 '''
 import moten
 
