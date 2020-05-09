@@ -13,8 +13,6 @@ sphinx_bootstrap_theme
 
 ```bash
 cd docs
-sphinx-apidoc -o source/autodoc ../moten -e
-sphinx-autogen source/index.rst
-make html
+make githubio-docs
 firefox build/html/index.html
 ```
