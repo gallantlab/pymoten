@@ -398,10 +398,9 @@ def dotspatial_frames(spatial_gabor_sin, spatial_gabor_cos,
     '''
     gabors = np.asarray([spatial_gabor_sin.ravel(),
                          spatial_gabor_cos.ravel()])
-
     # dot the gabors with the stimuli
     mask = np.abs(gabors).sum(0) > masklimit
-    gabor_prod = np.dot(gabors[:,mask].squeeze(), stimuli.T[mask].squeeze()).T
+    gabor_prod = (gabors[:,mask].squeeze() @ stimuli.T[mask].squeeze()).T
     gabor_sin, gabor_cos = gabor_prod[:,0], gabor_prod[:,1]
     return gabor_sin, gabor_cos
 
@@ -439,8 +438,8 @@ def dotdelay_frames(spatial_gabor_sin, spatial_gabor_cos,
                                   temporal_gabor_cos])
 
     # dot the product with the temporal gabors
-    outs = np.dot(gabor_prod[:, [0]], temporal_gabors[[1]]) + np.dot(gabor_prod[:, [1]], temporal_gabors[[0]])
-    outc = np.dot(-gabor_prod[:, [0]], temporal_gabors[[0]]) + np.dot(gabor_prod[:, [1]], temporal_gabors[[1]])
+    outs =  gabor_prod[:, [0]] @ temporal_gabors[[1]] + gabor_prod[:, [1]] @ temporal_gabors[[0]]
+    outc = -gabor_prod[:, [0]] @ temporal_gabors[[0]] + gabor_prod[:, [1]] @ temporal_gabors[[1]]
 
     # sum across delays
     nouts = np.zeros_like(outs)
@@ -483,8 +482,8 @@ def mk_spatiotemporal_gabor(spatial_gabor_sin, spatial_gabor_cos,
         The 3D motion-energy filter
 
     '''
-    a = np.dot(-spatial_gabor_sin.ravel()[...,None], temporal_gabor_sin[...,None].T)
-    b = np.dot(spatial_gabor_cos.ravel()[...,None], temporal_gabor_cos[...,None].T)
+    a = -spatial_gabor_sin.ravel()[...,None] @ temporal_gabor_sin[...,None].T
+    b =  spatial_gabor_cos.ravel()[...,None] @ temporal_gabor_cos[...,None].T
     x,y = spatial_gabor_sin.shape
     t = temporal_gabor_sin.shape[0]
     return (a+b).reshape(x,y,t)
