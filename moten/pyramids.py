@@ -65,7 +65,7 @@ class MotionEnergyPyramid(object):
 
     Methods
     -------
-    MotionEnergyPyramid.show_filter(gaborid=0)
+    MotionEnergyPyramid.show_filter(filterid=0)
         Display the selected filter as a matplotlib animation.
     filters_at_vhposition(0.5, 0.5)
         Center spatio-temporal filters to requested hv-position.
@@ -228,7 +228,7 @@ class MotionEnergyPyramid(object):
             filt['centerv'] = centerv
         return new_filters
 
-    def get_filter_spatiotemporal_quadratures(self, gaborid=0):
+    def get_filter_spatiotemporal_quadratures(self, filterid=0):
         '''
 
         Returns
@@ -243,31 +243,31 @@ class MotionEnergyPyramid(object):
         '''
         vhsize = (self.definition.vdim, self.definition.hdim)
 
-        # extract parameters for this gaborid
-        if isinstance(gaborid, dict):
-            gabor_parameters_dict = gaborid.copy()
+        # extract parameters for this filterid
+        if isinstance(filterid, dict):
+            gabor_parameters_dict = filterid.copy()
         else:
-            gabor_parameters_dict = self.filters[gaborid]
+            gabor_parameters_dict = self.filters[filterid]
 
         sgabor0, sgabor90, tgabor0, tgabor90 = core.mk_3d_gabor(vhsize,
                                                                 **gabor_parameters_dict)
         return sgabor0, sgabor90, tgabor0, tgabor90
 
-    def get_filter_temporal_quadrature(self, gaborid=0):
-        _,_, tgabor0, tgabor90 = self.get_filter_spatiotemporal_quadratures(gaborid=gaborid)
+    def get_filter_temporal_quadrature(self, filterid=0):
+        _,_, tgabor0, tgabor90 = self.get_filter_spatiotemporal_quadratures(filterid=filterid)
         return tgabor0, tgabor90
 
-    def get_filter_spatial_quadrature(self, gaborid=0):
-        sgabor0, sgabor90, _, _ = self.get_filter_spatiotemporal_quadratures(gaborid=gaborid)
+    def get_filter_spatial_quadrature(self, filterid=0):
+        sgabor0, sgabor90, _, _ = self.get_filter_spatiotemporal_quadratures(filterid=filterid)
         return sgabor0, sgabor90
 
-    def get_filter_mask(self, gaborid=0):
+    def get_filter_mask(self, filterid=0):
         '''
         '''
         abs = np.abs
         threshold = self.mask_threshold
 
-        spsin, spcos = self.get_filter_spatial_quadrature(gaborid)
+        spsin, spcos = self.get_filter_spatial_quadrature(filterid)
         mask = (abs(spsin) + abs(spcos)) > threshold
         return mask
 
@@ -281,12 +281,12 @@ class MotionEnergyPyramid(object):
         return npixels
 
 
-    def show_filter(self, gaborid=0, speed=1.0, background=None):
+    def show_filter(self, filterid=0, speed=1.0, background=None):
         '''Display the motion-energy filter as an animation.
 
         Parameters
         ----------
-        gaborid : int, or dict
+        filterid : int, or dict
             If int, it's the index of the filter to display.
             If dict, it's a motion-energy filter definition. E.g.:
                 {'centerh': 0.5,
@@ -313,12 +313,12 @@ class MotionEnergyPyramid(object):
         filter_width = self.definition.filter_temporal_width
         vhsize = (vdim, hdim)
 
-        # extract parameters for this gaborid
-        if isinstance(gaborid, dict):
-            gabor_params_dict = gaborid.copy()
-            gaborid = 0
+        # extract parameters for this filterid
+        if isinstance(filterid, dict):
+            gabor_params_dict = filterid.copy()
+            filterid = 0
         else:
-            gabor_params_dict = self.filters[gaborid]
+            gabor_params_dict = self.filters[filterid]
 
         # construct title from parameters
         title = ''
