@@ -85,7 +85,7 @@ Motion-energy pyramids
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use batches to extract motion-energy features from a video.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract motion-energy features from batches of a video.">
 
 .. only:: html
 
