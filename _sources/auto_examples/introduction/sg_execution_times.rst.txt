@@ -5,14 +5,14 @@
 
 Computation times
 =================
-**01:02.087** total execution time for **auto_examples_introduction** files:
+**01:01.215** total execution time for **auto_examples_introduction** files:
 
 +----------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_example.py` (``demo_example.py``)             | 00:29.642 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_example.py` (``demo_example.py``)             | 00:28.954 | 0.0 MB |
 +----------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_batching.py` (``demo_batching.py``)           | 00:27.689 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_batching.py` (``demo_batching.py``)           | 00:27.529 | 0.0 MB |
 +----------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_show_filters.py` (``demo_show_filters.py``)   | 00:03.523 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_show_filters.py` (``demo_show_filters.py``)   | 00:03.509 | 0.0 MB |
 +----------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_gabor_filters.py` (``demo_gabor_filters.py``) | 00:01.232 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_gabor_filters.py` (``demo_gabor_filters.py``) | 00:01.223 | 0.0 MB |
 +----------------------------------------------------------------------------------------------+-----------+--------+
