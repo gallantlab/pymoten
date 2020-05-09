@@ -14,7 +14,7 @@
 # In moten.core, the termilogy is inconsistent.
 #
 # TODO: Fix terminology in moten.core to match API.
-
+#
 import numpy as np
 
 
@@ -186,6 +186,7 @@ class MotionEnergyPyramid(object):
         self.definition = definition
         self.parameters_matrix = filter_params_array
         self.parameters_names = parameter_names
+        self.mask_threshold = 0.001 # HARDCODED. TODO: Make parameter.
 
     def __repr__(self):
         info = '<%s.%s [#%i filters (ntfq=%i, nsfq=%i, ndirs=%i) aspect=%0.03f]>'
@@ -260,6 +261,24 @@ class MotionEnergyPyramid(object):
         sgabor0, sgabor90, _, _ = self.get_filter_spatiotemporal_quadratures(gaborid=gaborid)
         return sgabor0, sgabor90
 
+    def get_filter_mask(self, gaborid=0):
+        '''
+        '''
+        abs = np.abs
+        threshold = self.mask_threshold
+
+        spsin, spcos = self.get_filter_spatial_quadrature(gaborid)
+        mask = (abs(spsin) + abs(spcos)) > threshold
+        return mask
+
+    def get_filter_pixel_sizes(self):
+        '''
+        '''
+        npixels = []
+        for filter_idx in range(self.nfilters):
+            mask = self.get_filter_mask(filter_idx)
+            npixels.append(mask.sum())
+        return npixels
 
 
     def show_filter(self, gaborid=0, speed=1.0, background=None):
@@ -318,7 +337,7 @@ class MotionEnergyPyramid(object):
                          filters='all',
                          quadrature_combination=utils.sqrt_sum_squares,
                          output_nonlinearity=utils.log_compress,
-                         dtype=np.float32,
+                         dtype='float32',
                          use_cuda=False):
         '''
         Parameters
@@ -344,7 +363,7 @@ class MotionEnergyPyramid(object):
 
         return output
 
-    def raw_project_stimulus(self, stimulus, filters='all', dtype=np.float32):
+    def raw_project_stimulus(self, stimulus, filters='all', dtype='float32'):
         '''Obtain responses to the stimuli from all filter quadrature-pairs.
 
         Parameters
@@ -501,7 +520,7 @@ class StimulusMotionEnergy(object):
     def project(self, filters='all',
                 quadrature_combination=utils.sqrt_sum_squares,
                 output_nonlinearity=utils.log_compress,
-                dtype=np.float32):
+                dtype='float32'):
         '''Compute the motion-energy filter responses to the stimuli.
 
         Parameters
@@ -515,7 +534,7 @@ class StimulusMotionEnergy(object):
             non-linearity. The function input is the (`nimages`,`nfilters`) array.
             Defaults to: ln(x + 1e-05)
         dtype : np.dtype
-            Defaults to np.float32
+            Defaults to 'float32'
         filters : optional, 'all' or list of dicts
             By default compute the responses for all filters.
             Otherwise, provide a list of filter definitions to use.
@@ -540,7 +559,7 @@ class StimulusMotionEnergy(object):
     def project_at_vhposition(self, centerv, centerh,
                               quadrature_combination=utils.sqrt_sum_squares,
                               output_nonlinearity=utils.log_compress,
-                              dtype=np.float32):
+                              dtype='float32'):
         '''Center filters at hv-position and compute their response to the stimulus.
 
         Parameters
@@ -575,7 +594,7 @@ class StimulusMotionEnergy(object):
 
         return filters, filter_responses
 
-    def raw_projection(self, filters='all', dtype=np.float32):
+    def raw_projection(self, filters='all', dtype='float32'):
         '''Obtain stimulus responses from all filter quadrature-pairs.
 
         Parameters
