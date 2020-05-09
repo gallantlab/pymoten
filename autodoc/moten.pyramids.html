@@ -178,11 +178,11 @@ Each item is an array of length <cite>nfilters</cite></p>
 <p class="rubric">Methods</p>
 <table class="docutils align-default">
 <colgroup>
-<col style="width: 44%" />
-<col style="width: 56%" />
+<col style="width: 45%" />
+<col style="width: 55%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><strong>MotionEnergyPyramid.show_filter(gaborid=0)</strong></p></td>
+<tr class="row-odd"><td><p><strong>MotionEnergyPyramid.show_filter(filterid=0)</strong></p></td>
 <td><p>Display the selected filter as a matplotlib animation.</p></td>
 </tr>
 <tr class="row-even"><td><p><strong>filters_at_vhposition(0.5, 0.5)</strong></p></td>
@@ -222,7 +222,7 @@ Each item is an array of length <cite>nfilters</cite></p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.get_filter_mask">
-<code class="sig-name descname">get_filter_mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_mask" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_filter_mask</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">filterid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_mask"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_mask" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
@@ -232,12 +232,12 @@ Each item is an array of length <cite>nfilters</cite></p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature">
-<code class="sig-name descname">get_filter_spatial_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_spatial_quadrature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_filter_spatial_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">filterid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_spatial_quadrature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures">
-<code class="sig-name descname">get_filter_spatiotemporal_quadratures</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_spatiotemporal_quadratures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_filter_spatiotemporal_quadratures</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">filterid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_spatiotemporal_quadratures"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><dl class="simple">
@@ -254,12 +254,12 @@ a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature">
-<code class="sig-name descname">get_filter_temporal_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_temporal_quadrature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_filter_temporal_quadrature</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">filterid</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.get_filter_temporal_quadrature"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.project_stimulus">
-<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f8b7ace4510&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f8b815707b8&gt;</em>, <em class="sig-param">dtype='float32'</em>, <em class="sig-param">use_cuda=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">stimulus</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7fe6b9310510&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7fe6bfb9c7b8&gt;</em>, <em class="sig-param">dtype='float32'</em>, <em class="sig-param">use_cuda=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
@@ -300,12 +300,12 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.show_filter">
-<code class="sig-name descname">show_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">gaborid</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">speed</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.show_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.show_filter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">show_filter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">filterid</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">speed</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">background</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.show_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.show_filter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display the motion-energy filter as an animation.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl>
-<dt><strong>gaborid</strong><span class="classifier">int, or dict</span></dt><dd><p>If int, it’s the index of the filter to display.
+<dt><strong>filterid</strong><span class="classifier">int, or dict</span></dt><dd><p>If int, it’s the index of the filter to display.
 If dict, it’s a motion-energy filter definition. E.g.:</p>
 <blockquote>
 <div><dl class="simple">
@@ -398,7 +398,7 @@ to standard unit-circle coordinates.</p>
 </table>
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.project">
-<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f8b7ace4510&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f8b815707b8&gt;</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">filters='all'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7fe6b9310510&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7fe6bfb9c7b8&gt;</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filter responses to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -428,7 +428,7 @@ Otherwise, provide a list of filter definitions to use.</p>
 
 <dl class="py method">
 <dt id="moten.pyramids.StimulusMotionEnergy.project_at_vhposition">
-<code class="sig-name descname">project_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">centerv</em>, <em class="sig-param">centerh</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f8b7ace4510&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f8b815707b8&gt;</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project_at_vhposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_at_vhposition" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">project_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">centerv</em>, <em class="sig-param">centerh</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7fe6b9310510&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7fe6bfb9c7b8&gt;</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#StimulusMotionEnergy.project_at_vhposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.StimulusMotionEnergy.project_at_vhposition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Center filters at hv-position and compute their response to the stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
