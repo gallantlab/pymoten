@@ -3,7 +3,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Visualizing spatio-temporal Gabor filters &#8212; pymoten 0.0.1 documentation</title>
+    <title>Visualizing the motion-energy filters &#8212; pymoten 0.0.1 documentation</title>
     <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
@@ -75,7 +75,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">Visualizing spatio-temporal Gabor filters</a></li>
+<li><a class="reference internal" href="#">Visualizing the motion-energy filters</a></li>
 </ul>
 </ul>
 </li>
@@ -127,8 +127,8 @@
 <p class="admonition-title">Note</p>
 <p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-introduction-demo-show-filters-py"><span class="std std-ref">here</span></a>     to download the full example code</p>
 </div>
-<div class="sphx-glr-example-title section" id="visualizing-spatio-temporal-gabor-filters">
-<span id="sphx-glr-auto-examples-introduction-demo-show-filters-py"></span><h1>Visualizing spatio-temporal Gabor filters<a class="headerlink" href="#visualizing-spatio-temporal-gabor-filters" title="Permalink to this headline">¶</a></h1>
+<div class="sphx-glr-example-title section" id="visualizing-the-motion-energy-filters">
+<span id="sphx-glr-auto-examples-introduction-demo-show-filters-py"></span><h1>Visualizing the motion-energy filters<a class="headerlink" href="#visualizing-the-motion-energy-filters" title="Permalink to this headline">¶</a></h1>
 <p>This example demonstrates how to display a motion-energy filter from the pyramid.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
 
@@ -140,11 +140,10 @@
 <img alt="../../_images/sphx_glr_demo_show_filters_001.png" class="sphx-glr-single-img" src="../../_images/sphx_glr_demo_show_filters_001.png" />
 <p>The animation should look like this:</p>
 <video width=100% height=100% autoplay=True loop=True controls>
- <source src="../../_downloads/vid.mp4" type="video/mp4">
+ <source src="../../_downloads/example_moten_filter.mp4" type="video/mp4">
 </video><p>These are the filter parameters:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="n">filter_parameters</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">1337</span><span class="p">]</span>
-<span class="n">pprint</span><span class="p">(</span><span class="n">filter_parameters</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">pyramid</span><span class="o">.</span><span class="n">filters</span><span class="p">[</span><span class="mi">1337</span><span class="p">])</span>
 </pre></div>
 </div>
 <p class="sphx-glr-script-out">Out:</p>
@@ -162,9 +161,10 @@
 </pre></div>
 </div>
 <p>(<em>Ignore. This code is needed to convert animation to MP4 and adding it to the gallery</em>)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;../../docs/build/html/_downloads/vid.mp4&#39;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">output</span> <span class="o">=</span> <span class="s1">&#39;../../docs/build/html/_downloads/example_moten_filter.mp4&#39;</span>
 <span class="n">fig</span> <span class="o">=</span> <span class="n">animation</span><span class="o">.</span><span class="n">_fig</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s1">&#39;Example filter:</span><span class="se">\n</span><span class="s1">direction of motion=180, spatial fq=16cpi, temporal fq=4Hz&#39;</span><span class="p">)</span>
+<span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Example filter:</span><span class="se">\n</span><span class="s1">direction of motion=180, spatial fq=16cpi, temporal fq=4Hz&#39;</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
 <span class="n">animation</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">clf</span><span class="p">()</span>
 <span class="k">del</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
@@ -184,7 +184,7 @@
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>[]
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.558 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  3.523 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-show-filters-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/08bcd7d621a2231efef8e86d23c0affc/demo_show_filters.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">demo_show_filters.py</span></code></a></p>
