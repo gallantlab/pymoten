@@ -1,7 +1,7 @@
 '''
-===========================================
- Visualizing spatio-temporal Gabor filters
-===========================================
+=======================================
+ Visualizing the motion-energy filters
+=======================================
 
 This example demonstrates how to display a motion-energy filter from the pyramid.
 '''
@@ -17,22 +17,22 @@ animation = pyramid.show_filter(1337)
 # .. raw:: html
 #
 #    <video width=100% height=100% autoplay=True loop=True controls>
-#     <source src="../../_downloads/vid.mp4" type="video/mp4">
+#     <source src="../../_downloads/example_moten_filter.mp4" type="video/mp4">
 #    </video>
 
 # %%
 # These are the filter parameters:
 from pprint import pprint
-filter_parameters = pyramid.filters[1337]
-pprint(filter_parameters)
+pprint(pyramid.filters[1337])
 
 
 
 # %%
 # (*Ignore. This code is needed to convert animation to MP4 and adding it to the gallery*)
-output = '../../docs/build/html/_downloads/vid.mp4'
+output = '../../docs/build/html/_downloads/example_moten_filter.mp4'
 fig = animation._fig
-fig.suptitle('Example filter:\ndirection of motion=180, spatial fq=16cpi, temporal fq=4Hz')
+title = 'Example filter:\ndirection of motion=180, spatial fq=16cpi, temporal fq=4Hz'
+fig.suptitle(title)
 animation.save(output)
 fig.clf()
 del(fig)
