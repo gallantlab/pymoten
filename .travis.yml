@@ -21,7 +21,7 @@ script:
   # test installation
   - python setup.py install
   # install packages for docs and make docs
-  - travis_retry pip install -q ipython Sphinx sphinx-gallery numpydoc sphinx-bootstrap-theme
+  - travis_retry pip install -q ipython Sphinx sphinx-gallery numpydoc sphinx-rtd-theme sphinx-bootstrap-theme
   - cd docs
   # custom makefile directive
   - make githubio-docs && cd ..
