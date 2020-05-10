@@ -16,16 +16,21 @@ def video_buffer(video_file, nimages=np.inf):
     '''Generator for a video file.
 
     Yields individual uint8 images from a video file.
+    The video is loaded into memory one frame at a time.
 
     Parameters
     ----------
     video_file : str
-        Full path to the video file
+        Full path to the video file.
+        This can be a video file on disk or from a website.
+    nimages : optional, int
+        If specified, only ``nimages`` frames are converted to luminance.
+        If unspecified, all frames are loaded.
 
-    Returns
-    -------
-    vbuff : generator
-        Each ``__next()__`` call yields an RGB frame from video.
+    Yields
+    ------
+    video_frame : uint8 3D np.ndarray, (vdim, hdim, color)
+        Each ``next()`` call yields an uint8 RGB frame from video.
 
     Example
     -------
@@ -50,6 +55,30 @@ def video_buffer(video_file, nimages=np.inf):
 
 
 def generate_frames_from_greyvideo(video_file, size=None, nimages=np.inf):
+    '''Yields one frame from the greyscale video file.
+
+    Notes
+    -----
+    The video is assumed to be greyscale.
+
+    Parameters
+    ----------
+    video_file : str
+        Full path to the video file.
+        This can be a video file on disk or from a website.
+    size : optional, tuple (vdim, hdim)
+        The desired output image size.
+        If specified, the image is scaled or shrunk to this size.
+        If not specified, the original size is kept.
+    nimages : optional, int
+        If specified, only ``nimages`` frames are converted to luminance.
+        If unspecified, all frames are loaded.
+
+    Yields
+    ------
+    greyscale_image : 2D np.ndarray, (vdim, hdim)
+        Pixel values are in the 0-1 range.
+    '''
     vbuffer = video_buffer(video_file, nimages=nimages)
     grey_video = []
     for imageidx, image_rgb in enumerate(vbuffer):
@@ -63,6 +92,31 @@ def generate_frame_difference_from_greyvideo(video_file,
                                              size=None,
                                              nimages=np.inf,
                                              dtype='float32'):
+    '''Generates the difference between the current frame and the previous frame.
+
+    Notes
+    -----
+    The video is assumed to be greyscale.
+
+    Parameters
+    ----------
+    video_file : str
+        Full path to the video file.
+        This can be a video file on disk or from a website.
+    size : optional, tuple (vdim, hdim)
+        The desired output image size.
+        If specified, the image is scaled or shrunk to this size.
+        If not specified, the original size is kept.
+    nimages : optional, int
+        If specified, only ``nimages`` frames are converted to luminance.
+        If unspecified, all frames are loaded.
+
+    Yields
+    ------
+    greyscale_image_difference : 2D np.ndarray, (vdim, hdim)
+        The difference image: (current_frame - previous_frame).
+        Pixel values are in the 0-1 range.
+    '''
     vbuffer = video_buffer(video_file, nimages=nimages)
     previous_frame = 0
     for frame_index, image_rgb in enumerate(vbuffer):
@@ -75,10 +129,30 @@ def generate_frame_difference_from_greyvideo(video_file,
 
 
 def video2luminance(video_file, size=None, nimages=np.inf):
-    '''
-    size (optional) : tuple, (vdim, hdim)
-        The desired output image size
+    '''Convert the video frames to luminance images.
 
+    Internally, this function loads one video frame into memory at a time.
+    Tt converts the RGB pixel values from one frame to CIE-LAB pixel values.
+    It then keeps the luminance channel only. This process is performed
+    for all ``nimages`` requested or until we reach the end of the video file.
+
+    Parameters
+    ----------
+    video_file : str
+        Full path to the video file.
+        This can be a video file on disk or from a website.
+    size : optional, tuple (vdim, hdim)
+        The desired output image size.
+        If specified, the image is scaled or shrunk to this size.
+        If not specified, the original size is kept.
+    nimages : optional, int
+        If specified, only ``nimages`` frames are converted to luminance.
+        If unspecified, all frames are loaded.
+
+    Returns
+    -------
+    luminance_images : 3D np.ndarray, (nimages, vdim, hdim)
+        Pixel values are in the 0-100 range.
     '''
     vbuffer = video_buffer(video_file, nimages=nimages)
     luminance_video = []
@@ -90,10 +164,27 @@ def video2luminance(video_file, size=None, nimages=np.inf):
 
 
 def video2grey(video_file, size=None, nimages=np.inf):
-    '''
-    size (optional) : tuple, (vdim, hdim)
-        The desired output image size
+    '''Convert the video frames to greyscale images.
 
+    This function computes the mean across the RGB color channels.
+
+    Parameters
+    ----------
+    video_file : str
+        Full path to the video file.
+        This can be a video file on disk or from a website.
+    size : optional, tuple (vdim, hdim)
+        The desired output image size.
+        If specified, the image is scaled or shrunk to this size.
+        If not specified, the original size is kept.
+    nimages : optional, int
+        If specified, only ``nimages`` frames are converted to luminance.
+        If unspecified, all frames are loaded.
+
+    Returns
+    -------
+    greyscale_images : 3D np.ndarray, (nimages, vdim, hdim)
+        Pixel values are in the 0-1 range.
     '''
     vbuffer = video_buffer(video_file, nimages=nimages)
     grey_video = []
@@ -121,8 +212,9 @@ def imagearray2luminance(uint8arr, size=None, filter=Image.ANTIALIAS, dtype=np.f
 
     Returns
     -------
-    luminance_array = 3D np.ndarray (n, vdim, hdim)
-        The luminance image representation (0-100 range)
+    luminance_array : 3D np.ndarray (nimages, vdim, hdim)
+        The luminance image representation.
+        Pixel values are in the 0-100 range.
     '''
     from scipy import misc
     from moten.colorspace import rgb2lab
