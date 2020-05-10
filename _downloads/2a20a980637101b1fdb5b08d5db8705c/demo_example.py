@@ -15,10 +15,10 @@ video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
 # %%
 # .. raw:: html
 #
-#     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-#         <iframe src="https://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-#     </div>
-
+#    <video width=100% height=100% preload=none muted controls>
+#     <source src="https://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4" type="video/mp4">
+#    </video>
+#
 
 # %%
 # The video is RGB. So, the first step is to convert it to a luminance representation. Internally, this is achieved by converting RGB pixel values to CIE-LAB pixel values and keeping only the "L" channel. The function :func:`moten.io.video2luminance` takes care of downloading the video, converting RGB to luminance, and spatial downsampling if needed.

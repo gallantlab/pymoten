@@ -34,9 +34,10 @@ First, we need to define the video we want to use. In this example, we'll use a 
 
 .. raw:: html
 
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-        <iframe src="https://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-    </div>
+   <video width=100% height=100% preload=none muted controls>
+    <source src="https://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4" type="video/mp4">
+   </video>
+
 
 The video is RGB. So, the first step is to convert it to a luminance representation. Internally, this is achieved by converting RGB pixel values to CIE-LAB pixel values and keeping only the "L" channel. The function :func:`moten.io.video2luminance` takes care of downloading the video, converting RGB to luminance, and spatial downsampling if needed.
 
@@ -114,7 +115,7 @@ Finally, we use the method ``project_stimulus`` to compute the motion-energy fea
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  34.598 seconds)
+   **Total running time of the script:** ( 0 minutes  33.800 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_example.py:
