@@ -32,12 +32,9 @@ def pointwise_square(data):
 
 
 class DotDict(dict):
-    """A subclass of dictionary with dot syntax.
-
-    Notes
-    -----
-    Copied from pykilosort (written by C. Rossant).
-    """
+    '''A subclass of dictionary with dot syntax.
+    '''
+    # Copied from pykilosort (written by C. Rossant).
     def __init__(self, *args, **kwargs):
         super(type(self), self).__init__(*args, **kwargs)
         self.__dict__ = self
