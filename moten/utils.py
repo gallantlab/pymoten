@@ -1,4 +1,4 @@
-'''
+'''Help functions.
 '''
 # Anwar O. Nunez-Elizalde (Jan, 2016)
 #
@@ -21,18 +21,24 @@ except ImportError:
 ##############################
 
 def log_compress(x, offset=1e-05):
+    '''Computes :math:`log(x + \epsilon)`
+    '''
     return np.log(x + offset)
 
 
 def sqrt_sum_squares(x,y):
+    '''Computes :math:`(x^2 + y^2)^{1/2}`
+    '''
     return np.sqrt(x**2 + y**2)
 
 def pointwise_square(data):
+    '''Computes :math:`x^2`
+    '''
     return data**2
 
 
 class DotDict(dict):
-    '''A subclass of dictionary with dot syntax.
+    '''A dictionary with dot syntax.
     '''
     # Copied from pykilosort (written by C. Rossant).
     def __init__(self, *args, **kwargs):
