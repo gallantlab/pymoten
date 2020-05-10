@@ -89,11 +89,11 @@
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Gallery of examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html#motion-energy-pyramids">Motion-energy pyramids</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_example.html">Using the motion-energy pyramid class</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_show_filters.html">Visualizing the motion-energy filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_example.html">Using the motion energy pyramid class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_show_filters.html">Visualizing the motion energy filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_gabor_filters.html">Spatial components of the motion energy filters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_batching.html">Computing motion-energy features from batches of stimuli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_batching.html">Computing motion energy features from batches of stimuli</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_image_coordinates.html">Image coordinates</a></li>
 </ul>
 </li>
@@ -262,7 +262,7 @@
                      <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">log_compress</span><span class="p">,</span>
                      <span class="n">vhsize</span><span class="o">=</span><span class="p">(),</span>
                      <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Compute the motion-energy filter responses to the stimuli.</span>
+    <span class="sd">&#39;&#39;&#39;Compute the motion energy filter responses to the stimuli.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -323,9 +323,9 @@
                 <span class="n">temporal_env</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
                 <span class="n">spatial_phase_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
                 <span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Make a motion-energy filter.</span>
+    <span class="sd">&#39;&#39;&#39;Make a motion energy filter.</span>
 
-<span class="sd">    A motion-energy filter is a 3D gabor with</span>
+<span class="sd">    A motion energy filter is a 3D gabor with</span>
 <span class="sd">    two spatial and one temporal dimension.</span>
 <span class="sd">    Each dimension is defined by two sine waves which</span>
 <span class="sd">    differ in phase by 90 degrees. The sine waves are</span>
@@ -351,7 +351,7 @@
 <span class="sd">    temporal_freq : float, [Hz]</span>
 <span class="sd">        Temporal frequency of the filter</span>
 <span class="sd">    filter_temporal_width : int</span>
-<span class="sd">        Temporal window of the motion-energy filter (e.g. 10).</span>
+<span class="sd">        Temporal window of the motion energy filter (e.g. 10).</span>
 <span class="sd">        Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).</span>
 <span class="sd">    aspect_ratio : optional, &#39;auto&#39; or float-like,</span>
 <span class="sd">        Defaults to stimulus aspect ratio: hdim/vdim</span>
@@ -503,7 +503,7 @@
                     <span class="n">temporal_gabor_sin</span><span class="p">,</span> <span class="n">temporal_gabor_cos</span><span class="p">,</span>
                     <span class="n">stimulus</span><span class="p">,</span>
                     <span class="n">masklimit</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Convolve the motion-energy filter with a stimulus</span>
+    <span class="sd">&#39;&#39;&#39;Convolve the motion energy filter with a stimulus</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -561,7 +561,7 @@
 
 <div class="viewcode-block" id="mk_spatiotemporal_gabor"><a class="viewcode-back" href="../../autodoc/moten.core.html#moten.core.mk_spatiotemporal_gabor">[docs]</a><span class="k">def</span> <span class="nf">mk_spatiotemporal_gabor</span><span class="p">(</span><span class="n">spatial_gabor_sin</span><span class="p">,</span> <span class="n">spatial_gabor_cos</span><span class="p">,</span>
                             <span class="n">temporal_gabor_sin</span><span class="p">,</span> <span class="n">temporal_gabor_cos</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Make 3D motion-energy filter defined by the spatial and temporal gabors.</span>
+    <span class="sd">&#39;&#39;&#39;Make 3D motion energy filter defined by the spatial and temporal gabors.</span>
 
 <span class="sd">    Takes the output of :func:`mk_3d_gabor` and constructs the 3D filter.</span>
 <span class="sd">    This is useful for visualization.</span>
@@ -578,7 +578,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    motion_energy_filter : np.array, (vdim, hdim, filter_temporal_width)</span>
-<span class="sd">        The motion-energy filter</span>
+<span class="sd">        The motion energy filter</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="o">-</span><span class="n">spatial_gabor_sin</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="o">...</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">@</span> <span class="n">temporal_gabor_sin</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
     <span class="n">b</span> <span class="o">=</span>  <span class="n">spatial_gabor_cos</span><span class="o">.</span><span class="n">ravel</span><span class="p">()[</span><span class="o">...</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span> <span class="o">@</span> <span class="n">temporal_gabor_cos</span><span class="p">[</span><span class="o">...</span><span class="p">,</span><span class="kc">None</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
@@ -672,7 +672,7 @@
                              <span class="n">dozscore</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                              <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span>
                              <span class="n">pyramid_parameters</span><span class="o">=</span><span class="p">{}):</span>
-    <span class="sd">&quot;&quot;&quot;Compute the motion-energy filters&#39; response to the stimuli.</span>
+    <span class="sd">&quot;&quot;&quot;Compute the motion energy filters&#39; response to the stimuli.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -701,7 +701,7 @@
 
 <span class="sd">    pyramid_parameters: dict</span>
 <span class="sd">        See :func:`mk_moten_pyramid_params` for details on parameters</span>
-<span class="sd">        specifiying a motion-energy pyramid.</span>
+<span class="sd">        specifiying a motion energy pyramid.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -769,7 +769,7 @@
                             <span class="n">spatial_phase_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
                             <span class="n">include_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                             <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Parametrize a motion-energy pyramid that tiles the stimulus.</span>
+    <span class="sd">&quot;&quot;&quot;Parametrize a motion energy pyramid that tiles the stimulus.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -783,7 +783,7 @@
 <span class="sd">    temporal_frequencies : array-like, [Hz]</span>
 <span class="sd">        Temporal frequencies of the filters</span>
 <span class="sd">    filter_temporal_width : int</span>
-<span class="sd">        Temporal window of the motion-energy filter (e.g. 10).</span>
+<span class="sd">        Temporal window of the motion energy filter (e.g. 10).</span>
 <span class="sd">        Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).</span>
 <span class="sd">    aspect_ratio : optional, &#39;auto&#39; or float-like,</span>
 <span class="sd">        Defaults to stimulus aspect ratio: hdim/vdim</span>
@@ -814,7 +814,7 @@
 <span class="sd">    parameter_names : list of strings</span>
 <span class="sd">        The name of the parameters</span>
 <span class="sd">    gabor_parameters : 2D np.ndarray, (nfilters, 11)</span>
-<span class="sd">        Parameters that define the motion-energy filter</span>
+<span class="sd">        Parameters that define the motion energy filter</span>
 <span class="sd">        Each of the `nfilters` has the following parameters:</span>
 <span class="sd">            * centerv,centerh : y:vertical and x:horizontal position (&#39;0,0&#39; is top left)</span>
 <span class="sd">            * direction       : direction of motion [degrees]</span>

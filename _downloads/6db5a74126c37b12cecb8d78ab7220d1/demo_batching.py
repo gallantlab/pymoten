@@ -1,11 +1,11 @@
 '''
 ==========================================================
- Computing motion-energy features from batches of stimuli
+ Computing motion energy features from batches of stimuli
 ==========================================================
 
-This example shows how to extract motion-energy features from batches of a video.
+This example shows how to extract motion energy features from batches of a video.
 
-When the stimulus is very high-resolution (e.g. 4K) or is several hours long, it might not be possible to fit load the stimulus into memory. In such situations, it is useful to load a small number of video frames and extract motion-energy features from that subset of frames alone. In order to do this properly, one must avoid edge effects. In this example we show how to do that.
+When the stimulus is very high-resolution (e.g. 4K) or is several hours long, it might not be possible to fit load the stimulus into memory. In such situations, it is useful to load a small number of video frames and extract motion energy features from that subset of frames alone. In order to do this properly, one must avoid edge effects. In this example we show how to do that.
 '''
 
 
@@ -34,7 +34,7 @@ ax.set_xticks([])
 ax.set_yticks([])
 
 # %%
-# Next we construct the pyramid and extract the motion-energy features from the full stimulus.
+# Next we construct the pyramid and extract the motion energy features from the full stimulus.
 
 pyramid = moten.pyramids.MotionEnergyPyramid(stimulus_vhsize=(vdim, hdim),
                                              stimulus_fps=stimulus_fps,
@@ -50,7 +50,7 @@ print(moten_features.shape)
 #
 # Next, instead of computing the features from the full stimulus, we compute them from separate but continous stimulus chunks. These stimulus chunks are the stimulus batches.
 #
-# We have to include some padding to the batches in order to avoid convolution edge effects. The padding is determined by the temporal width of the motion-energy filter. By default, the temporal width is 2/3 of the stimulus frame rate (`int(fps*(2/3))`). This parameter can be specified when instantating a pyramid by passing e.g. ``filter_temporal_width=16``. Once the pyramid is defined, the parameter can also be accessed from the ``pyramid.definition`` dictionary.
+# We have to include some padding to the batches in order to avoid convolution edge effects. The padding is determined by the temporal width of the motion energy filter. By default, the temporal width is 2/3 of the stimulus frame rate (`int(fps*(2/3))`). This parameter can be specified when instantating a pyramid by passing e.g. ``filter_temporal_width=16``. Once the pyramid is defined, the parameter can also be accessed from the ``pyramid.definition`` dictionary.
 
 filter_temporal_width = pyramid.definition['filter_temporal_width']
 
@@ -61,7 +61,7 @@ window = int(np.ceil((filter_temporal_width/2)))
 print(filter_temporal_width, window)
 
 # %%
-# Now we are ready to extract motion-energy features in batches:
+# Now we are ready to extract motion energy features in batches:
 
 nbatches = 5
 batch_size = int(np.ceil(nimages/nbatches))

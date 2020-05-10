@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Computing motion-energy features from batches of stimuli &mdash; pymoten 0.0.0 documentation</title>
+  <title>Computing motion energy features from batches of stimuli &mdash; pymoten 0.0.0 documentation</title>
   
 
   
@@ -91,11 +91,11 @@
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Gallery of examples</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#motion-energy-pyramids">Motion-energy pyramids</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="demo_example.html">Using the motion-energy pyramid class</a></li>
-<li class="toctree-l3"><a class="reference internal" href="demo_show_filters.html">Visualizing the motion-energy filters</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#motion-energy-pyramids">Motion energy pyramids</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="demo_example.html">Using the motion energy pyramid class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demo_show_filters.html">Visualizing the motion energy filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="demo_gabor_filters.html">Spatial components of the motion energy filters</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Computing motion-energy features from batches of stimuli</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Computing motion energy features from batches of stimuli</a></li>
 <li class="toctree-l3"><a class="reference internal" href="demo_image_coordinates.html">Image coordinates</a></li>
 </ul>
 </li>
@@ -165,7 +165,7 @@
         
           <li><a href="../index.html">Gallery of examples</a> &raquo;</li>
         
-      <li>Computing motion-energy features from batches of stimuli</li>
+      <li>Computing motion energy features from batches of stimuli</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -189,9 +189,9 @@
 <p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-introduction-demo-batching-py"><span class="std std-ref">here</span></a>     to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="computing-motion-energy-features-from-batches-of-stimuli">
-<span id="sphx-glr-auto-examples-introduction-demo-batching-py"></span><h1>Computing motion-energy features from batches of stimuli<a class="headerlink" href="#computing-motion-energy-features-from-batches-of-stimuli" title="Permalink to this headline">¶</a></h1>
-<p>This example shows how to extract motion-energy features from batches of a video.</p>
-<p>When the stimulus is very high-resolution (e.g. 4K) or is several hours long, it might not be possible to fit load the stimulus into memory. In such situations, it is useful to load a small number of video frames and extract motion-energy features from that subset of frames alone. In order to do this properly, one must avoid edge effects. In this example we show how to do that.</p>
+<span id="sphx-glr-auto-examples-introduction-demo-batching-py"></span><h1>Computing motion energy features from batches of stimuli<a class="headerlink" href="#computing-motion-energy-features-from-batches-of-stimuli" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to extract motion energy features from batches of a video.</p>
+<p>When the stimulus is very high-resolution (e.g. 4K) or is several hours long, it might not be possible to fit load the stimulus into memory. In such situations, it is useful to load a small number of video frames and extract motion energy features from that subset of frames alone. In order to do this properly, one must avoid edge effects. In this example we show how to do that.</p>
 <div class="section" id="features-from-stimulus">
 <h2>Features from stimulus<a class="headerlink" href="#features-from-stimulus" title="Permalink to this headline">¶</a></h2>
 <p>First, we specify the stimulus we want to load.</p>
@@ -221,7 +221,7 @@
 []
 </pre></div>
 </div>
-<p>Next we construct the pyramid and extract the motion-energy features from the full stimulus.</p>
+<p>Next we construct the pyramid and extract the motion energy features from the full stimulus.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">pyramids</span><span class="o">.</span><span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
                                              <span class="n">stimulus_fps</span><span class="o">=</span><span class="n">stimulus_fps</span><span class="p">,</span>
                                              <span class="n">filter_temporal_width</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
@@ -238,7 +238,7 @@
 <div class="section" id="features-from-stimulus-batches">
 <h2>Features from stimulus batches<a class="headerlink" href="#features-from-stimulus-batches" title="Permalink to this headline">¶</a></h2>
 <p>Next, instead of computing the features from the full stimulus, we compute them from separate but continous stimulus chunks. These stimulus chunks are the stimulus batches.</p>
-<p>We have to include some padding to the batches in order to avoid convolution edge effects. The padding is determined by the temporal width of the motion-energy filter. By default, the temporal width is 2/3 of the stimulus frame rate (<cite>int(fps*(2/3))</cite>). This parameter can be specified when instantating a pyramid by passing e.g. <code class="docutils literal notranslate"><span class="pre">filter_temporal_width=16</span></code>. Once the pyramid is defined, the parameter can also be accessed from the <code class="docutils literal notranslate"><span class="pre">pyramid.definition</span></code> dictionary.</p>
+<p>We have to include some padding to the batches in order to avoid convolution edge effects. The padding is determined by the temporal width of the motion energy filter. By default, the temporal width is 2/3 of the stimulus frame rate (<cite>int(fps*(2/3))</cite>). This parameter can be specified when instantating a pyramid by passing e.g. <code class="docutils literal notranslate"><span class="pre">filter_temporal_width=16</span></code>. Once the pyramid is defined, the parameter can also be accessed from the <code class="docutils literal notranslate"><span class="pre">pyramid.definition</span></code> dictionary.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">filter_temporal_width</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">definition</span><span class="p">[</span><span class="s1">&#39;filter_temporal_width&#39;</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -251,7 +251,7 @@
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>16 8
 </pre></div>
 </div>
-<p>Now we are ready to extract motion-energy features in batches:</p>
+<p>Now we are ready to extract motion energy features in batches:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nbatches</span> <span class="o">=</span> <span class="mi">5</span>
 <span class="n">batch_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">nimages</span><span class="o">/</span><span class="n">nbatches</span><span class="p">))</span>
 <span class="n">batched_data</span> <span class="o">=</span> <span class="p">[]</span>
@@ -290,7 +290,7 @@ Batch 5/5 [240:300]
 </pre></div>
 </div>
 <p>In this example, the stimulus (<code class="docutils literal notranslate"><span class="pre">luminance_images</span></code>) is already in memory and so batching does not provide any benefits. However, there are situations in which the stimulus cannot be loaded all at once. In such situations, batching is necessary. One can modify the code above and write a function to load a subset of frames that can fit into memory (e.g. <code class="docutils literal notranslate"><span class="pre">stimulus_batch</span> <span class="pre">=</span> <span class="pre">load_my_video_frames_batch(`my_stimulus_video_file.avi`,</span> <span class="pre">batch_start,</span> <span class="pre">batch_end)</span></code>).</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  27.345 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  27.205 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-batching-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6db5a74126c37b12cecb8d78ab7220d1/demo_batching.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">demo_batching.py</span></code></a></p>

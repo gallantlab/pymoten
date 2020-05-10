@@ -10,10 +10,10 @@
 
 
 =======================================
- Using the motion-energy pyramid class
+ Using the motion energy pyramid class
 =======================================
 
-This example shows how to extract motion-energy features from a video.
+This example shows how to extract motion energy features from a video.
 
 First, we need to define the video we want to use. In this example, we'll use a small video. The video is 2.5 minutes in duration with a frame rate of 24fps. For the purposes of this example, we'll only use the first 200 frames.
 
@@ -57,7 +57,7 @@ The video is RGB. So, the first step is to convert it to a luminance representat
 
 
 
-Next we need to construct the motion-energy pyramid. To achieve this, we must provide the size of the stimulus frames in pixels (``vdim`` and ``hdim``) and also the frame rate
+Next we need to construct the motion energy pyramid. To achieve this, we must provide the size of the stimulus frames in pixels (``vdim`` and ``hdim``) and also the frame rate
 
 
 .. code-block:: default
@@ -83,7 +83,7 @@ Next we need to construct the motion-energy pyramid. To achieve this, we must pr
 
 
 
-Finally, we use the method ``project_stimulus`` to compute the motion-energy features (see :meth:`moten.pyramids.MotionEnergyPyramid.project_stimulus`).
+Finally, we use the method ``project_stimulus`` to compute the motion energy features (see :meth:`moten.pyramids.MotionEnergyPyramid.project_stimulus`).
 
 
 .. code-block:: default
@@ -115,7 +115,7 @@ Finally, we use the method ``project_stimulus`` to compute the motion-energy fea
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  28.179 seconds)
+   **Total running time of the script:** ( 0 minutes  27.180 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_example.py:

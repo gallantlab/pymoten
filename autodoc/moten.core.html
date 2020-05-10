@@ -91,11 +91,11 @@
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Gallery of examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#motion-energy-pyramids">Motion-energy pyramids</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/demo_example.html">Using the motion-energy pyramid class</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/demo_show_filters.html">Visualizing the motion-energy filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/demo_example.html">Using the motion energy pyramid class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/demo_show_filters.html">Visualizing the motion energy filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/demo_gabor_filters.html">Spatial components of the motion energy filters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/demo_batching.html">Computing motion-energy features from batches of stimuli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/demo_batching.html">Computing motion energy features from batches of stimuli</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/demo_image_coordinates.html">Image coordinates</a></li>
 </ul>
 </li>
@@ -189,7 +189,7 @@
 <dl class="py function">
 <dt id="moten.core.compute_filter_responses">
 <code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_filter_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">stimulus_fps</em>, <em class="sig-param">aspect_ratio='auto'</em>, <em class="sig-param">filter_temporal_width='auto'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress&gt;</em>, <em class="sig-param">dozscore=True</em>, <em class="sig-param">dtype=&lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">pyramid_parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_filter_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.compute_filter_responses" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the motion-energy filters’ response to the stimuli.</p>
+<dd><p>Compute the motion energy filters’ response to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -207,7 +207,7 @@ Defaults to: ln(x + 1e-05)</p></li>
 <li><p><strong>dozscore</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to z-score the channel responses in time</p></li>
 <li><p><strong>dtype</strong> (<em>np.dtype</em>) – Defaults to np.float64</p></li>
 <li><p><strong>pyramid_parameters</strong> (<em>dict</em>) – See <a class="reference internal" href="#moten.core.mk_moten_pyramid_params" title="moten.core.mk_moten_pyramid_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">mk_moten_pyramid_params()</span></code></a> for details on parameters
-specifiying a motion-energy pyramid.</p></li>
+specifiying a motion energy pyramid.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -250,7 +250,7 @@ Defaults to: ln(x + 1e-05)</p></li>
 <dl class="py function">
 <dt id="moten.core.dotdelay_frames">
 <code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">dotdelay_frames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spatial_gabor_sin</span></em>, <em class="sig-param"><span class="n">spatial_gabor_cos</span></em>, <em class="sig-param"><span class="n">temporal_gabor_sin</span></em>, <em class="sig-param"><span class="n">temporal_gabor_cos</span></em>, <em class="sig-param"><span class="n">stimulus</span></em>, <em class="sig-param"><span class="n">masklimit</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#dotdelay_frames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.dotdelay_frames" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convolve the motion-energy filter with a stimulus</p>
+<dd><p>Convolve the motion energy filter with a stimulus</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -304,8 +304,8 @@ The quadrature pair can be combined: (x^2 + y^2)^0.5</p></li>
 <dl class="py function">
 <dt id="moten.core.mk_3d_gabor">
 <code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">mk_3d_gabor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vhsize</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span></em>, <em class="sig-param"><span class="n">aspect_ratio</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">centerh</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">centerv</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">direction</span><span class="o">=</span><span class="default_value">45.0</span></em>, <em class="sig-param"><span class="n">spatial_freq</span><span class="o">=</span><span class="default_value">16.0</span></em>, <em class="sig-param"><span class="n">spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">temporal_freq</span><span class="o">=</span><span class="default_value">2.0</span></em>, <em class="sig-param"><span class="n">temporal_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#mk_3d_gabor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.mk_3d_gabor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make a motion-energy filter.</p>
-<p>A motion-energy filter is a 3D gabor with
+<dd><p>Make a motion energy filter.</p>
+<p>A motion energy filter is a 3D gabor with
 two spatial and one temporal dimension.
 Each dimension is defined by two sine waves which
 differ in phase by 90 degrees. The sine waves are
@@ -323,7 +323,7 @@ then multiplied by a gaussian.</p>
 to standard unit-circle coordinates (i.e. 0=right, 180=left).</p></li>
 <li><p><strong>spatial_freq</strong> (<em>float</em><em>, </em><em>[</em><em>cycles-per-image</em><em>]</em>) – Spatial frequency of the filter.</p></li>
 <li><p><strong>temporal_freq</strong> (<em>float</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Temporal frequency of the filter</p></li>
-<li><p><strong>filter_temporal_width</strong> (<em>int</em>) – Temporal window of the motion-energy filter (e.g. 10).
+<li><p><strong>filter_temporal_width</strong> (<em>int</em>) – Temporal window of the motion energy filter (e.g. 10).
 Defaults to approximately 0.666[secs] (<cite>floor(stimulus_fps*(2/3))</cite>).</p></li>
 <li><p><strong>aspect_ratio</strong> (<em>optional</em><em>, </em><em>'auto'</em><em> or </em><em>float-like</em><em>,</em>) – Defaults to stimulus aspect ratio: hdim/vdim
 Useful for preserving the spatial gabors circular even
@@ -353,7 +353,7 @@ a 90 degree phase offset relative to <code class="docutils literal notranslate">
 <dl class="py function">
 <dt id="moten.core.mk_moten_pyramid_params">
 <code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">mk_moten_pyramid_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus_fps</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">aspect_ratio</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">temporal_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4]</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16, 32]</span></em>, <em class="sig-param"><span class="n">spatial_directions</span><span class="o">=</span><span class="default_value">[0, 45, 90, 135, 180, 225, 270, 315]</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">gabor_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="default_value">10.0</span></em>, <em class="sig-param"><span class="n">max_temp_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#mk_moten_pyramid_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.mk_moten_pyramid_params" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parametrize a motion-energy pyramid that tiles the stimulus.</p>
+<dd><p>Parametrize a motion energy pyramid that tiles the stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -362,7 +362,7 @@ a 90 degree phase offset relative to <code class="docutils literal notranslate">
 <li><p><strong>spatial_directions</strong> (<em>array-like</em><em>, </em><em>[</em><em>degrees</em><em>]</em>) – Direction of filter motion. Degree position corresponds
 to standard unit-circle coordinates (i.e. 0=right, 180=left).</p></li>
 <li><p><strong>temporal_frequencies</strong> (<em>array-like</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Temporal frequencies of the filters</p></li>
-<li><p><strong>filter_temporal_width</strong> (<em>int</em>) – Temporal window of the motion-energy filter (e.g. 10).
+<li><p><strong>filter_temporal_width</strong> (<em>int</em>) – Temporal window of the motion energy filter (e.g. 10).
 Defaults to approximately 0.666[secs] (<cite>floor(stimulus_fps*(2/3))</cite>).</p></li>
 <li><p><strong>aspect_ratio</strong> (<em>optional</em><em>, </em><em>'auto'</em><em> or </em><em>float-like</em><em>,</em>) – Defaults to stimulus aspect ratio: hdim/vdim
 Useful for preserving the spatial gabors circular even
@@ -384,7 +384,7 @@ stimulus field-of-view</p></li>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul>
 <li><p><strong>parameter_names</strong> (<em>list of strings</em>) – The name of the parameters</p></li>
-<li><p><strong>gabor_parameters</strong> (<em>2D np.ndarray, (nfilters, 11)</em>) – Parameters that define the motion-energy filter
+<li><p><strong>gabor_parameters</strong> (<em>2D np.ndarray, (nfilters, 11)</em>) – Parameters that define the motion energy filter
 Each of the <cite>nfilters</cite> has the following parameters:</p>
 <blockquote>
 <div><ul class="simple">
@@ -412,7 +412,7 @@ Each of the <cite>nfilters</cite> has the following parameters:</p>
 <dl class="py function">
 <dt id="moten.core.mk_spatiotemporal_gabor">
 <code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">mk_spatiotemporal_gabor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spatial_gabor_sin</span></em>, <em class="sig-param"><span class="n">spatial_gabor_cos</span></em>, <em class="sig-param"><span class="n">temporal_gabor_sin</span></em>, <em class="sig-param"><span class="n">temporal_gabor_cos</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#mk_spatiotemporal_gabor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.mk_spatiotemporal_gabor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Make 3D motion-energy filter defined by the spatial and temporal gabors.</p>
+<dd><p>Make 3D motion energy filter defined by the spatial and temporal gabors.</p>
 <p>Takes the output of <a class="reference internal" href="#moten.core.mk_3d_gabor" title="moten.core.mk_3d_gabor"><code class="xref py py-func docutils literal notranslate"><span class="pre">mk_3d_gabor()</span></code></a> and constructs the 3D filter.
 This is useful for visualization.</p>
 <dl class="field-list simple">
@@ -425,7 +425,7 @@ This is useful for visualization.</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>motion_energy_filter</strong> – The motion-energy filter</p>
+<dd class="field-even"><p><strong>motion_energy_filter</strong> – The motion energy filter</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.array, (vdim, hdim, filter_temporal_width)</p>
@@ -436,7 +436,7 @@ This is useful for visualization.</p>
 <dl class="py function">
 <dt id="moten.core.project_stimulus">
 <code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.project_stimulus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute the motion-energy filter responses to the stimuli.</p>
+<dd><p>Compute the motion energy filter responses to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>stimulus</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>nimages</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>) or </em><em>(</em><em>nimages</em><em>, </em><em>npixels</em><em>)</em>) – The movie frames.

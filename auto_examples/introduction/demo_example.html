@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Using the motion-energy pyramid class &mdash; pymoten 0.0.0 documentation</title>
+  <title>Using the motion energy pyramid class &mdash; pymoten 0.0.0 documentation</title>
   
 
   
@@ -40,7 +40,7 @@
   <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Visualizing the motion-energy filters" href="demo_show_filters.html" />
+    <link rel="next" title="Visualizing the motion energy filters" href="demo_show_filters.html" />
     <link rel="prev" title="Gallery of examples" href="../index.html" /> 
 </head>
 
@@ -91,11 +91,11 @@
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Gallery of examples</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="../index.html#motion-energy-pyramids">Motion-energy pyramids</a><ul class="current">
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Using the motion-energy pyramid class</a></li>
-<li class="toctree-l3"><a class="reference internal" href="demo_show_filters.html">Visualizing the motion-energy filters</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#motion-energy-pyramids">Motion energy pyramids</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Using the motion energy pyramid class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demo_show_filters.html">Visualizing the motion energy filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="demo_gabor_filters.html">Spatial components of the motion energy filters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="demo_batching.html">Computing motion-energy features from batches of stimuli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="demo_batching.html">Computing motion energy features from batches of stimuli</a></li>
 <li class="toctree-l3"><a class="reference internal" href="demo_image_coordinates.html">Image coordinates</a></li>
 </ul>
 </li>
@@ -165,7 +165,7 @@
         
           <li><a href="../index.html">Gallery of examples</a> &raquo;</li>
         
-      <li>Using the motion-energy pyramid class</li>
+      <li>Using the motion energy pyramid class</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -189,8 +189,8 @@
 <p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-introduction-demo-example-py"><span class="std std-ref">here</span></a>     to download the full example code</p>
 </div>
 <div class="sphx-glr-example-title section" id="using-the-motion-energy-pyramid-class">
-<span id="sphx-glr-auto-examples-introduction-demo-example-py"></span><h1>Using the motion-energy pyramid class<a class="headerlink" href="#using-the-motion-energy-pyramid-class" title="Permalink to this headline">¶</a></h1>
-<p>This example shows how to extract motion-energy features from a video.</p>
+<span id="sphx-glr-auto-examples-introduction-demo-example-py"></span><h1>Using the motion energy pyramid class<a class="headerlink" href="#using-the-motion-energy-pyramid-class" title="Permalink to this headline">¶</a></h1>
+<p>This example shows how to extract motion energy features from a video.</p>
 <p>First, we need to define the video we want to use. In this example, we’ll use a small video. The video is 2.5 minutes in duration with a frame rate of 24fps. For the purposes of this example, we’ll only use the first 200 frames.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">nimages</span> <span class="o">=</span> <span class="mi">200</span>
 <span class="n">stimulus_fps</span> <span class="o">=</span> <span class="mi">24</span>
@@ -206,7 +206,7 @@
 <span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">luminance_images</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
 </div>
-<p>Next we need to construct the motion-energy pyramid. To achieve this, we must provide the size of the stimulus frames in pixels (<code class="docutils literal notranslate"><span class="pre">vdim</span></code> and <code class="docutils literal notranslate"><span class="pre">hdim</span></code>) and also the frame rate</p>
+<p>Next we need to construct the motion energy pyramid. To achieve this, we must provide the size of the stimulus frames in pixels (<code class="docutils literal notranslate"><span class="pre">vdim</span></code> and <code class="docutils literal notranslate"><span class="pre">hdim</span></code>) and also the frame rate</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pyramid</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">pyramids</span><span class="o">.</span><span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
                                              <span class="n">stimulus_fps</span><span class="o">=</span><span class="n">stimulus_fps</span><span class="p">)</span>
 
@@ -217,7 +217,7 @@
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;moten.pyramids.MotionEnergyPyramid [#2530 filters (ntfq=3, nsfq=5, ndirs=8) aspect=1.778]&gt;
 </pre></div>
 </div>
-<p>Finally, we use the method <code class="docutils literal notranslate"><span class="pre">project_stimulus</span></code> to compute the motion-energy features (see <a class="reference internal" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="moten.pyramids.MotionEnergyPyramid.project_stimulus"><code class="xref py py-meth docutils literal notranslate"><span class="pre">moten.pyramids.MotionEnergyPyramid.project_stimulus()</span></code></a>).</p>
+<p>Finally, we use the method <code class="docutils literal notranslate"><span class="pre">project_stimulus</span></code> to compute the motion energy features (see <a class="reference internal" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.project_stimulus" title="moten.pyramids.MotionEnergyPyramid.project_stimulus"><code class="xref py py-meth docutils literal notranslate"><span class="pre">moten.pyramids.MotionEnergyPyramid.project_stimulus()</span></code></a>).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">features</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
@@ -230,7 +230,7 @@
 <div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(200, 2530)
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  28.179 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  27.180 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-example-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/2a20a980637101b1fdb5b08d5db8705c/demo_example.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">demo_example.py</span></code></a></p>
@@ -250,7 +250,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="demo_show_filters.html" class="btn btn-neutral float-right" title="Visualizing the motion-energy filters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="demo_show_filters.html" class="btn btn-neutral float-right" title="Visualizing the motion energy filters" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../index.html" class="btn btn-neutral float-left" title="Gallery of examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

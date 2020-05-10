@@ -89,11 +89,11 @@
 <p class="caption"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Gallery of examples</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html#motion-energy-pyramids">Motion-energy pyramids</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_example.html">Using the motion-energy pyramid class</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_show_filters.html">Visualizing the motion-energy filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_example.html">Using the motion energy pyramid class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_show_filters.html">Visualizing the motion energy filters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_gabor_filters.html">Spatial components of the motion energy filters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_batching.html">Computing motion-energy features from batches of stimuli</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_batching.html">Computing motion energy features from batches of stimuli</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/demo_image_coordinates.html">Image coordinates</a></li>
 </ul>
 </li>
@@ -215,11 +215,11 @@
 <span class="c1">##############################</span>
 
 <div class="viewcode-block" id="MotionEnergyPyramid"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid">[docs]</a><span class="k">class</span> <span class="nc">MotionEnergyPyramid</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Construct a motion-energy pyramid that tiles the stimulus.</span>
+    <span class="sd">&#39;&#39;&#39;Construct a motion energy pyramid that tiles the stimulus.</span>
 
-<span class="sd">    Generates motion-energy filters at the desired</span>
+<span class="sd">    Generates motion energy filters at the desired</span>
 <span class="sd">    spatio-temporal frequencies and directions of motion.</span>
-<span class="sd">    Multiple motion-energy filters per spatio-temporal frequency</span>
+<span class="sd">    Multiple motion energy filters per spatio-temporal frequency</span>
 <span class="sd">    are constructed and each is centered at different locations</span>
 <span class="sd">    in the image in order to tile the stimulus.</span>
 
@@ -237,14 +237,14 @@
 <span class="sd">    temporal_frequencies : array-like, [Hz]</span>
 <span class="sd">        Temporal frequencies of the filters</span>
 <span class="sd">    filter_temporal_width : int</span>
-<span class="sd">        Temporal window of the motion-energy filter (e.g. 10).</span>
+<span class="sd">        Temporal window of the motion energy filter (e.g. 10).</span>
 <span class="sd">        Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
 <span class="sd">    nfilters : int</span>
 <span class="sd">    filters : list of dicts</span>
-<span class="sd">        Each item is a dict defining a motion-energy filter.</span>
+<span class="sd">        Each item is a dict defining a motion energy filter.</span>
 <span class="sd">        Each of the `nfilters` has the following parameters:</span>
 <span class="sd">            * centerv,centerh : y:vertical and x:horizontal position (&#39;0,0&#39; is top left)</span>
 <span class="sd">            * direction       : direction of motion [degrees]</span>
@@ -263,7 +263,7 @@
 <span class="sd">    definition : dict</span>
 <span class="sd">        Parameters used to define the pyramid.</span>
 <span class="sd">    parameters_matrix : np.array, (nfilters, 11)</span>
-<span class="sd">        Parameters that defined the motion-energy filter.</span>
+<span class="sd">        Parameters that defined the motion energy filter.</span>
 <span class="sd">    parameters_names  : tuple of strings</span>
 
 <span class="sd">    Notes</span>
@@ -401,7 +401,7 @@
         <span class="k">return</span> <span class="n">new_filters</span></div>
 
 <div class="viewcode-block" id="MotionEnergyPyramid.get_filter_spatiotemporal_quadratures"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures">[docs]</a>    <span class="k">def</span> <span class="nf">get_filter_spatiotemporal_quadratures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Generate the spatial and temporal arrays that define the motion-energy filter.</span>
+        <span class="sd">&#39;&#39;&#39;Generate the spatial and temporal arrays that define the motion energy filter.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -434,7 +434,7 @@
         <span class="k">return</span> <span class="n">sgabor0</span><span class="p">,</span> <span class="n">sgabor90</span><span class="p">,</span> <span class="n">tgabor0</span><span class="p">,</span> <span class="n">tgabor90</span></div>
 
 <div class="viewcode-block" id="MotionEnergyPyramid.get_filter_temporal_quadrature"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature">[docs]</a>    <span class="k">def</span> <span class="nf">get_filter_temporal_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Generate the temporal arrays that define the motion-energy filter.</span>
+        <span class="sd">&#39;&#39;&#39;Generate the temporal arrays that define the motion energy filter.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -453,7 +453,7 @@
         <span class="k">return</span> <span class="n">tgabor0</span><span class="p">,</span> <span class="n">tgabor90</span></div>
 
 <div class="viewcode-block" id="MotionEnergyPyramid.get_filter_spatial_quadrature"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature">[docs]</a>    <span class="k">def</span> <span class="nf">get_filter_spatial_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Generate the spatial arrays that define the motion-energy filter.</span>
+        <span class="sd">&#39;&#39;&#39;Generate the spatial arrays that define the motion energy filter.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -508,13 +508,13 @@
 
 
 <div class="viewcode-block" id="MotionEnergyPyramid.show_filter"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.show_filter">[docs]</a>    <span class="k">def</span> <span class="nf">show_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Display the motion-energy filter as an animation.</span>
+        <span class="sd">&#39;&#39;&#39;Display the motion energy filter as an animation.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        filterid : int, or dict</span>
 <span class="sd">            If int, it&#39;s the index of the filter to display.</span>
-<span class="sd">            If dict, it&#39;s a motion-energy filter definition.</span>
+<span class="sd">            If dict, it&#39;s a motion energy filter definition.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -570,7 +570,7 @@
                          <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">log_compress</span><span class="p">,</span>
                          <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">,</span>
                          <span class="n">use_cuda</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Compute the motion-energy filter responses to the stimulus.</span>
+        <span class="sd">&#39;&#39;&#39;Compute the motion energy filter responses to the stimulus.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -638,11 +638,11 @@
 
 
 <div class="viewcode-block" id="StimulusMotionEnergy"><a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy">[docs]</a><span class="k">class</span> <span class="nc">StimulusMotionEnergy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Parametrize a motion-energy pyramid that tiles the stimulus.</span>
+    <span class="sd">&#39;&#39;&#39;Parametrize a motion energy pyramid that tiles the stimulus.</span>
 
-<span class="sd">    Generates motion-energy filters at the desired</span>
+<span class="sd">    Generates motion energy filters at the desired</span>
 <span class="sd">    spatio-temporal frequencies and directions of motion.</span>
-<span class="sd">    Multiple motion-energy filters per spatio-temporal frequency</span>
+<span class="sd">    Multiple motion energy filters per spatio-temporal frequency</span>
 <span class="sd">    are constructed and each is centered at different locations</span>
 <span class="sd">    in the image in order to tile the stimulus.</span>
 
@@ -660,7 +660,7 @@
 <span class="sd">    temporal_frequencies : array-like, [Hz]</span>
 <span class="sd">        Temporal frequencies of the filters</span>
 <span class="sd">    filter_temporal_width : int</span>
-<span class="sd">        Temporal window of the motion-energy filter (e.g. 10).</span>
+<span class="sd">        Temporal window of the motion energy filter (e.g. 10).</span>
 <span class="sd">        Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).</span>
 
 <span class="sd">    Attributes</span>
@@ -668,7 +668,7 @@
 <span class="sd">    stimulus : 2D np.ndarray, (nimages, vdim*hdim)</span>
 <span class="sd">        Time-space representation of stimulus</span>
 <span class="sd">    view : :class:`MotionEnergyPyramid`</span>
-<span class="sd">        Full description of the motion-energy pyramid.</span>
+<span class="sd">        Full description of the motion energy pyramid.</span>
 <span class="sd">    nimages : int</span>
 <span class="sd">        Number of video frames</span>
 <span class="sd">    nfilters : int</span>
@@ -695,7 +695,7 @@
 <span class="sd">        Notes</span>
 <span class="sd">        -----</span>
 <span class="sd">        See :class:`MotionEnergyPyramid` for more detail on</span>
-<span class="sd">        keyword arguments used to construct the motion-energy pyramid.</span>
+<span class="sd">        keyword arguments used to construct the motion energy pyramid.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">stimulus_vhsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">)</span>
@@ -746,7 +746,7 @@
                 <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">sqrt_sum_squares</span><span class="p">,</span>
                 <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">log_compress</span><span class="p">,</span>
                 <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;Compute the motion-energy filter responses to the stimulus.</span>
+        <span class="sd">&#39;&#39;&#39;Compute the motion energy filter responses to the stimulus.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>

@@ -18,14 +18,14 @@ Gallery of examples
 
 .. _sphx_glr_auto_examples_introduction:
 
-Motion-energy pyramids
+Motion energy pyramids
 ----------------------
 
 
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract motion-energy features from a video.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract motion energy features from a video.">
 
 .. only:: html
 
@@ -45,7 +45,7 @@ Motion-energy pyramids
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to display a motion-energy filter from the pyramid.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to display a motion energy filter from the pyramid.">
 
 .. only:: html
 
@@ -85,7 +85,7 @@ Motion-energy pyramids
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract motion-energy features from batches of a video.">
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract motion energy features from batches of a video.">
 
 .. only:: html
 
@@ -105,7 +105,7 @@ Motion-energy pyramids
 
 .. raw:: html
 
-    <div class="sphx-glr-thumbcontainer" tooltip="Description of the image coordinates used to define the motion-energy filters.">
+    <div class="sphx-glr-thumbcontainer" tooltip="Description of the image coordinates used to define the motion energy filters.">
 
 .. only:: html
 
