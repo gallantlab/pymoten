@@ -24,8 +24,7 @@ def video_buffer(video_file, nimages=np.inf):
         Full path to the video file.
         This can be a video file on disk or from a website.
     nimages : optional, int
-        If specified, only ``nimages`` frames are converted to luminance.
-        If unspecified, all frames are loaded.
+        If specified, only `nimages` frames are loaded.
 
     Yields
     ------
@@ -71,8 +70,7 @@ def generate_frames_from_greyvideo(video_file, size=None, nimages=np.inf):
         If specified, the image is scaled or shrunk to this size.
         If not specified, the original size is kept.
     nimages : optional, int
-        If specified, only ``nimages`` frames are converted to luminance.
-        If unspecified, all frames are loaded.
+        If specified, only `nimages` frames are loaded.
 
     Yields
     ------
@@ -108,8 +106,7 @@ def generate_frame_difference_from_greyvideo(video_file,
         If specified, the image is scaled or shrunk to this size.
         If not specified, the original size is kept.
     nimages : optional, int
-        If specified, only ``nimages`` frames are converted to luminance.
-        If unspecified, all frames are loaded.
+        If specified, only `nimages` frames are loaded.
 
     Yields
     ------
@@ -134,7 +131,7 @@ def video2luminance(video_file, size=None, nimages=np.inf):
     Internally, this function loads one video frame into memory at a time.
     Tt converts the RGB pixel values from one frame to CIE-LAB pixel values.
     It then keeps the luminance channel only. This process is performed
-    for all ``nimages`` requested or until we reach the end of the video file.
+    for all frames requested or until we reach the end of the video file.
 
     Parameters
     ----------
@@ -146,8 +143,7 @@ def video2luminance(video_file, size=None, nimages=np.inf):
         If specified, the image is scaled or shrunk to this size.
         If not specified, the original size is kept.
     nimages : optional, int
-        If specified, only ``nimages`` frames are converted to luminance.
-        If unspecified, all frames are loaded.
+        If specified, only `nimages` frames are converted to luminance.
 
     Returns
     -------
@@ -166,7 +162,7 @@ def video2luminance(video_file, size=None, nimages=np.inf):
 def video2grey(video_file, size=None, nimages=np.inf):
     '''Convert the video frames to greyscale images.
 
-    This function computes the mean across the RGB color channels.
+    This function computes the mean across RGB color channels.
 
     Parameters
     ----------
@@ -178,8 +174,7 @@ def video2grey(video_file, size=None, nimages=np.inf):
         If specified, the image is scaled or shrunk to this size.
         If not specified, the original size is kept.
     nimages : optional, int
-        If specified, only ``nimages`` frames are converted to luminance.
-        If unspecified, all frames are loaded.
+        If specified, only `nimages` frames are converted to greyscale.
 
     Returns
     -------
@@ -239,14 +234,14 @@ def imagearray2luminance(uint8arr, size=None, filter=Image.ANTIALIAS, dtype=np.f
 
 
 def resize_image(im, size=(96,96), filter=Image.ANTIALIAS):
-    '''Resize an image and return its array representation
+    '''Resize an image and return its array representation.
 
     Parameters
     ----------
     im : str, np.ndarray(uint8), or PIL.Image object
-        The path to the image, an image array, or a loaded PIL.Image
+        The path to the image, an image array, or a loaded PIL.Image.
     size : tuple, (vdim, hdim)
-        The desired output image size
+        The desired output image size.
 
     Returns
     -------
@@ -272,13 +267,13 @@ def resize_image(im, size=(96,96), filter=Image.ANTIALIAS):
 
 
 def load_image_luminance(image_files, hdim=None, vdim=None):
-    '''Load a set of RGB images and return its luminance representation
+    '''Load a set of RGB images and return its luminance representation.
 
     Parameters
     ----------
     image_files : list-like, (n,)
         A list of file names.
-        The images should be in RGB uint8 format
+        The images should be in RGB uint8 format.
     vdim, hdim : int, optional
         Vertical and horizontal dimensions, respectively.
         If provided the images will be scaled to this size.
@@ -286,7 +281,7 @@ def load_image_luminance(image_files, hdim=None, vdim=None):
     Returns
     -------
     arr : 3D np.array (n,vdim,hdim)
-        The luminance representation of the images
+        The luminance representation of the images.
     '''
 
 
