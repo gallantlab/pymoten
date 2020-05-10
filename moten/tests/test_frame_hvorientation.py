@@ -29,7 +29,7 @@ pyramid = pyramids.MotionEnergyPyramid(stimulus_vhsize=(vdim, hdim),
 print(pyramid)
 
 # centered projection
-# hvsize=(0,0): top left
+# vhsize=(0,0): top left
 location_filters = {'TL' : [pyramid.filters_at_vhposition(0.1, 0.1)[0]],
                     'TR' : [pyramid.filters_at_vhposition(0.1, 0.9*aspect_ratio)[0]],
                     'BL' : [pyramid.filters_at_vhposition(0.9, 0.1)[0]],

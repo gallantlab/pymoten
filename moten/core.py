@@ -152,11 +152,12 @@ def mk_3d_gabor(vhsize,
 
     Parameters
     ----------
-    hvt : array-like, (hdim, vdim, tdim)
-        Defines the 3D field-of-view of the filter
-        `hdim` : horizontal dimension size
+    vhsize : array-like, (vdim, hdim)
+        Defines spatial size of the filter
         `vdim` : vertical dimension size
-        `tdim` : temporal dimension size
+        `hdim` : horizontal dimension size
+    stimulus_fps : scalar, [Hz]
+        Stimulus playback speed in frames per second.
     centerh, centerv : float
         Horizontal and vertical position in space, respectively.
         The image center is (0.5,0.5) for square aspect ratios
@@ -239,7 +240,7 @@ def mk_3d_gabor(vhsize,
     return spatial_gabor_sin, spatial_gabor_cos, temporal_gabor_sin, temporal_gabor_cos
 
 
-def generate_3dgabor_array(vhsize=(1024, 576),
+def generate_3dgabor_array(vhsize=(576,1024),
                            stimulus_fps=24,
                            aspect_ratio='auto',
                            filter_temporal_width='auto',
@@ -252,7 +253,6 @@ def generate_3dgabor_array(vhsize=(1024, 576),
                            temporal_env=0.3,
                            phase_offset=0.0):
     '''
-    gabor_hvt_size : (vdim, hdim, tdim),
     '''
     vdim, hdim = vhsize
     if aspect_ratio == 'auto':

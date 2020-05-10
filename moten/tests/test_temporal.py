@@ -34,11 +34,11 @@ def test_smoke_test():
     print(pyramid)
 
     # centered projection
-    # hvsize=(0,0): top left
-    location_filters = {'BL' : [pyramid.filters_at_hvposition(0.9, 0.1)[0]],
-                        'BR' : [pyramid.filters_at_hvposition(0.9, 0.9*aspect_ratio)[0]],
-                        'TL' : [pyramid.filters_at_hvposition(0.1, 0.1)[0]],
-                        'TR' : [pyramid.filters_at_hvposition(0.1, 0.9*aspect_ratio)[0]]}
+    # vhsize=(0,0): top left
+    location_filters = {'BL' : [pyramid.filters_at_vhposition(0.9, 0.1)[0]],
+                        'BR' : [pyramid.filters_at_vhposition(0.9, 0.9*aspect_ratio)[0]],
+                        'TL' : [pyramid.filters_at_vhposition(0.1, 0.1)[0]],
+                        'TR' : [pyramid.filters_at_vhposition(0.1, 0.9*aspect_ratio)[0]]}
 
     # normal output
     output = {}
@@ -58,7 +58,6 @@ def test_smoke_test():
                      'BR' : ((-vhalf, None), (hhalf, None)),
                      'TL' : ((0, vhalf), (0, hhalf)),
                      'TR' : ((0, vhalf), (hhalf, None))}
-
 
     tcenter = int(nimages/2)
     controls = {}

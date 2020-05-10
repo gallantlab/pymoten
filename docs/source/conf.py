@@ -14,7 +14,7 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 import sphinx_bootstrap_theme
-import numpydoc
+# import numpydoc
 
 # -- Project information -----------------------------------------------------
 
@@ -31,7 +31,7 @@ release = '0.0.1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['numpydoc',
+extensions = [#'numpydoc',
               'sphinx.ext.mathjax',
               'sphinx.ext.autodoc',
               'sphinx.ext.autosummary',
@@ -42,6 +42,7 @@ extensions = ['numpydoc',
               'sphinx_gallery.gen_gallery',
 ]
 
+napoleon_use_ivar = True
 autosummary_generate = True
 numpydoc_class_members_toctree = True
 numpydoc_show_class_members = True

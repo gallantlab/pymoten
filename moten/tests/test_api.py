@@ -83,7 +83,7 @@ stim_pyramid = pyramids.StimulusMotionEnergy(luminance_images,
                                              spatial_frequencies=(0,1,2,4),
                                              filter_temporal_width=16)
 
-hvcentered_filters, hvcentered_responses = stim_pyramid.project_at_vhposition(
+centered_filters, centered_responses = stim_pyramid.project_at_vhposition(
     0.33, 1.11, dtype=DTYPE)
 
 def test_pyramid_vs_standalonefn_3d():
@@ -118,9 +118,9 @@ def test_stimpyramid():
     assert np.allclose(filter_responses, output)
 
 
-def test_stimpyramid_at_hvposition_smk():
+def test_stimpyramid_at_vhposition_smk():
     # centered projection
-    example_filter = hvcentered_filters[10]
+    example_filter = centered_filters[10]
     stim_pyramid.view.show_filter(example_filter)
 
     # modify filter spatial frequency to 8cpi and
@@ -143,9 +143,9 @@ def test_stimpyramid_manual():
 
 def test_stimpyramid_centered():
     # centered quadrature centered responses
-    hvresponses_sin, hvresponses_cos = stim_pyramid.raw_projection(hvcentered_filters, dtype=DTYPE)
-    responses_manualhv = utils.log_compress(utils.sqrt_sum_squares(hvresponses_sin, hvresponses_cos))
-    assert np.allclose(hvcentered_responses, responses_manualhv)
+    centered_responses_sin, centered_responses_cos = stim_pyramid.raw_projection(centered_filters, dtype=DTYPE)
+    responses_manual = utils.log_compress(utils.sqrt_sum_squares(centered_responses_sin, centered_responses_cos))
+    assert np.allclose(centered_responses, responses_manual)
 
 def test_stimpyramid_otherstimuli():
     # project specific stimuli

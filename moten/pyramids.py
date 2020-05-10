@@ -45,32 +45,24 @@ class MotionEnergyPyramid(object):
     Parameters
     ----------
     stimulus_vhsize : tuple of ints
-        Resolution of the stimulus (vdim, hdim, fps)
-    stimulus_fps : int, [Hz]
+        Size of the stimulus in pixels (vdim, hdim)
+    stimulus_fps : scalar, [Hz]
         The temporal frequency of the stimulus.
     spatial_frequencies : array-like, [cycles-per-image]
         Spatial frequencies for the filters
     spatial_directions : array-like, [degrees]
         Direction of filter motion. Degree position corresponds
-        to standard unit-circle coordinates.
+        to standard unit-circle coordinates (i.e. 0=right, 180=left).
     temporal_frequencies : array-like, [Hz]
         Temporal frequencies of the filters for use on the stimulus
     filter_temporal_width : int
         Temporal window of the motion-energy filter (e.g. 10).
-        Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).
+        Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).
 
     Notes
     -----
-    See :func:`moten.core.mk_moten_pyramid_params` for more details.
-
-    Methods
-    -------
-    MotionEnergyPyramid.show_filter(filterid=0)
-        Display the selected filter as a matplotlib animation.
-    filters_at_vhposition(0.5, 0.5)
-        Center spatio-temporal filters to requested hv-position.
-    project_stimulus(stimulus)
-        Compute the motion-energy filter responses to the stimuli.
+    See :func:`moten.core.mk_moten_pyramid_params` for more details on
+    making the pyramid.
 
     Attributes
     ----------
@@ -78,20 +70,24 @@ class MotionEnergyPyramid(object):
     filters : list of dicts
         Each item is a dict defining a motion-energy filter.
         Each of the `nfilters` has the following parameters:
-            * centerh,centerv : x:horizontal and y:vertical position ('0,0' is top left)
-            * direction       : direction of motion
-            * spatial_freq    : spatial frequency
+            * centerv,centerh : y:vertical and x:horizontal position ('0,0' is top left)
+            * direction       : direction of motion [degrees]
+            * spatial_freq    : spatial frequency [cpi]
             * spatial_env     : spatial envelope (gaussian s.d.)
-            * temporal_freq   : temporal frequency
+            * temporal_freq   : temporal frequency [Hz]
             * temporal_env    : temporal envelope (gaussian s.d.)
+            * filter_temporal_width : temporal window of filter [frames]
+            * aspect_ratio    : width/height
+            * stimulus_fps    : stimulus playback speed in frames per second
+            * spatial_phase_offset : filter phase offset in [degrees]
 
     parameters : dict of arrays
         The individual parameter values across all filters.
-        Each item is an array of length `nfilters`
+        Each item is an array of length ``nfilters``
     definition : dict
-        Parameters used to construct pyramid
-    parameters_matrix : np.array, (nfilters, 7)
-        Parameters that defined the motion-energy filter
+        Parameters used to define the pyramid.
+    parameters_matrix : np.array, (nfilters, 11)
+        Parameters that defined the motion-energy filter.
     parameters_names  : tuple of strings
     '''
     def __init__(self,
@@ -197,24 +193,19 @@ class MotionEnergyPyramid(object):
                    self.definition.aspect_ratio)
         return info%details
 
-    def filters_at_hvposition(self, centerh, centerv):
-        '''
-        '''
-        return self.filters_at_vhposition(centerv, centerh)
-
     def filters_at_vhposition(self, centerv, centerh):
         '''Center spatio-temporal filters to requested vh-position.
 
         Parameters
         ----------
-        centerh : scalar
-            Horizontal filter position from left of frame (min=0, max=aspect_ratio).
         centerv : scalar
             Vertical filter from top of frame (min=0, max=1.0).
+        centerh : scalar
+            Horizontal filter position from left of frame (min=0, max=aspect_ratio).
 
         Returns
         -------
-        centered_filters : dict
+        centered_filters : list of dicts
             Spatio-temporal filter parameters at vh-position.
         '''
         unique_parameters = np.unique(self.parameters_matrix[:, 2:], axis=0)
@@ -229,17 +220,23 @@ class MotionEnergyPyramid(object):
         return new_filters
 
     def get_filter_spatiotemporal_quadratures(self, filterid=0):
-        '''
+        '''Generate the spatial and temporal arrays that define the motion-energy filter.
+
+        Parameters
+        ----------
+        filterid : int, or dict
+            If int, the filter index.
+            If dict, a filter dictionary definition
 
         Returns
         -------
-        spatial_gabor_sin, spatial_gabor_cos : np.array, (vdim,hdim)
-            Spatial gabor quadrature pair. `spatial_gabor_cos` has
-            a 90 degree phase offset relative to `spatial_gabor_sin`
+        spatial_gabor_sin, spatial_gabor_cos : 2D np.ndarray, each with shape (vdim, hdim)
+            Spatial gabor quadrature pair. ``spatial_gabor_cos`` has
+            a 90 degree phase offset relative to ``spatial_gabor_sin``
 
-        temporal_gabor_sin, temporal_gabor_cos : np.array, (tdim)
-            Temporal gabor quadrature pair. `temporal_gabor_cos` has
-            a 90 degree phase offset relative to `temporal_gabor_sin`
+        temporal_gabor_sin, temporal_gabor_cos : 1D np.ndarray, each with shape (filter_temporal_width, )
+            Temporal gabor quadrature pair. ``temporal_gabor_cos`` has
+            a 90 degree phase offset relative to ``temporal_gabor_sin``
         '''
         vhsize = (self.definition.vdim, self.definition.hdim)
 
@@ -254,15 +251,54 @@ class MotionEnergyPyramid(object):
         return sgabor0, sgabor90, tgabor0, tgabor90
 
     def get_filter_temporal_quadrature(self, filterid=0):
+        '''Generate the temporal arrays that define the motion-energy filter.
+
+        Parameters
+        ----------
+        filterid : int, or dict
+            If int, the filter index.
+            If dict, a filter dictionary definition
+
+        Returns
+        -------
+        temporal_gabor_sin, temporal_gabor_cos : 1D np.ndarray, each with shape (filter_temporal_width, )
+            Temporal gabor quadrature pair. ``temporal_gabor_cos`` has
+            a 90 degree phase offset relative to ``temporal_gabor_sin``
+        '''
         _,_, tgabor0, tgabor90 = self.get_filter_spatiotemporal_quadratures(filterid=filterid)
         return tgabor0, tgabor90
 
     def get_filter_spatial_quadrature(self, filterid=0):
+        '''Generate the spatial arrays that define the motion-energy filter.
+
+        Parameters
+        ----------
+        filterid : int, or dict
+            If int, the filter index.
+            If dict, a filter dictionary definition
+
+        Returns
+        -------
+        spatial_gabor_sin, spatial_gabor_cos : 2D np.ndarray, each with shape (vdim, hdim)
+            Spatial gabor quadrature pair. ``spatial_gabor_cos`` has
+            a 90 degree phase offset relative to ``spatial_gabor_sin``
+        '''
         sgabor0, sgabor90, _, _ = self.get_filter_spatiotemporal_quadratures(filterid=filterid)
         return sgabor0, sgabor90
 
     def get_filter_mask(self, filterid=0):
-        '''
+        '''Generate a mask of the filter in the image
+
+        Parameters
+        ----------
+        filterid : int, or dict
+            If int, the filter index.
+            If dict, a filter dictionary definition
+
+        Returns
+        -------
+        mask : 2D np.ndarray, (vdim, hdim)
+            Filter spatial mask
         '''
         abs = np.abs
         threshold = self.mask_threshold
@@ -272,7 +308,12 @@ class MotionEnergyPyramid(object):
         return mask
 
     def get_filter_pixel_sizes(self):
-        '''
+        '''Measure the size of the each filter in the pyramid in pixels.
+
+        Returns
+        -------
+        filter_npixels : 2D np.ndarray, (nfilters,)
+            Array containing the size of each filter in pixels.
         '''
         npixels = []
         for filter_idx in range(self.nfilters):
@@ -288,14 +329,7 @@ class MotionEnergyPyramid(object):
         ----------
         filterid : int, or dict
             If int, it's the index of the filter to display.
-            If dict, it's a motion-energy filter definition. E.g.:
-                {'centerh': 0.5,
-                 'centerv': 0.5,
-                 'direction': 0.0,
-                 'spatial_freq': 2.0,
-                 'spatial_env': 0.3,
-                 'temporal_freq': 0.0,
-                 'temporal_env': 0.3}
+            If dict, it's a motion-energy filter definition.
 
         Returns
         -------
@@ -306,6 +340,18 @@ class MotionEnergyPyramid(object):
         >>> import moten
         >>> pyramid = moten.get_default_pyramid()
         >>> _ = pyramid.show_filter(12)
+        >>> custom_filter = {'centerh': 0.8888888888888888,
+                             'centerv': 0.5,
+                             'direction': 45.0,
+                             'spatial_freq': 2.0,
+                             'spatial_env': 0.3,
+                             'temporal_freq': 2.0,
+                             'temporal_env': 0.3,
+                             'filter_temporal_width': 16.0,
+                             'aspect_ratio': 1.7777777777777777,
+                             'stimulus_fps': 24.0,
+                             'spatial_phase_offset': 0.0}
+        >>> _ = pyramid.show_filter(custom_filter)
         '''
         # Get dimensions of movie
         vdim, hdim, stimulus_fps = self.definition.stimulus_vht_fov
@@ -339,11 +385,25 @@ class MotionEnergyPyramid(object):
                          output_nonlinearity=utils.log_compress,
                          dtype='float32',
                          use_cuda=False):
-        '''
+        '''Compute the motion-energy filter responses to the stimulus.
+
         Parameters
         ----------
-        stimulus : np.array, (nimages, vdim, hdim)
+        stimulus : np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)
             The movie frames.
+            If ``stimulus`` is two-dimensional with shape (nimages, npixels), then
+            ``vhsize=(vdim,hdim)`` is required and `npixels == vdim*hdim`.
+        filters : optional, 'all' or list of dicts
+            By default compute the responses for all filters.
+            Otherwise, provide a list of filter definitions to use.
+        quadrature_combination : function, optional
+            Specifies how to combine the channel reponse quadratures.
+            The function must take the sin and cos as arguments in that order.
+            Defaults to: :math:`(sin^2 + cos^2)^{1/2}`
+        output_nonlinearity : function, optional
+            Passes the channels (after ``quadrature_combination``) through a
+            non-linearity. The function input is the (`nimages, nfilters`) array.
+            Defaults to: :math:`log(x + 1e-05)`
 
         Returns
         -------
@@ -364,7 +424,7 @@ class MotionEnergyPyramid(object):
         return output
 
     def raw_project_stimulus(self, stimulus, filters='all', dtype='float32'):
-        '''Obtain responses to the stimuli from all filter quadrature-pairs.
+        '''Obtain responses to the stimulus from all filter quadrature-pairs.
 
         Parameters
         ----------
@@ -403,44 +463,34 @@ class StimulusMotionEnergy(object):
 
     Parameters
     ----------
-    stimulus : np.array, (n, vdim, hdim)
+    stimulus : np.array, (nimages, vdim, hdim)
         The movie frames.
-    stimulus_fps : int, [Hz]
+    stimulus_fps : scalar, [Hz]
         The temporal frequency of the stimulus.
     spatial_frequencies : array-like, [cycles-per-image]
-        Spatial frequencies for the filters.
+        Spatial frequencies for the filters
     spatial_directions : array-like, [degrees]
         Direction of filter motion. Degree position corresponds
-        to standard unit-circle coordinates.
+        to standard unit-circle coordinates (i.e. 0=right, 180=left).
     temporal_frequencies : array-like, [Hz]
-        Temporal frequencies of the filters for use on the stimulus.
+        Temporal frequencies of the filters for use on the stimulus
+    filter_temporal_width : int
+        Temporal window of the motion-energy filter (e.g. 10).
+        Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).
 
     Attributes
     ----------
-
     stimulus : 2D np.ndarray, (nimages, vdim*hdim)
         Time-space representation of stimulus
     view : :class:`MotionEnergyPyramid`
         Full description of the motion-energy pyramid.
     nimages : int
+        Number of video frames
     nfilters : int
     aspect_ratio : scalar, (hdim/vdim)
     stimulus_fps : int (fps)
-    stimulus_vhsize : tuple of ints, (vdim, hdim, fps)
+    stimulus_vhsize : tuple of ints, (vdim, hdim)
     original_stimulus : 3D np.ndarray, (nimages, vdim, hdim)
-
-    Methods
-    -------
-    project()
-        Compute the motion-energy filter responses to the stimulus.
-
-    project_at_vhposition(centerv, centerh)
-        Center the motion-energy filters at vh-position in the stimulus
-        and compute the filter responses.
-
-    raw_projection()
-        Return the filter quadrature-pair responses to the stimuli
-        at 0 and 90 degree phase offsets.
     '''
     def __init__(self,
                  stimulus,
@@ -502,42 +552,30 @@ class StimulusMotionEnergy(object):
         return info%details
 
     def project_stimulus(self, *args, **kwargs):
-        '''
-        Parameters
-        ----------
-        new_stimulus : np.array, (nframes, vdim, hdim)
-            The movie frames.
-
-        Returns
-        -------
-        filter_responses : np.ndarray, (nframes, nfilters)
+        '''See :meth:`MotionEnergyPyramid.project_stimulus`
         '''
         filter_responses  = self.view.project_stimulus(*args, **kwargs)
-
         return filter_responses
-
 
     def project(self, filters='all',
                 quadrature_combination=utils.sqrt_sum_squares,
                 output_nonlinearity=utils.log_compress,
                 dtype='float32'):
-        '''Compute the motion-energy filter responses to the stimuli.
+        '''Compute the motion-energy filter responses to the stimulus.
 
         Parameters
         ----------
-        quadrature_combination : function, optional
-            Specifies how to combine the channel reponses quadratures.
-            The function must take the sin and cos as arguments in order.
-            Defaults to: (sin^2 + cos^2)^1/2
-        output_nonlinearity : function, optional
-            Passes the channels (after `quadrature_combination`) through a
-            non-linearity. The function input is the (`nimages`,`nfilters`) array.
-            Defaults to: ln(x + 1e-05)
-        dtype : np.dtype
-            Defaults to 'float32'
         filters : optional, 'all' or list of dicts
             By default compute the responses for all filters.
             Otherwise, provide a list of filter definitions to use.
+        quadrature_combination : function, optional
+            Specifies how to combine the channel reponse quadratures.
+            The function must take the sin and cos as arguments in that order.
+            Defaults to: :math:`(sin^2 + cos^2)^{1/2}`
+        output_nonlinearity : function, optional
+            Passes the channels (after ``quadrature_combination``) through a
+            non-linearity. The function input is the (`nimages, nfilters`) array.
+            Defaults to: :math:`log(x + 1e-05)`
 
         Returns
         -------
@@ -560,28 +598,22 @@ class StimulusMotionEnergy(object):
                               quadrature_combination=utils.sqrt_sum_squares,
                               output_nonlinearity=utils.log_compress,
                               dtype='float32'):
-        '''Center filters at hv-position and compute their response to the stimulus.
+        '''Center filters at vh-position and compute their response to the stimulus.
 
         Parameters
         ----------
-        centerh : scalar
-            Horizontal filter position from left of frame (min=0, max=aspect_ratio).
         centerv : scalar
             Vertical filter from top of frame (min=0, max=1.0).
-
-        quadrature_combination : function, optional
-            Defaults to: (sin^2 + cos^2)^1/2
-        output_nonlinearity : function, optional
-            Defaults to: ln(x + 1e-05)
+        centerh : scalar
+            Horizontal filter position from left of frame (min=0, max=aspect_ratio).
 
         Returns
         -------
-        hv_centered_filters : list of dicts
-            Definition of filters used. All centered at hv-position.
-        filter_responses : np.ndarray, (nimages, len(hv_centered_filters))
-
+        centered_filters : list of dicts
+            Spatio-temporal filter parameters at vh-position.
+        filter_responses : np.ndarray, (nimages, len(vh_centered_filters))
         '''
-        # center all spatial and temporal filters at desired hv-position
+        # center all spatial and temporal filters at desired vh-position
         filters = self.view.filters_at_vhposition(centerv, centerh)
         stimulus = self.original_stimulus
 
@@ -595,7 +627,7 @@ class StimulusMotionEnergy(object):
         return filters, filter_responses
 
     def raw_projection(self, filters='all', dtype='float32'):
-        '''Obtain stimulus responses from all filter quadrature-pairs.
+        '''Obtain responses to the stimulus from all filter quadrature-pairs.
 
         Parameters
         ----------
@@ -657,40 +689,34 @@ class DefaultPyramids(object):
     def pyramid15fps512x512(self):
         pyramid =  MotionEnergyPyramid(stimulus_vhsize=(512, 512),
                                        stimulus_fps=15)
-        print(pyramid)
         return pyramid
 
     @property
     def pyramid15fps96x96(self):
         pyramid =  MotionEnergyPyramid(stimulus_vhsize=(96, 96),
                                        stimulus_fps=15)
-        print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps800x600(self):
         pyramid =  MotionEnergyPyramid(stimulus_vhsize=(600, 800),
                                        stimulus_fps=24)
-        print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps640x480(self):
         pyramid =  MotionEnergyPyramid(stimulus_vhsize=(480, 640),
                                        stimulus_fps=24)
-        print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps128x72(self):
         pyramid =  MotionEnergyPyramid(stimulus_vhsize=(72, 128),
                                        stimulus_fps=24)
-        print(pyramid)
         return pyramid
 
     @property
     def pyramid24fps256x144(self):
         pyramid =  MotionEnergyPyramid(stimulus_vhsize=(144, 256),
                                        stimulus_fps=24)
-        print(pyramid)
         return pyramid
