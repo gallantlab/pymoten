@@ -8,10 +8,19 @@ Learn more
    :maxdepth: 1
 
    self
+
+
+.. toctree::
+   :caption: Examples
+   :maxdepth: 2
+
    auto_examples/index
 
-API Reference
-=============
+.. toctree::
+   :caption: API Reference
+   :maxdepth: 2
+
+   autodoc/moten
 
 .. autosummary:: moten
    :toctree: modules
