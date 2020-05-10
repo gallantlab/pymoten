@@ -13,7 +13,8 @@
 # import os
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
-import sphinx_bootstrap_theme
+# import sphinx_bootstrap_theme
+import sphinx_rtd_theme
 # import numpydoc
 
 # -- Project information -----------------------------------------------------
@@ -23,7 +24,7 @@ copyright = '2020, Anwar O. Nunez-Elizalde'
 author = 'Anwar O. Nunez-Elizalde'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.1'
+release = '0.0.0'
 
 
 # -- General configuration ---------------------------------------------------
@@ -31,8 +32,7 @@ release = '0.0.1'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [#'numpydoc',
-              'sphinx.ext.mathjax',
+extensions = ['sphinx.ext.mathjax',
               'sphinx.ext.autodoc',
               'sphinx.ext.autosummary',
               'sphinx.ext.coverage',
@@ -40,7 +40,9 @@ extensions = [#'numpydoc',
               'sphinx.ext.viewcode',
               'sphinx.ext.napoleon',
               'sphinx_gallery.gen_gallery',
-]
+              'sphinx_rtd_theme',
+              ]
+
 
 napoleon_use_ivar = True
 autosummary_generate = True
@@ -72,22 +74,40 @@ exclude_patterns = []
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'bootstrap'
-html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
-html_theme_options = {'bootswatch_theme' : 'cosmo',
-                      'bootstrap_version' : '3',
-                      # Render the next and previous page links in navbar. (Default: true)
-                      'navbar_sidebarrel': True,
-                      # Render the current pages TOC in the navbar. (Default: true)
-                      'navbar_pagenav': True,
-                      # Tab name for the current pages TOC. (Default: "Page")
-                      'navbar_pagenav_name': "Page content",
-                      'globaltoc_depth': 2,
-                      # 'navbar_links': [
-                      #     ("Examples", "examples"),
-                      #     ("Link", "http://example.com", True),
-                      # ],
-                      }
+if 0:
+    html_theme = 'bootstrap'
+    html_theme_path = sphinx_bootstrap_theme.get_html_theme_path()
+    html_theme_options = {'bootswatch_theme' : 'cosmo',
+                          'bootstrap_version' : '3',
+                          # Render the next and previous page links in navbar. (Default: true)
+                          'navbar_sidebarrel': True,
+                          # Render the current pages TOC in the navbar. (Default: true)
+                          'navbar_pagenav': True,
+                          # Tab name for the current pages TOC. (Default: "Page")
+                          'navbar_pagenav_name': "Page content",
+                          'globaltoc_depth': 2,
+                          # 'navbar_links': [
+                          #     ("Examples", "examples"),
+                          #     ("Link", "http://example.com", True),
+                          # ],
+                          }
+else:
+    html_theme = 'sphinx_rtd_theme'
+    html_theme_options = {'canonical_url': '',
+                          # # 'analytics_id': 'UA-XXXXXXX-1',
+                          # 'logo_only': False,
+                          'display_version': True,
+                          # 'prev_next_buttons_location': 'bottom',
+                          # 'style_external_links': False,
+                          # 'vcs_pageview_mode': '',
+                          # 'style_nav_header_background': 'white',
+                          # # Toc options
+                          'collapse_navigation': False,
+                          # 'sticky_navigation': True,
+                          'navigation_depth': 3,
+                          # 'includehidden': True,
+                          # 'titles_only': False,
+                          }
 
 
 # Add any paths that contain custom static files (such as style sheets) here,

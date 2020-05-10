@@ -630,7 +630,9 @@ def mk_moten_pyramid_params(stimulus_fps,
 
     Returns
     -------
-    gabor_parameters : np.array, (nfilters, 11)
+    parameter_names : list of strings
+        The name of the parameters
+    gabor_parameters : 2D np.ndarray, (nfilters, 11)
         Parameters that define the motion-energy filter
         Each of the `nfilters` has the following parameters:
             * centerv,centerh : y:vertical and x:horizontal position ('0,0' is top left)
