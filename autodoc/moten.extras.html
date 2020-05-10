@@ -15,6 +15,7 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -119,58 +120,34 @@
 <dt id="moten.extras.StimulusTotalMotionEnergy">
 <em class="property">class </em><code class="sig-prename descclassname">moten.extras.</code><code class="sig-name descname">StimulusTotalMotionEnergy</code><span class="sig-paren">(</span><em class="sig-param">video_file</em>, <em class="sig-param">size=None</em>, <em class="sig-param">nimages=inf</em>, <em class="sig-param">batch_size=100</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square&gt;</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p class="rubric">Methods</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 79%" />
-<col style="width: 21%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>compute_pixel_by_pixel_covariance</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>compute_spatial_pcs</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>compute_temporal_pcs</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>get_frame_difference_generator</strong></p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
 <dl class="py method">
 <dt id="moten.extras.StimulusTotalMotionEnergy.compute_pixel_by_pixel_covariance">
-<code class="sig-name descname">compute_pixel_by_pixel_covariance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">generator</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy.compute_pixel_by_pixel_covariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy.compute_pixel_by_pixel_covariance" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compute_pixel_by_pixel_covariance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">generator</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy.compute_pixel_by_pixel_covariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy.compute_pixel_by_pixel_covariance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="moten.extras.StimulusTotalMotionEnergy.compute_spatial_pcs">
-<code class="sig-name descname">compute_spatial_pcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">npcs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy.compute_spatial_pcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy.compute_spatial_pcs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compute_spatial_pcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">npcs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy.compute_spatial_pcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy.compute_spatial_pcs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="moten.extras.StimulusTotalMotionEnergy.compute_temporal_pcs">
-<code class="sig-name descname">compute_temporal_pcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">generator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_first</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy.compute_temporal_pcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy.compute_temporal_pcs" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">compute_temporal_pcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">generator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_first</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy.compute_temporal_pcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy.compute_temporal_pcs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
 <dt id="moten.extras.StimulusTotalMotionEnergy.get_frame_difference_generator">
-<code class="sig-name descname">get_frame_difference_generator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy.get_frame_difference_generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy.get_frame_difference_generator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">get_frame_difference_generator</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy.get_frame_difference_generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy.get_frame_difference_generator" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="py function">
 <dt id="moten.extras.pixbypix_covariance_from_frames_generator">
-<code class="sig-prename descclassname">moten.extras.</code><code class="sig-name descname">pixbypix_covariance_from_frames_generator</code><span class="sig-paren">(</span><em class="sig-param">data_generator</em>, <em class="sig-param">batch_size=1000</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square at 0x7f4c67027510&gt;</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#pixbypix_covariance_from_frames_generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.pixbypix_covariance_from_frames_generator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.extras.</code><code class="sig-name descname">pixbypix_covariance_from_frames_generator</code><span class="sig-paren">(</span><em class="sig-param">data_generator</em>, <em class="sig-param">batch_size=1000</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square&gt;</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#pixbypix_covariance_from_frames_generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.extras.pixbypix_covariance_from_frames_generator" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>data_generator</strong><span class="classifier">generator object</span></dt><dd><p>Yields an frame of shape (vdim, hdim)</p>
-</dd>
-</dl>
+<dd class="field-odd"><p><strong>data_generator</strong> (<em>generator object</em>) – Yields an frame of shape (vdim, hdim)</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>

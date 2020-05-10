@@ -15,6 +15,7 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -131,19 +132,17 @@
 <dd><p>Convert an array of uint8 RGB images to a luminance image</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>uint8arr</strong><span class="classifier">4D np.ndarray (n, vdim, hdim, rgb)</span></dt><dd><p>The uint8 RGB frames.</p>
-</dd>
-<dt><strong>size (optional)</strong><span class="classifier">tuple, (vdim, hdim)</span></dt><dd><p>The desired output image size</p>
-</dd>
-<dt><strong>filter: to be passed to PIL</strong></dt><dd></dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>uint8arr</strong> (<em>4D np.ndarray</em><em> (</em><em>n</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>, </em><em>rgb</em><em>)</em>) – The uint8 RGB frames.</p></li>
+<li><p><strong>(</strong><strong>optional</strong><strong>)</strong> (<em>size</em>) – The desired output image size</p></li>
+<li><p><strong>filter</strong> (<em>to be passed to PIL</em>) – </p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt>luminance_array = 3D np.ndarray (n, vdim, hdim)</dt><dd><p>The luminance image representation (0-100 range)</p>
+<dd class="field-even"><p>The luminance image representation (0-100 range)</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>luminance_array = 3D np.ndarray (n, vdim, hdim)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -154,20 +153,18 @@
 <dd><p>Load a set of RGB images and return its luminance representation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>image_files</strong><span class="classifier">list-like, (n,)</span></dt><dd><p>A list of file names.
-The images should be in RGB uint8 format</p>
-</dd>
-<dt><strong>vdim, hdim</strong><span class="classifier">int, optional</span></dt><dd><p>Vertical and horizontal dimensions, respectively.
-If provided the images will be scaled to this size.</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image_files</strong> (<em>list-like</em><em>, </em><em>(</em><em>n</em><em>,</em><em>)</em>) – A list of file names.
+The images should be in RGB uint8 format</p></li>
+<li><p><strong>hdim</strong> (<em>vdim</em><em>,</em>) – Vertical and horizontal dimensions, respectively.
+If provided the images will be scaled to this size.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>arr</strong><span class="classifier">3D np.array (n,vdim,hdim)</span></dt><dd><p>The luminance representation of the images</p>
+<dd class="field-even"><p><strong>arr</strong> – The luminance representation of the images</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>3D np.array (n,vdim,hdim)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -178,18 +175,16 @@ If provided the images will be scaled to this size.</p>
 <dd><p>Resize an image and return its array representation</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>im</strong><span class="classifier">str, np.ndarray(uint8), or PIL.Image object</span></dt><dd><p>The path to the image, an image array, or a loaded PIL.Image</p>
-</dd>
-<dt><strong>size</strong><span class="classifier">tuple, (vdim, hdim)</span></dt><dd><p>The desired output image size</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>im</strong> (<em>str</em><em>, </em><em>np.ndarray</em><em>(</em><em>uint8</em><em>)</em><em>, or </em><em>PIL.Image object</em>) – The path to the image, an image array, or a loaded PIL.Image</p></li>
+<li><p><strong>size</strong> (<em>tuple</em><em>, </em><em>(</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>arr</strong><span class="classifier">uint8 np.array, (vdim, hdim, 3)</span></dt><dd><p>The resized image array</p>
+<dd class="field-even"><p><strong>arr</strong> – The resized image array</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>uint8 np.array, (vdim, hdim, 3)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -219,18 +214,23 @@ If provided the images will be scaled to this size.</p>
 <p>Yields individual uint8 images from a video file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>video_file</strong><span class="classifier">str</span></dt><dd><p>Full path to the video file</p>
-</dd>
-</dl>
+<dd class="field-odd"><p><strong>video_file</strong> (<em>str</em>) – Full path to the video file</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>vbuff</strong><span class="classifier">generator</span></dt><dd><p>Each <code class="docutils literal notranslate"><span class="pre">__next()__</span></code> call yields an RGB frame from video.</p>
+<dd class="field-even"><p><strong>vbuff</strong> – Each <code class="docutils literal notranslate"><span class="pre">__next()__</span></code> call yields an RGB frame from video.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>generator</p>
 </dd>
 </dl>
-</dd>
-</dl>
+<p class="rubric">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">image_buffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">movie</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">([</span><span class="n">frame</span> <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="n">image_buffer</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">movie</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="c1"># (nimages, vdim, hdim, color)</span>
+<span class="go">(50, 144, 256, 3)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </div>

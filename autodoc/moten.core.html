@@ -15,6 +15,7 @@
     <script src="../_static/underscore.js"></script>
     <script src="../_static/doctools.js"></script>
     <script src="../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
 <meta charset='utf-8'>
@@ -117,74 +118,61 @@
 <span id="moten-core-module"></span><h1>moten.core module<a class="headerlink" href="#module-moten.core" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt id="moten.core.compute_filter_responses">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_filter_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">stimulus_fps</em>, <em class="sig-param">aspect_ratio='auto'</em>, <em class="sig-param">filter_temporal_width='auto'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f4c67392d90&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f4c6dc3b0d0&gt;</em>, <em class="sig-param">dozscore=True</em>, <em class="sig-param">dtype=&lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">pyramid_parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_filter_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.compute_filter_responses" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_filter_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">stimulus_fps</em>, <em class="sig-param">aspect_ratio='auto'</em>, <em class="sig-param">filter_temporal_width='auto'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress&gt;</em>, <em class="sig-param">dozscore=True</em>, <em class="sig-param">dtype=&lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">pyramid_parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_filter_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.compute_filter_responses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filters’ response to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>stimulus</strong><span class="classifier">3D np.array (n, vdim, hdim)</span></dt><dd><p>The movie frames.</p>
-</dd>
-<dt><strong>stimulus_fps</strong><span class="classifier">scalar</span></dt><dd><p>The temporal frequency of the stimulus</p>
-</dd>
-<dt><strong>aspect_ratio</strong><span class="classifier">bool, or scalar</span></dt><dd><p>Defaults to hdim/vdim. Otherwise, pass as scalar</p>
-</dd>
-<dt><strong>filter_temporal_width</strong><span class="classifier">int, None</span></dt><dd><p>The number of frames in one filter.
-Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).</p>
-</dd>
-<dt><strong>quadrature_combination</strong><span class="classifier">function, optional</span></dt><dd><p>Specifies how to combine the channel reponses quadratures.
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stimulus</strong> (<em>3D np.array</em><em> (</em><em>n</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The movie frames.</p></li>
+<li><p><strong>stimulus_fps</strong> (<em>scalar</em>) – The temporal frequency of the stimulus</p></li>
+<li><p><strong>aspect_ratio</strong> (<em>bool</em><em>, or </em><em>scalar</em>) – Defaults to hdim/vdim. Otherwise, pass as scalar</p></li>
+<li><p><strong>filter_temporal_width</strong> (<em>int</em><em>, </em><em>None</em>) – The number of frames in one filter.
+Defaults to approximately 0.666[secs] (floor(stimulus_fps*(2/3))).</p></li>
+<li><p><strong>quadrature_combination</strong> (<em>function</em><em>, </em><em>optional</em>) – Specifies how to combine the channel reponses quadratures.
 The function must take the sin and cos as arguments in order.
-Defaults to: (sin^2 + cos^2)^1/2</p>
-</dd>
-<dt><strong>output_nonlinearity</strong><span class="classifier">function, optional</span></dt><dd><p>Passes the channels (after <cite>quadrature_combination</cite>) through a
+Defaults to: (sin^2 + cos^2)^1/2</p></li>
+<li><p><strong>output_nonlinearity</strong> (<em>function</em><em>, </em><em>optional</em>) – Passes the channels (after <cite>quadrature_combination</cite>) through a
 non-linearity. The function input is the (<cite>n</cite>,`nfilters`) array.
-Defaults to: ln(x + 1e-05)</p>
-</dd>
-<dt><strong>dozscore</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to z-score the channel responses in time</p>
-</dd>
-<dt><strong>dtype</strong><span class="classifier">np.dtype</span></dt><dd><p>Defaults to np.float64</p>
-</dd>
-<dt><strong>pyramid_parameters: dict</strong></dt><dd><p>See <a class="reference internal" href="#moten.core.mk_moten_pyramid_params" title="moten.core.mk_moten_pyramid_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">mk_moten_pyramid_params()</span></code></a> for details on parameters
-specifiying a motion-energy pyramid.</p>
-</dd>
-</dl>
+Defaults to: ln(x + 1e-05)</p></li>
+<li><p><strong>dozscore</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to z-score the channel responses in time</p></li>
+<li><p><strong>dtype</strong> (<em>np.dtype</em>) – Defaults to np.float64</p></li>
+<li><p><strong>pyramid_parameters</strong> (<em>dict</em>) – See <a class="reference internal" href="#moten.core.mk_moten_pyramid_params" title="moten.core.mk_moten_pyramid_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">mk_moten_pyramid_params()</span></code></a> for details on parameters
+specifiying a motion-energy pyramid.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>filter_responses</strong><span class="classifier">np.array, (n, nfilters)</span></dt><dd></dd>
-</dl>
+<dd class="field-even"><p><strong>filter_responses</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array, (n, nfilters)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="moten.core.compute_spatial_gabor_responses">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_spatial_gabor_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus, aspect_ratio='auto', spatial_frequencies=[0, 2, 4, 8, 16, 32], quadrature_combination=&lt;function sqrt_sum_squares at 0x7f4c67392d90&gt;, output_nonlinearity=&lt;function log_compress at 0x7f4c6dc3b0d0&gt;, dtype=&lt;class 'numpy.float64'&gt;, dozscore=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_spatial_gabor_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.compute_spatial_gabor_responses" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_spatial_gabor_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus, aspect_ratio='auto', spatial_frequencies=[0, 2, 4, 8, 16, 32], quadrature_combination=&lt;function sqrt_sum_squares&gt;, output_nonlinearity=&lt;function log_compress&gt;, dtype=&lt;class 'numpy.float64'&gt;, dozscore=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_spatial_gabor_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.compute_spatial_gabor_responses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the spatial gabor filters’ response to each stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>stimulus</strong><span class="classifier">3D np.array (n, vdim, hdim)</span></dt><dd><p>The stimulus frames.</p>
-</dd>
-<dt><strong>spatial_frequencies</strong><span class="classifier">array-like</span></dt><dd><p>The spatial frequencies to compute. The spatial envelope is determined by this.</p>
-</dd>
-<dt><strong>quadrature_combination</strong><span class="classifier">function, optional</span></dt><dd><p>Specifies how to combine the channel reponses quadratures.
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stimulus</strong> (<em>3D np.array</em><em> (</em><em>n</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The stimulus frames.</p></li>
+<li><p><strong>spatial_frequencies</strong> (<em>array-like</em>) – The spatial frequencies to compute. The spatial envelope is determined by this.</p></li>
+<li><p><strong>quadrature_combination</strong> (<em>function</em><em>, </em><em>optional</em>) – Specifies how to combine the channel reponses quadratures.
 The function must take the sin and cos as arguments in order.
-Defaults to: (sin^2 + cos^2)^1/2</p>
-</dd>
-<dt><strong>output_nonlinearity</strong><span class="classifier">function, optional</span></dt><dd><p>Passes the channels (after <cite>quadrature_combination</cite>) through a
+Defaults to: (sin^2 + cos^2)^1/2</p></li>
+<li><p><strong>output_nonlinearity</strong> (<em>function</em><em>, </em><em>optional</em>) – Passes the channels (after <cite>quadrature_combination</cite>) through a
 non-linearity. The function input is the (<cite>n</cite>,`nfilters`) array.
-Defaults to: ln(x + 1e-05)</p>
-</dd>
-<dt><strong>dozscore</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to z-score the channel responses in time</p>
-</dd>
-<dt><strong>dtype</strong><span class="classifier">np.dtype</span></dt><dd><p>Defaults to np.float64</p>
-</dd>
-</dl>
+Defaults to: ln(x + 1e-05)</p></li>
+<li><p><strong>dozscore</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to z-score the channel responses in time</p></li>
+<li><p><strong>dtype</strong> (<em>np.dtype</em>) – Defaults to np.float64</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>filter_responses</strong><span class="classifier">np.array, (n, nfilters)</span></dt><dd></dd>
-</dl>
+<dd class="field-even"><p><strong>filter_responses</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array, (n, nfilters)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -195,21 +183,18 @@ Defaults to: ln(x + 1e-05)</p>
 <dd><p>Convolve the motion-energy filter with a stimulus</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>spatial_gabor_sin, spatial_gabor_cos</strong><span class="classifier">np.array, (vdim,hdim)</span></dt><dd><p>Spatial gabor quadrature pair</p>
-</dd>
-<dt><strong>temporal_gabor_sin, temporal_gabor_cos</strong><span class="classifier">np.array, (tdim)</span></dt><dd><p>Temporal gabor quadrature pair</p>
-</dd>
-<dt><strong>stimulus</strong><span class="classifier">2D np.array (n, vdim*hdim)</span></dt><dd><p>The movie frames with the spatial dimension collapsed.</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spatial_gabor_cos</strong> (<em>spatial_gabor_sin</em><em>,</em>) – Spatial gabor quadrature pair</p></li>
+<li><p><strong>temporal_gabor_cos</strong> (<em>temporal_gabor_sin</em><em>,</em>) – Temporal gabor quadrature pair</p></li>
+<li><p><strong>stimulus</strong> (<em>2D np.array</em><em> (</em><em>n</em><em>, </em><em>vdim*hdim</em><em>)</em>) – The movie frames with the spatial dimension collapsed.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>channel_sin, channel_cos</strong><span class="classifier">np.ndarray, (n, )</span></dt><dd><p>The filter response to the stimulus at each time point
+<dd class="field-even"><p><strong>channel_sin, channel_cos</strong> – The filter response to the stimulus at each time point
 The quadrature pair can be combined: (x^2 + y^2)^0.5</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray, (n, )</p>
 </dd>
 </dl>
 </dd></dl>
@@ -220,30 +205,26 @@ The quadrature pair can be combined: (x^2 + y^2)^0.5</p>
 <dd><p>Dot the spatial gabor filters filter with the stimuli</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>spatial_gabor_sin, spatial_gabor_cos</strong><span class="classifier">np.array, (vdim,hdim)</span></dt><dd><p>Spatial gabor quadrature pair</p>
-</dd>
-<dt><strong>stimuli</strong><span class="classifier">2D np.array (n, vdim*hdim)</span></dt><dd><p>The movie frames with the spatial dimension collapsed.</p>
-</dd>
-<dt><strong>masklimit</strong><span class="classifier">float-like</span></dt><dd><p>Threshold to find the non-zero filter region</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spatial_gabor_cos</strong> (<em>spatial_gabor_sin</em><em>,</em>) – Spatial gabor quadrature pair</p></li>
+<li><p><strong>stimuli</strong> (<em>2D np.array</em><em> (</em><em>n</em><em>, </em><em>vdim*hdim</em><em>)</em>) – The movie frames with the spatial dimension collapsed.</p></li>
+<li><p><strong>masklimit</strong> (<em>float-like</em>) – Threshold to find the non-zero filter region</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>channel_sin, channel_cos</strong><span class="classifier">np.ndarray, (n, )</span></dt><dd><p>The filter response to each stimulus
+<dd class="field-even"><p><strong>channel_sin, channel_cos</strong> – The filter response to each stimulus
 The quadrature pair can be combined: (x^2 + y^2)^0.5</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray, (n, )</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="moten.core.generate_3dgabor_array">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">generate_3dgabor_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vhsize</span><span class="o">=</span><span class="default_value">1024, 576</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span><span class="o">=</span><span class="default_value">24</span></em>, <em class="sig-param"><span class="n">aspect_ratio</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">centerh</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">centerv</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">direction</span><span class="o">=</span><span class="default_value">45.0</span></em>, <em class="sig-param"><span class="n">spatial_freq</span><span class="o">=</span><span class="default_value">16.0</span></em>, <em class="sig-param"><span class="n">spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">temporal_freq</span><span class="o">=</span><span class="default_value">2.0</span></em>, <em class="sig-param"><span class="n">temporal_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#generate_3dgabor_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.generate_3dgabor_array" title="Permalink to this definition">¶</a></dt>
-<dd><p>gabor_hvt_size : (vdim, hdim, tdim),</p>
-</dd></dl>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">generate_3dgabor_array</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">vhsize</span><span class="o">=</span><span class="default_value">576, 1024</span></em>, <em class="sig-param"><span class="n">stimulus_fps</span><span class="o">=</span><span class="default_value">24</span></em>, <em class="sig-param"><span class="n">aspect_ratio</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">centerh</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">centerv</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">direction</span><span class="o">=</span><span class="default_value">45.0</span></em>, <em class="sig-param"><span class="n">spatial_freq</span><span class="o">=</span><span class="default_value">16.0</span></em>, <em class="sig-param"><span class="n">spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">temporal_freq</span><span class="o">=</span><span class="default_value">2.0</span></em>, <em class="sig-param"><span class="n">temporal_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#generate_3dgabor_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.generate_3dgabor_array" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="py function">
 <dt id="moten.core.mk_3d_gabor">
@@ -256,43 +237,33 @@ differ in phase by 90 degrees. The sine waves are
 then multiplied by a gaussian.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>hvt</strong><span class="classifier">array-like, (hdim, vdim, tdim)</span></dt><dd><p>Defines the 3D field-of-view of the filter
-<cite>hdim</cite> : horizontal dimension size
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vhsize</strong> (<em>array-like</em><em>, </em><em>(</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – Defines spatial size of the filter
 <cite>vdim</cite> : vertical dimension size
-<cite>tdim</cite> : temporal dimension size</p>
-</dd>
-<dt><strong>centerh, centerv</strong><span class="classifier">float</span></dt><dd><p>Horizontal and vertical position in space, respectively.
-The image center is (0.5,0.5) for square aspect ratios</p>
-</dd>
-<dt><strong>direction</strong><span class="classifier">float, degrees</span></dt><dd><p>Direction of spatial motion</p>
-</dd>
-<dt><strong>spatial_freq</strong><span class="classifier">float</span></dt><dd><p>Spatial frequency</p>
-</dd>
-<dt><strong>spatial_env</strong><span class="classifier">float</span></dt><dd><p>Spatial envelope (s.d. of the gaussian)</p>
-</dd>
-<dt><strong>temporal_freq</strong><span class="classifier">float</span></dt><dd><p>Temporal frequency</p>
-</dd>
-<dt><strong>temporal_env</strong><span class="classifier">float</span></dt><dd><p>Temporal envelope (s.d. of gaussian)</p>
-</dd>
-<dt><strong>spatial_phase_offset</strong><span class="classifier">float, degrees</span></dt><dd><p>Phase offset for the spatial sinusoid</p>
-</dd>
-<dt><strong>aspect_ratio</strong><span class="classifier">optional, ‘auto’ or float-like,</span></dt><dd><p>Defaults to stimulus aspect ratio: hdim/vdim
+<cite>hdim</cite> : horizontal dimension size</p></li>
+<li><p><strong>stimulus_fps</strong> (<em>scalar</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Stimulus playback speed in frames per second.</p></li>
+<li><p><strong>centerv</strong> (<em>centerh</em><em>,</em>) – Horizontal and vertical position in space, respectively.
+The image center is (0.5,0.5) for square aspect ratios</p></li>
+<li><p><strong>direction</strong> (<em>float</em><em>, </em><em>degrees</em>) – Direction of spatial motion</p></li>
+<li><p><strong>spatial_freq</strong> (<em>float</em>) – Spatial frequency</p></li>
+<li><p><strong>spatial_env</strong> (<em>float</em>) – Spatial envelope (s.d. of the gaussian)</p></li>
+<li><p><strong>temporal_freq</strong> (<em>float</em>) – Temporal frequency</p></li>
+<li><p><strong>temporal_env</strong> (<em>float</em>) – Temporal envelope (s.d. of gaussian)</p></li>
+<li><p><strong>spatial_phase_offset</strong> (<em>float</em><em>, </em><em>degrees</em>) – Phase offset for the spatial sinusoid</p></li>
+<li><p><strong>aspect_ratio</strong> (<em>optional</em><em>, </em><em>'auto'</em><em> or </em><em>float-like</em><em>,</em>) – Defaults to stimulus aspect ratio: hdim/vdim
 Useful for preserving the spatial gabors circular even
 when images have non-square aspect ratios. For example,
-a 16:9 image would have <a href="#id1"><span class="problematic" id="id2">`</span></a>aspect_ratio`=16/9.</p>
-</dd>
-</dl>
+a 16:9 image would have <a href="#id1"><span class="problematic" id="id2">`</span></a>aspect_ratio`=16/9.</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>spatial_gabor_sin, spatial_gabor_cos</strong><span class="classifier">np.array, (vdim,hdim)</span></dt><dd><p>Spatial gabor quadrature pair. <cite>spatial_gabor_cos</cite> has
-a 90 degree phase offset relative to <cite>spatial_gabor_sin</cite></p>
-</dd>
-<dt><strong>temporal_gabor_sin, temporal_gabor_cos</strong><span class="classifier">np.array, (tdim)</span></dt><dd><p>Temporal gabor quadrature pair. <cite>temporal_gabor_cos</cite> has
-a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p>
-</dd>
-</dl>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>spatial_gabor_sin, spatial_gabor_cos</strong> (<em>np.array, (vdim,hdim)</em>) – Spatial gabor quadrature pair. <cite>spatial_gabor_cos</cite> has
+a 90 degree phase offset relative to <cite>spatial_gabor_sin</cite></p></li>
+<li><p><strong>temporal_gabor_sin, temporal_gabor_cos</strong> (<em>np.array, (tdim)</em>) – Temporal gabor quadrature pair. <cite>temporal_gabor_cos</cite> has
+a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -303,46 +274,44 @@ a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p>
 <dt id="moten.core.mk_moten_pyramid_params">
 <code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">mk_moten_pyramid_params</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stimulus_fps</span></em>, <em class="sig-param"><span class="n">filter_temporal_width</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">aspect_ratio</span><span class="o">=</span><span class="default_value">'auto'</span></em>, <em class="sig-param"><span class="n">temporal_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4]</span></em>, <em class="sig-param"><span class="n">spatial_frequencies</span><span class="o">=</span><span class="default_value">[0, 2, 4, 8, 16, 32]</span></em>, <em class="sig-param"><span class="n">spatial_directions</span><span class="o">=</span><span class="default_value">[0, 45, 90, 135, 180, 225, 270, 315]</span></em>, <em class="sig-param"><span class="n">sf_gauss_ratio</span><span class="o">=</span><span class="default_value">0.6</span></em>, <em class="sig-param"><span class="n">max_spatial_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">gabor_spacing</span><span class="o">=</span><span class="default_value">3.5</span></em>, <em class="sig-param"><span class="n">tf_gauss_ratio</span><span class="o">=</span><span class="default_value">10.0</span></em>, <em class="sig-param"><span class="n">max_temp_env</span><span class="o">=</span><span class="default_value">0.3</span></em>, <em class="sig-param"><span class="n">spatial_phase_offset</span><span class="o">=</span><span class="default_value">0.0</span></em>, <em class="sig-param"><span class="n">include_edges</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#mk_moten_pyramid_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.mk_moten_pyramid_params" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parametrize a motion-energy pyramid that tiles the stimulus.</p>
-<dl class="field-list">
+<dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>stimulus_fps</strong><span class="classifier">scalar, Hz</span></dt><dd><p>Temporal resolution of the stimulus (e..g. 15)</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stimulus_fps</strong> (<em>scalar</em><em>, </em><em>Hz</em>) – Temporal resolution of the stimulus (e..g. 15)</p></li>
+<li><p><strong>filter_temporal_width</strong> (<em>int</em><em>, </em><em>Hz</em>) – Temporal window of the motion-energy filter (e.g. 10)
+Defaults to approximately 0.666[secs] (int(stimulus_fps*(2/3))).</p></li>
+<li><p><strong>temporal_frequencies</strong> (<em>array-like</em><em>, </em><em>Hz</em>) – Temporal frequencies of the filters for use on the stimulus</p></li>
+<li><p><strong>spatial_frequencies</strong> (<em>array-like</em><em>, </em><em>degrees</em>) – Spatial frequencies for the filters</p></li>
+<li><p><strong>spatial_directions</strong> (<em>array-like</em><em>, </em><em>degrees</em>) – Direction of filter motion. Degree position corresponds
+to standard unit-circle coordinates.</p></li>
+</ul>
 </dd>
-<dt><strong>filter_temporal_width</strong><span class="classifier">int, Hz</span></dt><dd><p>Temporal window of the motion-energy filter (e.g. 10)
-Defaults to approximately 0.666[secs] (int(stimulus_fps*(2/3))).</p>
-</dd>
-<dt><strong>temporal_frequencies</strong><span class="classifier">array-like, Hz</span></dt><dd><p>Temporal frequencies of the filters for use on the stimulus</p>
-</dd>
-<dt><strong>spatial_frequencies</strong><span class="classifier">array-like, degrees</span></dt><dd><p>Spatial frequencies for the filters</p>
-</dd>
-<dt><strong>spatial_directions</strong><span class="classifier">array-like, degrees</span></dt><dd><p>Direction of filter motion. Degree position corresponds
-to standard unit-circle coordinates.</p>
-</dd>
-<dt><strong>sf_gauss_ratio</strong><span class="classifier">scalar</span></dt><dd><p>The ratio of spatial frequency to gaussian s.d.
+</dl>
+<dl class="simple">
+<dt>sf_gauss_ratio<span class="classifier">scalar</span></dt><dd><p>The ratio of spatial frequency to gaussian s.d.
 This controls the number of cycles in a filter</p>
 </dd>
-<dt><strong>max_spatial_env</strong><span class="classifier">scalar</span></dt><dd><p>Defines the maximum s.d. of the gaussian</p>
+<dt>max_spatial_env<span class="classifier">scalar</span></dt><dd><p>Defines the maximum s.d. of the gaussian</p>
 </dd>
-<dt><strong>gabor_spacing</strong><span class="classifier">scalar</span></dt><dd><p>Defines the spacing between spatial gabors
+<dt>gabor_spacing<span class="classifier">scalar</span></dt><dd><p>Defines the spacing between spatial gabors
 (in s.d. units)</p>
 </dd>
-<dt><strong>tf_gauss_ratio</strong><span class="classifier">scalar</span></dt><dd><p>The ratio of temporal frequency to gaussian s.d.
+<dt>tf_gauss_ratio<span class="classifier">scalar</span></dt><dd><p>The ratio of temporal frequency to gaussian s.d.
 This controls the number of temporal cycles</p>
 </dd>
-<dt><strong>max_temp_env</strong><span class="classifier">scalar</span></dt><dd><p>Defines the maximum s.d. of the temporal gaussian</p>
+<dt>max_temp_env<span class="classifier">scalar</span></dt><dd><p>Defines the maximum s.d. of the temporal gaussian</p>
 </dd>
-<dt><strong>aspect_ratio</strong><span class="classifier">scalar, horizontal/vertical</span></dt><dd><p>The image aspect ratio. This ensures full image
+<dt>aspect_ratio<span class="classifier">scalar, horizontal/vertical</span></dt><dd><p>The image aspect ratio. This ensures full image
 coverage for non-square images (e.g. 16:9)</p>
 </dd>
-<dt><strong>include_edges</strong><span class="classifier">bool</span></dt><dd><p>Determines whether to include filters at the edge
+<dt>include_edges<span class="classifier">bool</span></dt><dd><p>Determines whether to include filters at the edge
 of the image which might be partially outside the
 stimulus field-of-view</p>
 </dd>
 </dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl>
-<dt><strong>gabor_parameters</strong><span class="classifier">np.array, (nfilters, 7)</span></dt><dd><p>Parameters that defined the motion-energy filter
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><p><strong>gabor_parameters</strong> – Parameters that defined the motion-energy filter
 Each of the <cite>nfilters</cite> has the following parameters:</p>
 <blockquote>
 <div><ul class="simple">
@@ -357,8 +326,10 @@ Each of the <cite>nfilters</cite> has the following parameters:</p>
 <li><p>stimulus_fps    : stimulus frames per second [Hz]</p></li>
 </ul>
 </div></blockquote>
+</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.array, (nfilters, 7)</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -373,39 +344,35 @@ Each of the <cite>nfilters</cite> has the following parameters:</p>
 This is useful for visualization.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>spatial_gabor_sin, spatial_gabor_cos</strong><span class="classifier">np.array, (vdim,hdim)</span></dt><dd><p>Spatial gabor quadrature pair</p>
-</dd>
-<dt><strong>temporal_gabor_sin, temporal_gabor_cos</strong><span class="classifier">np.array, (tdim)</span></dt><dd><p>Temporal gabor quadrature pair</p>
-</dd>
-</dl>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>spatial_gabor_cos</strong> (<em>spatial_gabor_sin</em><em>,</em>) – Spatial gabor quadrature pair</p></li>
+<li><p><strong>temporal_gabor_cos</strong> (<em>temporal_gabor_sin</em><em>,</em>) – Temporal gabor quadrature pair</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>motion_energy_filter</strong><span class="classifier">np.array, (vdim, hdim, tdim)</span></dt><dd><p>The 3D motion-energy filter</p>
+<dd class="field-even"><p><strong>motion_energy_filter</strong> – The 3D motion-energy filter</p>
 </dd>
-</dl>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array, (vdim, hdim, tdim)</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="moten.core.project_stimulus">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f4c67392d90&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f4c6dc3b0d0&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filter responses to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>stimulus</strong><span class="classifier">np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)</span></dt><dd><p>The movie frames.
+<dd class="field-odd"><p><strong>stimulus</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>nimages</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>) or </em><em>(</em><em>nimages</em><em>, </em><em>npixels</em><em>)</em>) – The movie frames.
 If <cite>stimulus</cite> is two-dimensional with shape (nimages, npixels), then
 <cite>vhsize=(vdim,hdim)</cite> is required and <cite>npixels == vdim*hdim</cite>.</p>
 </dd>
-</dl>
-</dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>filter_responses</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
-</dl>
+<dd class="field-even"><p><strong>filter_responses</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray, (nimages, nfilters)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -416,18 +383,16 @@ If <cite>stimulus</cite> is two-dimensional with shape (nimages, npixels), then
 <dd><p>Obtain responses to the stimuli from all filter quadrature-pairs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>stimulus</strong><span class="classifier">np.ndarray, (nimages, vdim, hdim) or (nimages, npixels)</span></dt><dd><p>The movie frames.
+<dd class="field-odd"><p><strong>stimulus</strong> (<em>np.ndarray</em><em>, </em><em>(</em><em>nimages</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>) or </em><em>(</em><em>nimages</em><em>, </em><em>npixels</em><em>)</em>) – The movie frames.
 If <cite>stimulus</cite> is two-dimensional with shape (nimages, npixels), then
 <cite>vhsize=(vdim,hdim)</cite> is required and <cite>npixels == vdim*hdim</cite>.</p>
 </dd>
-</dl>
-</dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>output_sin</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
-<dt><strong>output_cos</strong><span class="classifier">np.ndarray, (nimages, nfilters)</span></dt><dd></dd>
-</dl>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>output_sin</strong> (<em>np.ndarray, (nimages, nfilters)</em>)</p></li>
+<li><p><strong>output_cos</strong> (<em>np.ndarray, (nimages, nfilters)</em>)</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>

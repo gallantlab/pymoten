@@ -15,6 +15,7 @@
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
     <script src="../../_static/language_data.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
 <meta charset='utf-8'>
@@ -261,11 +262,12 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    hvt : array-like, (hdim, vdim, tdim)</span>
-<span class="sd">        Defines the 3D field-of-view of the filter</span>
-<span class="sd">        `hdim` : horizontal dimension size</span>
+<span class="sd">    vhsize : array-like, (vdim, hdim)</span>
+<span class="sd">        Defines spatial size of the filter</span>
 <span class="sd">        `vdim` : vertical dimension size</span>
-<span class="sd">        `tdim` : temporal dimension size</span>
+<span class="sd">        `hdim` : horizontal dimension size</span>
+<span class="sd">    stimulus_fps : scalar, [Hz]</span>
+<span class="sd">        Stimulus playback speed in frames per second.</span>
 <span class="sd">    centerh, centerv : float</span>
 <span class="sd">        Horizontal and vertical position in space, respectively.</span>
 <span class="sd">        The image center is (0.5,0.5) for square aspect ratios</span>
@@ -348,7 +350,7 @@
     <span class="k">return</span> <span class="n">spatial_gabor_sin</span><span class="p">,</span> <span class="n">spatial_gabor_cos</span><span class="p">,</span> <span class="n">temporal_gabor_sin</span><span class="p">,</span> <span class="n">temporal_gabor_cos</span></div>
 
 
-<div class="viewcode-block" id="generate_3dgabor_array"><a class="viewcode-back" href="../../autodoc/moten.core.html#moten.core.generate_3dgabor_array">[docs]</a><span class="k">def</span> <span class="nf">generate_3dgabor_array</span><span class="p">(</span><span class="n">vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">576</span><span class="p">),</span>
+<div class="viewcode-block" id="generate_3dgabor_array"><a class="viewcode-back" href="../../autodoc/moten.core.html#moten.core.generate_3dgabor_array">[docs]</a><span class="k">def</span> <span class="nf">generate_3dgabor_array</span><span class="p">(</span><span class="n">vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">576</span><span class="p">,</span><span class="mi">1024</span><span class="p">),</span>
                            <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
                            <span class="n">aspect_ratio</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
                            <span class="n">filter_temporal_width</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span>
@@ -361,7 +363,6 @@
                            <span class="n">temporal_env</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
                            <span class="n">phase_offset</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    gabor_hvt_size : (vdim, hdim, tdim),</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">vhsize</span>
     <span class="k">if</span> <span class="n">aspect_ratio</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
