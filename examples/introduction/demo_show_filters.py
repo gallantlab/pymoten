@@ -16,7 +16,7 @@ animation = pyramid.show_filter(1337)
 #
 # .. raw:: html
 #
-#    <video width=100% height=100% autoplay=True loop=True controls>
+#    <video width=100% height=100% preload=auto autoplay loop muted controls>
 #     <source src="../../_downloads/example_moten_filter.mp4" type="video/mp4">
 #    </video>
 
