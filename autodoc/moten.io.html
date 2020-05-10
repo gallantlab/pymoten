@@ -200,8 +200,7 @@ This can be a video file on disk or from a website.</p></li>
 <li><p><strong>size</strong> (<em>optional</em><em>, </em><em>tuple</em><em> (</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.
 If specified, the image is scaled or shrunk to this size.
 If not specified, the original size is kept.</p></li>
-<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
-If unspecified, all frames are loaded.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <cite>nimages</cite> frames are loaded.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Yields</dt>
@@ -225,8 +224,7 @@ This can be a video file on disk or from a website.</p></li>
 <li><p><strong>size</strong> (<em>optional</em><em>, </em><em>tuple</em><em> (</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.
 If specified, the image is scaled or shrunk to this size.
 If not specified, the original size is kept.</p></li>
-<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
-If unspecified, all frames are loaded.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <cite>nimages</cite> frames are loaded.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Yields</dt>
@@ -260,18 +258,18 @@ Pixel values are in the 0-100 range.</p>
 <dl class="py function">
 <dt id="moten.io.load_image_luminance">
 <code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">load_image_luminance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">image_files</span></em>, <em class="sig-param"><span class="n">hdim</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">vdim</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/io.html#load_image_luminance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.io.load_image_luminance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Load a set of RGB images and return its luminance representation</p>
+<dd><p>Load a set of RGB images and return its luminance representation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>image_files</strong> (<em>list-like</em><em>, </em><em>(</em><em>n</em><em>,</em><em>)</em>) – A list of file names.
-The images should be in RGB uint8 format</p></li>
+The images should be in RGB uint8 format.</p></li>
 <li><p><strong>hdim</strong> (<em>vdim</em><em>,</em>) – Vertical and horizontal dimensions, respectively.
 If provided the images will be scaled to this size.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>arr</strong> – The luminance representation of the images</p>
+<dd class="field-even"><p><strong>arr</strong> – The luminance representation of the images.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>3D np.array (n,vdim,hdim)</p>
@@ -282,12 +280,12 @@ If provided the images will be scaled to this size.</p></li>
 <dl class="py function">
 <dt id="moten.io.resize_image">
 <code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">resize_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">im</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">96, 96</span></em>, <em class="sig-param"><span class="n">filter</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/io.html#resize_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.io.resize_image" title="Permalink to this definition">¶</a></dt>
-<dd><p>Resize an image and return its array representation</p>
+<dd><p>Resize an image and return its array representation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>im</strong> (<em>str</em><em>, </em><em>np.ndarray</em><em>(</em><em>uint8</em><em>)</em><em>, or </em><em>PIL.Image object</em>) – The path to the image, an image array, or a loaded PIL.Image</p></li>
-<li><p><strong>size</strong> (<em>tuple</em><em>, </em><em>(</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size</p></li>
+<li><p><strong>im</strong> (<em>str</em><em>, </em><em>np.ndarray</em><em>(</em><em>uint8</em><em>)</em><em>, or </em><em>PIL.Image object</em>) – The path to the image, an image array, or a loaded PIL.Image.</p></li>
+<li><p><strong>size</strong> (<em>tuple</em><em>, </em><em>(</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -303,7 +301,7 @@ If provided the images will be scaled to this size.</p></li>
 <dt id="moten.io.video2grey">
 <code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">video2grey</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/io.html#video2grey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.io.video2grey" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the video frames to greyscale images.</p>
-<p>This function computes the mean across the RGB color channels.</p>
+<p>This function computes the mean across RGB color channels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -312,8 +310,7 @@ This can be a video file on disk or from a website.</p></li>
 <li><p><strong>size</strong> (<em>optional</em><em>, </em><em>tuple</em><em> (</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.
 If specified, the image is scaled or shrunk to this size.
 If not specified, the original size is kept.</p></li>
-<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
-If unspecified, all frames are loaded.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <cite>nimages</cite> frames are converted to greyscale.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -332,7 +329,7 @@ If unspecified, all frames are loaded.</p></li>
 <p>Internally, this function loads one video frame into memory at a time.
 Tt converts the RGB pixel values from one frame to CIE-LAB pixel values.
 It then keeps the luminance channel only. This process is performed
-for all <code class="docutils literal notranslate"><span class="pre">nimages</span></code> requested or until we reach the end of the video file.</p>
+for all frames requested or until we reach the end of the video file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -341,8 +338,7 @@ This can be a video file on disk or from a website.</p></li>
 <li><p><strong>size</strong> (<em>optional</em><em>, </em><em>tuple</em><em> (</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.
 If specified, the image is scaled or shrunk to this size.
 If not specified, the original size is kept.</p></li>
-<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
-If unspecified, all frames are loaded.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <cite>nimages</cite> frames are converted to luminance.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -365,8 +361,7 @@ The video is loaded into memory one frame at a time.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>video_file</strong> (<em>str</em>) – Full path to the video file.
 This can be a video file on disk or from a website.</p></li>
-<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
-If unspecified, all frames are loaded.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <cite>nimages</cite> frames are loaded.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Yields</dt>

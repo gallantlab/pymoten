@@ -205,8 +205,7 @@
 <span class="sd">        Full path to the video file.</span>
 <span class="sd">        This can be a video file on disk or from a website.</span>
 <span class="sd">    nimages : optional, int</span>
-<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
-<span class="sd">        If unspecified, all frames are loaded.</span>
+<span class="sd">        If specified, only `nimages` frames are loaded.</span>
 
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
@@ -252,8 +251,7 @@
 <span class="sd">        If specified, the image is scaled or shrunk to this size.</span>
 <span class="sd">        If not specified, the original size is kept.</span>
 <span class="sd">    nimages : optional, int</span>
-<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
-<span class="sd">        If unspecified, all frames are loaded.</span>
+<span class="sd">        If specified, only `nimages` frames are loaded.</span>
 
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
@@ -289,8 +287,7 @@
 <span class="sd">        If specified, the image is scaled or shrunk to this size.</span>
 <span class="sd">        If not specified, the original size is kept.</span>
 <span class="sd">    nimages : optional, int</span>
-<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
-<span class="sd">        If unspecified, all frames are loaded.</span>
+<span class="sd">        If specified, only `nimages` frames are loaded.</span>
 
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
@@ -315,7 +312,7 @@
 <span class="sd">    Internally, this function loads one video frame into memory at a time.</span>
 <span class="sd">    Tt converts the RGB pixel values from one frame to CIE-LAB pixel values.</span>
 <span class="sd">    It then keeps the luminance channel only. This process is performed</span>
-<span class="sd">    for all ``nimages`` requested or until we reach the end of the video file.</span>
+<span class="sd">    for all frames requested or until we reach the end of the video file.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -327,8 +324,7 @@
 <span class="sd">        If specified, the image is scaled or shrunk to this size.</span>
 <span class="sd">        If not specified, the original size is kept.</span>
 <span class="sd">    nimages : optional, int</span>
-<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
-<span class="sd">        If unspecified, all frames are loaded.</span>
+<span class="sd">        If specified, only `nimages` frames are converted to luminance.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -347,7 +343,7 @@
 <div class="viewcode-block" id="video2grey"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.video2grey">[docs]</a><span class="k">def</span> <span class="nf">video2grey</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;Convert the video frames to greyscale images.</span>
 
-<span class="sd">    This function computes the mean across the RGB color channels.</span>
+<span class="sd">    This function computes the mean across RGB color channels.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -359,8 +355,7 @@
 <span class="sd">        If specified, the image is scaled or shrunk to this size.</span>
 <span class="sd">        If not specified, the original size is kept.</span>
 <span class="sd">    nimages : optional, int</span>
-<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
-<span class="sd">        If unspecified, all frames are loaded.</span>
+<span class="sd">        If specified, only `nimages` frames are converted to greyscale.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -420,14 +415,14 @@
 
 
 <div class="viewcode-block" id="resize_image"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.resize_image">[docs]</a><span class="k">def</span> <span class="nf">resize_image</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">96</span><span class="p">,</span><span class="mi">96</span><span class="p">),</span> <span class="nb">filter</span><span class="o">=</span><span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Resize an image and return its array representation</span>
+    <span class="sd">&#39;&#39;&#39;Resize an image and return its array representation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    im : str, np.ndarray(uint8), or PIL.Image object</span>
-<span class="sd">        The path to the image, an image array, or a loaded PIL.Image</span>
+<span class="sd">        The path to the image, an image array, or a loaded PIL.Image.</span>
 <span class="sd">    size : tuple, (vdim, hdim)</span>
-<span class="sd">        The desired output image size</span>
+<span class="sd">        The desired output image size.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -453,13 +448,13 @@
 
 
 <div class="viewcode-block" id="load_image_luminance"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.load_image_luminance">[docs]</a><span class="k">def</span> <span class="nf">load_image_luminance</span><span class="p">(</span><span class="n">image_files</span><span class="p">,</span> <span class="n">hdim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vdim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;Load a set of RGB images and return its luminance representation</span>
+    <span class="sd">&#39;&#39;&#39;Load a set of RGB images and return its luminance representation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    image_files : list-like, (n,)</span>
 <span class="sd">        A list of file names.</span>
-<span class="sd">        The images should be in RGB uint8 format</span>
+<span class="sd">        The images should be in RGB uint8 format.</span>
 <span class="sd">    vdim, hdim : int, optional</span>
 <span class="sd">        Vertical and horizontal dimensions, respectively.</span>
 <span class="sd">        If provided the images will be scaled to this size.</span>
@@ -467,7 +462,7 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    arr : 3D np.array (n,vdim,hdim)</span>
-<span class="sd">        The luminance representation of the images</span>
+<span class="sd">        The luminance representation of the images.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
 
