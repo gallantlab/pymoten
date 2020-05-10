@@ -9,6 +9,7 @@ Submodules
 
    moten.colorspace
    moten.core
+   moten.extras
    moten.io
    moten.pyramids
    moten.utils

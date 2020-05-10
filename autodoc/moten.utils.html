@@ -191,28 +191,6 @@
 <dd></dd></dl>
 
 <dl class="py function">
-<dt id="moten.utils.pixbypix_covariance_from_frames_generator">
-<code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pixbypix_covariance_from_frames_generator</code><span class="sig-paren">(</span><em class="sig-param">data_generator</em>, <em class="sig-param">batch_size=1000</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square at 0x7f1307f2d488&gt;</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/utils.html#pixbypix_covariance_from_frames_generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.utils.pixbypix_covariance_from_frames_generator" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><dl class="simple">
-<dt><strong>data_generator</strong><span class="classifier">generator object</span></dt><dd><p>Yields an frame of shape (vdim, hdim)</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">moten</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">small_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>  <span class="c1"># downsample to (vdim, hdim) 16:9 aspect ratio</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">fdiffgen</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">generate_frame_difference_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">small_size</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">333</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nimages</span><span class="p">,</span> <span class="n">XTX</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">pixbypix_covariance_from_frames_generator</span><span class="p">(</span><span class="n">fdiffgen</span><span class="p">)</span> 
-</pre></div>
-</div>
-</dd></dl>
-
-<dl class="py function">
 <dt id="moten.utils.pointwise_square">
 <code class="sig-prename descclassname">moten.utils.</code><code class="sig-name descname">pointwise_square</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/utils.html#pointwise_square"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.utils.pointwise_square" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>

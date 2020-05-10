@@ -115,56 +115,9 @@
       
   <div class="section" id="module-moten.core">
 <span id="moten-core-module"></span><h1>moten.core module<a class="headerlink" href="#module-moten.core" title="Permalink to this headline">¶</a></h1>
-<dl class="py class">
-<dt id="moten.core.StimulusTotalMotionEnergy">
-<em class="property">class </em><code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">StimulusTotalMotionEnergy</code><span class="sig-paren">(</span><em class="sig-param">video_file</em>, <em class="sig-param">size=None</em>, <em class="sig-param">nimages=inf</em>, <em class="sig-param">batch_size=100</em>, <em class="sig-param">output_nonlinearity=&lt;function pointwise_square&gt;</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#StimulusTotalMotionEnergy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p class="rubric">Methods</p>
-<table class="docutils align-default">
-<colgroup>
-<col style="width: 78%" />
-<col style="width: 22%" />
-</colgroup>
-<tbody>
-<tr class="row-odd"><td><p><strong>compute_pixelby_pixel_covariance</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>compute_spatial_pcs</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>compute_temporal_pcs</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>get_frame_difference_generator</strong></p></td>
-<td></td>
-</tr>
-</tbody>
-</table>
-<dl class="py method">
-<dt id="moten.core.StimulusTotalMotionEnergy.compute_pixelby_pixel_covariance">
-<code class="sig-name descname">compute_pixelby_pixel_covariance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">generator</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#StimulusTotalMotionEnergy.compute_pixelby_pixel_covariance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy.compute_pixelby_pixel_covariance" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="moten.core.StimulusTotalMotionEnergy.compute_spatial_pcs">
-<code class="sig-name descname">compute_spatial_pcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">npcs</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#StimulusTotalMotionEnergy.compute_spatial_pcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy.compute_spatial_pcs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="moten.core.StimulusTotalMotionEnergy.compute_temporal_pcs">
-<code class="sig-name descname">compute_temporal_pcs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em>, <em class="sig-param"><span class="n">generator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">skip_first</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#StimulusTotalMotionEnergy.compute_temporal_pcs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy.compute_temporal_pcs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="py method">
-<dt id="moten.core.StimulusTotalMotionEnergy.get_frame_difference_generator">
-<code class="sig-name descname">get_frame_difference_generator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">self</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#StimulusTotalMotionEnergy.get_frame_difference_generator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.StimulusTotalMotionEnergy.get_frame_difference_generator" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
 <dl class="py function">
 <dt id="moten.core.compute_filter_responses">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_filter_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">stimulus_fps</em>, <em class="sig-param">aspect_ratio='auto'</em>, <em class="sig-param">filter_temporal_width='auto'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f1308298d08&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f130eb42048&gt;</em>, <em class="sig-param">dozscore=True</em>, <em class="sig-param">dtype=&lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">pyramid_parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_filter_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.compute_filter_responses" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_filter_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">stimulus_fps</em>, <em class="sig-param">aspect_ratio='auto'</em>, <em class="sig-param">filter_temporal_width='auto'</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f4c67392d90&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f4c6dc3b0d0&gt;</em>, <em class="sig-param">dozscore=True</em>, <em class="sig-param">dtype=&lt;class 'numpy.float64'&gt;</em>, <em class="sig-param">pyramid_parameters={}</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_filter_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.compute_filter_responses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filters’ response to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -205,7 +158,7 @@ specifiying a motion-energy pyramid.</p>
 
 <dl class="py function">
 <dt id="moten.core.compute_spatial_gabor_responses">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_spatial_gabor_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus, aspect_ratio='auto', spatial_frequencies=[0, 2, 4, 8, 16, 32], quadrature_combination=&lt;function sqrt_sum_squares at 0x7f1308298d08&gt;, output_nonlinearity=&lt;function log_compress at 0x7f130eb42048&gt;, dtype=&lt;class 'numpy.float64'&gt;, dozscore=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_spatial_gabor_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.compute_spatial_gabor_responses" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">compute_spatial_gabor_responses</code><span class="sig-paren">(</span><em class="sig-param">stimulus, aspect_ratio='auto', spatial_frequencies=[0, 2, 4, 8, 16, 32], quadrature_combination=&lt;function sqrt_sum_squares at 0x7f4c67392d90&gt;, output_nonlinearity=&lt;function log_compress at 0x7f4c6dc3b0d0&gt;, dtype=&lt;class 'numpy.float64'&gt;, dozscore=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_spatial_gabor_responses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.compute_spatial_gabor_responses" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the spatial gabor filters’ response to each stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -438,7 +391,7 @@ This is useful for visualization.</p>
 
 <dl class="py function">
 <dt id="moten.core.project_stimulus">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f1308298d08&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f130eb42048&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.project_stimulus" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">project_stimulus</code><span class="sig-paren">(</span><em class="sig-param">stimulus</em>, <em class="sig-param">filters</em>, <em class="sig-param">quadrature_combination=&lt;function sqrt_sum_squares at 0x7f4c67392d90&gt;</em>, <em class="sig-param">output_nonlinearity=&lt;function log_compress at 0x7f4c6dc3b0d0&gt;</em>, <em class="sig-param">vhsize=()</em>, <em class="sig-param">dtype='float32'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#project_stimulus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.project_stimulus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute the motion-energy filter responses to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

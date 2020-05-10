@@ -166,66 +166,6 @@
     <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown&#39;</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="pixbypix_covariance_from_frames_generator"><a class="viewcode-back" href="../../autodoc/moten.utils.html#moten.utils.pixbypix_covariance_from_frames_generator">[docs]</a><span class="k">def</span> <span class="nf">pixbypix_covariance_from_frames_generator</span><span class="p">(</span><span class="n">data_generator</span><span class="p">,</span>
-                                              <span class="n">batch_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-                                              <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">pointwise_square</span><span class="p">,</span>
-                                              <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    data_generator : generator object</span>
-<span class="sd">        Yields an frame of shape (vdim, hdim)</span>
-
-<span class="sd">    Examples</span>
-<span class="sd">    --------</span>
-<span class="sd">    &gt;&gt;&gt; import moten</span>
-<span class="sd">    &gt;&gt;&gt; video_file = &#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
-<span class="sd">    &gt;&gt;&gt; small_size = (36, 64)  # downsample to (vdim, hdim) 16:9 aspect ratio</span>
-<span class="sd">    &gt;&gt;&gt; fdiffgen = moten.io.generate_frame_difference_from_greyvideo(video_file, size=small_size, nimages=333)</span>
-<span class="sd">    &gt;&gt;&gt;</span>
-<span class="sd">    &gt;&gt;&gt; nimages, XTX = moten.utils.pixbypix_covariance_from_frames_generator(fdiffgen) # doctest: +SKIP</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">first_frame</span> <span class="o">=</span> <span class="n">data_generator</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span>
-    <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">first_frame</span><span class="o">.</span><span class="n">shape</span>
-    <span class="n">npixels</span> <span class="o">=</span> <span class="n">vdim</span><span class="o">*</span><span class="n">hdim</span>
-
-    <span class="n">framediff_buffer</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">npixels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-    <span class="n">XTX</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">npixels</span><span class="p">,</span> <span class="n">npixels</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
-    <span class="n">nframes</span> <span class="o">=</span> <span class="mi">0</span>
-
-    <span class="k">if</span> <span class="n">with_tqdm</span><span class="p">:</span>
-        <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="s1">&#39;Computing pixel-by-pixel covariance (p=</span><span class="si">%i</span><span class="s1">)&#39;</span><span class="o">%</span><span class="n">npixels</span><span class="p">,</span>
-                    <span class="n">total</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                    <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;[frames]&#39;</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Computing pixel-by-pixel covariance (p=</span><span class="si">%i</span><span class="s1">)...&#39;</span><span class="o">%</span><span class="n">npixels</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-
-    <span class="n">RUN</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">while</span> <span class="n">RUN</span><span class="p">:</span>
-        <span class="n">framediff_buffer</span> <span class="o">*=</span> <span class="mf">0.0</span>             <span class="c1"># clear buffer</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">batch_frame_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size</span><span class="p">):</span>
-                <span class="n">frame_difference</span> <span class="o">=</span> <span class="n">data_generator</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-                <span class="n">framediff_buffer</span><span class="p">[</span><span class="n">batch_frame_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">output_nonlinearity</span><span class="p">(</span><span class="n">frame_difference</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
-            <span class="n">RUN</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">with_tqdm</span><span class="p">:</span>
-                <span class="n">pbar</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">batch_frame_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-
-            <span class="n">nframes</span> <span class="o">+=</span> <span class="n">batch_frame_idx</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="n">XTX</span> <span class="o">+=</span> <span class="n">framediff_buffer</span><span class="o">.</span><span class="n">T</span> <span class="o">@</span> <span class="n">framediff_buffer</span>
-
-    <span class="k">if</span> <span class="n">with_tqdm</span><span class="p">:</span>
-        <span class="n">pbar</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Finished #</span><span class="si">%i</span><span class="s1"> frames&#39;</span><span class="o">%</span><span class="n">nframes</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">nframes</span><span class="p">,</span> <span class="n">XTX</span></div>
 </pre></div>
 
     </div>
