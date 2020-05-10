@@ -102,6 +102,26 @@ Motion-energy pyramids
    :hidden:
 
    /auto_examples/introduction/demo_batching
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="Description of the image coordinates used to define the motion-energy filters.">
+
+.. only:: html
+
+ .. figure:: /auto_examples/introduction/images/thumb/sphx_glr_demo_image_coordinates_thumb.png
+
+     :ref:`sphx_glr_auto_examples_introduction_demo_image_coordinates.py`
+
+.. raw:: html
+
+    </div>
+
+
+.. toctree::
+   :hidden:
+
+   /auto_examples/introduction/demo_image_coordinates
 .. raw:: html
 
     <div class="sphx-glr-clear"></div>
