@@ -47,22 +47,17 @@ class MotionEnergyPyramid(object):
     stimulus_vhsize : tuple of ints
         Size of the stimulus in pixels (vdim, hdim)
     stimulus_fps : scalar, [Hz]
-        The temporal frequency of the stimulus.
+        Stimulus playback speed in frames per second.
     spatial_frequencies : array-like, [cycles-per-image]
         Spatial frequencies for the filters
     spatial_directions : array-like, [degrees]
         Direction of filter motion. Degree position corresponds
         to standard unit-circle coordinates (i.e. 0=right, 180=left).
     temporal_frequencies : array-like, [Hz]
-        Temporal frequencies of the filters for use on the stimulus
+        Temporal frequencies of the filters
     filter_temporal_width : int
         Temporal window of the motion-energy filter (e.g. 10).
         Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).
-
-    Notes
-    -----
-    See :func:`moten.core.mk_moten_pyramid_params` for more details on
-    making the pyramid.
 
     Attributes
     ----------
@@ -89,6 +84,11 @@ class MotionEnergyPyramid(object):
     parameters_matrix : np.array, (nfilters, 11)
         Parameters that defined the motion-energy filter.
     parameters_names  : tuple of strings
+
+    Notes
+    -----
+    See :func:`moten.core.mk_moten_pyramid_params` for more details on
+    making the pyramid.
     '''
     def __init__(self,
                  stimulus_vhsize=(576, 1024),
@@ -199,7 +199,7 @@ class MotionEnergyPyramid(object):
         Parameters
         ----------
         centerv : scalar
-            Vertical filter from top of frame (min=0, max=1.0).
+            Vertical filter position from top of frame (min=0, max=1.0).
         centerh : scalar
             Horizontal filter position from left of frame (min=0, max=aspect_ratio).
 
@@ -230,11 +230,13 @@ class MotionEnergyPyramid(object):
 
         Returns
         -------
-        spatial_gabor_sin, spatial_gabor_cos : 2D np.ndarray, each with shape (vdim, hdim)
+        spatial_gabor_sin : 2D np.ndarray, (vdim, hdim)
+        spatial_gabor_cos : 2D np.ndarray, (vdim, hdim)
             Spatial gabor quadrature pair. ``spatial_gabor_cos`` has
             a 90 degree phase offset relative to ``spatial_gabor_sin``
 
-        temporal_gabor_sin, temporal_gabor_cos : 1D np.ndarray, each with shape (filter_temporal_width, )
+        temporal_gabor_sin : 1D np.ndarray, (`filter_temporal_width`,)
+        temporal_gabor_cos : 1D np.ndarray, (`filter_temporal_width`,)
             Temporal gabor quadrature pair. ``temporal_gabor_cos`` has
             a 90 degree phase offset relative to ``temporal_gabor_sin``
         '''
@@ -261,7 +263,8 @@ class MotionEnergyPyramid(object):
 
         Returns
         -------
-        temporal_gabor_sin, temporal_gabor_cos : 1D np.ndarray, each with shape (filter_temporal_width, )
+        temporal_gabor_sin : 1D np.ndarray, (`filter_temporal_width`,)
+        temporal_gabor_cos : 1D np.ndarray, (`filter_temporal_width`,)
             Temporal gabor quadrature pair. ``temporal_gabor_cos`` has
             a 90 degree phase offset relative to ``temporal_gabor_sin``
         '''
@@ -279,7 +282,8 @@ class MotionEnergyPyramid(object):
 
         Returns
         -------
-        spatial_gabor_sin, spatial_gabor_cos : 2D np.ndarray, each with shape (vdim, hdim)
+        spatial_gabor_sin : 2D np.ndarray, (vdim, hdim)
+        spatial_gabor_cos : 2D np.ndarray, (vdim, hdim)
             Spatial gabor quadrature pair. ``spatial_gabor_cos`` has
             a 90 degree phase offset relative to ``spatial_gabor_sin``
         '''
@@ -466,14 +470,14 @@ class StimulusMotionEnergy(object):
     stimulus : np.array, (nimages, vdim, hdim)
         The movie frames.
     stimulus_fps : scalar, [Hz]
-        The temporal frequency of the stimulus.
+        Stimulus playback speed in frames per second.
     spatial_frequencies : array-like, [cycles-per-image]
         Spatial frequencies for the filters
     spatial_directions : array-like, [degrees]
         Direction of filter motion. Degree position corresponds
         to standard unit-circle coordinates (i.e. 0=right, 180=left).
     temporal_frequencies : array-like, [Hz]
-        Temporal frequencies of the filters for use on the stimulus
+        Temporal frequencies of the filters
     filter_temporal_width : int
         Temporal window of the motion-energy filter (e.g. 10).
         Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).
