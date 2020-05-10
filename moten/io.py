@@ -197,17 +197,15 @@ def imagearray2luminance(uint8arr, size=None, filter=Image.ANTIALIAS, dtype=np.f
 
     Parameters
     ----------
-    uint8arr : 4D np.ndarray (n, vdim, hdim, rgb)
+    uint8arr : 4D np.ndarray, (nimages, vdim, hdim, color)
         The uint8 RGB frames.
-
-    size (optional) : tuple, (vdim, hdim)
-        The desired output image size
-
+    size : optional, tuple (vdim, hdim)
+        The desired output image size.
     filter: to be passed to PIL
 
     Returns
     -------
-    luminance_array : 3D np.ndarray (nimages, vdim, hdim)
+    luminance_array : 3D np.ndarray, (nimages, vdim, hdim)
         The luminance image representation.
         Pixel values are in the 0-100 range.
     '''
@@ -271,20 +269,19 @@ def load_image_luminance(image_files, hdim=None, vdim=None):
 
     Parameters
     ----------
-    image_files : list-like, (n,)
+    image_files : list-like, (nimages,)
         A list of file names.
         The images should be in RGB uint8 format.
-    vdim, hdim : int, optional
+    vdim : int, optional
+    hdim : int, optional
         Vertical and horizontal dimensions, respectively.
         If provided the images will be scaled to this size.
 
     Returns
     -------
-    arr : 3D np.array (n,vdim,hdim)
+    arr : 3D np.array (nimages, vdim, hdim)
         The luminance representation of the images.
     '''
-
-
     if (hdim and vdim):
         loader = lambda stim,sz: resize_image(stim,sz)
     else:
