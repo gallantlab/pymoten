@@ -112,7 +112,7 @@ def generate_frame_difference_from_greyvideo(video_file,
     ------
     greyscale_image_difference : 2D np.ndarray, (vdim, hdim)
         The difference image: (current_frame - previous_frame).
-        Pixel values are in the 0-1 range.
+        Pixel values are in the (-1, 1) range.
     '''
     vbuffer = video_buffer(video_file, nimages=nimages)
     previous_frame = 0
