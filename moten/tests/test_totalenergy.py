@@ -6,6 +6,7 @@ from scipy import linalg
 from importlib import reload
 
 from moten import (pyramids,
+                   extras,
                    utils,
                    core,
                    io,
@@ -56,7 +57,7 @@ def test_batched():
                                                                        size=small_size,
                                                                        nimages=nimages)
 
-    nframes, xtx = utils.pixbypix_covariance_from_frames_generator(frame_diff_generator,
+    nframes, xtx = extras.pixbypix_covariance_from_frames_generator(frame_diff_generator,
                                                                    batch_size=1000,
                                                                    dtype=np.float64)
 
@@ -74,13 +75,13 @@ def test_svd_projections():
 # using class
 ##############################
 import moten.core
-totalmoten = moten.core.StimulusTotalMotionEnergy(video_file,
-                                                  size=small_size,
-                                                  nimages=nimages,
-                                                  dtype=np.float64)
+totalmoten = moten.extras.StimulusTotalMotionEnergy(video_file,
+                                                    size=small_size,
+                                                    nimages=nimages,
+                                                    dtype=np.float64)
 
 def test_totalmoten_spatial_pcs():
-    totalmoten.compute_pixelby_pixel_covariance()
+    totalmoten.compute_pixel_by_pixel_covariance()
     # check spatial PCs
     totalmoten.compute_spatial_pcs(npcs=npcs)
     np.testing.assert_array_almost_equal(np.abs(Qfull),
