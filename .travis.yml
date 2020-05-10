@@ -18,8 +18,6 @@ install:
 script:
   # run tests
   - pytest -v --cov=./
-
-after_success:
   # test installation
   - python setup.py install
   # install packages for docs and make docs
