@@ -293,7 +293,7 @@
 <span class="sd">    ------</span>
 <span class="sd">    greyscale_image_difference : 2D np.ndarray, (vdim, hdim)</span>
 <span class="sd">        The difference image: (current_frame - previous_frame).</span>
-<span class="sd">        Pixel values are in the 0-1 range.</span>
+<span class="sd">        Pixel values are in the (-1, 1) range.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
     <span class="n">previous_frame</span> <span class="o">=</span> <span class="mi">0</span>
@@ -378,17 +378,15 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    uint8arr : 4D np.ndarray (n, vdim, hdim, rgb)</span>
+<span class="sd">    uint8arr : 4D np.ndarray, (nimages, vdim, hdim, color)</span>
 <span class="sd">        The uint8 RGB frames.</span>
-
-<span class="sd">    size (optional) : tuple, (vdim, hdim)</span>
-<span class="sd">        The desired output image size</span>
-
+<span class="sd">    size : optional, tuple (vdim, hdim)</span>
+<span class="sd">        The desired output image size.</span>
 <span class="sd">    filter: to be passed to PIL</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    luminance_array : 3D np.ndarray (nimages, vdim, hdim)</span>
+<span class="sd">    luminance_array : 3D np.ndarray, (nimages, vdim, hdim)</span>
 <span class="sd">        The luminance image representation.</span>
 <span class="sd">        Pixel values are in the 0-100 range.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
@@ -452,20 +450,19 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    image_files : list-like, (n,)</span>
+<span class="sd">    image_files : list-like, (nimages,)</span>
 <span class="sd">        A list of file names.</span>
 <span class="sd">        The images should be in RGB uint8 format.</span>
-<span class="sd">    vdim, hdim : int, optional</span>
+<span class="sd">    vdim : int, optional</span>
+<span class="sd">    hdim : int, optional</span>
 <span class="sd">        Vertical and horizontal dimensions, respectively.</span>
 <span class="sd">        If provided the images will be scaled to this size.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    arr : 3D np.array (n,vdim,hdim)</span>
+<span class="sd">    arr : 3D np.array (nimages, vdim, hdim)</span>
 <span class="sd">        The luminance representation of the images.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-
-
     <span class="k">if</span> <span class="p">(</span><span class="n">hdim</span> <span class="ow">and</span> <span class="n">vdim</span><span class="p">):</span>
         <span class="n">loader</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">stim</span><span class="p">,</span><span class="n">sz</span><span class="p">:</span> <span class="n">resize_image</span><span class="p">(</span><span class="n">stim</span><span class="p">,</span><span class="n">sz</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>

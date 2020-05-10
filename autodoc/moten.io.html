@@ -205,7 +205,7 @@ If not specified, the original size is kept.</p></li>
 </dd>
 <dt class="field-even">Yields</dt>
 <dd class="field-even"><p><strong>greyscale_image_difference</strong> (<em>2D np.ndarray, (vdim, hdim)</em>) – The difference image: (current_frame - previous_frame).
-Pixel values are in the 0-1 range.</p>
+Pixel values are in the (-1, 1) range.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -240,8 +240,8 @@ If not specified, the original size is kept.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>uint8arr</strong> (<em>4D np.ndarray</em><em> (</em><em>n</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>, </em><em>rgb</em><em>)</em>) – The uint8 RGB frames.</p></li>
-<li><p><strong>(</strong><strong>optional</strong><strong>)</strong> (<em>size</em>) – The desired output image size</p></li>
+<li><p><strong>uint8arr</strong> (<em>4D np.ndarray</em><em>, </em><em>(</em><em>nimages</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>, </em><em>color</em><em>)</em>) – The uint8 RGB frames.</p></li>
+<li><p><strong>size</strong> (<em>optional</em><em>, </em><em>tuple</em><em> (</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.</p></li>
 <li><p><strong>filter</strong> (<em>to be passed to PIL</em>) – </p></li>
 </ul>
 </dd>
@@ -250,7 +250,7 @@ If not specified, the original size is kept.</p></li>
 Pixel values are in the 0-100 range.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>3D np.ndarray (nimages, vdim, hdim)</p>
+<dd class="field-odd"><p>3D np.ndarray, (nimages, vdim, hdim)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -262,9 +262,10 @@ Pixel values are in the 0-100 range.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>image_files</strong> (<em>list-like</em><em>, </em><em>(</em><em>n</em><em>,</em><em>)</em>) – A list of file names.
+<li><p><strong>image_files</strong> (<em>list-like</em><em>, </em><em>(</em><em>nimages</em><em>,</em><em>)</em>) – A list of file names.
 The images should be in RGB uint8 format.</p></li>
-<li><p><strong>hdim</strong> (<em>vdim</em><em>,</em>) – Vertical and horizontal dimensions, respectively.
+<li><p><strong>vdim</strong> (<em>int</em><em>, </em><em>optional</em>) – </p></li>
+<li><p><strong>hdim</strong> (<em>int</em><em>, </em><em>optional</em>) – Vertical and horizontal dimensions, respectively.
 If provided the images will be scaled to this size.</p></li>
 </ul>
 </dd>
@@ -272,7 +273,7 @@ If provided the images will be scaled to this size.</p></li>
 <dd class="field-even"><p><strong>arr</strong> – The luminance representation of the images.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>3D np.array (n,vdim,hdim)</p>
+<dd class="field-odd"><p>3D np.array (nimages, vdim, hdim)</p>
 </dd>
 </dl>
 </dd></dl>
