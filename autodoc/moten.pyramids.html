@@ -130,22 +130,17 @@ in the image in order to tile the stimulus.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>stimulus_vhsize</strong> (<em>tuple of ints</em>) – Size of the stimulus in pixels (vdim, hdim)</p></li>
-<li><p><strong>stimulus_fps</strong> (<em>scalar</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – The temporal frequency of the stimulus.</p></li>
+<li><p><strong>stimulus_fps</strong> (<em>scalar</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Stimulus playback speed in frames per second.</p></li>
 <li><p><strong>spatial_frequencies</strong> (<em>array-like</em><em>, </em><em>[</em><em>cycles-per-image</em><em>]</em>) – Spatial frequencies for the filters</p></li>
 <li><p><strong>spatial_directions</strong> (<em>array-like</em><em>, </em><em>[</em><em>degrees</em><em>]</em>) – Direction of filter motion. Degree position corresponds
 to standard unit-circle coordinates (i.e. 0=right, 180=left).</p></li>
-<li><p><strong>temporal_frequencies</strong> (<em>array-like</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Temporal frequencies of the filters for use on the stimulus</p></li>
+<li><p><strong>temporal_frequencies</strong> (<em>array-like</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Temporal frequencies of the filters</p></li>
 <li><p><strong>filter_temporal_width</strong> (<em>int</em>) – Temporal window of the motion-energy filter (e.g. 10).
 Defaults to approximately 0.666[secs] (<cite>floor(stimulus_fps*(2/3))</cite>).</p></li>
 </ul>
 </dd>
-</dl>
-<p class="rubric">Notes</p>
-<p>See <a class="reference internal" href="moten.core.html#moten.core.mk_moten_pyramid_params" title="moten.core.mk_moten_pyramid_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">moten.core.mk_moten_pyramid_params()</span></code></a> for more details on
-making the pyramid.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Variables</dt>
-<dd class="field-odd"><ul class="simple">
+<dt class="field-even">Variables</dt>
+<dd class="field-even"><ul class="simple">
 <li><p><strong>nfilters</strong> (<em>int</em>) – </p></li>
 <li><p><strong>filters</strong> (<em>list of dicts</em>) – <p>Each item is a dict defining a motion-energy filter.
 Each of the <cite>nfilters</cite> has the following parameters:</p>
@@ -172,6 +167,9 @@ Each item is an array of length <code class="docutils literal notranslate"><span
 </ul>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>See <a class="reference internal" href="moten.core.html#moten.core.mk_moten_pyramid_params" title="moten.core.mk_moten_pyramid_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">moten.core.mk_moten_pyramid_params()</span></code></a> for more details on
+making the pyramid.</p>
 <dl class="py method">
 <dt id="moten.pyramids.MotionEnergyPyramid.filters_at_vhposition">
 <code class="sig-name descname">filters_at_vhposition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">centerv</span></em>, <em class="sig-param"><span class="n">centerh</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/pyramids.html#MotionEnergyPyramid.filters_at_vhposition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.pyramids.MotionEnergyPyramid.filters_at_vhposition" title="Permalink to this definition">¶</a></dt>
@@ -179,7 +177,7 @@ Each item is an array of length <code class="docutils literal notranslate"><span
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>centerv</strong> (<em>scalar</em>) – Vertical filter from top of frame (min=0, max=1.0).</p></li>
+<li><p><strong>centerv</strong> (<em>scalar</em>) – Vertical filter position from top of frame (min=0, max=1.0).</p></li>
 <li><p><strong>centerh</strong> (<em>scalar</em>) – Horizontal filter position from left of frame (min=0, max=aspect_ratio).</p></li>
 </ul>
 </dd>
@@ -234,11 +232,12 @@ If dict, a filter dictionary definition</p>
 If dict, a filter dictionary definition</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>spatial_gabor_sin, spatial_gabor_cos</strong> – Spatial gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">spatial_gabor_cos</span></code> has
-a 90 degree phase offset relative to <code class="docutils literal notranslate"><span class="pre">spatial_gabor_sin</span></code></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>2D np.ndarray, each with shape (vdim, hdim)</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>spatial_gabor_sin</strong> (<em>2D np.ndarray, (vdim, hdim)</em>)</p></li>
+<li><p><strong>spatial_gabor_cos</strong> (<em>2D np.ndarray, (vdim, hdim)</em>) – Spatial gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">spatial_gabor_cos</span></code> has
+a 90 degree phase offset relative to <code class="docutils literal notranslate"><span class="pre">spatial_gabor_sin</span></code></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -254,9 +253,11 @@ If dict, a filter dictionary definition</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>spatial_gabor_sin, spatial_gabor_cos</strong> (<em>2D np.ndarray, each with shape (vdim, hdim)</em>) – Spatial gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">spatial_gabor_cos</span></code> has
+<li><p><strong>spatial_gabor_sin</strong> (<em>2D np.ndarray, (vdim, hdim)</em>)</p></li>
+<li><p><strong>spatial_gabor_cos</strong> (<em>2D np.ndarray, (vdim, hdim)</em>) – Spatial gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">spatial_gabor_cos</span></code> has
 a 90 degree phase offset relative to <code class="docutils literal notranslate"><span class="pre">spatial_gabor_sin</span></code></p></li>
-<li><p><strong>temporal_gabor_sin, temporal_gabor_cos</strong> (<em>1D np.ndarray, each with shape (filter_temporal_width, )</em>) – Temporal gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">temporal_gabor_cos</span></code> has
+<li><p><strong>temporal_gabor_sin</strong> (1D np.ndarray, (<cite>filter_temporal_width</cite>,))</p></li>
+<li><p><strong>temporal_gabor_cos</strong> (1D np.ndarray, (<cite>filter_temporal_width</cite>,)) – Temporal gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">temporal_gabor_cos</span></code> has
 a 90 degree phase offset relative to <code class="docutils literal notranslate"><span class="pre">temporal_gabor_sin</span></code></p></li>
 </ul>
 </p>
@@ -274,11 +275,12 @@ a 90 degree phase offset relative to <code class="docutils literal notranslate">
 If dict, a filter dictionary definition</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>temporal_gabor_sin, temporal_gabor_cos</strong> – Temporal gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">temporal_gabor_cos</span></code> has
-a 90 degree phase offset relative to <code class="docutils literal notranslate"><span class="pre">temporal_gabor_sin</span></code></p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>1D np.ndarray, each with shape (filter_temporal_width, )</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>temporal_gabor_sin</strong> (1D np.ndarray, (<cite>filter_temporal_width</cite>,))</p></li>
+<li><p><strong>temporal_gabor_cos</strong> (1D np.ndarray, (<cite>filter_temporal_width</cite>,)) – Temporal gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">temporal_gabor_cos</span></code> has
+a 90 degree phase offset relative to <code class="docutils literal notranslate"><span class="pre">temporal_gabor_sin</span></code></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -386,11 +388,11 @@ in the image in order to tile the stimulus.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>stimulus</strong> (<em>np.array</em><em>, </em><em>(</em><em>nimages</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The movie frames.</p></li>
-<li><p><strong>stimulus_fps</strong> (<em>scalar</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – The temporal frequency of the stimulus.</p></li>
+<li><p><strong>stimulus_fps</strong> (<em>scalar</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Stimulus playback speed in frames per second.</p></li>
 <li><p><strong>spatial_frequencies</strong> (<em>array-like</em><em>, </em><em>[</em><em>cycles-per-image</em><em>]</em>) – Spatial frequencies for the filters</p></li>
 <li><p><strong>spatial_directions</strong> (<em>array-like</em><em>, </em><em>[</em><em>degrees</em><em>]</em>) – Direction of filter motion. Degree position corresponds
 to standard unit-circle coordinates (i.e. 0=right, 180=left).</p></li>
-<li><p><strong>temporal_frequencies</strong> (<em>array-like</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Temporal frequencies of the filters for use on the stimulus</p></li>
+<li><p><strong>temporal_frequencies</strong> (<em>array-like</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Temporal frequencies of the filters</p></li>
 <li><p><strong>filter_temporal_width</strong> (<em>int</em>) – Temporal window of the motion-energy filter (e.g. 10).
 Defaults to approximately 0.666[secs] (<cite>floor(stimulus_fps*(2/3))</cite>).</p></li>
 </ul>

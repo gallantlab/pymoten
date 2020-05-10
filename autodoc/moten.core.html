@@ -184,39 +184,44 @@ Defaults to: ln(x + 1e-05)</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spatial_gabor_cos</strong> (<em>spatial_gabor_sin</em><em>,</em>) – Spatial gabor quadrature pair</p></li>
-<li><p><strong>temporal_gabor_cos</strong> (<em>temporal_gabor_sin</em><em>,</em>) – Temporal gabor quadrature pair</p></li>
-<li><p><strong>stimulus</strong> (<em>2D np.array</em><em> (</em><em>n</em><em>, </em><em>vdim*hdim</em><em>)</em>) – The movie frames with the spatial dimension collapsed.</p></li>
+<li><p><strong>spatial_gabor_sin</strong> (<em>np.array</em><em>, </em><em>(</em><em>vdim</em><em>,</em><em>hdim</em><em>)</em>) – </p></li>
+<li><p><strong>spatial_gabor_cos</strong> (<em>np.array</em><em>, </em><em>(</em><em>vdim</em><em>,</em><em>hdim</em><em>)</em>) – Spatial gabor quadrature pair</p></li>
+<li><p><strong>temporal_gabor_sin</strong> (<em>np.array</em><em>, </em><em>(</em><em>temporal_filter_width</em><em>,</em><em>)</em>) – </p></li>
+<li><p><strong>temporal_gabor_cos</strong> (<em>np.array</em><em>, </em><em>(</em><em>temporal_filter_width</em><em>,</em><em>)</em>) – Temporal gabor quadrature pair</p></li>
+<li><p><strong>stimulus</strong> (<em>2D np.array</em><em> (</em><em>nimages</em><em>, </em><em>vdim*hdim</em><em>)</em>) – The movie frames with the spatial dimension collapsed.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>channel_sin, channel_cos</strong> – The filter response to the stimulus at each time point
-The quadrature pair can be combined: (x^2 + y^2)^0.5</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray, (n, )</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>channel_sin</strong> (<em>np.ndarray, (nimages, )</em>)</p></li>
+<li><p><strong>channel_cos</strong> (<em>np.ndarray, (nimages, )</em>) – The filter response to the stimulus at each time point
+The quadrature pair can be combined: (x^2 + y^2)^0.5</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt id="moten.core.dotspatial_frames">
-<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">dotspatial_frames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spatial_gabor_sin</span></em>, <em class="sig-param"><span class="n">spatial_gabor_cos</span></em>, <em class="sig-param"><span class="n">stimuli</span></em>, <em class="sig-param"><span class="n">masklimit</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#dotspatial_frames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.dotspatial_frames" title="Permalink to this definition">¶</a></dt>
-<dd><p>Dot the spatial gabor filters filter with the stimuli</p>
+<code class="sig-prename descclassname">moten.core.</code><code class="sig-name descname">dotspatial_frames</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spatial_gabor_sin</span></em>, <em class="sig-param"><span class="n">spatial_gabor_cos</span></em>, <em class="sig-param"><span class="n">stimulus</span></em>, <em class="sig-param"><span class="n">masklimit</span><span class="o">=</span><span class="default_value">0.001</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#dotspatial_frames"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.core.dotspatial_frames" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dot the spatial gabor filters filter with the stimulus</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spatial_gabor_cos</strong> (<em>spatial_gabor_sin</em><em>,</em>) – Spatial gabor quadrature pair</p></li>
-<li><p><strong>stimuli</strong> (<em>2D np.array</em><em> (</em><em>n</em><em>, </em><em>vdim*hdim</em><em>)</em>) – The movie frames with the spatial dimension collapsed.</p></li>
+<li><p><strong>spatial_gabor_sin</strong> (<em>np.array</em><em>, </em><em>(</em><em>vdim</em><em>,</em><em>hdim</em><em>)</em>) – </p></li>
+<li><p><strong>spatial_gabor_cos</strong> (<em>np.array</em><em>, </em><em>(</em><em>vdim</em><em>,</em><em>hdim</em><em>)</em>) – Spatial gabor quadrature pair</p></li>
+<li><p><strong>stimulus</strong> (<em>2D np.array</em><em> (</em><em>nimages</em><em>, </em><em>vdim*hdim</em><em>)</em>) – The movie frames with the spatial dimension collapsed.</p></li>
 <li><p><strong>masklimit</strong> (<em>float-like</em>) – Threshold to find the non-zero filter region</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>channel_sin, channel_cos</strong> – The filter response to each stimulus
-The quadrature pair can be combined: (x^2 + y^2)^0.5</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray, (n, )</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>channel_sin</strong> (<em>np.ndarray, (nimages, )</em>)</p></li>
+<li><p><strong>channel_cos</strong> (<em>np.ndarray, (nimages, )</em>) – The filter response to each stimulus
+The quadrature pair can be combined: (x^2 + y^2)^0.5</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -238,30 +243,35 @@ then multiplied by a gaussian.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>vhsize</strong> (<em>array-like</em><em>, </em><em>(</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – Defines spatial size of the filter
-<cite>vdim</cite> : vertical dimension size
-<cite>hdim</cite> : horizontal dimension size</p></li>
+<li><p><strong>vhsize</strong> (<em>tuple of ints</em><em>,  </em><em>(</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – Size of the stimulus in pixels (vdim, hdim)
+<cite>vdim</cite> : vertical dimension
+<cite>hdim</cite> : horizontal dimension</p></li>
 <li><p><strong>stimulus_fps</strong> (<em>scalar</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Stimulus playback speed in frames per second.</p></li>
-<li><p><strong>centerv</strong> (<em>centerh</em><em>,</em>) – Horizontal and vertical position in space, respectively.
-The image center is (0.5,0.5) for square aspect ratios</p></li>
-<li><p><strong>direction</strong> (<em>float</em><em>, </em><em>degrees</em>) – Direction of spatial motion</p></li>
-<li><p><strong>spatial_freq</strong> (<em>float</em>) – Spatial frequency</p></li>
-<li><p><strong>spatial_env</strong> (<em>float</em>) – Spatial envelope (s.d. of the gaussian)</p></li>
-<li><p><strong>temporal_freq</strong> (<em>float</em>) – Temporal frequency</p></li>
-<li><p><strong>temporal_env</strong> (<em>float</em>) – Temporal envelope (s.d. of gaussian)</p></li>
-<li><p><strong>spatial_phase_offset</strong> (<em>float</em><em>, </em><em>degrees</em>) – Phase offset for the spatial sinusoid</p></li>
+<li><p><strong>centerv</strong> (<em>scalar</em>) – Vertical filter position from top of frame (min=0, max=1.0).</p></li>
+<li><p><strong>centerh</strong> (<em>scalar</em>) – Horizontal filter position from left of frame (min=0, max=aspect_ratio).</p></li>
+<li><p><strong>direction</strong> (<em>scalar</em><em>, </em><em>[</em><em>degrees</em><em>]</em>) – Direction of filter motion. Degree position corresponds
+to standard unit-circle coordinates (i.e. 0=right, 180=left).</p></li>
+<li><p><strong>spatial_freq</strong> (<em>float</em><em>, </em><em>[</em><em>cycles-per-image</em><em>]</em>) – Spatial frequency of the filter.</p></li>
+<li><p><strong>temporal_freq</strong> (<em>float</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Temporal frequency of the filter</p></li>
+<li><p><strong>filter_temporal_width</strong> (<em>int</em>) – Temporal window of the motion-energy filter (e.g. 10).
+Defaults to approximately 0.666[secs] (<cite>floor(stimulus_fps*(2/3))</cite>).</p></li>
 <li><p><strong>aspect_ratio</strong> (<em>optional</em><em>, </em><em>'auto'</em><em> or </em><em>float-like</em><em>,</em>) – Defaults to stimulus aspect ratio: hdim/vdim
 Useful for preserving the spatial gabors circular even
 when images have non-square aspect ratios. For example,
 a 16:9 image would have <a href="#id1"><span class="problematic" id="id2">`</span></a>aspect_ratio`=16/9.</p></li>
+<li><p><strong>spatial_env</strong> (<em>float</em>) – Spatial envelope (s.d. of the gaussian)</p></li>
+<li><p><strong>temporal_env</strong> (<em>float</em>) – Temporal envelope (s.d. of gaussian)</p></li>
+<li><p><strong>spatial_phase_offset</strong> (<em>float</em><em>, </em><em>[</em><em>degrees</em>) – Phase offset for the spatial sinusoid</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><ul class="simple">
-<li><p><strong>spatial_gabor_sin, spatial_gabor_cos</strong> (<em>np.array, (vdim,hdim)</em>) – Spatial gabor quadrature pair. <cite>spatial_gabor_cos</cite> has
-a 90 degree phase offset relative to <cite>spatial_gabor_sin</cite></p></li>
-<li><p><strong>temporal_gabor_sin, temporal_gabor_cos</strong> (<em>np.array, (tdim)</em>) – Temporal gabor quadrature pair. <cite>temporal_gabor_cos</cite> has
-a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p></li>
+<li><p><strong>spatial_gabor_sin</strong> (<em>2D np.ndarray, (vdim, hdim)</em>)</p></li>
+<li><p><strong>spatial_gabor_cos</strong> (<em>2D np.ndarray, (vdim, hdim)</em>) – Spatial gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">spatial_gabor_cos</span></code> has
+a 90 degree phase offset relative to <code class="docutils literal notranslate"><span class="pre">spatial_gabor_sin</span></code></p></li>
+<li><p><strong>temporal_gabor_sin</strong> (1D np.ndarray, (<cite>filter_temporal_width</cite>,))</p></li>
+<li><p><strong>temporal_gabor_cos</strong> (1D np.ndarray, (<cite>filter_temporal_width</cite>,)) – Temporal gabor quadrature pair. <code class="docutils literal notranslate"><span class="pre">temporal_gabor_cos</span></code> has
+a 90 degree phase offset relative to <code class="docutils literal notranslate"><span class="pre">temporal_gabor_sin</span></code></p></li>
 </ul>
 </p>
 </dd>
@@ -277,59 +287,51 @@ a 90 degree phase offset relative to <cite>temporal_gabor_sin</cite></p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>stimulus_fps</strong> (<em>scalar</em><em>, </em><em>Hz</em>) – Temporal resolution of the stimulus (e..g. 15)</p></li>
-<li><p><strong>filter_temporal_width</strong> (<em>int</em><em>, </em><em>Hz</em>) – Temporal window of the motion-energy filter (e.g. 10)
-Defaults to approximately 0.666[secs] (int(stimulus_fps*(2/3))).</p></li>
-<li><p><strong>temporal_frequencies</strong> (<em>array-like</em><em>, </em><em>Hz</em>) – Temporal frequencies of the filters for use on the stimulus</p></li>
-<li><p><strong>spatial_frequencies</strong> (<em>array-like</em><em>, </em><em>degrees</em>) – Spatial frequencies for the filters</p></li>
-<li><p><strong>spatial_directions</strong> (<em>array-like</em><em>, </em><em>degrees</em>) – Direction of filter motion. Degree position corresponds
-to standard unit-circle coordinates.</p></li>
+<li><p><strong>stimulus_fps</strong> (<em>scalar</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Stimulus playback speed in frames per second.</p></li>
+<li><p><strong>spatial_frequencies</strong> (<em>array-like</em><em>, </em><em>[</em><em>cycles-per-image</em><em>]</em>) – Spatial frequencies for the filters</p></li>
+<li><p><strong>spatial_directions</strong> (<em>array-like</em><em>, </em><em>[</em><em>degrees</em><em>]</em>) – Direction of filter motion. Degree position corresponds
+to standard unit-circle coordinates (i.e. 0=right, 180=left).</p></li>
+<li><p><strong>temporal_frequencies</strong> (<em>array-like</em><em>, </em><em>[</em><em>Hz</em><em>]</em>) – Temporal frequencies of the filters</p></li>
+<li><p><strong>filter_temporal_width</strong> (<em>int</em>) – Temporal window of the motion-energy filter (e.g. 10).
+Defaults to approximately 0.666[secs] (<cite>floor(stimulus_fps*(2/3))</cite>).</p></li>
+<li><p><strong>aspect_ratio</strong> (<em>optional</em><em>, </em><em>'auto'</em><em> or </em><em>float-like</em><em>,</em>) – Defaults to stimulus aspect ratio: hdim/vdim
+Useful for preserving the spatial gabors circular even
+when images have non-square aspect ratios. For example,
+a 16:9 image would have <a href="#id3"><span class="problematic" id="id4">`</span></a>aspect_ratio`=16/9.</p></li>
+<li><p><strong>sf_gauss_ratio</strong> (<em>scalar</em>) – The ratio of spatial frequency to gaussian s.d.
+This controls the number of cycles in a filter</p></li>
+<li><p><strong>max_spatial_env</strong> (<em>scalar</em>) – Defines the maximum s.d. of the gaussian</p></li>
+<li><p><strong>gabor_spacing</strong> (<em>scalar</em>) – Defines the spacing between spatial gabors
+(in s.d. units)</p></li>
+<li><p><strong>tf_gauss_ratio</strong> (<em>scalar</em>) – The ratio of temporal frequency to gaussian s.d.
+This controls the number of temporal cycles</p></li>
+<li><p><strong>max_temp_env</strong> (<em>scalar</em>) – Defines the maximum s.d. of the temporal gaussian</p></li>
+<li><p><strong>include_edges</strong> (<em>bool</em>) – Determines whether to include filters at the edge
+of the image which might be partially outside the
+stimulus field-of-view</p></li>
 </ul>
 </dd>
-</dl>
-<dl class="simple">
-<dt>sf_gauss_ratio<span class="classifier">scalar</span></dt><dd><p>The ratio of spatial frequency to gaussian s.d.
-This controls the number of cycles in a filter</p>
-</dd>
-<dt>max_spatial_env<span class="classifier">scalar</span></dt><dd><p>Defines the maximum s.d. of the gaussian</p>
-</dd>
-<dt>gabor_spacing<span class="classifier">scalar</span></dt><dd><p>Defines the spacing between spatial gabors
-(in s.d. units)</p>
-</dd>
-<dt>tf_gauss_ratio<span class="classifier">scalar</span></dt><dd><p>The ratio of temporal frequency to gaussian s.d.
-This controls the number of temporal cycles</p>
-</dd>
-<dt>max_temp_env<span class="classifier">scalar</span></dt><dd><p>Defines the maximum s.d. of the temporal gaussian</p>
-</dd>
-<dt>aspect_ratio<span class="classifier">scalar, horizontal/vertical</span></dt><dd><p>The image aspect ratio. This ensures full image
-coverage for non-square images (e.g. 16:9)</p>
-</dd>
-<dt>include_edges<span class="classifier">bool</span></dt><dd><p>Determines whether to include filters at the edge
-of the image which might be partially outside the
-stimulus field-of-view</p>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><p><strong>gabor_parameters</strong> – Parameters that defined the motion-energy filter
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><p><strong>gabor_parameters</strong> – Parameters that define the motion-energy filter
 Each of the <cite>nfilters</cite> has the following parameters:</p>
 <blockquote>
 <div><ul class="simple">
-<li><p>centerh,centerv : x:horizontal and y:vertical position (‘0,0’ is top left)</p></li>
-<li><p>direction       : direction of motion [degrees] (‘0’ is rightwards)</p></li>
+<li><p>centerv,centerh : y:vertical and x:horizontal position (‘0,0’ is top left)</p></li>
+<li><p>direction       : direction of motion [degrees]</p></li>
 <li><p>spatial_freq    : spatial frequency [cpi]</p></li>
 <li><p>spatial_env     : spatial envelope (gaussian s.d.)</p></li>
 <li><p>temporal_freq   : temporal frequency [Hz]</p></li>
 <li><p>temporal_env    : temporal envelope (gaussian s.d.)</p></li>
-<li><p>filter_temporal_width : duration of filter in integer [frames]</p></li>
-<li><p>aspect_ratio    : stimulus aspect ratio e.g. 16:9 ~ 1.78</p></li>
-<li><p>stimulus_fps    : stimulus frames per second [Hz]</p></li>
+<li><p>filter_temporal_width : temporal window of filter [frames]</p></li>
+<li><p>aspect_ratio    : width/height</p></li>
+<li><p>stimulus_fps    : stimulus playback speed in frames per second</p></li>
+<li><p>spatial_phase_offset : filter phase offset in [degrees]</p></li>
 </ul>
 </div></blockquote>
 </p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>np.array, (nfilters, 7)</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.array, (nfilters, 11)</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -345,15 +347,17 @@ This is useful for visualization.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>spatial_gabor_cos</strong> (<em>spatial_gabor_sin</em><em>,</em>) – Spatial gabor quadrature pair</p></li>
-<li><p><strong>temporal_gabor_cos</strong> (<em>temporal_gabor_sin</em><em>,</em>) – Temporal gabor quadrature pair</p></li>
+<li><p><strong>spatial_gabor_sin</strong> (<em>np.array</em><em>, </em><em>(</em><em>vdim</em><em>,</em><em>hdim</em><em>)</em>) – </p></li>
+<li><p><strong>spatial_gabor_cos</strong> (<em>np.array</em><em>, </em><em>(</em><em>vdim</em><em>,</em><em>hdim</em><em>)</em>) – Spatial gabor quadrature pair</p></li>
+<li><p><strong>temporal_gabor_sin</strong> (<em>np.array</em><em>, </em><em>(</em><em>filter_temporal_width</em><em>,</em><em>)</em>) – </p></li>
+<li><p><strong>temporal_gabor_cos</strong> (<em>np.array</em><em>, </em><em>(</em><em>filter_temporal_width</em><em>,</em><em>)</em>) – Temporal gabor quadrature pair</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>motion_energy_filter</strong> – The 3D motion-energy filter</p>
+<dd class="field-even"><p><strong>motion_energy_filter</strong> – The motion-energy filter</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.array, (vdim, hdim, tdim)</p>
+<dd class="field-odd"><p>np.array, (vdim, hdim, filter_temporal_width)</p>
 </dd>
 </dl>
 </dd></dl>

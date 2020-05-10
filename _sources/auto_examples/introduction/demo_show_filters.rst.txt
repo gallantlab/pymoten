@@ -119,7 +119,7 @@ These are the filter parameters:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.650 seconds)
+   **Total running time of the script:** ( 0 minutes  3.383 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_show_filters.py:

@@ -157,22 +157,17 @@
 <span class="sd">    stimulus_vhsize : tuple of ints</span>
 <span class="sd">        Size of the stimulus in pixels (vdim, hdim)</span>
 <span class="sd">    stimulus_fps : scalar, [Hz]</span>
-<span class="sd">        The temporal frequency of the stimulus.</span>
+<span class="sd">        Stimulus playback speed in frames per second.</span>
 <span class="sd">    spatial_frequencies : array-like, [cycles-per-image]</span>
 <span class="sd">        Spatial frequencies for the filters</span>
 <span class="sd">    spatial_directions : array-like, [degrees]</span>
 <span class="sd">        Direction of filter motion. Degree position corresponds</span>
 <span class="sd">        to standard unit-circle coordinates (i.e. 0=right, 180=left).</span>
 <span class="sd">    temporal_frequencies : array-like, [Hz]</span>
-<span class="sd">        Temporal frequencies of the filters for use on the stimulus</span>
+<span class="sd">        Temporal frequencies of the filters</span>
 <span class="sd">    filter_temporal_width : int</span>
 <span class="sd">        Temporal window of the motion-energy filter (e.g. 10).</span>
 <span class="sd">        Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).</span>
-
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    See :func:`moten.core.mk_moten_pyramid_params` for more details on</span>
-<span class="sd">    making the pyramid.</span>
 
 <span class="sd">    Attributes</span>
 <span class="sd">    ----------</span>
@@ -199,6 +194,11 @@
 <span class="sd">    parameters_matrix : np.array, (nfilters, 11)</span>
 <span class="sd">        Parameters that defined the motion-energy filter.</span>
 <span class="sd">    parameters_names  : tuple of strings</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    See :func:`moten.core.mk_moten_pyramid_params` for more details on</span>
+<span class="sd">    making the pyramid.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">576</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
@@ -309,7 +309,7 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        centerv : scalar</span>
-<span class="sd">            Vertical filter from top of frame (min=0, max=1.0).</span>
+<span class="sd">            Vertical filter position from top of frame (min=0, max=1.0).</span>
 <span class="sd">        centerh : scalar</span>
 <span class="sd">            Horizontal filter position from left of frame (min=0, max=aspect_ratio).</span>
 
@@ -340,11 +340,13 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        spatial_gabor_sin, spatial_gabor_cos : 2D np.ndarray, each with shape (vdim, hdim)</span>
+<span class="sd">        spatial_gabor_sin : 2D np.ndarray, (vdim, hdim)</span>
+<span class="sd">        spatial_gabor_cos : 2D np.ndarray, (vdim, hdim)</span>
 <span class="sd">            Spatial gabor quadrature pair. ``spatial_gabor_cos`` has</span>
 <span class="sd">            a 90 degree phase offset relative to ``spatial_gabor_sin``</span>
 
-<span class="sd">        temporal_gabor_sin, temporal_gabor_cos : 1D np.ndarray, each with shape (filter_temporal_width, )</span>
+<span class="sd">        temporal_gabor_sin : 1D np.ndarray, (`filter_temporal_width`,)</span>
+<span class="sd">        temporal_gabor_cos : 1D np.ndarray, (`filter_temporal_width`,)</span>
 <span class="sd">            Temporal gabor quadrature pair. ``temporal_gabor_cos`` has</span>
 <span class="sd">            a 90 degree phase offset relative to ``temporal_gabor_sin``</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -371,7 +373,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        temporal_gabor_sin, temporal_gabor_cos : 1D np.ndarray, each with shape (filter_temporal_width, )</span>
+<span class="sd">        temporal_gabor_sin : 1D np.ndarray, (`filter_temporal_width`,)</span>
+<span class="sd">        temporal_gabor_cos : 1D np.ndarray, (`filter_temporal_width`,)</span>
 <span class="sd">            Temporal gabor quadrature pair. ``temporal_gabor_cos`` has</span>
 <span class="sd">            a 90 degree phase offset relative to ``temporal_gabor_sin``</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -389,7 +392,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        spatial_gabor_sin, spatial_gabor_cos : 2D np.ndarray, each with shape (vdim, hdim)</span>
+<span class="sd">        spatial_gabor_sin : 2D np.ndarray, (vdim, hdim)</span>
+<span class="sd">        spatial_gabor_cos : 2D np.ndarray, (vdim, hdim)</span>
 <span class="sd">            Spatial gabor quadrature pair. ``spatial_gabor_cos`` has</span>
 <span class="sd">            a 90 degree phase offset relative to ``spatial_gabor_sin``</span>
 <span class="sd">        &#39;&#39;&#39;</span>
@@ -576,14 +580,14 @@
 <span class="sd">    stimulus : np.array, (nimages, vdim, hdim)</span>
 <span class="sd">        The movie frames.</span>
 <span class="sd">    stimulus_fps : scalar, [Hz]</span>
-<span class="sd">        The temporal frequency of the stimulus.</span>
+<span class="sd">        Stimulus playback speed in frames per second.</span>
 <span class="sd">    spatial_frequencies : array-like, [cycles-per-image]</span>
 <span class="sd">        Spatial frequencies for the filters</span>
 <span class="sd">    spatial_directions : array-like, [degrees]</span>
 <span class="sd">        Direction of filter motion. Degree position corresponds</span>
 <span class="sd">        to standard unit-circle coordinates (i.e. 0=right, 180=left).</span>
 <span class="sd">    temporal_frequencies : array-like, [Hz]</span>
-<span class="sd">        Temporal frequencies of the filters for use on the stimulus</span>
+<span class="sd">        Temporal frequencies of the filters</span>
 <span class="sd">    filter_temporal_width : int</span>
 <span class="sd">        Temporal window of the motion-energy filter (e.g. 10).</span>
 <span class="sd">        Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).</span>
