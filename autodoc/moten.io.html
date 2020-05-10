@@ -189,12 +189,51 @@
 <dl class="py function">
 <dt id="moten.io.generate_frame_difference_from_greyvideo">
 <code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">generate_frame_difference_from_greyvideo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em>, <em class="sig-param"><span class="n">dtype</span><span class="o">=</span><span class="default_value">'float32'</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/io.html#generate_frame_difference_from_greyvideo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.io.generate_frame_difference_from_greyvideo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Generates the difference between the current frame and the previous frame.</p>
+<p class="rubric">Notes</p>
+<p>The video is assumed to be greyscale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video_file</strong> (<em>str</em>) – Full path to the video file.
+This can be a video file on disk or from a website.</p></li>
+<li><p><strong>size</strong> (<em>optional</em><em>, </em><em>tuple</em><em> (</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.
+If specified, the image is scaled or shrunk to this size.
+If not specified, the original size is kept.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
+If unspecified, all frames are loaded.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><strong>greyscale_image_difference</strong> (<em>2D np.ndarray, (vdim, hdim)</em>) – The difference image: (current_frame - previous_frame).
+Pixel values are in the 0-1 range.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="moten.io.generate_frames_from_greyvideo">
 <code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">generate_frames_from_greyvideo</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/io.html#generate_frames_from_greyvideo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.io.generate_frames_from_greyvideo" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Yields one frame from the greyscale video file.</p>
+<p class="rubric">Notes</p>
+<p>The video is assumed to be greyscale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video_file</strong> (<em>str</em>) – Full path to the video file.
+This can be a video file on disk or from a website.</p></li>
+<li><p><strong>size</strong> (<em>optional</em><em>, </em><em>tuple</em><em> (</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.
+If specified, the image is scaled or shrunk to this size.
+If not specified, the original size is kept.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
+If unspecified, all frames are loaded.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><strong>greyscale_image</strong> (<em>2D np.ndarray, (vdim, hdim)</em>) – Pixel values are in the 0-1 range.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py function">
 <dt id="moten.io.imagearray2luminance">
@@ -209,10 +248,11 @@
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The luminance image representation (0-100 range)</p>
+<dd class="field-even"><p><strong>luminance_array</strong> – The luminance image representation.
+Pixel values are in the 0-100 range.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>luminance_array = 3D np.ndarray (n, vdim, hdim)</p>
+<dd class="field-odd"><p>3D np.ndarray (nimages, vdim, hdim)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -262,8 +302,25 @@ If provided the images will be scaled to this size.</p></li>
 <dl class="py function">
 <dt id="moten.io.video2grey">
 <code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">video2grey</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/io.html#video2grey"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.io.video2grey" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>size (optional)<span class="classifier">tuple, (vdim, hdim)</span></dt><dd><p>The desired output image size</p>
+<dd><p>Convert the video frames to greyscale images.</p>
+<p>This function computes the mean across the RGB color channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video_file</strong> (<em>str</em>) – Full path to the video file.
+This can be a video file on disk or from a website.</p></li>
+<li><p><strong>size</strong> (<em>optional</em><em>, </em><em>tuple</em><em> (</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.
+If specified, the image is scaled or shrunk to this size.
+If not specified, the original size is kept.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
+If unspecified, all frames are loaded.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>greyscale_images</strong> – Pixel values are in the 0-1 range.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>3D np.ndarray, (nimages, vdim, hdim)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -271,8 +328,28 @@ If provided the images will be scaled to this size.</p></li>
 <dl class="py function">
 <dt id="moten.io.video2luminance">
 <code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">video2luminance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/io.html#video2luminance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.io.video2luminance" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>size (optional)<span class="classifier">tuple, (vdim, hdim)</span></dt><dd><p>The desired output image size</p>
+<dd><p>Convert the video frames to luminance images.</p>
+<p>Internally, this function loads one video frame into memory at a time.
+Tt converts the RGB pixel values from one frame to CIE-LAB pixel values.
+It then keeps the luminance channel only. This process is performed
+for all <code class="docutils literal notranslate"><span class="pre">nimages</span></code> requested or until we reach the end of the video file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video_file</strong> (<em>str</em>) – Full path to the video file.
+This can be a video file on disk or from a website.</p></li>
+<li><p><strong>size</strong> (<em>optional</em><em>, </em><em>tuple</em><em> (</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>) – The desired output image size.
+If specified, the image is scaled or shrunk to this size.
+If not specified, the original size is kept.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
+If unspecified, all frames are loaded.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>luminance_images</strong> – Pixel values are in the 0-100 range.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>3D np.ndarray, (nimages, vdim, hdim)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -281,16 +358,19 @@ If provided the images will be scaled to this size.</p></li>
 <dt id="moten.io.video_buffer">
 <code class="sig-prename descclassname">moten.io.</code><code class="sig-name descname">video_buffer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">video_file</span></em>, <em class="sig-param"><span class="n">nimages</span><span class="o">=</span><span class="default_value">inf</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/io.html#video_buffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#moten.io.video_buffer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generator for a video file.</p>
-<p>Yields individual uint8 images from a video file.</p>
+<p>Yields individual uint8 images from a video file.
+The video is loaded into memory one frame at a time.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>video_file</strong> (<em>str</em>) – Full path to the video file</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>video_file</strong> (<em>str</em>) – Full path to the video file.
+This can be a video file on disk or from a website.</p></li>
+<li><p><strong>nimages</strong> (<em>optional</em><em>, </em><em>int</em>) – If specified, only <code class="docutils literal notranslate"><span class="pre">nimages</span></code> frames are converted to luminance.
+If unspecified, all frames are loaded.</p></li>
+</ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><strong>vbuff</strong> – Each <code class="docutils literal notranslate"><span class="pre">__next()__</span></code> call yields an RGB frame from video.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>generator</p>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><strong>video_frame</strong> (<em>uint8 3D np.ndarray, (vdim, hdim, color)</em>) – Each <code class="docutils literal notranslate"><span class="pre">next()</span></code> call yields an uint8 RGB frame from video.</p>
 </dd>
 </dl>
 <p class="rubric">Example</p>

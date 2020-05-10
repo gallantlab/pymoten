@@ -197,16 +197,21 @@
     <span class="sd">&#39;&#39;&#39;Generator for a video file.</span>
 
 <span class="sd">    Yields individual uint8 images from a video file.</span>
+<span class="sd">    The video is loaded into memory one frame at a time.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    video_file : str</span>
-<span class="sd">        Full path to the video file</span>
+<span class="sd">        Full path to the video file.</span>
+<span class="sd">        This can be a video file on disk or from a website.</span>
+<span class="sd">    nimages : optional, int</span>
+<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
+<span class="sd">        If unspecified, all frames are loaded.</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    vbuff : generator</span>
-<span class="sd">        Each ``__next()__`` call yields an RGB frame from video.</span>
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    video_frame : uint8 3D np.ndarray, (vdim, hdim, color)</span>
+<span class="sd">        Each ``next()`` call yields an uint8 RGB frame from video.</span>
 
 <span class="sd">    Example</span>
 <span class="sd">    -------</span>
@@ -231,6 +236,30 @@
 
 
 <div class="viewcode-block" id="generate_frames_from_greyvideo"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.generate_frames_from_greyvideo">[docs]</a><span class="k">def</span> <span class="nf">generate_frames_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Yields one frame from the greyscale video file.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The video is assumed to be greyscale.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    video_file : str</span>
+<span class="sd">        Full path to the video file.</span>
+<span class="sd">        This can be a video file on disk or from a website.</span>
+<span class="sd">    size : optional, tuple (vdim, hdim)</span>
+<span class="sd">        The desired output image size.</span>
+<span class="sd">        If specified, the image is scaled or shrunk to this size.</span>
+<span class="sd">        If not specified, the original size is kept.</span>
+<span class="sd">    nimages : optional, int</span>
+<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
+<span class="sd">        If unspecified, all frames are loaded.</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    greyscale_image : 2D np.ndarray, (vdim, hdim)</span>
+<span class="sd">        Pixel values are in the 0-1 range.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
     <span class="n">grey_video</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">imageidx</span><span class="p">,</span> <span class="n">image_rgb</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vbuffer</span><span class="p">):</span>
@@ -244,6 +273,31 @@
                                              <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                              <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
                                              <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;Generates the difference between the current frame and the previous frame.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The video is assumed to be greyscale.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    video_file : str</span>
+<span class="sd">        Full path to the video file.</span>
+<span class="sd">        This can be a video file on disk or from a website.</span>
+<span class="sd">    size : optional, tuple (vdim, hdim)</span>
+<span class="sd">        The desired output image size.</span>
+<span class="sd">        If specified, the image is scaled or shrunk to this size.</span>
+<span class="sd">        If not specified, the original size is kept.</span>
+<span class="sd">    nimages : optional, int</span>
+<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
+<span class="sd">        If unspecified, all frames are loaded.</span>
+
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    greyscale_image_difference : 2D np.ndarray, (vdim, hdim)</span>
+<span class="sd">        The difference image: (current_frame - previous_frame).</span>
+<span class="sd">        Pixel values are in the 0-1 range.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
     <span class="n">previous_frame</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">frame_index</span><span class="p">,</span> <span class="n">image_rgb</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">vbuffer</span><span class="p">):</span>
@@ -256,10 +310,30 @@
 
 
 <div class="viewcode-block" id="video2luminance"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.video2luminance">[docs]</a><span class="k">def</span> <span class="nf">video2luminance</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    size (optional) : tuple, (vdim, hdim)</span>
-<span class="sd">        The desired output image size</span>
+    <span class="sd">&#39;&#39;&#39;Convert the video frames to luminance images.</span>
 
+<span class="sd">    Internally, this function loads one video frame into memory at a time.</span>
+<span class="sd">    Tt converts the RGB pixel values from one frame to CIE-LAB pixel values.</span>
+<span class="sd">    It then keeps the luminance channel only. This process is performed</span>
+<span class="sd">    for all ``nimages`` requested or until we reach the end of the video file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    video_file : str</span>
+<span class="sd">        Full path to the video file.</span>
+<span class="sd">        This can be a video file on disk or from a website.</span>
+<span class="sd">    size : optional, tuple (vdim, hdim)</span>
+<span class="sd">        The desired output image size.</span>
+<span class="sd">        If specified, the image is scaled or shrunk to this size.</span>
+<span class="sd">        If not specified, the original size is kept.</span>
+<span class="sd">    nimages : optional, int</span>
+<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
+<span class="sd">        If unspecified, all frames are loaded.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    luminance_images : 3D np.ndarray, (nimages, vdim, hdim)</span>
+<span class="sd">        Pixel values are in the 0-100 range.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
     <span class="n">luminance_video</span> <span class="o">=</span> <span class="p">[]</span>
@@ -271,10 +345,27 @@
 
 
 <div class="viewcode-block" id="video2grey"><a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.video2grey">[docs]</a><span class="k">def</span> <span class="nf">video2grey</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    size (optional) : tuple, (vdim, hdim)</span>
-<span class="sd">        The desired output image size</span>
+    <span class="sd">&#39;&#39;&#39;Convert the video frames to greyscale images.</span>
 
+<span class="sd">    This function computes the mean across the RGB color channels.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    video_file : str</span>
+<span class="sd">        Full path to the video file.</span>
+<span class="sd">        This can be a video file on disk or from a website.</span>
+<span class="sd">    size : optional, tuple (vdim, hdim)</span>
+<span class="sd">        The desired output image size.</span>
+<span class="sd">        If specified, the image is scaled or shrunk to this size.</span>
+<span class="sd">        If not specified, the original size is kept.</span>
+<span class="sd">    nimages : optional, int</span>
+<span class="sd">        If specified, only ``nimages`` frames are converted to luminance.</span>
+<span class="sd">        If unspecified, all frames are loaded.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    greyscale_images : 3D np.ndarray, (nimages, vdim, hdim)</span>
+<span class="sd">        Pixel values are in the 0-1 range.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">vbuffer</span> <span class="o">=</span> <span class="n">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
     <span class="n">grey_video</span> <span class="o">=</span> <span class="p">[]</span>
@@ -302,8 +393,9 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    luminance_array = 3D np.ndarray (n, vdim, hdim)</span>
-<span class="sd">        The luminance image representation (0-100 range)</span>
+<span class="sd">    luminance_array : 3D np.ndarray (nimages, vdim, hdim)</span>
+<span class="sd">        The luminance image representation.</span>
+<span class="sd">        Pixel values are in the 0-100 range.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">misc</span>
     <span class="kn">from</span> <span class="nn">moten.colorspace</span> <span class="kn">import</span> <span class="n">rgb2lab</span>
