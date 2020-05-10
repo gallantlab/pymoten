@@ -17,7 +17,9 @@ install:
 # command to run tests
 script:
   # run tests
-  - pytest --cov=./
+  - pytest -v --cov=./
+
+after_success:
   # test installation
   - python setup.py install
   # install packages for docs and make docs
