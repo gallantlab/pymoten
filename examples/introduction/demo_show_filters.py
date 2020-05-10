@@ -1,9 +1,9 @@
 '''
 =======================================
- Visualizing the motion-energy filters
+ Visualizing the motion energy filters
 =======================================
 
-This example demonstrates how to display a motion-energy filter from the pyramid.
+This example demonstrates how to display a motion energy filter from the pyramid.
 '''
 import moten
 

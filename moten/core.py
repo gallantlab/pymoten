@@ -81,7 +81,7 @@ def project_stimulus(stimulus,
                      output_nonlinearity=log_compress,
                      vhsize=(),
                      dtype='float32'):
-    '''Compute the motion-energy filter responses to the stimuli.
+    '''Compute the motion energy filter responses to the stimuli.
 
     Parameters
     ----------
@@ -142,9 +142,9 @@ def mk_3d_gabor(vhsize,
                 temporal_env=0.3,
                 spatial_phase_offset=0.0,
                 ):
-    '''Make a motion-energy filter.
+    '''Make a motion energy filter.
 
-    A motion-energy filter is a 3D gabor with
+    A motion energy filter is a 3D gabor with
     two spatial and one temporal dimension.
     Each dimension is defined by two sine waves which
     differ in phase by 90 degrees. The sine waves are
@@ -170,7 +170,7 @@ def mk_3d_gabor(vhsize,
     temporal_freq : float, [Hz]
         Temporal frequency of the filter
     filter_temporal_width : int
-        Temporal window of the motion-energy filter (e.g. 10).
+        Temporal window of the motion energy filter (e.g. 10).
         Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).
     aspect_ratio : optional, 'auto' or float-like,
         Defaults to stimulus aspect ratio: hdim/vdim
@@ -322,7 +322,7 @@ def dotdelay_frames(spatial_gabor_sin, spatial_gabor_cos,
                     temporal_gabor_sin, temporal_gabor_cos,
                     stimulus,
                     masklimit=0.001):
-    '''Convolve the motion-energy filter with a stimulus
+    '''Convolve the motion energy filter with a stimulus
 
     Parameters
     ----------
@@ -380,7 +380,7 @@ def dotdelay_frames(spatial_gabor_sin, spatial_gabor_cos,
 
 def mk_spatiotemporal_gabor(spatial_gabor_sin, spatial_gabor_cos,
                             temporal_gabor_sin, temporal_gabor_cos):
-    '''Make 3D motion-energy filter defined by the spatial and temporal gabors.
+    '''Make 3D motion energy filter defined by the spatial and temporal gabors.
 
     Takes the output of :func:`mk_3d_gabor` and constructs the 3D filter.
     This is useful for visualization.
@@ -397,7 +397,7 @@ def mk_spatiotemporal_gabor(spatial_gabor_sin, spatial_gabor_cos,
     Returns
     -------
     motion_energy_filter : np.array, (vdim, hdim, filter_temporal_width)
-        The motion-energy filter
+        The motion energy filter
     '''
     a = -spatial_gabor_sin.ravel()[...,None] @ temporal_gabor_sin[...,None].T
     b =  spatial_gabor_cos.ravel()[...,None] @ temporal_gabor_cos[...,None].T
@@ -491,7 +491,7 @@ def compute_filter_responses(stimulus,
                              dozscore=True,
                              dtype=np.float64,
                              pyramid_parameters={}):
-    """Compute the motion-energy filters' response to the stimuli.
+    """Compute the motion energy filters' response to the stimuli.
 
     Parameters
     ----------
@@ -520,7 +520,7 @@ def compute_filter_responses(stimulus,
 
     pyramid_parameters: dict
         See :func:`mk_moten_pyramid_params` for details on parameters
-        specifiying a motion-energy pyramid.
+        specifiying a motion energy pyramid.
 
     Returns
     -------
@@ -588,7 +588,7 @@ def mk_moten_pyramid_params(stimulus_fps,
                             spatial_phase_offset=0.0,
                             include_edges=False,
                             ):
-    """Parametrize a motion-energy pyramid that tiles the stimulus.
+    """Parametrize a motion energy pyramid that tiles the stimulus.
 
     Parameters
     ----------
@@ -602,7 +602,7 @@ def mk_moten_pyramid_params(stimulus_fps,
     temporal_frequencies : array-like, [Hz]
         Temporal frequencies of the filters
     filter_temporal_width : int
-        Temporal window of the motion-energy filter (e.g. 10).
+        Temporal window of the motion energy filter (e.g. 10).
         Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).
     aspect_ratio : optional, 'auto' or float-like,
         Defaults to stimulus aspect ratio: hdim/vdim
@@ -633,7 +633,7 @@ def mk_moten_pyramid_params(stimulus_fps,
     parameter_names : list of strings
         The name of the parameters
     gabor_parameters : 2D np.ndarray, (nfilters, 11)
-        Parameters that define the motion-energy filter
+        Parameters that define the motion energy filter
         Each of the `nfilters` has the following parameters:
             * centerv,centerh : y:vertical and x:horizontal position ('0,0' is top left)
             * direction       : direction of motion [degrees]

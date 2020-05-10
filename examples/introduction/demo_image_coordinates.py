@@ -3,7 +3,7 @@
  Image coordinates
 ===================
 
-Description of the image coordinates used to define the motion-energy filters.
+Description of the image coordinates used to define the motion energy filters.
 
 Coordinates are specified as (vertical, horizontal).
 

@@ -24,11 +24,11 @@ default_pyramids = pyramids.DefaultPyramids()
 
 
 def get_default_pyramid(vhsize=(144, 256), fps=24, **kwargs):
-    '''Construct a motion-energy pyramid
+    '''Construct a motion energy pyramid
 
-    A motion-energy pyramid consists of a set of
+    A motion energy pyramid consists of a set of
     spatio-temporal Gabor filters that tile the screen.
-    Motion-energy features are extracted by convolving the
+    motion energy features are extracted by convolving the
     spatio-temporal Gabor filters with the stimulus movie.
 
     Parameters

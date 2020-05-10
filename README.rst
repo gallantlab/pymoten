@@ -8,7 +8,7 @@
 What is pymoten?
 ================
 
-A python package that provides a convenient way to extract motion-energy
+A python package that provides a convenient way to extract motion energy
 features from video using a pyramid of spatio-temporal Gabor filters. The filters
 are created at multiple spatial and temporal frequencies, directions of motion,
 x-y positions, and sizes. Each filter quadrature-pair is convolved with the
@@ -47,7 +47,7 @@ Example using synthetic data
    # Create a pyramid of spatio-temporal gabor filters
    pyramid = moten.get_default_pyramid(vhsize=(vdim, hdim), fps=24)
 
-   # Compute motion-energy features
+   # Compute motion energy features
    moten_features = pyramid.project_stimulus(noise_movie)
 
 
@@ -65,7 +65,7 @@ Simple example using a video file
    nimages, vdim, hdim = luminance_images.shape
    pyramid = moten.get_default_pyramid(vhsize=(vdim, hdim), fps=24)
 
-   # Compute motion-energy features
+   # Compute motion energy features
    moten_features = pyramid.project_stimulus(luminance_images)
 
 
@@ -90,5 +90,5 @@ References
    spatiotemporal receptive field model explains responses of area MT neurons
    to naturalistic movies. Journal of Neuroscience, 31(41), 14551-14564.
 =======
-   
-A MATLAB implementation can be found `here <https://github.com/gallantlab/motion_energy_matlab/>`_. 
+
+A MATLAB implementation can be found `here <https://github.com/gallantlab/motion_energy_matlab/>`_.

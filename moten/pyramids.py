@@ -34,11 +34,11 @@ __all__ = ['MotionEnergyPyramid',
 ##############################
 
 class MotionEnergyPyramid(object):
-    '''Construct a motion-energy pyramid that tiles the stimulus.
+    '''Construct a motion energy pyramid that tiles the stimulus.
 
-    Generates motion-energy filters at the desired
+    Generates motion energy filters at the desired
     spatio-temporal frequencies and directions of motion.
-    Multiple motion-energy filters per spatio-temporal frequency
+    Multiple motion energy filters per spatio-temporal frequency
     are constructed and each is centered at different locations
     in the image in order to tile the stimulus.
 
@@ -56,14 +56,14 @@ class MotionEnergyPyramid(object):
     temporal_frequencies : array-like, [Hz]
         Temporal frequencies of the filters
     filter_temporal_width : int
-        Temporal window of the motion-energy filter (e.g. 10).
+        Temporal window of the motion energy filter (e.g. 10).
         Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).
 
     Attributes
     ----------
     nfilters : int
     filters : list of dicts
-        Each item is a dict defining a motion-energy filter.
+        Each item is a dict defining a motion energy filter.
         Each of the `nfilters` has the following parameters:
             * centerv,centerh : y:vertical and x:horizontal position ('0,0' is top left)
             * direction       : direction of motion [degrees]
@@ -82,7 +82,7 @@ class MotionEnergyPyramid(object):
     definition : dict
         Parameters used to define the pyramid.
     parameters_matrix : np.array, (nfilters, 11)
-        Parameters that defined the motion-energy filter.
+        Parameters that defined the motion energy filter.
     parameters_names  : tuple of strings
 
     Notes
@@ -220,7 +220,7 @@ class MotionEnergyPyramid(object):
         return new_filters
 
     def get_filter_spatiotemporal_quadratures(self, filterid=0):
-        '''Generate the spatial and temporal arrays that define the motion-energy filter.
+        '''Generate the spatial and temporal arrays that define the motion energy filter.
 
         Parameters
         ----------
@@ -253,7 +253,7 @@ class MotionEnergyPyramid(object):
         return sgabor0, sgabor90, tgabor0, tgabor90
 
     def get_filter_temporal_quadrature(self, filterid=0):
-        '''Generate the temporal arrays that define the motion-energy filter.
+        '''Generate the temporal arrays that define the motion energy filter.
 
         Parameters
         ----------
@@ -272,7 +272,7 @@ class MotionEnergyPyramid(object):
         return tgabor0, tgabor90
 
     def get_filter_spatial_quadrature(self, filterid=0):
-        '''Generate the spatial arrays that define the motion-energy filter.
+        '''Generate the spatial arrays that define the motion energy filter.
 
         Parameters
         ----------
@@ -327,13 +327,13 @@ class MotionEnergyPyramid(object):
 
 
     def show_filter(self, filterid=0, speed=1.0, background=None):
-        '''Display the motion-energy filter as an animation.
+        '''Display the motion energy filter as an animation.
 
         Parameters
         ----------
         filterid : int, or dict
             If int, it's the index of the filter to display.
-            If dict, it's a motion-energy filter definition.
+            If dict, it's a motion energy filter definition.
 
         Returns
         -------
@@ -389,7 +389,7 @@ class MotionEnergyPyramid(object):
                          output_nonlinearity=utils.log_compress,
                          dtype='float32',
                          use_cuda=False):
-        '''Compute the motion-energy filter responses to the stimulus.
+        '''Compute the motion energy filter responses to the stimulus.
 
         Parameters
         ----------
@@ -457,11 +457,11 @@ class MotionEnergyPyramid(object):
 
 
 class StimulusMotionEnergy(object):
-    '''Parametrize a motion-energy pyramid that tiles the stimulus.
+    '''Parametrize a motion energy pyramid that tiles the stimulus.
 
-    Generates motion-energy filters at the desired
+    Generates motion energy filters at the desired
     spatio-temporal frequencies and directions of motion.
-    Multiple motion-energy filters per spatio-temporal frequency
+    Multiple motion energy filters per spatio-temporal frequency
     are constructed and each is centered at different locations
     in the image in order to tile the stimulus.
 
@@ -479,7 +479,7 @@ class StimulusMotionEnergy(object):
     temporal_frequencies : array-like, [Hz]
         Temporal frequencies of the filters
     filter_temporal_width : int
-        Temporal window of the motion-energy filter (e.g. 10).
+        Temporal window of the motion energy filter (e.g. 10).
         Defaults to approximately 0.666[secs] (`floor(stimulus_fps*(2/3))`).
 
     Attributes
@@ -487,7 +487,7 @@ class StimulusMotionEnergy(object):
     stimulus : 2D np.ndarray, (nimages, vdim*hdim)
         Time-space representation of stimulus
     view : :class:`MotionEnergyPyramid`
-        Full description of the motion-energy pyramid.
+        Full description of the motion energy pyramid.
     nimages : int
         Number of video frames
     nfilters : int
@@ -514,7 +514,7 @@ class StimulusMotionEnergy(object):
         Notes
         -----
         See :class:`MotionEnergyPyramid` for more detail on
-        keyword arguments used to construct the motion-energy pyramid.
+        keyword arguments used to construct the motion energy pyramid.
         '''
         nimages, vdim, hdim = stimulus.shape
         stimulus_vhsize = (vdim, hdim)
@@ -565,7 +565,7 @@ class StimulusMotionEnergy(object):
                 quadrature_combination=utils.sqrt_sum_squares,
                 output_nonlinearity=utils.log_compress,
                 dtype='float32'):
-        '''Compute the motion-energy filter responses to the stimulus.
+        '''Compute the motion energy filter responses to the stimulus.
 
         Parameters
         ----------

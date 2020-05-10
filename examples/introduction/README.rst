@@ -1,2 +1,2 @@
-Motion-energy pyramids
+Motion energy pyramids
 ----------------------

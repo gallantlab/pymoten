@@ -62,7 +62,7 @@ def test_static():
 
 
 ##############################
-# motion-energy pyramid
+# motion energy pyramid
 ##############################
 pyramid = pyramids.MotionEnergyPyramid(stimulus_vhsize=(vdim, hdim),
                                        stimulus_fps=stimulus_fps,
@@ -76,7 +76,7 @@ outsin, outcos = pyramid.raw_project_stimulus(luminance_images, dtype=DTYPE)
 filter_definitions = pyramid.filters
 
 ##################################################
-# stimulus-specific motion-energy pyramid
+# stimulus-specific motion energy pyramid
 ##################################################
 stim_pyramid = pyramids.StimulusMotionEnergy(luminance_images,
                                              stimulus_fps,
@@ -169,7 +169,7 @@ def test_stimulus_batches():
                            output[first_frame:last_frame])
 
     # we have to include a window in order to avoid edge effects.
-    # This window is determined by the FOV of the motion-energy filter.
+    # This window is determined by the FOV of the motion energy filter.
     # which is stored in the pyramid definition
     filter_width = stim_pyramid.view.definition.filter_temporal_width
     window = int(filter_width/2)

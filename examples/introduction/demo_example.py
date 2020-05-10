@@ -1,9 +1,9 @@
 '''
 =======================================
- Using the motion-energy pyramid class
+ Using the motion energy pyramid class
 =======================================
 
-This example shows how to extract motion-energy features from a video.
+This example shows how to extract motion energy features from a video.
 
 First, we need to define the video we want to use. In this example, we'll use a small video. The video is 2.5 minutes in duration with a frame rate of 24fps. For the purposes of this example, we'll only use the first 200 frames.
 '''
@@ -29,7 +29,7 @@ luminance_images = moten.io.video2luminance(video_file, nimages=nimages)
 nimages, vdim, hdim = luminance_images.shape
 
 # %%
-# Next we need to construct the motion-energy pyramid. To achieve this, we must provide the size of the stimulus frames in pixels (``vdim`` and ``hdim``) and also the frame rate
+# Next we need to construct the motion energy pyramid. To achieve this, we must provide the size of the stimulus frames in pixels (``vdim`` and ``hdim``) and also the frame rate
 
 pyramid = moten.pyramids.MotionEnergyPyramid(stimulus_vhsize=(vdim, hdim),
                                              stimulus_fps=stimulus_fps)
@@ -37,7 +37,7 @@ pyramid = moten.pyramids.MotionEnergyPyramid(stimulus_vhsize=(vdim, hdim),
 print(pyramid)
 
 # %%
-# Finally, we use the method ``project_stimulus`` to compute the motion-energy features (see :meth:`moten.pyramids.MotionEnergyPyramid.project_stimulus`).
+# Finally, we use the method ``project_stimulus`` to compute the motion energy features (see :meth:`moten.pyramids.MotionEnergyPyramid.project_stimulus`).
 
 features = pyramid.project_stimulus(luminance_images)
 print(features.shape)
