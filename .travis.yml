@@ -41,3 +41,13 @@ deploy:
       # push only once
       python: "3.7"
     local_dir: docs/build/html/
+
+  - provider: pypi
+    user: "__token__"
+    password: $PYPI_TOKEN
+    on:
+      distributions: sdist
+      tags: true
+      branch: master
+      repo: gallantlab/pymoten
+      python: "3.7"
