@@ -89,6 +89,7 @@ References
 .. [2] Nishimoto, S., & Gallant, J. L. (2011). A three-dimensional
    spatiotemporal receptive field model explains responses of area MT neurons
    to naturalistic movies. Journal of Neuroscience, 31(41), 14551-14564.
+
 =======
 
 A MATLAB implementation can be found `here <https://github.com/gallantlab/motion_energy_matlab/>`_.
