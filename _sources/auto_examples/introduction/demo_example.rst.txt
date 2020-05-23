@@ -98,6 +98,7 @@ Finally, we use the method ``project_stimulus`` to compute the motion energy fea
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_example_001.png
+    :alt: demo example
     :class: sphx-glr-single-img
 
 
@@ -115,7 +116,7 @@ Finally, we use the method ``project_stimulus`` to compute the motion energy fea
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  34.408 seconds)
+   **Total running time of the script:** ( 0 minutes  28.740 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_example.py:

@@ -105,6 +105,7 @@ Different spatial frequencies
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_001.png
+    :alt: filter 0, filter 23, filter 88, filter 577
     :class: sphx-glr-single-img
 
 
@@ -123,6 +124,7 @@ Different locations
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_002.png
+    :alt: filter 46, filter 52, filter 58, filter 64
     :class: sphx-glr-single-img
 
 
@@ -140,6 +142,7 @@ Different directions
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_003.png
+    :alt: filter 88, filter 157, filter 202, filter 247
     :class: sphx-glr-single-img
 
 
@@ -149,7 +152,7 @@ Different directions
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.265 seconds)
+   **Total running time of the script:** ( 0 minutes  1.232 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_gabor_filters.py:

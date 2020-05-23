@@ -58,6 +58,7 @@ Load the first 300 images and spatially downsample the video.
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_batching_001.png
+    :alt: demo batching
     :class: sphx-glr-single-img
 
 
@@ -214,7 +215,7 @@ In this example, the stimulus (``luminance_images``) is already in memory and so
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  28.461 seconds)
+   **Total running time of the script:** ( 0 minutes  27.459 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_batching.py:

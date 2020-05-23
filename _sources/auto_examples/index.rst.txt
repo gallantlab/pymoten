@@ -30,6 +30,7 @@ Motion energy pyramids
 .. only:: html
 
  .. figure:: /auto_examples/introduction/images/thumb/sphx_glr_demo_example_thumb.png
+     :alt: Using the motion energy pyramid class
 
      :ref:`sphx_glr_auto_examples_introduction_demo_example.py`
 
@@ -50,6 +51,7 @@ Motion energy pyramids
 .. only:: html
 
  .. figure:: /auto_examples/introduction/images/thumb/sphx_glr_demo_show_filters_thumb.png
+     :alt: Visualizing the motion energy filters
 
      :ref:`sphx_glr_auto_examples_introduction_demo_show_filters.py`
 
@@ -70,6 +72,7 @@ Motion energy pyramids
 .. only:: html
 
  .. figure:: /auto_examples/introduction/images/thumb/sphx_glr_demo_gabor_filters_thumb.png
+     :alt: Spatial components of the motion energy filters
 
      :ref:`sphx_glr_auto_examples_introduction_demo_gabor_filters.py`
 
@@ -90,6 +93,7 @@ Motion energy pyramids
 .. only:: html
 
  .. figure:: /auto_examples/introduction/images/thumb/sphx_glr_demo_batching_thumb.png
+     :alt: Computing motion energy features from batches of stimuli
 
      :ref:`sphx_glr_auto_examples_introduction_demo_batching.py`
 
@@ -110,6 +114,7 @@ Motion energy pyramids
 .. only:: html
 
  .. figure:: /auto_examples/introduction/images/thumb/sphx_glr_demo_image_coordinates_thumb.png
+     :alt: Image coordinates
 
      :ref:`sphx_glr_auto_examples_introduction_demo_image_coordinates.py`
 

@@ -82,6 +82,7 @@ This is what the spatial components of this filter look like. (Note that we will
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_001.png
+    :alt: demo image coordinates
     :class: sphx-glr-single-img
 
 
@@ -132,6 +133,7 @@ The position parameters are defined in terms of percentages of height. Below, we
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_002.png
+    :alt: 1:1 square image
     :class: sphx-glr-single-img
 
 
@@ -223,6 +225,7 @@ Now, we can plot the filters at the desired positions using the same code:
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_003.png
+    :alt: 16:9 image
     :class: sphx-glr-single-img
 
 
@@ -232,7 +235,7 @@ Now, we can plot the filters at the desired positions using the same code:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.876 seconds)
+   **Total running time of the script:** ( 0 minutes  0.840 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_image_coordinates.py:

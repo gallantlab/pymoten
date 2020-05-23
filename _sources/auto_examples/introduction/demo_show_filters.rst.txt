@@ -28,6 +28,7 @@ This example demonstrates how to display a motion energy filter from the pyramid
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_show_filters_001.png
+    :alt: aspect_ratio=1.33, centerh=0.14, centerv=0.11, direction=180.00,  filter_temporal_width=16.00, spatial_env=0.04, spatial_freq=16.00,  spatial_phase_offset=0.00, stimulus_fps=24.00, temporal_env=0.30,  temporal_freq=4.00, 
     :class: sphx-glr-single-img
 
 
@@ -102,6 +103,7 @@ These are the filter parameters:
 
 
 .. image:: /auto_examples/introduction/images/sphx_glr_demo_show_filters_002.png
+    :alt: demo show filters
     :class: sphx-glr-single-img
 
 
@@ -119,7 +121,7 @@ These are the filter parameters:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.610 seconds)
+   **Total running time of the script:** ( 0 minutes  3.493 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_show_filters.py:
