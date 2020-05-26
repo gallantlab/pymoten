@@ -179,7 +179,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for moten.extras</h1><div class="highlight"><pre>
-<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span></span><span class="sd">&#39;&#39;&#39;Compute total motion energy from greyscale videos.</span>
 <span class="sd">&#39;&#39;&#39;</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -190,22 +190,21 @@
 
 <span class="n">with_tqdm</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="c1">##############################</span>
-<span class="c1"># total motion energy</span>
-<span class="c1">##############################</span>
-<span class="c1">#</span>
-<span class="c1"># Temporal PCs of squared pixel-wise frame differences</span>
-<span class="c1">#</span>
 
 <div class="viewcode-block" id="pixbypix_covariance_from_frames_generator"><a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.pixbypix_covariance_from_frames_generator">[docs]</a><span class="k">def</span> <span class="nf">pixbypix_covariance_from_frames_generator</span><span class="p">(</span><span class="n">data_generator</span><span class="p">,</span>
                                               <span class="n">batch_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
                                               <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">pointwise_square</span><span class="p">,</span>
                                               <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;Compute the pixel-by-pixel covariance from a video frame generator in batches.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    data_generator : generator object</span>
-<span class="sd">        Yields an frame of shape (vdim, hdim)</span>
+<span class="sd">        Yields a video frame of shape (vdim, hdim)</span>
+<span class="sd">    batch_size : optional, int</span>
+<span class="sd">        Number of frames to process simultaneously while</span>
+<span class="sd">    output_nonlinearity : optiona, function</span>
+<span class="sd">        A pointwise function applied to the pixels of each frame.</span>
 
 <span class="sd">    Examples</span>
 <span class="sd">    --------</span>
@@ -213,7 +212,6 @@
 <span class="sd">    &gt;&gt;&gt; video_file = &#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
 <span class="sd">    &gt;&gt;&gt; small_size = (36, 64)  # downsample to (vdim, hdim) 16:9 aspect ratio</span>
 <span class="sd">    &gt;&gt;&gt; fdiffgen = moten.io.generate_frame_difference_from_greyvideo(video_file, size=small_size, nimages=333)</span>
-<span class="sd">    &gt;&gt;&gt;</span>
 <span class="sd">    &gt;&gt;&gt; nimages, XTX = moten.extras.pixbypix_covariance_from_frames_generator(fdiffgen) # doctest: +SKIP</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="n">first_frame</span> <span class="o">=</span> <span class="n">data_generator</span><span class="o">.</span><span class="fm">__next__</span><span class="p">()</span>
@@ -258,7 +256,60 @@
 
 
 <div class="viewcode-block" id="StimulusTotalMotionEnergy"><a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy">[docs]</a><span class="k">class</span> <span class="nc">StimulusTotalMotionEnergy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
+    <span class="sd">&#39;&#39;&#39;Compute the principal components of the total motion energy.</span>
+
+<span class="sd">    Total motion energy is defined as the squared difference</span>
+<span class="sd">    between the previous and current frame. The pixel-by-pixel</span>
+<span class="sd">    covariance of the total energy is computed frame-by-frame. Then,</span>
+<span class="sd">    the spatial principal components are estimated. In a second pass,</span>
+<span class="sd">    the temporal principal components are computed by projecting</span>
+<span class="sd">    the total energy onto the spatial components.</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    video_file : str</span>
+<span class="sd">        Full path to the video file. The video must be greyscale.</span>
+<span class="sd">    size : optional, tuple (vdim, hdim)</span>
+<span class="sd">        The desired output image size.</span>
+<span class="sd">        If specified, the image is scaled or shrunk to this size.</span>
+<span class="sd">        If not specified, the original size is kept.</span>
+<span class="sd">    nimages : optional, int</span>
+<span class="sd">        If specified, only `nimages` frames are loaded.</span>
+<span class="sd">    batch_size : optional, int</span>
+<span class="sd">        Number of frames to process simultaneously while</span>
+<span class="sd">        computing the pixel covariances.</span>
+<span class="sd">    output_nonlinearity : optional, function</span>
+<span class="sd">        Defaults to point-wise square.</span>
+
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    The time-by-pixel total motion energy matrix is defined as :math:`T`.</span>
+<span class="sd">    Its singular value decomposition of :math:`U S V^\top = T`.</span>
+<span class="sd">    The spatial components are :math:`V` and the temporal components are `U`.</span>
+
+<span class="sd">    As implemented in this class,</span>
+<span class="sd">    * The spatial components computed are as above (:math:`V`).</span>
+<span class="sd">    * The temporal compoonents are scaled by their singular values (:math:`US`).</span>
+<span class="sd">    * The eigenvalues are the squared singular values (:math:`S^2`).</span>
+
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    decomposition_spatial_pcs  : np.ndarray, (npixels, npcs)</span>
+<span class="sd">    decomposition_temporal_pcs : list, (ntimepoints, npcs)</span>
+<span class="sd">    decomposition_eigenvalues  : np.ndarray, (min(npixels, nframes),)</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import moten.extras</span>
+<span class="sd">    &gt;&gt;&gt; video_file = &#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
+<span class="sd">    &gt;&gt;&gt; small_size = (36, 64) # (vdim, hdim)</span>
+<span class="sd">    &gt;&gt;&gt; totalmoten = moten.extras.StimulusTotalMotionEnergy(video_file, small_size, nimages=300)</span>
+<span class="sd">    &gt;&gt;&gt; totalmoten.compute_pixel_by_pixel_covariance()</span>
+<span class="sd">    &gt;&gt;&gt; totalmoten.compute_spatial_pcs(npcs=10)</span>
+<span class="sd">    &gt;&gt;&gt; totalmoten.compute_temporal_pcs()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">video_file</span><span class="p">,</span>
@@ -277,7 +328,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">output_nonlinearity</span> <span class="o">=</span> <span class="n">output_nonlinearity</span>
 
 <div class="viewcode-block" id="StimulusTotalMotionEnergy.get_frame_difference_generator"><a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy.get_frame_difference_generator">[docs]</a>    <span class="k">def</span> <span class="nf">get_frame_difference_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;Return a video buffer that generates the difference between</span>
+<span class="sd">        the previous and the current frame.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="kn">import</span> <span class="nn">moten.io</span>
         <span class="n">generator</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">generate_frame_difference_from_greyvideo</span><span class="p">(</span>
@@ -288,7 +340,27 @@
 <div class="viewcode-block" id="StimulusTotalMotionEnergy.compute_pixel_by_pixel_covariance"><a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy.compute_pixel_by_pixel_covariance">[docs]</a>    <span class="k">def</span> <span class="nf">compute_pixel_by_pixel_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                           <span class="n">generator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                           <span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;Compute the pixel-by-pixel covariance of the total energy video.</span>
+
+<span class="sd">        Notes</span>
+<span class="sd">        -----</span>
+<span class="sd">        Covariance is estimated in batches.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        generator : optional</span>
+<span class="sd">            The video frame difference generator. Defaults to the ``video_file``</span>
+<span class="sd">            used to instantiate the class.</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        covariance_pixbypix : np.ndarray, (npixels, npixels)</span>
+<span class="sd">            The full covarianc matrix</span>
+<span class="sd">        covariance_nframes : int</span>
+<span class="sd">            Number of frames used in estimating the covariance matrix.</span>
+<span class="sd">            Defaults to the total number of frames in the video.</span>
+<span class="sd">        npixels : int</span>
+<span class="sd">            Total number of pixels in the video (after downsampling).</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="kn">import</span> <span class="nn">moten.utils</span>
 
@@ -304,7 +376,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">npixels</span> <span class="o">=</span> <span class="n">xtx</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span></div>
 
 <div class="viewcode-block" id="StimulusTotalMotionEnergy.compute_spatial_pcs"><a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy.compute_spatial_pcs">[docs]</a>    <span class="k">def</span> <span class="nf">compute_spatial_pcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npcs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;Compute the principal components from the pixel-by-pixel total energy covariance matrix.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        npcs : optional, int</span>
+<span class="sd">            Number of principal components to keep</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        decomposition_spatial_pcs : np.ndarray, (npixels, npcs)</span>
+<span class="sd">        decomposition_eigenvalues : np.ndarray</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">linalg</span>
 
@@ -326,7 +408,22 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">decomposition_eigenvalues</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="StimulusTotalMotionEnergy.compute_temporal_pcs"><a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy.compute_temporal_pcs">[docs]</a>    <span class="k">def</span> <span class="nf">compute_temporal_pcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_first</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
+        <span class="sd">&#39;&#39;&#39;Extract the temporal principal components of the total motion energy.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        generator : optional</span>
+<span class="sd">            The video frame difference generator. Defaults to the ``video_file``</span>
+<span class="sd">            used to instantiate the class.</span>
+<span class="sd">        skip_first : optional, bool</span>
+<span class="sd">            By default, set the first timepoint of all the PCs is set to zeros because</span>
+<span class="sd">            the first timepoint corresponds to the difference between the first frame and nothing.</span>
+<span class="sd">            If `skip_first=True`, then the first frame is removed from the timecourse.</span>
+
+<span class="sd">        Attributes</span>
+<span class="sd">        ----------</span>
+<span class="sd">        decomposition_temporal_pcs : list, (ntimepoints, npcs)</span>
+<span class="sd">            The temporal compoonents are scaled by their singular values (:math:`US`).</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="kn">import</span> <span class="nn">moten.utils</span>
 
