@@ -106,7 +106,7 @@ class StimulusTotalMotionEnergy(object):
     -----
     The time-by-pixel total motion energy matrix is defined as :math:`T`.
     Its singular value decomposition of :math:`U S V^{\intercal} = T`.
-    The spatial components are :math:`V` and the temporal components are `U`.
+    The spatial components are :math:`V` and the temporal components are math:`U`.
 
     As implemented in this class,
 
