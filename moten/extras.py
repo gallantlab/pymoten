@@ -1,4 +1,4 @@
-'''
+'''Compute total motion energy from greyscale videos.
 '''
 import numpy as np
 
@@ -9,22 +9,21 @@ from moten.utils import (iterator_func,
 
 with_tqdm = False
 
-##############################
-# total motion energy
-##############################
-#
-# Temporal PCs of squared pixel-wise frame differences
-#
 
 def pixbypix_covariance_from_frames_generator(data_generator,
                                               batch_size=1000,
                                               output_nonlinearity=pointwise_square,
                                               dtype='float32'):
-    '''
+    '''Compute the pixel-by-pixel covariance from a video frame generator in batches.
+
     Parameters
     ----------
     data_generator : generator object
-        Yields an frame of shape (vdim, hdim)
+        Yields a video frame of shape (vdim, hdim)
+    batch_size : optional, int
+        Number of frames to process simultaneously while
+    output_nonlinearity : optiona, function
+        A pointwise function applied to the pixels of each frame.
 
     Examples
     --------
@@ -32,7 +31,6 @@ def pixbypix_covariance_from_frames_generator(data_generator,
     >>> video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
     >>> small_size = (36, 64)  # downsample to (vdim, hdim) 16:9 aspect ratio
     >>> fdiffgen = moten.io.generate_frame_difference_from_greyvideo(video_file, size=small_size, nimages=333)
-    >>>
     >>> nimages, XTX = moten.extras.pixbypix_covariance_from_frames_generator(fdiffgen) # doctest: +SKIP
     '''
     first_frame = data_generator.__next__()
@@ -77,7 +75,60 @@ def pixbypix_covariance_from_frames_generator(data_generator,
 
 
 class StimulusTotalMotionEnergy(object):
-    '''
+    '''Compute the principal components of the total motion energy.
+
+    Total motion energy is defined as the squared difference
+    between the previous and current frame. The pixel-by-pixel
+    covariance of the total energy is computed frame-by-frame. Then,
+    the spatial principal components are estimated. In a second pass,
+    the temporal principal components are computed by projecting
+    the total energy onto the spatial components.
+
+
+    Parameters
+    ----------
+    video_file : str
+        Full path to the video file. The video must be greyscale.
+    size : optional, tuple (vdim, hdim)
+        The desired output image size.
+        If specified, the image is scaled or shrunk to this size.
+        If not specified, the original size is kept.
+    nimages : optional, int
+        If specified, only `nimages` frames are loaded.
+    batch_size : optional, int
+        Number of frames to process simultaneously while
+        computing the pixel covariances.
+    output_nonlinearity : optional, function
+        Defaults to point-wise square.
+
+
+    Notes
+    -----
+    The time-by-pixel total motion energy matrix is defined as :math:`T`.
+    Its singular value decomposition of :math:`U S V^\top = T`.
+    The spatial components are :math:`V` and the temporal components are `U`.
+
+    As implemented in this class,
+    * The spatial components computed are as above (:math:`V`).
+    * The temporal compoonents are scaled by their singular values (:math:`US`).
+    * The eigenvalues are the squared singular values (:math:`S^2`).
+
+
+    Attributes
+    ----------
+    decomposition_spatial_pcs  : np.ndarray, (npixels, npcs)
+    decomposition_temporal_pcs : list, (ntimepoints, npcs)
+    decomposition_eigenvalues  : np.ndarray, (min(npixels, nframes),)
+
+    Examples
+    --------
+    >>> import moten.extras
+    >>> video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
+    >>> small_size = (36, 64) # (vdim, hdim)
+    >>> totalmoten = moten.extras.StimulusTotalMotionEnergy(video_file, small_size, nimages=300)
+    >>> totalmoten.compute_pixel_by_pixel_covariance()
+    >>> totalmoten.compute_spatial_pcs(npcs=10)
+    >>> totalmoten.compute_temporal_pcs()
     '''
     def __init__(self,
                  video_file,
@@ -96,7 +147,8 @@ class StimulusTotalMotionEnergy(object):
         self.output_nonlinearity = output_nonlinearity
 
     def get_frame_difference_generator(self):
-        '''
+        '''Return a video buffer that generates the difference between
+        the previous and the current frame.
         '''
         import moten.io
         generator = moten.io.generate_frame_difference_from_greyvideo(
@@ -107,7 +159,27 @@ class StimulusTotalMotionEnergy(object):
     def compute_pixel_by_pixel_covariance(self,
                                           generator=None,
                                           ):
-        '''
+        '''Compute the pixel-by-pixel covariance of the total energy video.
+
+        Notes
+        -----
+        Covariance is estimated in batches.
+
+        Parameters
+        ----------
+        generator : optional
+            The video frame difference generator. Defaults to the ``video_file``
+            used to instantiate the class.
+
+        Attributes
+        ----------
+        covariance_pixbypix : np.ndarray, (npixels, npixels)
+            The full covarianc matrix
+        covariance_nframes : int
+            Number of frames used in estimating the covariance matrix.
+            Defaults to the total number of frames in the video.
+        npixels : int
+            Total number of pixels in the video (after downsampling).
         '''
         import moten.utils
 
@@ -123,7 +195,17 @@ class StimulusTotalMotionEnergy(object):
         self.npixels = xtx.shape[0]
 
     def compute_spatial_pcs(self, npcs=None):
-        '''
+        '''Compute the principal components from the pixel-by-pixel total energy covariance matrix.
+
+        Parameters
+        ----------
+        npcs : optional, int
+            Number of principal components to keep
+
+        Attributes
+        ----------
+        decomposition_spatial_pcs : np.ndarray, (npixels, npcs)
+        decomposition_eigenvalues : np.ndarray
         '''
         from scipy import linalg
 
@@ -145,7 +227,22 @@ class StimulusTotalMotionEnergy(object):
         self.decomposition_eigenvalues = np.asarray(L, dtype=self.dtype)
 
     def compute_temporal_pcs(self, generator=None, skip_first=False):
-        '''
+        '''Extract the temporal principal components of the total motion energy.
+
+        Parameters
+        ----------
+        generator : optional
+            The video frame difference generator. Defaults to the ``video_file``
+            used to instantiate the class.
+        skip_first : optional, bool
+            By default, set the first timepoint of all the PCs is set to zeros because
+            the first timepoint corresponds to the difference between the first frame and nothing.
+            If `skip_first=True`, then the first frame is removed from the timecourse.
+
+        Attributes
+        ----------
+        decomposition_temporal_pcs : list, (ntimepoints, npcs)
+            The temporal compoonents are scaled by their singular values (:math:`US`).
         '''
         import moten.utils
 
