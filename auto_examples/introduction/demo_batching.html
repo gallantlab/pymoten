@@ -290,7 +290,7 @@ Batch 5/5 [240:300]
 </pre></div>
 </div>
 <p>In this example, the stimulus (<code class="docutils literal notranslate"><span class="pre">luminance_images</span></code>) is already in memory and so batching does not provide any benefits. However, there are situations in which the stimulus cannot be loaded all at once. In such situations, batching is necessary. One can modify the code above and write a function to load a subset of frames that can fit into memory (e.g. <code class="docutils literal notranslate"><span class="pre">stimulus_batch</span> <span class="pre">=</span> <span class="pre">load_my_video_frames_batch(`my_stimulus_video_file.avi`,</span> <span class="pre">batch_start,</span> <span class="pre">batch_end)</span></code>).</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  27.257 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  27.403 seconds)</p>
 <div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-batching-py">
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/6db5a74126c37b12cecb8d78ab7220d1/demo_batching.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">demo_batching.py</span></code></a></p>
