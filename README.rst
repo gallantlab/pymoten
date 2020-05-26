@@ -78,8 +78,10 @@ Simple example using a video file
 .. |Python| image:: https://img.shields.io/badge/python-3.7%2B-blue
    :target: https://www.python.org/downloads/release/python-370
 
-.. |codecov| image:: https://codecov.io/gh/gallantlab/pymoten/branch/master/graph/badge.svg)
+.. |Codecov| image:: https://codecov.io/gh/gallantlab/pymoten/branch/master/graph/badge.svg
    :target: https://codecov.io/gh/gallantlab/pymoten
+
+
 
 
 References
