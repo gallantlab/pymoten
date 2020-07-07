@@ -8,7 +8,7 @@
 What is pymoten?
 ================
 
-A python package that provides a convenient way to extract motion energy
+``pymoten`` is a python package that provides a convenient way to extract motion energy
 features from video using a pyramid of spatio-temporal Gabor filters. The filters
 are created at multiple spatial and temporal frequencies, directions of motion,
 x-y positions, and sizes. Each filter quadrature-pair is convolved with the
@@ -57,7 +57,7 @@ Simple example using a video file
 
    import moten
 
-   # Download and convert the RGB video into a sequence of luminance images
+   # Stream and convert the RGB video into a sequence of luminance images
    video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
    luminance_images = moten.io.video2luminance(video_file, nimages=100)
 
