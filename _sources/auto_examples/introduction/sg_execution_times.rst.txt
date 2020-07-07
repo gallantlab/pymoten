@@ -5,16 +5,16 @@
 
 Computation times
 =================
-**01:10.156** total execution time for **auto_examples_introduction** files:
+**00:58.181** total execution time for **auto_examples_introduction** files:
 
 +------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_example.py` (``demo_example.py``)                     | 00:33.084 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_batching.py` (``demo_batching.py``)                   | 00:27.188 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_batching.py` (``demo_batching.py``)                   | 00:31.283 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_example.py` (``demo_example.py``)                     | 00:25.901 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_show_filters.py` (``demo_show_filters.py``)           | 00:03.702 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_show_filters.py` (``demo_show_filters.py``)           | 00:03.231 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_gabor_filters.py` (``demo_gabor_filters.py``)         | 00:01.151 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_gabor_filters.py` (``demo_gabor_filters.py``)         | 00:01.027 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------+-----------+--------+
-| :ref:`sphx_glr_auto_examples_introduction_demo_image_coordinates.py` (``demo_image_coordinates.py``) | 00:00.936 | 0.0 MB |
+| :ref:`sphx_glr_auto_examples_introduction_demo_image_coordinates.py` (``demo_image_coordinates.py``) | 00:00.835 | 0.0 MB |
 +------------------------------------------------------------------------------------------------------+-----------+--------+
