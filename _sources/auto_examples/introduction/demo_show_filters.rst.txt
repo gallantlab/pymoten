@@ -35,7 +35,7 @@ This example demonstrates how to display a motion energy filter from the pyramid
 
 
 
-The animation should look like this:
+The animation should look something like this:
 
 .. raw:: html
 
@@ -50,7 +50,6 @@ These are the filter parameters:
 
     from pprint import pprint
     pprint(pyramid.filters[1337])
-
 
 
 
@@ -78,7 +77,7 @@ These are the filter parameters:
 
 
 
-(*Ignore. This code is needed to convert animation to MP4 and adding it to the gallery*)
+(*Ignore this code block. It is needed to display the animation as a video on this website*)
 
 
 .. code-block:: default
@@ -88,17 +87,14 @@ These are the filter parameters:
     title = 'Example filter:\ndirection of motion=180, spatial fq=16cpi, temporal fq=4Hz'
     fig.suptitle(title)
     animation.save(output)
-    fig.clf()
-    del(fig)
-
 
     # sphinx_gallery_thumbnail_number = 2
     import matplotlib.pyplot as plt
     spatial_component = pyramid.get_filter_spatial_quadrature(1337)[1]
     fig, ax = plt.subplots()
     ax.matshow(spatial_component, vmin=-1, vmax=1, cmap='coolwarm')
-    ax.set_xticks([])
-    ax.set_yticks([])
+    __ = ax.set_xticks([])
+    __ = ax.set_yticks([])
 
 
 
@@ -107,21 +103,13 @@ These are the filter parameters:
     :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-
-    []
 
 
 
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.765 seconds)
+   **Total running time of the script:** ( 0 minutes  3.702 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_show_filters.py:
