@@ -29,6 +29,12 @@ Clone the repo from GitHub and do the usual python install
    cd pymoten
    sudo python setup.py install
 
+Or with pip:
+
+.. code-block:: bash
+
+   pip install pymoten
+   
 
 Getting started
 ===============
