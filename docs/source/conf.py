@@ -24,7 +24,7 @@ copyright = '2020, Anwar O. Nunez-Elizalde'
 author = 'Anwar O. Nunez-Elizalde'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.0'
+release = '0.0.2'
 
 
 # -- General configuration ---------------------------------------------------
