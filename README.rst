@@ -100,11 +100,11 @@ References
 .. [2] Watson, A. B., & Ahumada, A. J. (1985). Model of human visual-motion sensing. 
    Journal of the Optical Society of America A, 2(2), 322–342. 
 
-.. [1] Nishimoto, S., Vu, A. T., Naselaris, T., Benjamini, Y., Yu, B., &
+.. [3] Nishimoto, S., Vu, A. T., Naselaris, T., Benjamini, Y., Yu, B., &
    Gallant, J. L. (2011). Reconstructing visual experiences from brain activity
    evoked by natural movies. Current Biology, 21(19), 1641-1646.
 
-.. [2] Nishimoto, S., & Gallant, J. L. (2011). A three-dimensional
+.. [4] Nishimoto, S., & Gallant, J. L. (2011). A three-dimensional
    spatiotemporal receptive field model explains responses of area MT neurons
    to naturalistic movies. Journal of Neuroscience, 31(41), 14551-14564.
 
