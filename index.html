@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8">
+  <meta charset="utf-8" />
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
   <title>Welcome to pymoten! &mdash; pymoten 0.0.2 documentation</title>
   
@@ -17,10 +17,14 @@
   <link rel="stylesheet" href="_static/gallery.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-binder.css" type="text/css" />
   <link rel="stylesheet" href="_static/gallery-dataframe.css" type="text/css" />
+  <link rel="stylesheet" href="_static/gallery-rendered-html.css" type="text/css" />
 
   
   
+
   
+  
+
   
 
   
@@ -33,7 +37,6 @@
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
         <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
@@ -55,7 +58,7 @@
           
 
           
-            <a href="#" class="icon icon-home" alt="Documentation Home"> pymoten
+            <a href="#" class="icon icon-home"> pymoten
           
 
           
@@ -159,6 +162,8 @@
 
 
 
+
+
 <div role="navigation" aria-label="breadcrumbs navigation">
 
   <ul class="wy-breadcrumbs">
@@ -170,7 +175,7 @@
     
       <li class="wy-breadcrumbs-aside">
         
-            
+          
             <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
           
         
@@ -190,12 +195,12 @@
 <div class="section" id="what-is-pymoten">
 <h2>What is pymoten?<a class="headerlink" href="#what-is-pymoten" title="Permalink to this headline">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">pymoten</span></code> is a python package that provides a convenient way to extract motion energy
-features from video using a pyramid of spatio-temporal Gabor filters. The filters
+features from video using a pyramid of spatio-temporal Gabor filters <a class="footnote-reference brackets" href="#id5" id="id1">1</a> <a class="footnote-reference brackets" href="#id6" id="id2">2</a>. The filters
 are created at multiple spatial and temporal frequencies, directions of motion,
 x-y positions, and sizes. Each filter quadrature-pair is convolved with the
 video and their activation energy is computed for each frame. These features
 provide a good basis to model brain responses to natural movies
-<a class="footnote-reference brackets" href="#id3" id="id1">1</a> <a class="footnote-reference brackets" href="#id4" id="id2">2</a>.</p>
+<a class="footnote-reference brackets" href="#id7" id="id3">3</a> <a class="footnote-reference brackets" href="#id8" id="id4">4</a>.</p>
 </div>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
@@ -246,15 +251,23 @@ sudo python setup.py install
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
 <dl class="footnote brackets">
-<dt class="label" id="id3"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
-<dd><p>Nishimoto, S., Vu, A. T., Naselaris, T., Benjamini, Y., Yu, B., &amp;
-Gallant, J. L. (2011). Reconstructing visual experiences from brain activity
-evoked by natural movies. Current Biology, 21(19), 1641-1646.</p>
+<dt class="label" id="id5"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>Adelson, E. H., &amp; Bergen, J. R. (1985). Spatiotemporal energy models for the perception of motion.
+Journal of the Optical Society of America A, 2(2), 284-299.</p>
 </dd>
-<dt class="label" id="id4"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dt class="label" id="id6"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>Watson, A. B., &amp; Ahumada, A. J. (1985). Model of human visual-motion sensing.
+Journal of the Optical Society of America A, 2(2), 322–342.</p>
+</dd>
+<dt class="label" id="id7"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
 <dd><p>Nishimoto, S., &amp; Gallant, J. L. (2011). A three-dimensional
 spatiotemporal receptive field model explains responses of area MT neurons
 to naturalistic movies. Journal of Neuroscience, 31(41), 14551-14564.</p>
+</dd>
+<dt class="label" id="id8"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p>Nishimoto, S., Vu, A. T., Naselaris, T., Benjamini, Y., Yu, B., &amp;
+Gallant, J. L. (2011). Reconstructing visual experiences from brain activity
+evoked by natural movies. Current Biology, 21(19), 1641-1646.</p>
 </dd>
 </dl>
 <hr class="docutils" />
@@ -305,35 +318,28 @@ to naturalistic movies. Journal of Neuroscience, 31(41), 14551-14564.</p>
            
           </div>
           <footer>
-  
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="auto_examples/index.html" class="btn btn-neutral float-right" title="Gallery of examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
+        <a href="auto_examples/index.html" class="btn btn-neutral float-right" title="Gallery of examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
-  
 
   <hr/>
 
   <div role="contentinfo">
     <p>
-        
-        &copy; Copyright 2020, Anwar O. Nunez-Elizalde
+        &#169; Copyright 2020, Anwar O. Nunez-Elizalde.
 
     </p>
   </div>
     
     
     
-    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     
-    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
     
     provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
-
         </div>
       </div>
 
