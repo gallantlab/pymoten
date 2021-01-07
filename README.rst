@@ -9,12 +9,12 @@ What is pymoten?
 ================
 
 ``pymoten`` is a python package that provides a convenient way to extract motion energy
-features from video using a pyramid of spatio-temporal Gabor filters. The filters
+features from video using a pyramid of spatio-temporal Gabor filters [1]_ [2]_. The filters
 are created at multiple spatial and temporal frequencies, directions of motion,
 x-y positions, and sizes. Each filter quadrature-pair is convolved with the
 video and their activation energy is computed for each frame. These features
 provide a good basis to model brain responses to natural movies
-[1]_ [2]_.
+[3]_ [4]_.
 
 
 Installation
@@ -92,6 +92,13 @@ Simple example using a video file
 
 References
 ==========
+
+
+.. [1] Adelson, E. H., & Bergen, J. R. (1985). Spatiotemporal energy models for the perception of motion. 
+   Journal of the Optical Society of America A, 2(2), 284-299.
+
+.. [2] Watson, A. B., & Ahumada, A. J. (1985). Model of human visual-motion sensing. 
+   Journal of the Optical Society of America A, 2(2), 322–342. 
 
 .. [1] Nishimoto, S., Vu, A. T., Naselaris, T., Benjamini, Y., Yu, B., &
    Gallant, J. L. (2011). Reconstructing visual experiences from brain activity
