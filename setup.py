@@ -43,7 +43,7 @@ with open('README.rst', 'r') as fid:
 
 def main(**kwargs):
     setup(name='pymoten',
-          version='0.0.2',
+          version='0.0.3',
           description="""Extract motion energy features from video using spatio-temporal Gabors""",
           author='Anwar O. Nunez-Elizalde',
           author_email='anwarnunez@gmail.com',
