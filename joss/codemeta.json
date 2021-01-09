@@ -1,0 +1,17 @@
+{
+    "@context": "https://raw.githubusercontent.com/codemeta/codemeta/master/codemeta.jsonld",
+    "@type": "Code",
+    "author": [
+	
+    ],
+    "identifier": "https://doi.org/10.5281/zenodo.1034342",
+    "codeRepository": "https://github.com/gallantlab/pymoten",
+    "datePublished": "2021-01-01",
+    "dateModified": "2021-01-01",
+    "dateCreated": "2021-01-01",
+    "description": "motion energy features",
+    "keywords": "motion energy, computer vision, video processing",
+    "license": "BSD-2-Clause",
+    "title": "pymoten",
+    "version": "0.0.3"
+}
