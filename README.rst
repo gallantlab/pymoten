@@ -75,7 +75,7 @@ Simple example using a video file
    moten_features = pyramid.project_stimulus(luminance_images)
 
 
-.. |Build Status| image:: https://travis-ci.org/gallantlab/pymoten.svg?branch=master
+.. |Build Status| image:: https://travis-ci.org/gallantlab/pymoten.svg?branch=main
     :target: https://travis-ci.org/gallantlab/pymoten
     
 .. |Github| image:: https://img.shields.io/badge/github-pymoten-blue
@@ -84,7 +84,7 @@ Simple example using a video file
 .. |Python| image:: https://img.shields.io/badge/python-3.7%2B-blue
    :target: https://www.python.org/downloads/release/python-370
 
-.. |Codecov| image:: https://codecov.io/gh/gallantlab/pymoten/branch/master/graph/badge.svg
+.. |Codecov| image:: https://codecov.io/gh/gallantlab/pymoten/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/gallantlab/pymoten
 
 
