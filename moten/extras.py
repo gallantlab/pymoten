@@ -7,8 +7,12 @@ from moten.utils import (iterator_func,
                          pointwise_square,
                          )
 
-with_tqdm = False
-
+# Make tqdm optional
+with_tqdm = True
+try:
+    from tqdm import tqdm
+except ImportError:
+    with_tqdm = False
 
 def pixbypix_covariance_from_frames_generator(data_generator,
                                               batch_size=1000,
