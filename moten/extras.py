@@ -194,7 +194,7 @@ class StimulusTotalMotionEnergy(object):
         generator = moten.io.generate_frame_difference_from_greyvideo(
             self.video_file, size=self.size, nimages=self.nimages, dtype=self.dtype)
 
-        if self.mask:
+        if self.mask is not None:
             generator = moten.io.apply_mask(self.mask, generator)
 
         return generator
