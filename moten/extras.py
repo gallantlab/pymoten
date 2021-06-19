@@ -14,6 +14,36 @@ try:
 except ImportError:
     with_tqdm = False
 
+def process_motion_energy_from_files(filenames,
+                                     size=None,
+                                     nimages=np.inf,
+                                     batch_size=1000,
+                                     dtype='float32',
+                                     mask=None,
+                                     ):
+    '''
+    '''
+    import moten.io
+    if not isinstance(filenames, (list, tuple)):
+        filenames = [filenames]
+
+    XTX = 0
+    NFRAMES = 0
+    for fl in filenames:
+        generator = moten.io.generate_frame_difference_from_greyvideo(
+            fl, size=size, nimages=nimages, dtype=dtype)
+
+        if mask is not None:
+            generator = moten.io.apply_mask(mask, generator)
+
+        nframes, xtx = pixbypix_covariance_from_frames_generator(generator,
+                                                                 batch_size=batch_size,
+                                                                 mask=mask)
+        XTX += xtx
+        NFRAMES = nframes
+    return NFRAMES, XTX
+
+
 def pixbypix_covariance_from_frames_generator(data_generator,
                                               batch_size=1000,
                                               output_nonlinearity=pointwise_square,
@@ -37,12 +67,13 @@ def pixbypix_covariance_from_frames_generator(data_generator,
     >>> fdiffgen = moten.io.generate_frame_difference_from_greyvideo(video_file, size=small_size, nimages=333)
     >>> nimages, XTX = moten.extras.pixbypix_covariance_from_frames_generator(fdiffgen) # doctest: +SKIP
     '''
-    first_frame = data_generator.__next__()
+    first_frame = next(data_generator)
+
     vdim, hdim = first_frame.shape
     npixels = vdim*hdim
 
     framediff_buffer = np.zeros((batch_size, npixels), dtype=dtype)
-    XTX = np.zeros((npixels, npixels), dtype=np.float64)
+    XTX = np.zeros((npixels, npixels), dtype=dtype)
     nframes = 0
 
     if with_tqdm:
@@ -57,7 +88,8 @@ def pixbypix_covariance_from_frames_generator(data_generator,
         framediff_buffer *= 0.0             # clear buffer
         try:
             for batch_frame_idx in range(batch_size):
-                frame_difference = data_generator.__next__().reshape(1, -1)
+                frame_difference = next(data_generator).reshape(1, -1)
+
                 framediff_buffer[batch_frame_idx] = output_nonlinearity(frame_difference)
         except StopIteration:
             RUN = False
@@ -139,11 +171,14 @@ class StimulusTotalMotionEnergy(object):
                  video_file,
                  size=None,
                  nimages=np.inf,
-                 batch_size=100,
+                 batch_size=1000,
                  output_nonlinearity=pointwise_square,
-                 dtype='float32'):
+                 dtype='float32',
+                 mask=None,
+                 ):
         '''
         '''
+        self.mask = mask
         self.size = size
         self.dtype = dtype
         self.nimages = nimages
@@ -158,6 +193,9 @@ class StimulusTotalMotionEnergy(object):
         import moten.io
         generator = moten.io.generate_frame_difference_from_greyvideo(
             self.video_file, size=self.size, nimages=self.nimages, dtype=self.dtype)
+
+        if self.mask:
+            generator = moten.io.apply_mask(self.mask, generator)
 
         return generator
 
@@ -258,7 +296,7 @@ class StimulusTotalMotionEnergy(object):
         if skip_first:
             # drop the first frame b/c the difference is with 0's
             # and so projection is with itself
-            generator.__next__()
+            next(generator)
 
         self.decomposition_temporal_pcs = []
         ## TODO: batch for faster performance
