@@ -297,3 +297,36 @@ def load_image_luminance(image_files, hdim=None, vdim=None):
         stimulus = rgb2lab(stimulus/255.)[...,0]
         stimuli.append(stimulus)
     return np.asarray(stimuli)
+
+
+def apply_mask(mask, generator):
+    '''
+    Parameters
+    ----------
+    mask : 2D np.ndarray
+    generator : generator
+        Yields a video frame
+
+    Yields
+    ------
+    masked_image : 2D np.ndarray
+        Masked image of each frame (i.e. ``original_image[mask]``)
+
+    Examples
+    --------
+    >>> import moten
+    >>> video_file = 'http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4'
+    >>> small_size = (36, 64)  # downsample to (vdim, hdim) 16:9 aspect ratio
+    >>> oim = next(moten.io.generate_frame_difference_from_greyvideo(video_file, size=small_size))
+    >>> mask = np.zeros(small_size, dtype=np.bool)
+    >>> mask[16:, :40] = True
+    >>> nim = next(moten.io.apply_mask(mask, moten.io.generate_frame_difference_from_greyvideo(video_file, size=small_size)))
+    >>> np.allclose(oim[16:, :40], nim)
+    '''
+    assert mask.ndim == 2
+    vshape = np.unique(mask.sum(0)).max()
+    hshape = np.unique(mask.sum(1)).max()
+    shape = (vshape, hshape)
+    print('mask size:', shape)
+    for im in generator:
+        yield im[mask].reshape(shape)
