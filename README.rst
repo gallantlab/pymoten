@@ -91,6 +91,10 @@ Simple example using a video file
    :target: https://zenodo.org/badge/latestdoi/240954590
 
 
+Cite as
+=======
+Nunez-Elizalde AO, Deniz F, Dupré la Tour T, Visconti di Oleggio Castello M, and Gallant JL (2021). pymoten: scientific python package for computing motion energy features from video. Zenodo. https://doi.org/10.5281/zenodo.6349625
+
 References
 ==========
 
