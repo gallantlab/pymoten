@@ -2,7 +2,7 @@
  Welcome to pymoten!
 =====================
 
-|Build Status| |Github| |codecov| |Python| 
+|Zenodo| |Github| |codecov| |Python| 
 
 
 What is pymoten?
@@ -87,7 +87,8 @@ Simple example using a video file
 .. |Codecov| image:: https://codecov.io/gh/gallantlab/pymoten/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/gallantlab/pymoten
 
-
+.. |Zenodo| image:: https://zenodo.org/badge/240954590.svg
+   :target: https://zenodo.org/badge/latestdoi/240954590
 
 
 References
