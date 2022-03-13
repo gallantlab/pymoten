@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: 'pymoten: motion energy features from video using a pyramid of spatio-temporal Gabor filters'
+title:  'pymoten: scientific python package for computing motion energy features from video'
 tags:
 - computer vision
 - motion energy
