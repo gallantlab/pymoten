@@ -37,7 +37,7 @@ if not 'extra_setuptools_args' in globals():
     extra_setuptools_args = dict()
 
 
-with open('README.rst', 'r') as fid:
+with open('README.rst', 'r', encoding="utf-8") as fid:
     long_description = fid.read()
 
 
