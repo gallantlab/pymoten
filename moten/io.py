@@ -12,6 +12,9 @@ import numpy as np
 from moten.utils import iterator_func
 from moten.colorspace import rgb2lab
 
+ANTIALIAS = Image.Resampling.LANCZOS if hasattr(Image, "Resampling") else Image.ANTIALIAS
+
+
 def video_buffer(video_file, nimages=np.inf):
     '''Generator for a video file.
 
@@ -192,7 +195,7 @@ def video2grey(video_file, size=None, nimages=np.inf):
     return np.asarray(grey_video)
 
 
-def imagearray2luminance(uint8arr, size=None, filter=Image.ANTIALIAS, dtype=np.float64):
+def imagearray2luminance(uint8arr, size=None, filter=ANTIALIAS, dtype=np.float64):
     '''Convert an array of uint8 RGB images to a luminance image
 
     Parameters
@@ -231,7 +234,7 @@ def imagearray2luminance(uint8arr, size=None, filter=Image.ANTIALIAS, dtype=np.f
     return luminance
 
 
-def resize_image(im, size=(96,96), filter=Image.ANTIALIAS):
+def resize_image(im, size=(96,96), filter=ANTIALIAS):
     '''Resize an image and return its array representation.
 
     Parameters
