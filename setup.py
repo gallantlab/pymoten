@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import sys
+import re
 
 try:
     import configparser
@@ -40,10 +41,18 @@ if not 'extra_setuptools_args' in globals():
 with open('README.rst', 'r', encoding="utf-8") as fid:
     long_description = fid.read()
 
+# get version from moten/__init__.py
+with open('moten/__init__.py') as f:
+    infos = f.readlines()
+__version__ = ''
+for line in infos:
+    if "__version__" in line:
+        match = re.search(r"__version__ = '([^']*)'", line)
+        __version__ = match.groups()[0]
 
 def main(**kwargs):
     setup(name='pymoten',
-          version='0.0.4',
+          version=__version__,
           description="""Extract motion energy features from video using spatio-temporal Gabors""",
           author='Anwar O. Nunez-Elizalde',
           author_email='anwarnunez@gmail.com',
