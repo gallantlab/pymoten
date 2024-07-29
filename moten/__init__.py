@@ -58,5 +58,7 @@ def get_default_pyramid(vhsize=(144, 256), fps=24, **kwargs):
 
 __all__ = ['utils', 'core', 'viz', 'io']
 
+__version__ = '0.0.4'
+
 if __name__ == '__main__':
     pass
