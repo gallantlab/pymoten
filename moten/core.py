@@ -51,7 +51,7 @@ def raw_project_stimulus(stimulus,
     # checks for 2D stimuli
     assert stimulus.ndim == 2                             # (nimages, pixels)
     assert isinstance(vhsize, tuple) and len(vhsize) == 2 # (hdim, vdim)
-    assert np.product(vhsize) == stimulus.shape[1]        # hdim*vdim == pixels
+    assert np.prod(vhsize) == stimulus.shape[1]        # hdim*vdim == pixels
 
     # Compute responses
     nfilters = len(filters)
@@ -103,7 +103,7 @@ def project_stimulus(stimulus,
     # checks for 2D stimuli
     assert stimulus.ndim == 2                             # (nimages, pixels)
     assert isinstance(vhsize, tuple) and len(vhsize) == 2 # (hdim, vdim)
-    assert np.product(vhsize) == stimulus.shape[1]        # hdim*vdim == pixels
+    assert np.prod(vhsize) == stimulus.shape[1]        # hdim*vdim == pixels
 
     # Compute responses
     nfilters = len(filters)
