@@ -41,6 +41,7 @@ class MotionEnergyPyramid(object):
     are constructed and each is centered at different locations
     in the image in order to tile the stimulus.
 
+    
     Parameters
     ----------
     stimulus_vhsize : tuple of ints
