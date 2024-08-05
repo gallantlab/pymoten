@@ -1,0 +1,52 @@
+name: Build docs
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.7
+
+    - uses: actions/cache@v4
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y inkscape
+        sudo apt-get install -y ffmpeg
+        pip install --upgrade pip
+        pip install -q numpy scipy Pillow==9.5.0 matplotlib opencv-python
+        pip install -q ipython Sphinx sphinx-gallery numpydoc sphinx-rtd-theme sphinx-bootstrap-theme
+        pip install -e . --no-build-isolation
+        python -c 'import moten; print(moten.__version__)'
+
+    - name: Build documents
+      run: |
+        cd docs && make githubio-docs && cd ..
+        touch docs/build/html/.nojekyll
+
+    - name: Publish to gh-pages if tagged
+      if: startsWith(github.ref, 'refs/tags')
+      uses: JamesIves/github-pages-deploy-action@v4.6.3
+      with:
+        branch: gh-pages
+        folder: docs/build/html

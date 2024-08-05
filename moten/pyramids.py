@@ -26,8 +26,7 @@ from moten import (utils,
 __all__ = ['MotionEnergyPyramid',
            'StimulusMotionEnergy',
            'StimulusStaticGaborPyramid',
-           'DefaultPyramids',
-           ]
+           'DefaultPyramids']
 
 ##############################
 #

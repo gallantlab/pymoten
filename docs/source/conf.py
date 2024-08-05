@@ -40,14 +40,14 @@ extensions = ['sphinx.ext.mathjax',
               'sphinx.ext.viewcode',
               'sphinx.ext.napoleon',
               'sphinx_gallery.gen_gallery',
-              'sphinx_rtd_theme',
-              ]
+              'sphinx_rtd_theme'              ]
 
 
 napoleon_use_ivar = True
 autosummary_generate = True
 numpydoc_class_members_toctree = True
 numpydoc_show_class_members = True
+
 
 # # Sphinx-gallery
 sphinx_gallery_conf = {
