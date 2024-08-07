@@ -24,7 +24,10 @@ copyright = '2020, Anwar O. Nunez-Elizalde'
 author = 'Anwar O. Nunez-Elizalde'
 
 # The full version, including alpha/beta/rc tags
-release = '0.0.3'
+import pymoten  # noqa
+# The short X.Y version.
+version = ".".join(pymoten.__version__.split(".")[:2])
+release = pymoten.__version__
 
 
 # -- General configuration ---------------------------------------------------
