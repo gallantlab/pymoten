@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_introduction_demo_image_coordinates.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_introduction_demo_image_coordinates.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -40,7 +40,7 @@ Coordinates are specified as (vertical, horizontal).
 
 .. GENERATED FROM PYTHON SOURCE LINES 22-25
 
-.. code-block:: default
+.. code-block:: Python
 
     import moten
     pyramid = moten.get_default_pyramid(vhsize=(100,100), fps=24)
@@ -58,7 +58,7 @@ The vertical and horizontal positions of each filter are stored as ``centerv`` a
 
 .. GENERATED FROM PYTHON SOURCE LINES 27-31
 
-.. code-block:: default
+.. code-block:: Python
 
     from pprint import pprint
     example_filter = pyramid.filters[200].copy()
@@ -70,11 +70,9 @@ The vertical and horizontal positions of each filter are stored as ``centerv`` a
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    (0.2375, 0.2375)
+    (np.float64(0.2375), np.float64(0.2375))
 
 
 
@@ -86,7 +84,7 @@ This is what the spatial components of this filter look like. (Note that we will
 
 .. GENERATED FROM PYTHON SOURCE LINES 34-42
 
-.. code-block:: default
+.. code-block:: Python
 
     import numpy as np
     import matplotlib.pyplot as plt
@@ -99,9 +97,10 @@ This is what the spatial components of this filter look like. (Note that we will
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_001.png
-    :alt: demo image coordinates
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_001.png
+   :alt: demo image coordinates
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -117,7 +116,7 @@ The position parameters are defined in terms of percentages of height. Below, we
 
 .. GENERATED FROM PYTHON SOURCE LINES 48-79
 
-.. code-block:: default
+.. code-block:: Python
 
     vh_positions = [(0.2, 0.2), # top left
                     (0.2, 0.8), # top right
@@ -153,9 +152,10 @@ The position parameters are defined in terms of percentages of height. Below, we
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_002.png
-    :alt: 1:1 square image
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_002.png
+   :alt: 1:1 square image
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -171,7 +171,7 @@ In the example above, the width and height of the image is the same (100x100 pix
 
 .. GENERATED FROM PYTHON SOURCE LINES 85-88
 
-.. code-block:: default
+.. code-block:: Python
 
     pyramid = moten.get_default_pyramid(vhsize=(576 , 1024), fps=24)
     vsize = pyramid.definition['vdim']
@@ -189,7 +189,7 @@ We update the aspect ratio of the example filter to match the new pyramid.
 
 .. GENERATED FROM PYTHON SOURCE LINES 90-94
 
-.. code-block:: default
+.. code-block:: Python
 
     aspect_ratio = pyramid.definition['aspect_ratio']
     assert np.allclose(aspect_ratio, 16/9)
@@ -209,7 +209,7 @@ This 16:9 aspect ratio means that the right-most point of the image is `(16/9)*h
 
 .. GENERATED FROM PYTHON SOURCE LINES 97-104
 
-.. code-block:: default
+.. code-block:: Python
 
     vh_positions = [(0.2, aspect_ratio*0.2), # top left
                     (0.2, aspect_ratio*0.8), # top right
@@ -231,7 +231,7 @@ Now, we can plot the filters at the desired positions using the same code:
 
 .. GENERATED FROM PYTHON SOURCE LINES 106-127
 
-.. code-block:: default
+.. code-block:: Python
 
 
     fig, axes = plt.subplots(nrows=2, ncols=2, sharex=True, sharey=True)
@@ -257,9 +257,10 @@ Now, we can plot the filters at the desired positions using the same code:
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_003.png
-    :alt: 16:9 image
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_003.png
+   :alt: 16:9 image
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_image_coordinates_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -268,28 +269,26 @@ Now, we can plot the filters at the desired positions using the same code:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  0.843 seconds)
+   **Total running time of the script:** (0 minutes 0.512 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_image_coordinates.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: demo_image_coordinates.ipynb <demo_image_coordinates.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: demo_image_coordinates.py <demo_image_coordinates.py>`
 
-     :download:`Download Python source code: demo_image_coordinates.py <demo_image_coordinates.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: demo_image_coordinates.ipynb <demo_image_coordinates.ipynb>`
+      :download:`Download zipped: demo_image_coordinates.zip <demo_image_coordinates.zip>`
 
 
 .. only:: html

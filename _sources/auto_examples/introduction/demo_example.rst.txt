@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_introduction_demo_example.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_introduction_demo_example.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -28,7 +28,7 @@ First, we need to define the video we want to use. In this example, we'll use a 
 
 .. GENERATED FROM PYTHON SOURCE LINES 10-15
 
-.. code-block:: default
+.. code-block:: Python
 
 
     nimages = 200
@@ -57,7 +57,7 @@ The video is RGB. So, the first step is to convert it to a luminance representat
 
 .. GENERATED FROM PYTHON SOURCE LINES 25-31
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import moten
@@ -69,15 +69,6 @@ The video is RGB. So, the first step is to convert it to a luminance representat
 
 
 
-.. rst-class:: sphx-glr-script-out
-
- Out:
-
- .. code-block:: none
-
-    /home/travis/virtualenv/python3.7.1/lib/python3.7/site-packages/scipy/__init__.py:137: UserWarning: NumPy 1.16.5 or above is required for this version of SciPy (detected version 1.16.4)
-      UserWarning)
-
 
 
 
@@ -87,7 +78,7 @@ Next we need to construct the motion energy pyramid. To achieve this, we must pr
 
 .. GENERATED FROM PYTHON SOURCE LINES 33-39
 
-.. code-block:: default
+.. code-block:: Python
 
 
     pyramid = moten.pyramids.MotionEnergyPyramid(stimulus_vhsize=(vdim, hdim),
@@ -100,8 +91,6 @@ Next we need to construct the motion energy pyramid. To achieve this, we must pr
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -116,7 +105,7 @@ Finally, we use the method ``project_stimulus`` to compute the motion energy fea
 
 .. GENERATED FROM PYTHON SOURCE LINES 41-47
 
-.. code-block:: default
+.. code-block:: Python
 
 
     features = pyramid.project_stimulus(luminance_images)
@@ -127,14 +116,13 @@ Finally, we use the method ``project_stimulus`` to compute the motion energy fea
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_example_001.png
-    :alt: demo example
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_example_001.png
+   :alt: demo example
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_example_001.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -146,28 +134,26 @@ Finally, we use the method ``project_stimulus`` to compute the motion energy fea
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  42.264 seconds)
+   **Total running time of the script:** (0 minutes 11.818 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_example.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: demo_example.ipynb <demo_example.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: demo_example.py <demo_example.py>`
 
-     :download:`Download Python source code: demo_example.py <demo_example.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: demo_example.ipynb <demo_example.ipynb>`
+      :download:`Download zipped: demo_example.zip <demo_example.zip>`
 
 
 .. only:: html

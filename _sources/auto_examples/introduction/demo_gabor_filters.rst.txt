@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_introduction_demo_gabor_filters.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_introduction_demo_gabor_filters.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -36,7 +36,7 @@ It defines a set of spatio-temporal Gabor filters.
 
 .. GENERATED FROM PYTHON SOURCE LINES 17-22
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import moten
@@ -57,7 +57,7 @@ spatio-temporal Gabor filters.
 
 .. GENERATED FROM PYTHON SOURCE LINES 25-67
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import matplotlib.pyplot as plt  # noqa
@@ -115,16 +115,17 @@ Different spatial frequencies
 
 .. GENERATED FROM PYTHON SOURCE LINES 70-72
 
-.. code-block:: default
+.. code-block:: Python
 
     plot_spatial_gabors(pyramid, [0, 23, 88, 577])
 
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_001.png
-    :alt: filter 0, filter 23, filter 88, filter 577
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_001.png
+   :alt: filter 0, filter 23, filter 88, filter 577
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -137,16 +138,17 @@ Different locations
 
 .. GENERATED FROM PYTHON SOURCE LINES 75-77
 
-.. code-block:: default
+.. code-block:: Python
 
     plot_spatial_gabors(pyramid, [46, 52, 58, 64])
 
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_002.png
-    :alt: filter 46, filter 52, filter 58, filter 64
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_002.png
+   :alt: filter 46, filter 52, filter 58, filter 64
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -159,15 +161,16 @@ Different directions
 
 .. GENERATED FROM PYTHON SOURCE LINES 80-81
 
-.. code-block:: default
+.. code-block:: Python
 
     plot_spatial_gabors(pyramid, [88, 157, 202, 247])
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_003.png
-    :alt: filter 88, filter 157, filter 202, filter 247
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_003.png
+   :alt: filter 88, filter 157, filter 202, filter 247
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_gabor_filters_003.png
+   :class: sphx-glr-single-img
 
 
 
@@ -176,28 +179,26 @@ Different directions
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  1.209 seconds)
+   **Total running time of the script:** (0 minutes 0.950 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_gabor_filters.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: demo_gabor_filters.ipynb <demo_gabor_filters.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: demo_gabor_filters.py <demo_gabor_filters.py>`
 
-     :download:`Download Python source code: demo_gabor_filters.py <demo_gabor_filters.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: demo_gabor_filters.ipynb <demo_gabor_filters.ipynb>`
+      :download:`Download zipped: demo_gabor_filters.zip <demo_gabor_filters.zip>`
 
 
 .. only:: html

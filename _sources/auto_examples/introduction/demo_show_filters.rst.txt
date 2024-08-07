@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_introduction_demo_show_filters.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_introduction_demo_show_filters.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -26,7 +26,7 @@ This example demonstrates how to display a motion energy filter from the pyramid
 
 .. GENERATED FROM PYTHON SOURCE LINES 8-14
 
-.. code-block:: default
+.. code-block:: Python
 
     import moten
 
@@ -37,9 +37,10 @@ This example demonstrates how to display a motion energy filter from the pyramid
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_show_filters_001.png
-    :alt: aspect_ratio=1.33, centerh=0.14, centerv=0.11, direction=180.00,  filter_temporal_width=16.00, spatial_env=0.04, spatial_freq=16.00,  spatial_phase_offset=0.00, stimulus_fps=24.00, temporal_env=0.30,  temporal_freq=4.00, 
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_show_filters_001.png
+   :alt: aspect_ratio=1.33, centerh=0.14, centerv=0.11, direction=180.00,  filter_temporal_width=16.00, spatial_env=0.04, spatial_freq=16.00,  spatial_phase_offset=0.00, stimulus_fps=24.00, temporal_env=0.30,  temporal_freq=4.00, 
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_show_filters_001.png
+   :class: sphx-glr-single-img
 
 
 
@@ -61,7 +62,7 @@ These are the filter parameters:
 
 .. GENERATED FROM PYTHON SOURCE LINES 25-29
 
-.. code-block:: default
+.. code-block:: Python
 
     from pprint import pprint
     pprint(pyramid.filters[1337])
@@ -73,21 +74,19 @@ These are the filter parameters:
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
-    {'aspect_ratio': 1.3333333333333333,
-     'centerh': 0.1416666666666666,
-     'centerv': 0.10624999999999996,
-     'direction': 180.0,
-     'filter_temporal_width': 16.0,
-     'spatial_env': 0.0375,
-     'spatial_freq': 16.0,
-     'spatial_phase_offset': 0.0,
-     'stimulus_fps': 24.0,
-     'temporal_env': 0.3,
-     'temporal_freq': 4.0}
+    {'aspect_ratio': np.float64(1.3333333333333333),
+     'centerh': np.float64(0.1416666666666666),
+     'centerv': np.float64(0.10624999999999996),
+     'direction': np.float64(180.0),
+     'filter_temporal_width': np.float64(16.0),
+     'spatial_env': np.float64(0.0375),
+     'spatial_freq': np.float64(16.0),
+     'spatial_phase_offset': np.float64(0.0),
+     'stimulus_fps': np.float64(24.0),
+     'temporal_env': np.float64(0.3),
+     'temporal_freq': np.float64(4.0)}
 
 
 
@@ -98,9 +97,9 @@ These are the filter parameters:
 
 .. GENERATED FROM PYTHON SOURCE LINES 31-44
 
-.. code-block:: default
+.. code-block:: Python
 
-    output = '../../docs/build/html/_downloads/example_moten_filter.mp4'
+    output = '../../docs/build/html/_downloads/example_moten_filter.gif'
     fig = animation._fig
     title = 'Example filter:\ndirection of motion=180, spatial fq=16cpi, temporal fq=4Hz'
     fig.suptitle(title)
@@ -116,9 +115,10 @@ These are the filter parameters:
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_show_filters_002.png
-    :alt: demo show filters
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_show_filters_002.png
+   :alt: demo show filters
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_show_filters_002.png
+   :class: sphx-glr-single-img
 
 
 
@@ -127,28 +127,26 @@ These are the filter parameters:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  3.372 seconds)
+   **Total running time of the script:** (0 minutes 2.327 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_show_filters.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: demo_show_filters.ipynb <demo_show_filters.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: demo_show_filters.py <demo_show_filters.py>`
 
-     :download:`Download Python source code: demo_show_filters.py <demo_show_filters.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: demo_show_filters.ipynb <demo_show_filters.ipynb>`
+      :download:`Download zipped: demo_show_filters.zip <demo_show_filters.zip>`
 
 
 .. only:: html

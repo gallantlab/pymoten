@@ -1,113 +1,71 @@
-
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en" data-content_root="../../">
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
-  <title>Spatial components of the motion energy filters &mdash; pymoten 0.0.3 documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/gallery.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/gallery-binder.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/gallery-dataframe.css" type="text/css" />
-  <link rel="stylesheet" href="../../_static/gallery-rendered-html.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
+  <title>Spatial components of the motion energy filters &mdash; pymoten 0.0.6 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
   <!--[if lt IE 9]>
     <script src="../../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-        <script src="../../_static/jquery.js"></script>
-        <script src="../../_static/underscore.js"></script>
-        <script src="../../_static/doctools.js"></script>
-        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
-    <script type="text/javascript" src="../../_static/js/theme.js"></script>
-
-    
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=1fd71caa"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Computing motion energy features from batches of stimuli" href="demo_batching.html" />
     <link rel="prev" title="Visualizing the motion energy filters" href="demo_show_filters.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
 
           
-            <a href="../../index.html" class="icon icon-home"> pymoten
           
-
-          
+          <a href="../../index.html" class="icon icon-home">
+            pymoten
           </a>
-
-          
-            
-            
-          
-
-          
+              <div class="version">
+                0.0
+              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to pymoten!</a></li>
 </ul>
-<p class="caption"><span class="caption-text">Examples</span></p>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Gallery of examples</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#motion-energy-pyramids">Motion energy pyramids</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="demo_example.html">Using the motion energy pyramid class</a></li>
-<li class="toctree-l3"><a class="reference internal" href="demo_show_filters.html">Visualizing the motion energy filters</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">Spatial components of the motion energy filters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="demo_batching.html">Computing motion energy features from batches of stimuli</a></li>
-<li class="toctree-l3"><a class="reference internal" href="demo_image_coordinates.html">Image coordinates</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Motion energy pyramids</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
-<p class="caption"><span class="caption-text">API Reference</span></p>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../autodoc/moten.html">moten package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#submodules">Submodules</a><ul>
@@ -125,80 +83,39 @@
 </li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../index.html">pymoten</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
-      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
-        
-          <li><a href="../index.html">Gallery of examples</a> &raquo;</li>
-        
-      <li>Spatial components of the motion energy filters</li>
-    
-    
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Gallery of examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Motion energy pyramids</a></li>
+      <li class="breadcrumb-item active">Spatial components of the motion energy filters</li>
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="../../_sources/auto_examples/introduction/demo_gabor_filters.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
+             
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p>Click <a class="reference internal" href="#sphx-glr-download-auto-examples-introduction-demo-gabor-filters-py"><span class="std std-ref">here</span></a>
-to download the full example code</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-introduction-demo-gabor-filters-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
 </div>
-<div class="sphx-glr-example-title section" id="spatial-components-of-the-motion-energy-filters">
-<span id="sphx-glr-auto-examples-introduction-demo-gabor-filters-py"></span><h1>Spatial components of the motion energy filters<a class="headerlink" href="#spatial-components-of-the-motion-energy-filters" title="Permalink to this headline">¶</a></h1>
+<section class="sphx-glr-example-title" id="spatial-components-of-the-motion-energy-filters">
+<span id="sphx-glr-auto-examples-introduction-demo-gabor-filters-py"></span><h1>Spatial components of the motion energy filters<a class="headerlink" href="#spatial-components-of-the-motion-energy-filters" title="Link to this heading"></a></h1>
 <p>This example shows the spatial components of the spatio-temporal filters used
 in motion energy features. It does not show the temporal components, since this
 gallery does not support animation. To visualize the filters with their
@@ -207,18 +124,18 @@ Here we demonstrate how the spatial filters vary in term of spatial
 frequencies, locations, and directions.</p>
 <p>First, let’s define a motion energy pyramid, using <code class="xref py py-class docutils literal notranslate"><span class="pre">MotionEnergyPyramid</span></code>.
 It defines a set of spatio-temporal Gabor filters.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
 <span class="n">pyramid</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">pyramids</span><span class="o">.</span><span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="mi">400</span><span class="p">),</span>
                                              <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">25</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Then, we define a plotting function, to show the spatial part of these
 spatio-temporal Gabor filters.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># noqa</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>  <span class="c1"># noqa</span>
 
 
 <span class="k">def</span> <span class="nf">plot_spatial_gabors</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="n">indices</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Plot the two quadrature spatial components of a list of Gabor filters.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot the two quadrature spatial components of a list of Gabor filters.</span>
 
 <span class="sd">    Note this only show the spatial components of the spatio-temporal filters.</span>
 
@@ -255,85 +172,68 @@ spatio-temporal Gabor filters.</p>
     <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </pre></div>
 </div>
-<div class="section" id="different-spatial-frequencies">
-<h2>Different spatial frequencies<a class="headerlink" href="#different-spatial-frequencies" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_spatial_gabors</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">577</span><span class="p">])</span>
+<section id="different-spatial-frequencies">
+<h2>Different spatial frequencies<a class="headerlink" href="#different-spatial-frequencies" title="Link to this heading"></a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_spatial_gabors</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">88</span><span class="p">,</span> <span class="mi">577</span><span class="p">])</span>
 </pre></div>
 </div>
-<img alt="filter 0, filter 23, filter 88, filter 577" class="sphx-glr-single-img" src="../../_images/sphx_glr_demo_gabor_filters_001.png" />
-</div>
-<div class="section" id="different-locations">
-<h2>Different locations<a class="headerlink" href="#different-locations" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_spatial_gabors</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="p">[</span><span class="mi">46</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">64</span><span class="p">])</span>
+<img src="../../_images/sphx_glr_demo_gabor_filters_001.png" srcset="../../_images/sphx_glr_demo_gabor_filters_001.png" alt="filter 0, filter 23, filter 88, filter 577" class = "sphx-glr-single-img"/></section>
+<section id="different-locations">
+<h2>Different locations<a class="headerlink" href="#different-locations" title="Link to this heading"></a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_spatial_gabors</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="p">[</span><span class="mi">46</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">64</span><span class="p">])</span>
 </pre></div>
 </div>
-<img alt="filter 46, filter 52, filter 58, filter 64" class="sphx-glr-single-img" src="../../_images/sphx_glr_demo_gabor_filters_002.png" />
-</div>
-<div class="section" id="different-directions">
-<h2>Different directions<a class="headerlink" href="#different-directions" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">plot_spatial_gabors</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="p">[</span><span class="mi">88</span><span class="p">,</span> <span class="mi">157</span><span class="p">,</span> <span class="mi">202</span><span class="p">,</span> <span class="mi">247</span><span class="p">])</span>
+<img src="../../_images/sphx_glr_demo_gabor_filters_002.png" srcset="../../_images/sphx_glr_demo_gabor_filters_002.png" alt="filter 46, filter 52, filter 58, filter 64" class = "sphx-glr-single-img"/></section>
+<section id="different-directions">
+<h2>Different directions<a class="headerlink" href="#different-directions" title="Link to this heading"></a></h2>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">plot_spatial_gabors</span><span class="p">(</span><span class="n">pyramid</span><span class="p">,</span> <span class="p">[</span><span class="mi">88</span><span class="p">,</span> <span class="mi">157</span><span class="p">,</span> <span class="mi">202</span><span class="p">,</span> <span class="mi">247</span><span class="p">])</span>
 </pre></div>
 </div>
-<img alt="filter 88, filter 157, filter 202, filter 247" class="sphx-glr-single-img" src="../../_images/sphx_glr_demo_gabor_filters_003.png" />
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> ( 0 minutes  1.209 seconds)</p>
-<div class="sphx-glr-footer class sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-gabor-filters-py">
-<div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../../_downloads/5783b9ad8c2f1b859ed5d74910d07138/demo_gabor_filters.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">demo_gabor_filters.py</span></code></a></p>
-</div>
+<img src="../../_images/sphx_glr_demo_gabor_filters_003.png" srcset="../../_images/sphx_glr_demo_gabor_filters_003.png" alt="filter 88, filter 157, filter 202, filter 247" class = "sphx-glr-single-img"/><p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 0.950 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-gabor-filters-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/f73b4bc16cf2b384cc9dc1a36561c0fc/demo_gabor_filters.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">demo_gabor_filters.ipynb</span></code></a></p>
 </div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/5783b9ad8c2f1b859ed5d74910d07138/demo_gabor_filters.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">demo_gabor_filters.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/0c103455ee51eab0de79d327bbc8aedf/demo_gabor_filters.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">demo_gabor_filters.zip</span></code></a></p>
+</div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="demo_batching.html" class="btn btn-neutral float-right" title="Computing motion energy features from batches of stimuli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="demo_show_filters.html" class="btn btn-neutral float-left" title="Visualizing the motion energy filters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo_batching.html" class="btn btn-neutral float-right" title="Computing motion energy features from batches of stimuli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2020, Anwar O. Nunez-Elizalde.
-
-    </p>
+    <p>&#169; Copyright 2020, Anwar O. Nunez-Elizalde.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

@@ -10,8 +10,8 @@
     .. note::
         :class: sphx-glr-download-link-note
 
-        Click :ref:`here <sphx_glr_download_auto_examples_introduction_demo_batching.py>`
-        to download the full example code
+        :ref:`Go to the end <sphx_glr_download_auto_examples_introduction_demo_batching.py>`
+        to download the full example code.
 
 .. rst-class:: sphx-glr-example-title
 
@@ -35,7 +35,7 @@ First, we specify the stimulus we want to load.
 
 .. GENERATED FROM PYTHON SOURCE LINES 17-24
 
-.. code-block:: default
+.. code-block:: Python
 
 
     import moten
@@ -57,7 +57,7 @@ Load the first 300 images and spatially downsample the video.
 
 .. GENERATED FROM PYTHON SOURCE LINES 26-36
 
-.. code-block:: default
+.. code-block:: Python
 
     small_vhsize = (72, 128)        # height x width
     luminance_images = moten.io.video2luminance(video_file, size=small_vhsize, nimages=300)
@@ -72,14 +72,13 @@ Load the first 300 images and spatially downsample the video.
 
 
 
-.. image:: /auto_examples/introduction/images/sphx_glr_demo_batching_001.png
-    :alt: demo batching
-    :class: sphx-glr-single-img
+.. image-sg:: /auto_examples/introduction/images/sphx_glr_demo_batching_001.png
+   :alt: demo batching
+   :srcset: /auto_examples/introduction/images/sphx_glr_demo_batching_001.png
+   :class: sphx-glr-single-img
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -95,7 +94,7 @@ Next we construct the pyramid and extract the motion energy features from the fu
 
 .. GENERATED FROM PYTHON SOURCE LINES 38-47
 
-.. code-block:: default
+.. code-block:: Python
 
 
     pyramid = moten.pyramids.MotionEnergyPyramid(stimulus_vhsize=(vdim, hdim),
@@ -111,8 +110,6 @@ Next we construct the pyramid and extract the motion energy features from the fu
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -132,7 +129,7 @@ We have to include some padding to the batches in order to avoid convolution edg
 
 .. GENERATED FROM PYTHON SOURCE LINES 54-57
 
-.. code-block:: default
+.. code-block:: Python
 
 
     filter_temporal_width = pyramid.definition['filter_temporal_width']
@@ -150,7 +147,7 @@ Finally, we define the padding window as half the temporal filter width.
 
 .. GENERATED FROM PYTHON SOURCE LINES 59-63
 
-.. code-block:: default
+.. code-block:: Python
 
 
     window = int(np.ceil((filter_temporal_width/2)))
@@ -161,8 +158,6 @@ Finally, we define the padding window as half the temporal filter width.
 
 
 .. rst-class:: sphx-glr-script-out
-
- Out:
 
  .. code-block:: none
 
@@ -177,7 +172,7 @@ Now we are ready to extract motion energy features in batches:
 
 .. GENERATED FROM PYTHON SOURCE LINES 65-90
 
-.. code-block:: default
+.. code-block:: Python
 
 
     nbatches = 5
@@ -210,8 +205,6 @@ Now we are ready to extract motion energy features in batches:
 
 .. rst-class:: sphx-glr-script-out
 
- Out:
-
  .. code-block:: none
 
     Batch 1/5 [0:60]
@@ -229,7 +222,7 @@ They are exactly the same.
 
 .. GENERATED FROM PYTHON SOURCE LINES 92-94
 
-.. code-block:: default
+.. code-block:: Python
 
     assert np.allclose(moten_features, batched_data)
 
@@ -247,28 +240,26 @@ In this example, the stimulus (``luminance_images``) is already in memory and so
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** ( 0 minutes  29.012 seconds)
+   **Total running time of the script:** (0 minutes 15.169 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_batching.py:
 
+.. only:: html
 
-.. only :: html
+  .. container:: sphx-glr-footer sphx-glr-footer-example
 
- .. container:: sphx-glr-footer
-    :class: sphx-glr-footer-example
+    .. container:: sphx-glr-download sphx-glr-download-jupyter
 
+      :download:`Download Jupyter notebook: demo_batching.ipynb <demo_batching.ipynb>`
 
+    .. container:: sphx-glr-download sphx-glr-download-python
 
-  .. container:: sphx-glr-download sphx-glr-download-python
+      :download:`Download Python source code: demo_batching.py <demo_batching.py>`
 
-     :download:`Download Python source code: demo_batching.py <demo_batching.py>`
+    .. container:: sphx-glr-download sphx-glr-download-zip
 
-
-
-  .. container:: sphx-glr-download sphx-glr-download-jupyter
-
-     :download:`Download Jupyter notebook: demo_batching.ipynb <demo_batching.ipynb>`
+      :download:`Download zipped: demo_batching.zip <demo_batching.zip>`
 
 
 .. only:: html
