@@ -26,7 +26,7 @@ author = 'Anwar O. Nunez-Elizalde'
 # The full version, including alpha/beta/rc tags
 import moten  # noqa
 release = moten.__version__
-version = moten__version__
+version = moten.__version__
 
 
 # -- General configuration ---------------------------------------------------
