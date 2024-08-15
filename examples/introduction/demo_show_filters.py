@@ -28,7 +28,7 @@ pprint(pyramid.filters[1337])
 
 # %%
 # (*Ignore this code block. It is needed to display the animation as a video on this website*)
-output = '../../docs/build/html/_downloads/example_moten_filter.gif'
+output = '../../docs/build/html/_downloads/example_moten_filter.mp4'
 fig = animation._fig
 title = 'Example filter:\ndirection of motion=180, spatial fq=16cpi, temporal fq=4Hz'
 fig.suptitle(title)
@@ -41,3 +41,4 @@ fig, ax = plt.subplots()
 ax.matshow(spatial_component, vmin=-1, vmax=1, cmap='coolwarm')
 __ = ax.set_xticks([])
 __ = ax.set_yticks([])
+# %%
