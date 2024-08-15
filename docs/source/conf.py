@@ -25,9 +25,8 @@ author = 'Anwar O. Nunez-Elizalde'
 
 # The full version, including alpha/beta/rc tags
 import moten  # noqa
-# The short X.Y version.
-version = ".".join(moten.__version__.split(".")[:2])
 release = moten.__version__
+version = moten__version__
 
 
 # -- General configuration ---------------------------------------------------
