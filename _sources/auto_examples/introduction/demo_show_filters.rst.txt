@@ -99,7 +99,7 @@ These are the filter parameters:
 
 .. code-block:: Python
 
-    output = '../../docs/build/html/_downloads/example_moten_filter.gif'
+    output = '../../docs/build/html/_downloads/example_moten_filter.mp4'
     fig = animation._fig
     title = 'Example filter:\ndirection of motion=180, spatial fq=16cpi, temporal fq=4Hz'
     fig.suptitle(title)
@@ -127,7 +127,7 @@ These are the filter parameters:
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.327 seconds)
+   **Total running time of the script:** (0 minutes 2.052 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_show_filters.py:
