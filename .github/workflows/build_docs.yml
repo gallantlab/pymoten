@@ -24,7 +24,7 @@ jobs:
     - uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
@@ -37,7 +37,7 @@ jobs:
         pip install ffmpeg
         pip install -q wheel numpy scipy Pillow==9.5.0 matplotlib opencv-python
         pip install -q ipython Sphinx sphinx-gallery numpydoc sphinx-rtd-theme sphinx-bootstrap-theme
-        pip install -e . --no-build-isolation
+        pip install -e '.[test]' --no-build-isolation
         python -c 'import moten; print(moten.__version__)'
 
     - name: Build documents

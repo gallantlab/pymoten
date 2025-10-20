@@ -24,19 +24,18 @@ jobs:
     - uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/setup.py') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/pyproject.toml') }}
         restore-keys: |
           ${{ runner.os }}-pip-
 
     - name: Install dependencies
       run: |
         sudo apt-get install -y libblas-dev liblapack-dev libopenblas-dev ffmpeg libx264-dev
-        pip install -q -r test_requirements.txt
-        pip install -e .
+        pip install -e . --group test
 
     - name: Test with pytest
       run: |
-        pytest -v --cov=./
+        pytest -v
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v5
