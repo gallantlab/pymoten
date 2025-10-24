@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.9, "3.10", "3.11", "3.12", "3.13"]
+        python-version: [3.9, "3.10", "3.11", "3.12", "3.13"]
       max-parallel: 5
 
     steps:
@@ -32,6 +32,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y --no-install-recommends libblas-dev liblapack-dev libopenblas-dev ffmpeg libx264-dev
+        pip install --upgrade pip
         pip install -e . --group test
 
     - name: Test with pytest
