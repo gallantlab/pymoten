@@ -32,7 +32,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y --no-install-recommends libblas-dev liblapack-dev libopenblas-dev ffmpeg libx264-dev
-        pip install --upgrade pip
+        pip install --upgrade pip setuptools
         pip install -e . --group test
 
     - name: Test with pytest
