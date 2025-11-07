@@ -1,9 +1,0 @@
-numpy
-scipy
-Pillow
-matplotlib
-opencv-python
-scikit-image
-pytest
-pytest-cov
-codecov

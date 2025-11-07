@@ -21,15 +21,13 @@ Installation
 ============
 
 
-Clone the repo from GitHub and do the usual python install
+Using pip, install the latest version from git:
 
 .. code-block:: bash
 
-   git clone https://github.com/gallantlab/pymoten.git
-   cd pymoten
-   sudo python setup.py install
+   pip install git+https://github.com/gallantlab/pymoten.git
 
-Or with pip:
+Or the most recent release:
 
 .. code-block:: bash
 

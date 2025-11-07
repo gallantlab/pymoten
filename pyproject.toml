@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pymoten"
+dynamic = ["version"]
+description = "Extract motion energy features from video using spatio-temporal Gabors"
+readme = "README.rst"
+license = {text = "BSD-2-Clause"}
+authors = [
+    {name = "Anwar O. Nunez-Elizalde", email = "anwarnunez@gmail.com"},
+]
+maintainers = [
+    {name = "Anwar O. Nunez-Elizalde", email = "anwarnunez@gmail.com"},
+]
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Image Processing",
+]
+requires-python = ">=3.6"
+dependencies = [
+    "matplotlib",
+    "numpy",
+    "opencv-python",
+    "Pillow",
+    "scipy",
+]
+
+[project.urls]
+Homepage = "https://gallantlab.github.io/pymoten/"
+Repository = "https://github.com/gallantlab/pymoten"
+Issues = "https://github.com/gallantlab/pymoten/issues"
+
+[dependency-groups]
+# For development
+docs = [
+    "numpydoc",
+    "ipython",
+    "Sphinx",
+    "sphinx-gallery",
+    "sphinx-rtd-theme",
+    "sphinx-bootstrap-theme",
+]
+test = [
+    "codecov",
+    "pytest",
+    "pytest-cov",
+    "scikit-image",
+]
+dev = [
+    {include-group = "docs"},
+    {include-group = "test"},
+]
+
+[tool.pytest.ini_options]
+addopts = "--cov=./"
+
+[tool.setuptools.dynamic]
+version = {attr = "moten.__version__"}
