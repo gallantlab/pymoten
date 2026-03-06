@@ -51,6 +51,7 @@ def raw_project_stimulus(stimulus,
         vhsize = (vdim, hdim)
 
     backend = get_backend()
+    stimulus = backend.asarray(stimulus)
 
     # checks for 2D stimuli
     assert stimulus.ndim == 2                             # (nimages, pixels)
@@ -105,6 +106,7 @@ def project_stimulus(stimulus,
         vhsize = (vdim, hdim)
 
     backend = get_backend()
+    stimulus = backend.asarray(stimulus)
 
     # checks for 2D stimuli
     assert stimulus.ndim == 2                             # (nimages, pixels)
@@ -322,7 +324,7 @@ def dotspatial_frames(spatial_gabor_sin, spatial_gabor_cos,
                             spatial_gabor_cos.reshape(-1)])
     # dot the gabors with the stimulus
     mask = backend.abs(gabors).sum(0) > masklimit
-    gabor_prod = (gabors[:,mask].squeeze() @ stimulus.T[mask].squeeze()).T
+    gabor_prod = (gabors[:, mask] @ stimulus.T[mask]).T
     gabor_sin, gabor_cos = gabor_prod[:,0], gabor_prod[:,1]
     return gabor_sin, gabor_cos
 
@@ -730,10 +732,13 @@ def project_stimulus_batched(stimulus,
         vhsize = (vdim, hdim)
 
     backend = get_backend()
+    stimulus = backend.asarray(stimulus)
 
     assert stimulus.ndim == 2
     assert isinstance(vhsize, tuple) and len(vhsize) == 2
     assert vhsize[0] * vhsize[1] == stimulus.shape[1]
+    if batch_size <= 0:
+        raise ValueError(f"batch_size must be positive, got {batch_size}")
 
     nfilters = len(filters)
     nimages = stimulus.shape[0]
