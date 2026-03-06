@@ -136,3 +136,9 @@ dmypy.json
 
 # emacs
 *~
+
+# output files
+*.npz
+
+# claude
+.claude/settings.local.json
