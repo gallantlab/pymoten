@@ -8,10 +8,12 @@
 #  Anwar O. Nunez-Elizalde (Apr, 2020)
 #
 import itertools
+import math
 from PIL import Image
 
 import numpy as np
 
+from moten.backend import get_backend
 from moten.utils import (DotDict,
                          iterator_func,
                          log_compress,
@@ -48,16 +50,18 @@ def raw_project_stimulus(stimulus,
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
         vhsize = (vdim, hdim)
 
+    backend = get_backend()
+
     # checks for 2D stimuli
     assert stimulus.ndim == 2                             # (nimages, pixels)
     assert isinstance(vhsize, tuple) and len(vhsize) == 2 # (hdim, vdim)
-    assert np.prod(vhsize) == stimulus.shape[1]           # hdim*vdim == pixels
+    assert vhsize[0] * vhsize[1] == stimulus.shape[1]    # hdim*vdim == pixels
 
     # Compute responses
     nfilters = len(filters)
     nimages = stimulus.shape[0]
-    sin_responses = np.zeros((nimages, nfilters), dtype=dtype)
-    cos_responses = np.zeros((nimages, nfilters), dtype=dtype)
+    sin_responses = backend.zeros((nimages, nfilters), dtype=dtype)
+    cos_responses = backend.zeros((nimages, nfilters), dtype=dtype)
 
     for gaborid, gabor_parameters in iterator_func(enumerate(filters),
                                                    'project_stimulus',
@@ -100,15 +104,17 @@ def project_stimulus(stimulus,
         stimulus = stimulus.reshape(stimulus.shape[0], -1)
         vhsize = (vdim, hdim)
 
+    backend = get_backend()
+
     # checks for 2D stimuli
     assert stimulus.ndim == 2                             # (nimages, pixels)
     assert isinstance(vhsize, tuple) and len(vhsize) == 2 # (hdim, vdim)
-    assert np.prod(vhsize) == stimulus.shape[1]           # hdim*vdim == pixels
+    assert vhsize[0] * vhsize[1] == stimulus.shape[1]    # hdim*vdim == pixels
 
     # Compute responses
     nfilters = len(filters)
     nimages = stimulus.shape[0]
-    filter_responses = np.zeros((nimages, nfilters), dtype=dtype)
+    filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
     for gaborid, gabor_parameters in iterator_func(enumerate(filters),
                                                    'project_stimulus',
                                                    total=len(filters)):
@@ -201,6 +207,8 @@ def mk_3d_gabor(vhsize,
     -----
     Same method as Nishimoto, et al., 2011.
     '''
+    backend = get_backend()
+
     vdim, hdim = vhsize
     if aspect_ratio == 'auto':
         aspect_ratio = hdim/float(vdim)
@@ -209,38 +217,38 @@ def mk_3d_gabor(vhsize,
         filter_temporal_width = int(stimulus_fps*(2/3.))
 
     # cast filter width to integer frames
-    assert np.allclose(filter_temporal_width, int(filter_temporal_width))
+    assert math.isclose(filter_temporal_width, int(filter_temporal_width))
     filter_temporal_width = int(filter_temporal_width)
 
-    dh = np.linspace(0, aspect_ratio, hdim, endpoint=True)
-    dv = np.linspace(0, 1, vdim, endpoint=True)
-    dt = np.linspace(0, 1, filter_temporal_width, endpoint=False)
+    dh = backend.linspace(0, aspect_ratio, hdim, endpoint=True)
+    dv = backend.linspace(0, 1, vdim, endpoint=True)
+    dt = backend.linspace(0, 1, filter_temporal_width, endpoint=False)
     # AN: Actually, `dt` should include endpoint.
     # Currently, the center of the filter width is +(1./fps)/2.
     # However, this would break backwards compatibility.
     # TODO: Allow for `dt_endpoint` as an argument
     # and set default to False.
 
-    ihs, ivs = np.meshgrid(dh,dv)
+    ihs, ivs = backend.meshgrid(dh, dv)
 
-    fh = -spatial_freq*np.cos(direction/180.*np.pi)*2*np.pi
-    fv = spatial_freq*np.sin(direction/180.*np.pi)*2*np.pi
+    fh = -spatial_freq*backend.cos(backend.asarray(direction/180.*backend.pi))*2*backend.pi
+    fv = spatial_freq*backend.sin(backend.asarray(direction/180.*backend.pi))*2*backend.pi
     # normalize temporal frequency to wavelet size
-    ft = np.real(temporal_freq*(filter_temporal_width/float(stimulus_fps)))*2*np.pi
+    ft = backend.real(backend.asarray(temporal_freq*(filter_temporal_width/float(stimulus_fps))))*2*backend.pi
 
     # spatial filters
-    spatial_gaussian = np.exp(-((ihs - centerh)**2 + (ivs - centerv)**2)/(2*spatial_env**2))
+    spatial_gaussian = backend.exp(-((ihs - centerh)**2 + (ivs - centerv)**2)/(2*spatial_env**2))
 
-    spatial_grating_sin = np.sin((ihs - centerh)*fh + (ivs - centerv)*fv + spatial_phase_offset)
-    spatial_grating_cos = np.cos((ihs - centerh)*fh + (ivs - centerv)*fv + spatial_phase_offset)
+    spatial_grating_sin = backend.sin((ihs - centerh)*fh + (ivs - centerv)*fv + spatial_phase_offset)
+    spatial_grating_cos = backend.cos((ihs - centerh)*fh + (ivs - centerv)*fv + spatial_phase_offset)
 
     spatial_gabor_sin = spatial_gaussian * spatial_grating_sin
     spatial_gabor_cos = spatial_gaussian * spatial_grating_cos
 
     ##############################
-    temporal_gaussian = np.exp(-(dt - 0.5)**2/(2*temporal_env**2))
-    temporal_grating_sin = np.sin((dt - 0.5)*ft)
-    temporal_grating_cos = np.cos((dt - 0.5)*ft)
+    temporal_gaussian = backend.exp(-(dt - 0.5)**2/(2*temporal_env**2))
+    temporal_grating_sin = backend.sin((dt - 0.5)*ft)
+    temporal_grating_cos = backend.cos((dt - 0.5)*ft)
 
     temporal_gabor_sin = temporal_gaussian*temporal_grating_sin
     temporal_gabor_cos = temporal_gaussian*temporal_grating_cos
@@ -309,10 +317,11 @@ def dotspatial_frames(spatial_gabor_sin, spatial_gabor_cos,
         The filter response to each stimulus
         The quadrature pair can be combined: (x^2 + y^2)^0.5
     '''
-    gabors = np.asarray([spatial_gabor_sin.ravel(),
-                         spatial_gabor_cos.ravel()])
+    backend = get_backend()
+    gabors = backend.stack([spatial_gabor_sin.reshape(-1),
+                            spatial_gabor_cos.reshape(-1)])
     # dot the gabors with the stimulus
-    mask = np.abs(gabors).sum(0) > masklimit
+    mask = backend.abs(gabors).sum(0) > masklimit
     gabor_prod = (gabors[:,mask].squeeze() @ stimulus.T[mask].squeeze()).T
     gabor_sin, gabor_cos = gabor_prod[:,0], gabor_prod[:,1]
     return gabor_sin, gabor_cos
@@ -345,24 +354,26 @@ def dotdelay_frames(spatial_gabor_sin, spatial_gabor_cos,
         The quadrature pair can be combined: (x^2 + y^2)^0.5
     '''
 
+    backend = get_backend()
+
     gabor_sin, gabor_cos = dotspatial_frames(spatial_gabor_sin, spatial_gabor_cos,
                                              stimulus, masklimit=masklimit)
-    gabor_prod = np.c_[gabor_sin, gabor_cos]
+    gabor_prod = backend.column_stack([gabor_sin, gabor_cos])
 
-
-    temporal_gabors = np.asarray([temporal_gabor_sin,
-                                  temporal_gabor_cos])
+    temporal_gabors = backend.stack([temporal_gabor_sin,
+                                     temporal_gabor_cos])
 
     # dot the product with the temporal gabors
     outs =  gabor_prod[:, [0]] @ temporal_gabors[[1]] + gabor_prod[:, [1]] @ temporal_gabors[[0]]
     outc = -gabor_prod[:, [0]] @ temporal_gabors[[0]] + gabor_prod[:, [1]] @ temporal_gabors[[1]]
 
     # sum across delays
-    nouts = np.zeros_like(outs)
-    noutc = np.zeros_like(outc)
-    tdxc = int(np.ceil(outs.shape[1]/2.0))
-    delays = np.arange(outs.shape[1])-tdxc +1
-    for ddx, num in enumerate(delays):
+    nouts = backend.zeros_like(outs)
+    noutc = backend.zeros_like(outc)
+    tdxc = int(math.ceil(outs.shape[1]/2.0))
+    delays = range(outs.shape[1])
+    for ddx in delays:
+        num = ddx - tdxc + 1
         if num == 0:
             nouts[:, ddx] = outs[:,ddx]
             noutc[:, ddx] = outc[:,ddx]
@@ -412,7 +423,7 @@ def compute_spatial_gabor_responses(stimulus,
                                     spatial_frequencies=[0,2,4,8,16,32],
                                     quadrature_combination=sqrt_sum_squares,
                                     output_nonlinearity=log_compress,
-                                    dtype=np.float64,
+                                    dtype='float64',
                                     dozscore=True):
     """Compute the spatial gabor filters' response to each stimulus.
 
@@ -433,13 +444,14 @@ def compute_spatial_gabor_responses(stimulus,
     dozscore : bool, optional
         Whether to z-score the channel responses in time
 
-    dtype : np.dtype
-        Defaults to np.float64
+    dtype : str or dtype
+        Defaults to 'float64'
 
     Returns
     -------
     filter_responses : np.array, (n, nfilters)
     """
+    backend = get_backend()
     nimages, vdim, hdim = stimulus.shape
     vhsize = (vdim, hdim)
 
@@ -465,7 +477,7 @@ def compute_spatial_gabor_responses(stimulus,
     info = 'Computing responses for #%i filters across #%i images (aspect_ratio=%0.03f)'
     print(info%(len(gabor_parameters), nimages, aspect_ratio))
 
-    channels = np.zeros((nimages, len(gabor_parameters)), dtype=dtype)
+    channels = backend.zeros((nimages, len(gabor_parameters)), dtype=dtype)
     for idx, gabor_param_dict in iterator_func(enumerate(filters),
                                           '%s.compute_spatial_gabor_responses'%__name__,
                                           total=len(gabor_parameters)):
@@ -478,6 +490,7 @@ def compute_spatial_gabor_responses(stimulus,
     channels = output_nonlinearity(channels)
     if dozscore:
         from scipy.stats import zscore
+        channels = backend.to_numpy(channels)
         channels = zscore(channels)
     return channels
 
@@ -489,7 +502,7 @@ def compute_filter_responses(stimulus,
                              quadrature_combination=sqrt_sum_squares,
                              output_nonlinearity=log_compress,
                              dozscore=True,
-                             dtype=np.float64,
+                             dtype='float64',
                              pyramid_parameters={}):
     """Compute the motion energy filters' response to the stimuli.
 
@@ -515,8 +528,8 @@ def compute_filter_responses(stimulus,
     dozscore : bool, optional
         Whether to z-score the channel responses in time
 
-    dtype : np.dtype
-        Defaults to np.float64
+    dtype : str or dtype
+        Defaults to 'float64'
 
     pyramid_parameters: dict
         See :func:`mk_moten_pyramid_params` for details on parameters
@@ -526,6 +539,7 @@ def compute_filter_responses(stimulus,
     -------
     filter_responses : np.array, (n, nfilters)
     """
+    backend = get_backend()
     nimages, vdim, hdim = stimulus.shape
     stimulus = stimulus.reshape(stimulus.shape[0], -1)
     vhsize = (vdim, hdim)
@@ -551,7 +565,7 @@ def compute_filter_responses(stimulus,
     info = 'Computing responses for #%i filters across #%i images (aspect_ratio=%0.03f)'
     print(info%(len(gabor_parameters), nimages, aspect_ratio))
 
-    channels = np.zeros((nimages, len(gabor_parameters)), dtype=dtype)
+    channels = backend.zeros((nimages, len(gabor_parameters)), dtype=dtype)
     for idx, gabor_param_dict in iterator_func(enumerate(filters),
                                           '%s.compute_filter_responses'%__name__,
                                           total=len(filters)):
@@ -570,6 +584,7 @@ def compute_filter_responses(stimulus,
     channels = output_nonlinearity(channels)
     if dozscore:
         from scipy.stats import zscore
+        channels = backend.to_numpy(channels)
         channels = zscore(channels)
     return channels
 
@@ -650,11 +665,13 @@ def mk_moten_pyramid_params(stimulus_fps,
     -----
     Same method as Nishimoto, et al., 2011.
     """
-    assert isinstance(aspect_ratio, (int, float, np.ndarray))
+    assert isinstance(aspect_ratio, (int, float)) or (hasattr(aspect_ratio, 'ndim'))
 
     def compute_envelope(freq, ratio):
-        return np.inf if freq == 0 else (1.0/freq)*ratio
+        return float('inf') if freq == 0 else (1.0/freq)*ratio
 
+    # mk_moten_pyramid_params always uses numpy for parameter construction
+    # since it produces metadata (filter parameters), not computed signals.
     spatial_frequencies = np.asarray(spatial_frequencies)
     spatial_directions = np.asarray(spatial_directions)
     temporal_frequencies = np.asarray(temporal_frequencies)

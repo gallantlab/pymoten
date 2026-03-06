@@ -3,6 +3,7 @@
 import numpy as np
 
 import moten
+from moten.backend import get_backend
 from moten.utils import (iterator_func,
                          pointwise_square,
                          )
@@ -16,7 +17,7 @@ except ImportError:
 
 def process_motion_energy_from_files(filenames,
                                      size=None,
-                                     nimages=np.inf,
+                                     nimages=float('inf'),
                                      batch_size=1000,
                                      dtype='float32',
                                      mask=None,
@@ -72,8 +73,9 @@ def pixbypix_covariance_from_frames_generator(data_generator,
     vdim, hdim = first_frame.shape
     npixels = vdim*hdim
 
-    framediff_buffer = np.zeros((batch_size, npixels), dtype=dtype)
-    XTX = np.zeros((npixels, npixels), dtype=dtype)
+    backend = get_backend()
+    framediff_buffer = backend.zeros((batch_size, npixels), dtype=dtype)
+    XTX = backend.zeros((npixels, npixels), dtype=dtype)
     nframes = 0
 
     if with_tqdm:
@@ -170,7 +172,7 @@ class StimulusTotalMotionEnergy(object):
     def __init__(self,
                  video_file,
                  size=None,
-                 nimages=np.inf,
+                 nimages=float('inf'),
                  batch_size=1000,
                  output_nonlinearity=pointwise_square,
                  dtype='float32',
@@ -250,7 +252,7 @@ class StimulusTotalMotionEnergy(object):
         decomposition_spatial_pcs : np.ndarray, (npixels, npcs)
         decomposition_eigenvalues : np.ndarray
         '''
-        from scipy import linalg
+        backend = get_backend()
 
         if npcs is None:
             npcs = min(self.npixels, self.covariance_nframes) + 1
@@ -259,15 +261,15 @@ class StimulusTotalMotionEnergy(object):
         # Q L QT = XTX
         # U,S,Vt = X
         # Q = V
-        L, Q = linalg.eigh(self.covariance_pixbypix)
+        L, Q = backend.eigh(self.covariance_pixbypix)
 
-        # increasing order
-        L = L[::-1]             # eigenvals (npcs)
-        Q = Q[:, ::-1]          # eigenvecs (npixels, npcs)
+        # increasing order (eigh returns ascending, we want descending)
+        L = L.flip(0) if hasattr(L, 'flip') else L[::-1]
+        Q = Q.flip(1) if hasattr(Q, 'flip') else Q[:, ::-1]
 
         # store: (npixels, npcs)
-        self.decomposition_spatial_pcs = np.asarray(Q[:, :npcs], dtype=self.dtype)
-        self.decomposition_eigenvalues = np.asarray(L, dtype=self.dtype)
+        self.decomposition_spatial_pcs = backend.asarray(Q[:, :npcs], dtype=self.dtype)
+        self.decomposition_eigenvalues = backend.asarray(L, dtype=self.dtype)
 
     def compute_temporal_pcs(self, generator=None, skip_first=False):
         '''Extract the temporal principal components of the total motion energy.

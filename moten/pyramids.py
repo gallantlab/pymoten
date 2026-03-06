@@ -17,7 +17,7 @@
 #
 import numpy as np
 
-
+from moten.backend import get_backend
 from moten import (utils,
                    core,
                    viz,
@@ -304,11 +304,11 @@ class MotionEnergyPyramid(object):
         mask : 2D np.ndarray, (vdim, hdim)
             Filter spatial mask
         '''
-        abs = np.abs
+        backend = get_backend()
         threshold = self.mask_threshold
 
         spsin, spcos = self.get_filter_spatial_quadrature(filterid)
-        mask = (abs(spsin) + abs(spcos)) > threshold
+        mask = (backend.abs(spsin) + backend.abs(spcos)) > threshold
         return mask
 
     def get_filter_pixel_sizes(self):
@@ -374,7 +374,7 @@ class MotionEnergyPyramid(object):
         title = ''
         for pdx, (pname, pval) in enumerate(sorted(gabor_params_dict.items())):
             title += '%s=%0.02f, '%(pname, pval)
-            if np.mod(pdx, 3) == 0 and pdx > 0:
+            if pdx % 3 == 0 and pdx > 0:
                 title += '\n'
 
         return viz.plot_3dgabor(vhsize,
@@ -676,7 +676,7 @@ class StimulusStaticGaborPyramid(StimulusMotionEnergy):
                                          max_spatial_env=max_spatial_env,
                                          filter_spacing=filter_spacing,
                                          # fixed parameters for static filters:
-                                         max_temp_env=np.inf,
+                                         max_temp_env=float('inf'),
                                          stimulus_fps=1,
                                          temporal_frequencies=[0],
                                          filter_temporal_width=1,

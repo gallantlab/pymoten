@@ -29,6 +29,9 @@ dependencies = [
     "scipy",
 ]
 
+[project.optional-dependencies]
+torch = ["torch"]
+
 [project.urls]
 Homepage = "https://gallantlab.github.io/pymoten/"
 Repository = "https://github.com/gallantlab/pymoten"

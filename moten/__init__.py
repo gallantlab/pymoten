@@ -12,6 +12,7 @@
 # internal imports
 ##############################
 from moten import core, io, pyramids, utils, viz
+from moten.backend import set_backend, get_backend
 
 # some default pyramids
 default_pyramids = pyramids.DefaultPyramids()
@@ -50,7 +51,7 @@ def get_default_pyramid(vhsize=(144, 256), fps=24, **kwargs):
                                         **kwargs)
 
 
-__all__ = ['utils', 'core', 'viz', 'io']
+__all__ = ['utils', 'core', 'viz', 'io', 'set_backend', 'get_backend']
 
 __version__ = '0.0.8'
 
