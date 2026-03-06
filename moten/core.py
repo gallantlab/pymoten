@@ -626,6 +626,13 @@ def mk_3d_gabor_batched(vhsize, filters_batch):
     stimulus_fps = f0['stimulus_fps']
     filter_temporal_width = int(f0['filter_temporal_width'])
 
+    # Validate that shared parameters are consistent across the batch
+    for f in filters_batch[1:]:
+        assert int(f['filter_temporal_width']) == filter_temporal_width, \
+            "All filters in a batch must share the same filter_temporal_width"
+        assert f['stimulus_fps'] == stimulus_fps, \
+            "All filters in a batch must share the same stimulus_fps"
+
     # Extract per-filter parameters as 1-D arrays
     centerh = backend.asarray([f['centerh'] for f in filters_batch])
     centerv = backend.asarray([f['centerv'] for f in filters_batch])
@@ -682,7 +689,8 @@ def project_stimulus_batched(stimulus,
                              output_nonlinearity=log_compress,
                              vhsize=(),
                              dtype='float32',
-                             batch_size=128):
+                             batch_size=128,
+                             masklimit=0.001):
     '''Compute motion energy responses using batched operations.
 
     Functionally equivalent to :func:`project_stimulus` but constructs
@@ -708,6 +716,9 @@ def project_stimulus_batched(stimulus,
     batch_size : int
         Number of filters to process simultaneously.  Larger values use
         more memory but reduce Python-loop overhead.
+    masklimit : float
+        Threshold for zeroing near-zero gabor pixels. Matches the
+        ``masklimit`` parameter of :func:`dotspatial_frames`.
 
     Returns
     -------
@@ -744,7 +755,7 @@ def project_stimulus_batched(stimulus,
         # Apply per-filter mask: zero out pixels where the gabor
         # amplitude is below threshold (matches dotspatial_frames
         # masklimit behaviour without breaking the batched matmul).
-        gabor_mask = (backend.abs(sg_sin) + backend.abs(sg_cos)) > 0.001
+        gabor_mask = (backend.abs(sg_sin) + backend.abs(sg_cos)) > masklimit
         sg_sin = sg_sin * gabor_mask
         sg_cos = sg_cos * gabor_mask
 

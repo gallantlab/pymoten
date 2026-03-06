@@ -12,18 +12,7 @@ import pytest
 import moten
 from moten.backend import set_backend, get_backend, ALL_BACKENDS
 from moten import core, utils
-
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
-def _has_torch():
-    try:
-        import torch
-        return True
-    except ImportError:
-        return False
+from moten.tests.conftest import has_torch as _has_torch, make_test_stimulus as _make_test_stimulus, SMALL_PYRAMID_KWARGS
 
 
 def _has_torch_cuda():
@@ -75,11 +64,7 @@ def _skip_if_unavailable(backend_name):
         pytest.skip(_SKIP_REASONS[backend_name])
 
 
-@pytest.fixture(autouse=True)
-def _reset_backend_after_test():
-    """Ensure backend is reset to numpy after every test, even on failure."""
-    yield
-    set_backend("numpy")
+# _reset_backend_after_test fixture is provided by conftest.py (autouse)
 
 
 # ---------------------------------------------------------------------------
@@ -126,25 +111,6 @@ def _get_tolerances_f32(backend_name):
     if backend_name == "torch_cuda":
         return ATOL_CUDA_F32, RTOL_CUDA_F32
     return ATOL_F32, RTOL_F32
-
-
-# ---------------------------------------------------------------------------
-# Small reproducible stimulus
-# ---------------------------------------------------------------------------
-
-def _make_test_stimulus(nimages=50, vdim=16, hdim=24, seed=42):
-    """Create a small reproducible test stimulus."""
-    rng = np.random.RandomState(seed)
-    return rng.randn(nimages, vdim, hdim).astype(np.float64)
-
-
-SMALL_PYRAMID_KWARGS = dict(
-    stimulus_vhsize=(16, 24),
-    stimulus_fps=15,
-    temporal_frequencies=[0, 2],
-    spatial_frequencies=[0, 2, 4],
-    spatial_directions=[0, 90, 180, 270],
-)
 
 
 # ---------------------------------------------------------------------------

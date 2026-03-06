@@ -10,38 +10,7 @@ import pytest
 import moten
 from moten.backend import set_backend, get_backend
 from moten import core
-
-
-# ---------------------------------------------------------------------------
-# Helpers
-# ---------------------------------------------------------------------------
-
-def _has_torch():
-    try:
-        import torch
-        return True
-    except ImportError:
-        return False
-
-
-@pytest.fixture(autouse=True)
-def _reset_backend_after_test():
-    yield
-    set_backend("numpy")
-
-
-def _make_test_stimulus(nimages=50, vdim=16, hdim=24, seed=42):
-    rng = np.random.RandomState(seed)
-    return rng.randn(nimages, vdim, hdim).astype(np.float64)
-
-
-SMALL_PYRAMID_KWARGS = dict(
-    stimulus_vhsize=(16, 24),
-    stimulus_fps=15,
-    temporal_frequencies=[0, 2],
-    spatial_frequencies=[0, 2, 4],
-    spatial_directions=[0, 90, 180, 270],
-)
+from moten.tests.conftest import has_torch, make_test_stimulus, SMALL_PYRAMID_KWARGS
 
 
 # ---------------------------------------------------------------------------
@@ -104,7 +73,7 @@ class TestMk3dGaborBatched:
                 tg_cos_b[i], tg_cos, atol=1e-10, rtol=1e-10,
                 err_msg=f"temporal cos mismatch for filter {i}")
 
-    @pytest.mark.skipif(not _has_torch(), reason="PyTorch not installed")
+    @pytest.mark.skipif(not has_torch(), reason="PyTorch not installed")
     def test_multiple_filters_torch(self):
         """Batched gabors match per-filter on torch backend."""
         set_backend("torch")
@@ -141,14 +110,15 @@ class TestProjectStimulusBatched:
     def test_equivalence_numpy(self):
         """Batched matches original on numpy backend."""
         set_backend("numpy")
-        stimulus = _make_test_stimulus()
+        stimulus = make_test_stimulus()
         pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
 
         ref = pyramid.project_stimulus(stimulus)
         batched = pyramid.project_stimulus_batched(stimulus)
 
-        # The batched version skips the masklimit optimization, so there
-        # will be tiny differences from near-zero gabor pixel contributions.
+        # Small differences arise from floating-point ordering: the batched
+        # version uses a single large matmul vs per-filter dot products,
+        # which accumulate rounding differently.
         np.testing.assert_allclose(
             batched, ref, atol=1e-4, rtol=1e-4,
             err_msg="Batched vs original mismatch on numpy")
@@ -157,7 +127,7 @@ class TestProjectStimulusBatched:
     def test_batch_sizes_numpy(self, batch_size):
         """Different batch sizes produce the same result."""
         set_backend("numpy")
-        stimulus = _make_test_stimulus()
+        stimulus = make_test_stimulus()
         pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
 
         ref = pyramid.project_stimulus_batched(stimulus, batch_size=128)
@@ -171,7 +141,7 @@ class TestProjectStimulusBatched:
     def test_3d_and_2d_stimulus(self):
         """Batched accepts both 3D and 2D stimulus input."""
         set_backend("numpy")
-        stimulus_3d = _make_test_stimulus()
+        stimulus_3d = make_test_stimulus()
         nimages, vdim, hdim = stimulus_3d.shape
         stimulus_2d = stimulus_3d.reshape(nimages, -1)
 
@@ -187,7 +157,7 @@ class TestProjectStimulusBatched:
     def test_subset_filters(self):
         """Batched works with a subset of filters."""
         set_backend("numpy")
-        stimulus = _make_test_stimulus()
+        stimulus = make_test_stimulus()
         pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
 
         subset = pyramid.filters[:10]
@@ -201,18 +171,18 @@ class TestProjectStimulusBatched:
     def test_output_shape(self):
         """Output has correct shape."""
         set_backend("numpy")
-        stimulus = _make_test_stimulus(nimages=30)
+        stimulus = make_test_stimulus(nimages=30)
         pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
 
         result = pyramid.project_stimulus_batched(stimulus)
         assert result.shape == (30, pyramid.nfilters)
 
-    @pytest.mark.skipif(not _has_torch(), reason="PyTorch not installed")
+    @pytest.mark.skipif(not has_torch(), reason="PyTorch not installed")
     def test_equivalence_torch(self):
         """Batched matches original on torch backend."""
         set_backend("torch")
         backend = get_backend()
-        stimulus = _make_test_stimulus()
+        stimulus = make_test_stimulus()
         stimulus_t = backend.asarray(stimulus)
         pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
 
@@ -224,13 +194,13 @@ class TestProjectStimulusBatched:
             batched, ref, atol=1e-4, rtol=1e-4,
             err_msg="Batched vs original mismatch on torch")
 
-    @pytest.mark.skipif(not _has_torch(), reason="PyTorch not installed")
+    @pytest.mark.skipif(not has_torch(), reason="PyTorch not installed")
     @pytest.mark.parametrize("batch_size", [1, 16, 256])
     def test_batch_sizes_torch(self, batch_size):
         """Different batch sizes produce the same result on torch."""
         set_backend("torch")
         backend = get_backend()
-        stimulus_t = backend.asarray(_make_test_stimulus())
+        stimulus_t = backend.asarray(make_test_stimulus())
         pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
 
         ref = backend.to_numpy(
@@ -243,10 +213,10 @@ class TestProjectStimulusBatched:
             result, ref, atol=1e-10, rtol=1e-10,
             err_msg=f"torch batch_size={batch_size} gives different results")
 
-    @pytest.mark.skipif(not _has_torch(), reason="PyTorch not installed")
+    @pytest.mark.skipif(not has_torch(), reason="PyTorch not installed")
     def test_cross_backend_equivalence(self):
         """Batched numpy and batched torch produce similar results."""
-        stimulus = _make_test_stimulus()
+        stimulus = make_test_stimulus()
 
         set_backend("numpy")
         pyramid_np = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
@@ -274,7 +244,7 @@ class TestCoreBatchedFunction:
     def test_matches_core_project_stimulus(self):
         """core.project_stimulus_batched matches core.project_stimulus."""
         set_backend("numpy")
-        stimulus = _make_test_stimulus()
+        stimulus = make_test_stimulus()
         vhsize = (16, 24)
         pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
         filters = pyramid.filters
@@ -290,7 +260,7 @@ class TestCoreBatchedFunction:
     def test_batch_size_one_matches_full(self):
         """batch_size=1 (degenerate) still produces correct results."""
         set_backend("numpy")
-        stimulus = _make_test_stimulus(nimages=20)
+        stimulus = make_test_stimulus(nimages=20)
         vhsize = (16, 24)
         pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
         filters = pyramid.filters

@@ -472,7 +472,8 @@ class MotionEnergyPyramid(object):
             output_nonlinearity=output_nonlinearity,
             vhsize=(vdim, hdim),
             dtype=dtype,
-            batch_size=batch_size)
+            batch_size=batch_size,
+            masklimit=self.mask_threshold)
 
         return output
 
