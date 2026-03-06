@@ -41,7 +41,7 @@ def run_benchmark(backend_name, stimulus_np, vdim, hdim, stimulus_fps,
     """Benchmark a single backend. Returns dict with timing results."""
     backend_mod = set_backend(backend_name)
 
-    stimulus = backend_mod.asarray(stimulus_np, dtype='float32')
+    stimulus = backend_mod.asarray(stimulus_np)
     pyramid = pyramids.MotionEnergyPyramid(
         stimulus_vhsize=(vdim, hdim),
         stimulus_fps=stimulus_fps,
