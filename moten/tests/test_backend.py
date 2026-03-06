@@ -607,7 +607,7 @@ class TestBackendOperations:
 
         # Eigenvectors: check that Q @ diag(L) @ Q.T reconstructs A
         reconstructed = Q_np @ np.diag(L_np) @ Q_np.T
-        np.testing.assert_allclose(reconstructed, A_np, atol=1e-8, rtol=1e-6,
+        np.testing.assert_allclose(reconstructed, A_np, atol=atol, rtol=rtol,
                                    err_msg=f"eigh reconstruction mismatch on {backend_name}")
 
     @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
