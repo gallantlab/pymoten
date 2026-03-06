@@ -109,7 +109,9 @@ def benchmark(backend=None, nimages=100, vdim=96, hdim=128, stimulus_fps=24):
     -------
     results : dict
         Dictionary mapping backend name to a dict with keys:
-        - ``duration_seconds``: wall-clock time in seconds
+        - ``duration_seconds``: wall-clock time for per-filter projection
+        - ``duration_batched_seconds``: wall-clock time for batched projection
+        - ``speedup``: ratio of per-filter to batched duration
         - ``nimages``: number of frames processed
         - ``vhsize``: ``(vdim, hdim)``
         - ``nfilters``: number of filters in the pyramid
@@ -153,14 +155,22 @@ def benchmark(backend=None, nimages=100, vdim=96, hdim=128, stimulus_fps=24):
 
         # Warm-up run (important for GPU backends)
         pyramid.project_stimulus(stimulus, dtype='float32')
+        pyramid.project_stimulus_batched(stimulus, dtype='float32')
 
-        # Timed run
+        # Timed run -- original (per-filter)
         start = time.perf_counter()
         pyramid.project_stimulus(stimulus, dtype='float32')
         duration = time.perf_counter() - start
 
+        # Timed run -- batched
+        start = time.perf_counter()
+        pyramid.project_stimulus_batched(stimulus, dtype='float32')
+        duration_batched = time.perf_counter() - start
+
         results[backend_name] = {
             "duration_seconds": duration,
+            "duration_batched_seconds": duration_batched,
+            "speedup": duration / duration_batched if duration_batched > 0 else float('inf'),
             "nimages": nimages,
             "vhsize": (vdim, hdim),
             "nfilters": pyramid.nfilters,
