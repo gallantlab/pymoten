@@ -692,6 +692,99 @@ class TestBackendOperations:
             result = result.item()
         assert result == pytest.approx(1.0)
 
+    @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
+    def test_allclose(self, backend_name):
+        """Test allclose equivalence."""
+        _skip_if_unavailable(backend_name)
+        backend = set_backend(backend_name)
+        a = backend.asarray([1.0, 2.0, 3.0])
+        b = backend.asarray([1.0, 2.0, 3.0])
+        assert backend.allclose(a, b)
+        c = backend.asarray([1.0, 2.0, 4.0])
+        assert not backend.allclose(a, c)
+
+    @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
+    def test_concatenate(self, backend_name):
+        """Test concatenate equivalence."""
+        _skip_if_unavailable(backend_name)
+        backend = set_backend(backend_name)
+        a = backend.asarray([1.0, 2.0])
+        b = backend.asarray([3.0, 4.0])
+        result = backend.to_numpy(backend.concatenate([a, b]))
+        np.testing.assert_array_equal(result, [1.0, 2.0, 3.0, 4.0])
+
+    @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
+    def test_ceil_floor(self, backend_name):
+        """Test ceil and floor with scalar and tensor inputs."""
+        _skip_if_unavailable(backend_name)
+        backend = set_backend(backend_name)
+        # Scalar inputs
+        assert backend.ceil(2.3) == 3
+        assert backend.floor(2.7) == 2
+        # Tensor inputs
+        x = backend.asarray([1.2, 2.7, 3.5])
+        np.testing.assert_array_equal(
+            backend.to_numpy(backend.ceil(x)), [2.0, 3.0, 4.0])
+        np.testing.assert_array_equal(
+            backend.to_numpy(backend.floor(x)), [1.0, 2.0, 3.0])
+
+    @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
+    def test_zeros_int_shape(self, backend_name):
+        """Test zeros with int shape instead of tuple."""
+        _skip_if_unavailable(backend_name)
+        backend = set_backend(backend_name)
+        z = backend.zeros(5, dtype='float64')
+        assert backend.to_numpy(z).shape == (5,)
+        np.testing.assert_array_equal(backend.to_numpy(z), 0.0)
+
+    @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
+    def test_zeros_like_with_shape(self, backend_name):
+        """Test zeros_like with explicit shape and dtype."""
+        _skip_if_unavailable(backend_name)
+        backend = set_backend(backend_name)
+        x = backend.asarray([1.0, 2.0, 3.0])
+        z = backend.zeros_like(x, dtype='float32', shape=(2, 4))
+        z_np = backend.to_numpy(z)
+        assert z_np.shape == (2, 4)
+        np.testing.assert_array_equal(z_np, 0.0)
+
+    @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
+    def test_array(self, backend_name):
+        """Test array function."""
+        _skip_if_unavailable(backend_name)
+        backend = set_backend(backend_name)
+        result = backend.to_numpy(backend.array([1.0, 2.0, 3.0]))
+        np.testing.assert_array_equal(result, [1.0, 2.0, 3.0])
+
+    @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
+    def test_to_numpy_passthrough(self, backend_name):
+        """Test to_numpy with a plain numpy array (passthrough)."""
+        _skip_if_unavailable(backend_name)
+        backend = set_backend(backend_name)
+        x = np.array([1.0, 2.0, 3.0])
+        result = backend.to_numpy(x)
+        assert isinstance(result, np.ndarray)
+        np.testing.assert_array_equal(result, x)
+
+    @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
+    def test_unique_with_axis(self, backend_name):
+        """Test unique with axis parameter."""
+        _skip_if_unavailable(backend_name)
+        backend = set_backend(backend_name)
+        x = backend.asarray([[1.0, 2.0], [1.0, 2.0], [3.0, 4.0]])
+        result = backend.to_numpy(backend.unique(x, axis=0))
+        expected = np.unique([[1.0, 2.0], [1.0, 2.0], [3.0, 4.0]], axis=0)
+        np.testing.assert_array_equal(result, expected)
+
+    @pytest.mark.parametrize("backend_name", _ALL_NONDEFAULT_BACKENDS)
+    def test_prod_with_axis(self, backend_name):
+        """Test prod with axis parameter."""
+        _skip_if_unavailable(backend_name)
+        backend = set_backend(backend_name)
+        x = backend.asarray([[2.0, 3.0], [4.0, 5.0]])
+        result = backend.to_numpy(backend.prod(x, axis=0))
+        np.testing.assert_array_equal(result, [8.0, 15.0])
+
 
 # ---------------------------------------------------------------------------
 # End-to-end equivalence tests
