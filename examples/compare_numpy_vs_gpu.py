@@ -11,9 +11,12 @@ Usage::
     python examples/demo_numpy_vs_gpu.py --nimages 100 --output my_features.npz
 """
 import argparse
+import os
 import sys
 import time
 import warnings
+
+os.environ["TQDM_DISABLE"] = "1"
 
 import numpy as np
 
