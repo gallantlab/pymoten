@@ -16,7 +16,7 @@ except ImportError:
 
 def process_motion_energy_from_files(filenames,
                                      size=None,
-                                     nimages=np.inf,
+                                     nimages=float('inf'),
                                      batch_size=1000,
                                      dtype='float32',
                                      mask=None,
@@ -170,7 +170,7 @@ class StimulusTotalMotionEnergy(object):
     def __init__(self,
                  video_file,
                  size=None,
-                 nimages=np.inf,
+                 nimages=float('inf'),
                  batch_size=1000,
                  output_nonlinearity=pointwise_square,
                  dtype='float32',
@@ -250,8 +250,6 @@ class StimulusTotalMotionEnergy(object):
         decomposition_spatial_pcs : np.ndarray, (npixels, npcs)
         decomposition_eigenvalues : np.ndarray
         '''
-        from scipy import linalg
-
         if npcs is None:
             npcs = min(self.npixels, self.covariance_nframes) + 1
 
@@ -259,11 +257,11 @@ class StimulusTotalMotionEnergy(object):
         # Q L QT = XTX
         # U,S,Vt = X
         # Q = V
-        L, Q = linalg.eigh(self.covariance_pixbypix)
+        L, Q = np.linalg.eigh(self.covariance_pixbypix)
 
-        # increasing order
-        L = L[::-1]             # eigenvals (npcs)
-        Q = Q[:, ::-1]          # eigenvecs (npixels, npcs)
+        # increasing order (eigh returns ascending, we want descending)
+        L = L[::-1]
+        Q = Q[:, ::-1]
 
         # store: (npixels, npcs)
         self.decomposition_spatial_pcs = np.asarray(Q[:, :npcs], dtype=self.dtype)

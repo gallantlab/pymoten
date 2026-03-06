@@ -1,0 +1,7 @@
+ignore:
+  - "moten/backend/torch_cuda.py"
+  - "moten/backend/torch_mps.py"
+  - "moten/viz.py"
+  - "moten/io.py"
+  - "moten/extras.py"
+  - "examples/*"
