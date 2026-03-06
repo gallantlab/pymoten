@@ -46,6 +46,10 @@ def asarray(x, dtype=None, device="mps"):
             dtype = x.dtype
         elif hasattr(x, 'dtype') and hasattr(x.dtype, 'name'):
             dtype = x.dtype.name
+        else:
+            # Plain Python lists/scalars default to float32 on MPS
+            # since MPS doesn't support float64
+            dtype = "float32"
     if dtype is not None:
         dtype = _dtype_to_str(dtype)
         dtype = _check_dtype_torch_mps(dtype)
