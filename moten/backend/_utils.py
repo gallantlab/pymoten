@@ -5,7 +5,6 @@ Provides set_backend/get_backend for switching between numpy and torch.
 import importlib
 import types
 import warnings
-from functools import wraps
 
 ALL_BACKENDS = [
     "numpy",
@@ -64,7 +63,7 @@ def set_backend(backend, on_error="raise"):
         if on_error == "raise":
             raise error
         elif on_error == "warn":
-            warnings.warn(f"Setting backend to {backend} failed: {str(error)}."
+            warnings.warn(f"Setting backend to {backend} failed: {str(error)}. "
                           f"Falling back to {CURRENT_BACKEND} backend.")
             module = get_backend()
         else:
@@ -137,47 +136,48 @@ def benchmark(backend=None, nimages=100, vdim=96, hdim=128, stimulus_fps=24):
     stimulus_np = rng.randn(nimages, vdim, hdim).astype(np.float64)
 
     results = {}
-    for backend_name in backends_to_test:
-        try:
-            backend_mod = set_backend(backend_name)
-        except BaseException:
-            # BaseException catches pytest.skip, RuntimeError, ImportError, etc.
-            continue
+    try:
+        for backend_name in backends_to_test:
+            try:
+                backend_mod = set_backend(backend_name)
+            except BaseException as exc:
+                if isinstance(exc, (KeyboardInterrupt, SystemExit)):
+                    raise
+                continue
 
-        # Lazy imports inside the loop to avoid import errors
-        from moten import pyramids
+            # Lazy imports inside the loop to avoid import errors
+            from moten import pyramids
 
-        stimulus = backend_mod.asarray(stimulus_np)
-        pyramid = pyramids.MotionEnergyPyramid(
-            stimulus_vhsize=(vdim, hdim),
-            stimulus_fps=stimulus_fps,
-        )
+            stimulus = backend_mod.asarray(stimulus_np)
+            pyramid = pyramids.MotionEnergyPyramid(
+                stimulus_vhsize=(vdim, hdim),
+                stimulus_fps=stimulus_fps,
+            )
 
-        # Warm-up run (important for GPU backends)
-        pyramid.project_stimulus(stimulus, dtype='float32')
-        pyramid.project_stimulus_batched(stimulus, dtype='float32')
+            # Warm-up run (important for GPU backends)
+            pyramid.project_stimulus(stimulus, dtype='float32')
+            pyramid.project_stimulus_batched(stimulus, dtype='float32')
 
-        # Timed run -- original (per-filter)
-        start = time.perf_counter()
-        pyramid.project_stimulus(stimulus, dtype='float32')
-        duration = time.perf_counter() - start
+            # Timed run -- original (per-filter)
+            start = time.perf_counter()
+            pyramid.project_stimulus(stimulus, dtype='float32')
+            duration = time.perf_counter() - start
 
-        # Timed run -- batched
-        start = time.perf_counter()
-        pyramid.project_stimulus_batched(stimulus, dtype='float32')
-        duration_batched = time.perf_counter() - start
+            # Timed run -- batched
+            start = time.perf_counter()
+            pyramid.project_stimulus_batched(stimulus, dtype='float32')
+            duration_batched = time.perf_counter() - start
 
-        results[backend_name] = {
-            "duration_seconds": duration,
-            "duration_batched_seconds": duration_batched,
-            "speedup": duration / duration_batched if duration_batched > 0 else float('inf'),
-            "nimages": nimages,
-            "vhsize": (vdim, hdim),
-            "nfilters": pyramid.nfilters,
-        }
-
-    # Restore original backend
-    set_backend(original_backend)
+            results[backend_name] = {
+                "duration_seconds": duration,
+                "duration_batched_seconds": duration_batched,
+                "speedup": duration / duration_batched if duration_batched > 0 else float('inf'),
+                "nimages": nimages,
+                "vhsize": (vdim, hdim),
+                "nfilters": pyramid.nfilters,
+            }
+    finally:
+        set_backend(original_backend)
 
     return results
 
@@ -195,4 +195,7 @@ def _dtype_to_str(dtype):
     elif dtype is bool:
         return "bool"
     else:
-        raise NotImplementedError()
+        raise NotImplementedError(
+            f"Cannot convert dtype {dtype!r} (type={type(dtype).__name__}) "
+            f"to string. Supported: str, numpy dtype, torch dtype, None, or bool."
+        )

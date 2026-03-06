@@ -4,13 +4,11 @@ To use this backend, call ``moten.backend.set_backend("torch")``.
 """
 import math
 
+import warnings
+
 try:
     import torch
 except ImportError as error:
-    import sys
-    if "pytest" in sys.modules:
-        import pytest
-        pytest.skip("PyTorch not installed.")
     raise ImportError("PyTorch not installed.") from error
 
 from ._utils import _dtype_to_str
@@ -78,8 +76,14 @@ def asarray(x, dtype=None, device='cpu'):
         device = x.device
     try:
         return torch.as_tensor(x, dtype=dtype, device=device)
-    except Exception:
+    except TypeError as exc:
         import numpy as np
+        warnings.warn(
+            f"torch.as_tensor failed ({exc}), falling back to numpy "
+            f"conversion. Input type: {type(x).__name__}, dtype: {dtype}, "
+            f"device: {device}",
+            UserWarning,
+        )
         if torch.is_tensor(x) and x.device.type != 'cpu':
             x = x.cpu()
         arr = np.asarray(x, dtype=_dtype_to_str(dtype))

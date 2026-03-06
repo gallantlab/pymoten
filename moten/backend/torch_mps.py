@@ -14,10 +14,6 @@ from ._utils import _dtype_to_str
 from .torch import *  # noqa
 
 if not torch.backends.mps.is_available():
-    import sys
-    if "pytest" in sys.modules:
-        import pytest
-        pytest.skip("PyTorch with MPS is not available.")
     raise RuntimeError("PyTorch with MPS is not available.")
 
 ###############################################################################
@@ -61,7 +57,13 @@ def asarray(x, dtype=None, device="mps"):
             device = "mps"
     try:
         return torch.as_tensor(x, dtype=dtype, device=device)
-    except Exception:
+    except TypeError as exc:
+        warnings.warn(
+            f"torch.as_tensor failed ({exc}), falling back to numpy "
+            f"conversion. Input type: {type(x).__name__}, dtype: {dtype}, "
+            f"device: {device}",
+            UserWarning,
+        )
         import numpy as np
         if torch.is_tensor(x) and x.device.type != 'cpu':
             x = x.cpu()
