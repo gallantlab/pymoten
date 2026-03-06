@@ -4,3 +4,4 @@ ignore:
   - "moten/viz.py"
   - "moten/io.py"
   - "moten/extras.py"
+  - "examples/*"

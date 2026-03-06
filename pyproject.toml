@@ -65,6 +65,7 @@ addopts = "--cov=./"
 omit = [
     "moten/backend/torch_cuda.py",
     "moten/backend/torch_mps.py",
+    "examples/*",
 ]
 
 [tool.setuptools.dynamic]
