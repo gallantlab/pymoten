@@ -39,7 +39,7 @@ arctan2 = torch.atan2
 
 def mod(x, y):
     """Modulo operation compatible with numpy semantics."""
-    return torch.fmod(asarray(x), y)
+    return torch.remainder(asarray(x), y)
 
 
 # Array operations

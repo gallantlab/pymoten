@@ -1,7 +1,5 @@
 '''Compute total motion energy from greyscale videos.
 '''
-import numpy as np
-
 import moten
 from moten.backend import get_backend
 from moten.utils import (iterator_func,
