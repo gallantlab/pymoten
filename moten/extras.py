@@ -1,7 +1,8 @@
 '''Compute total motion energy from greyscale videos.
 '''
+import numpy as np
+
 import moten
-from moten.backend import get_backend
 from moten.utils import (iterator_func,
                          pointwise_square,
                          )
@@ -71,9 +72,8 @@ def pixbypix_covariance_from_frames_generator(data_generator,
     vdim, hdim = first_frame.shape
     npixels = vdim*hdim
 
-    backend = get_backend()
-    framediff_buffer = backend.zeros((batch_size, npixels), dtype=dtype)
-    XTX = backend.zeros((npixels, npixels), dtype=dtype)
+    framediff_buffer = np.zeros((batch_size, npixels), dtype=dtype)
+    XTX = np.zeros((npixels, npixels), dtype=dtype)
     nframes = 0
 
     if with_tqdm:
@@ -250,8 +250,6 @@ class StimulusTotalMotionEnergy(object):
         decomposition_spatial_pcs : np.ndarray, (npixels, npcs)
         decomposition_eigenvalues : np.ndarray
         '''
-        backend = get_backend()
-
         if npcs is None:
             npcs = min(self.npixels, self.covariance_nframes) + 1
 
@@ -259,15 +257,15 @@ class StimulusTotalMotionEnergy(object):
         # Q L QT = XTX
         # U,S,Vt = X
         # Q = V
-        L, Q = backend.eigh(self.covariance_pixbypix)
+        L, Q = np.linalg.eigh(self.covariance_pixbypix)
 
         # increasing order (eigh returns ascending, we want descending)
-        L = L.flip(0) if hasattr(L, 'flip') else L[::-1]
-        Q = Q.flip(1) if hasattr(Q, 'flip') else Q[:, ::-1]
+        L = L[::-1]
+        Q = Q[:, ::-1]
 
         # store: (npixels, npcs)
-        self.decomposition_spatial_pcs = backend.asarray(Q[:, :npcs], dtype=self.dtype)
-        self.decomposition_eigenvalues = backend.asarray(L, dtype=self.dtype)
+        self.decomposition_spatial_pcs = np.asarray(Q[:, :npcs], dtype=self.dtype)
+        self.decomposition_eigenvalues = np.asarray(L, dtype=self.dtype)
 
     def compute_temporal_pcs(self, generator=None, skip_first=False):
         '''Extract the temporal principal components of the total motion energy.

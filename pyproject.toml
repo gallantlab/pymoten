@@ -61,5 +61,11 @@ dev = [
 [tool.pytest.ini_options]
 addopts = "--cov=./"
 
+[tool.coverage.run]
+omit = [
+    "moten/backend/torch_cuda.py",
+    "moten/backend/torch_mps.py",
+]
+
 [tool.setuptools.dynamic]
 version = {attr = "moten.__version__"}

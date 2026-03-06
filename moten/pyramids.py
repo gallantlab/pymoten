@@ -301,8 +301,9 @@ class MotionEnergyPyramid(object):
 
         Returns
         -------
-        mask : 2D np.ndarray, (vdim, hdim)
-            Filter spatial mask
+        mask : 2D array, (vdim, hdim)
+            Filter spatial mask. The array type depends on the active backend
+            (e.g. ``np.ndarray`` for numpy, ``torch.Tensor`` for torch).
         '''
         backend = get_backend()
         threshold = self.mask_threshold

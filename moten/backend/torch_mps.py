@@ -104,6 +104,17 @@ def meshgrid(*tensors, indexing='xy'):
     return torch.meshgrid(*tensors, indexing=indexing)
 
 
+def mod(x, y):
+    """Modulo operation compatible with numpy semantics."""
+    return torch.remainder(asarray(x), y)
+
+
+def allclose(a, b, rtol=1e-05, atol=1e-08):
+    a = asarray(a) if not isinstance(a, torch.Tensor) else a
+    b = asarray(b) if not isinstance(b, torch.Tensor) else b
+    return torch.allclose(a, b, rtol=rtol, atol=atol)
+
+
 def to_numpy(array):
     """Convert torch tensor to numpy array."""
     if isinstance(array, torch.Tensor):
