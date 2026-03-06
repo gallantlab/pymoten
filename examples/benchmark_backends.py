@@ -15,6 +15,7 @@ Usage::
 import argparse
 import sys
 import time
+import warnings
 
 import numpy as np
 
@@ -40,7 +41,7 @@ def run_benchmark(backend_name, stimulus_np, vdim, hdim, stimulus_fps,
     """Benchmark a single backend. Returns dict with timing results."""
     backend_mod = set_backend(backend_name)
 
-    stimulus = backend_mod.asarray(stimulus_np)
+    stimulus = backend_mod.asarray(stimulus_np, dtype='float32')
     pyramid = pyramids.MotionEnergyPyramid(
         stimulus_vhsize=(vdim, hdim),
         stimulus_fps=stimulus_fps,
@@ -94,6 +95,8 @@ def main():
     parser.add_argument("--batch-size", type=int, default=128,
                         help="Batch size for batched projection (default: 128)")
     args = parser.parse_args()
+
+    warnings.filterwarnings("ignore", module="moten")
 
     # Detect backends
     available = detect_available_backends()
