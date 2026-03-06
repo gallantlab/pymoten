@@ -427,6 +427,55 @@ class MotionEnergyPyramid(object):
 
         return output
 
+    def project_stimulus_batched(self,
+                                 stimulus,
+                                 filters='all',
+                                 quadrature_combination=utils.sqrt_sum_squares,
+                                 output_nonlinearity=utils.log_compress,
+                                 dtype='float32',
+                                 batch_size=128):
+        '''Compute motion energy responses using batched operations.
+
+        Functionally equivalent to :meth:`project_stimulus` but
+        significantly faster, especially on GPU backends, because it
+        constructs gabor filter banks in batches and replaces per-filter
+        dot products with a single large matrix multiply per batch.
+
+        Parameters
+        ----------
+        stimulus : array, (nimages, vdim, hdim) or (nimages, npixels)
+            The movie frames.
+        filters : optional, 'all' or list of dicts
+            By default compute the responses for all filters.
+        quadrature_combination : callable, optional
+            Defaults to ``sqrt_sum_squares``.
+        output_nonlinearity : callable, optional
+            Defaults to ``log_compress``.
+        dtype : str
+            Output dtype.
+        batch_size : int
+            Number of filters to process simultaneously.
+
+        Returns
+        -------
+        filter_responses : array, (nimages, nfilters)
+        '''
+        if filters == 'all':
+            filters = self.filters
+
+        vdim, hdim = self.definition.stimulus_vhsize
+
+        output = core.project_stimulus_batched(
+            stimulus,
+            filters,
+            quadrature_combination=quadrature_combination,
+            output_nonlinearity=output_nonlinearity,
+            vhsize=(vdim, hdim),
+            dtype=dtype,
+            batch_size=batch_size)
+
+        return output
+
     def raw_project_stimulus(self, stimulus, filters='all', dtype='float32'):
         '''Obtain responses to the stimulus from all filter quadrature-pairs.
 

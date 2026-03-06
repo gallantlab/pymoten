@@ -589,6 +589,207 @@ def compute_filter_responses(stimulus,
     return channels
 
 
+##############################
+# batched computation
+##############################
+
+def mk_3d_gabor_batched(vhsize, filters_batch):
+    '''Build spatial and temporal gabor filter banks for a batch of filters.
+
+    Vectorizes :func:`mk_3d_gabor` across multiple filters so that all
+    gabor arrays are constructed with batched tensor operations instead
+    of a Python for-loop.
+
+    Parameters
+    ----------
+    vhsize : tuple of ints, (vdim, hdim)
+    filters_batch : list of dicts
+        Each dict has the same keys accepted by :func:`mk_3d_gabor`.
+
+    Returns
+    -------
+    spatial_gabors_sin : array, (B, npixels)
+    spatial_gabors_cos : array, (B, npixels)
+    temporal_gabors_sin : array, (B, T)
+    temporal_gabors_cos : array, (B, T)
+    '''
+    backend = get_backend()
+    B = len(filters_batch)
+    vdim, hdim = vhsize
+    npixels = vdim * hdim
+
+    f0 = filters_batch[0]
+    aspect_ratio = f0.get('aspect_ratio', 'auto')
+    if aspect_ratio == 'auto':
+        aspect_ratio = hdim / float(vdim)
+
+    stimulus_fps = f0['stimulus_fps']
+    filter_temporal_width = int(f0['filter_temporal_width'])
+
+    # Extract per-filter parameters as 1-D arrays
+    centerh = backend.asarray([f['centerh'] for f in filters_batch])
+    centerv = backend.asarray([f['centerv'] for f in filters_batch])
+    direction = backend.asarray([f['direction'] for f in filters_batch])
+    spatial_freq = backend.asarray([f['spatial_freq'] for f in filters_batch])
+    spatial_env = backend.asarray([f['spatial_env'] for f in filters_batch])
+    temporal_freq = backend.asarray([f['temporal_freq'] for f in filters_batch])
+    temporal_env = backend.asarray([f['temporal_env'] for f in filters_batch])
+    spatial_phase_offset = backend.asarray(
+        [f.get('spatial_phase_offset', 0.0) for f in filters_batch])
+
+    # Shared spatial grid -- (vdim, hdim)
+    dh = backend.linspace(0, aspect_ratio, hdim, endpoint=True)
+    dv = backend.linspace(0, 1, vdim, endpoint=True)
+    ihs, ivs = backend.meshgrid(dh, dv)  # (vdim, hdim)
+
+    # Reshape for broadcasting: params → (B, 1, 1), grid → (1, vdim, hdim)
+    dir_rad = direction / 180.0 * backend.pi
+    fh = (-spatial_freq * backend.cos(dir_rad) * 2 * backend.pi).reshape(B, 1, 1)
+    fv = (spatial_freq * backend.sin(dir_rad) * 2 * backend.pi).reshape(B, 1, 1)
+    ch = centerh.reshape(B, 1, 1)
+    cv = centerv.reshape(B, 1, 1)
+    se = spatial_env.reshape(B, 1, 1)
+    spo = spatial_phase_offset.reshape(B, 1, 1)
+
+    ihs_3d = ihs.reshape(1, vdim, hdim)  # broadcast over batch
+    ivs_3d = ivs.reshape(1, vdim, hdim)
+
+    dih = ihs_3d - ch  # (B, vdim, hdim)
+    div = ivs_3d - cv
+
+    spatial_gaussian = backend.exp(-(dih ** 2 + div ** 2) / (2 * se ** 2))
+    phase = dih * fh + div * fv + spo
+    spatial_gabors_sin = (spatial_gaussian * backend.sin(phase)).reshape(B, npixels)
+    spatial_gabors_cos = (spatial_gaussian * backend.cos(phase)).reshape(B, npixels)
+
+    # Temporal filters -- (B, T)
+    dt = backend.linspace(0, 1, filter_temporal_width, endpoint=False)  # (T,)
+    ft = (temporal_freq * (filter_temporal_width / float(stimulus_fps))
+          * 2 * backend.pi).reshape(B, 1)
+    te = temporal_env.reshape(B, 1)
+    dt_3d = dt.reshape(1, filter_temporal_width)
+
+    temporal_gaussian = backend.exp(-(dt_3d - 0.5) ** 2 / (2 * te ** 2))
+    temporal_gabors_sin = temporal_gaussian * backend.sin((dt_3d - 0.5) * ft)
+    temporal_gabors_cos = temporal_gaussian * backend.cos((dt_3d - 0.5) * ft)
+
+    return spatial_gabors_sin, spatial_gabors_cos, temporal_gabors_sin, temporal_gabors_cos
+
+
+def project_stimulus_batched(stimulus,
+                             filters,
+                             quadrature_combination=sqrt_sum_squares,
+                             output_nonlinearity=log_compress,
+                             vhsize=(),
+                             dtype='float32',
+                             batch_size=128):
+    '''Compute motion energy responses using batched operations.
+
+    Functionally equivalent to :func:`project_stimulus` but constructs
+    spatial and temporal gabor filter banks in batches and uses a single
+    large matrix multiply per batch instead of per-filter dot products.
+    This is significantly faster on GPU backends and can also be faster
+    on CPU for large filter sets.
+
+    Parameters
+    ----------
+    stimulus : array, (nimages, vdim, hdim) or (nimages, npixels)
+        The movie frames.
+    filters : list of dicts
+        Filter parameter dictionaries (as produced by a pyramid).
+    quadrature_combination : callable, optional
+        Defaults to ``sqrt_sum_squares``.
+    output_nonlinearity : callable, optional
+        Defaults to ``log_compress``.
+    vhsize : tuple of ints
+        ``(vdim, hdim)`` required when stimulus is 2-D.
+    dtype : str
+        Output dtype.
+    batch_size : int
+        Number of filters to process simultaneously.  Larger values use
+        more memory but reduce Python-loop overhead.
+
+    Returns
+    -------
+    filter_responses : array, (nimages, nfilters)
+    '''
+    if stimulus.ndim == 3:
+        nimages, vdim, hdim = stimulus.shape
+        stimulus = stimulus.reshape(stimulus.shape[0], -1)
+        vhsize = (vdim, hdim)
+
+    backend = get_backend()
+
+    assert stimulus.ndim == 2
+    assert isinstance(vhsize, tuple) and len(vhsize) == 2
+    assert vhsize[0] * vhsize[1] == stimulus.shape[1]
+
+    nfilters = len(filters)
+    nimages = stimulus.shape[0]
+    filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
+
+    # stimulus transpose computed once -- (npixels, nimages)
+    stim_T = stimulus.T
+
+    for batch_start in range(0, nfilters, batch_size):
+        batch_end = min(batch_start + batch_size, nfilters)
+        batch_filters = filters[batch_start:batch_end]
+        B = len(batch_filters)
+
+        # Build gabor filter banks for this batch
+        sg_sin, sg_cos, tg_sin, tg_cos = mk_3d_gabor_batched(vhsize,
+                                                               batch_filters)
+        # sg_sin: (B, npixels), tg_sin: (B, T)
+
+        # Apply per-filter mask: zero out pixels where the gabor
+        # amplitude is below threshold (matches dotspatial_frames
+        # masklimit behaviour without breaking the batched matmul).
+        gabor_mask = (backend.abs(sg_sin) + backend.abs(sg_cos)) > 0.001
+        sg_sin = sg_sin * gabor_mask
+        sg_cos = sg_cos * gabor_mask
+
+        # Spatial dot product -- single matmul per batch
+        # (B, npixels) @ (npixels, nimages) → (B, nimages) → transpose
+        spatial_sin = (sg_sin @ stim_T).T  # (nimages, B)
+        spatial_cos = (sg_cos @ stim_T).T  # (nimages, B)
+
+        # Temporal convolution via broadcasting
+        # (nimages, B, 1) * (1, B, T) → (nimages, B, T)
+        T = tg_sin.shape[1]
+        sin_3d = spatial_sin.reshape(nimages, B, 1)
+        cos_3d = spatial_cos.reshape(nimages, B, 1)
+        tg_sin_3d = tg_sin.reshape(1, B, T)
+        tg_cos_3d = tg_cos.reshape(1, B, T)
+
+        outs = sin_3d * tg_cos_3d + cos_3d * tg_sin_3d   # (nimages, B, T)
+        outc = -sin_3d * tg_sin_3d + cos_3d * tg_cos_3d  # (nimages, B, T)
+
+        # Delay shifting -- loop over T (small, typically ~16)
+        nouts = backend.zeros_like(outs)
+        noutc = backend.zeros_like(outc)
+        tdxc = int(math.ceil(T / 2.0))
+        for ddx in range(T):
+            num = ddx - tdxc + 1
+            if num == 0:
+                nouts[:, :, ddx] = outs[:, :, ddx]
+                noutc[:, :, ddx] = outc[:, :, ddx]
+            elif num > 0:
+                nouts[num:, :, ddx] = outs[:-num, :, ddx]
+                noutc[num:, :, ddx] = outc[:-num, :, ddx]
+            elif num < 0:
+                nouts[:num, :, ddx] = outs[abs(num):, :, ddx]
+                noutc[:num, :, ddx] = outc[abs(num):, :, ddx]
+
+        channel_sin = nouts.sum(-1)  # (nimages, B)
+        channel_cos = noutc.sum(-1)  # (nimages, B)
+
+        channel_response = quadrature_combination(channel_sin, channel_cos)
+        channel_response = output_nonlinearity(channel_response)
+        filter_responses[:, batch_start:batch_end] = channel_response
+
+    return filter_responses
+
+
 def mk_moten_pyramid_params(stimulus_fps,
                             filter_temporal_width='auto',
                             aspect_ratio='auto',
