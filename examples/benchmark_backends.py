@@ -13,9 +13,12 @@ Usage::
     python examples/benchmark_backends.py --backends numpy torch_cuda
 """
 import argparse
+import os
 import sys
 import time
 import warnings
+
+os.environ["TQDM_DISABLE"] = "1"
 
 import numpy as np
 
