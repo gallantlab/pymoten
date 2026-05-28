@@ -79,8 +79,8 @@ Simple example using a video file
 .. |Github| image:: https://img.shields.io/badge/github-pymoten-blue
    :target: https://github.com/gallantlab/pymoten
 
-.. |Python| image:: https://img.shields.io/badge/python-3.7%2B-blue
-   :target: https://www.python.org/downloads/release/python-370
+.. |Python| image:: https://img.shields.io/badge/python-3.9%2B-blue
+   :target: https://www.python.org/downloads/release/python-390
 
 .. |Codecov| image:: https://codecov.io/gh/gallantlab/pymoten/branch/main/graph/badge.svg
    :target: https://codecov.io/gh/gallantlab/pymoten

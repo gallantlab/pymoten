@@ -20,7 +20,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Image Processing",
 ]
-requires-python = ">=3.6"
+requires-python = ">=3.9"
 dependencies = [
     "matplotlib",
     "numpy",
