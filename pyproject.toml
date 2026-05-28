@@ -29,6 +29,9 @@ dependencies = [
     "scipy",
 ]
 
+[project.optional-dependencies]
+torch = ["torch"]
+
 [project.urls]
 Homepage = "https://gallantlab.github.io/pymoten/"
 Repository = "https://github.com/gallantlab/pymoten"
@@ -57,6 +60,13 @@ dev = [
 
 [tool.pytest.ini_options]
 addopts = "--cov=./"
+
+[tool.coverage.run]
+omit = [
+    "moten/backend/torch_cuda.py",
+    "moten/backend/torch_mps.py",
+    "examples/*",
+]
 
 [tool.setuptools.dynamic]
 version = {attr = "moten.__version__"}

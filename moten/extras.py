@@ -2,7 +2,6 @@
 '''
 import numpy as np
 
-import moten
 from moten.utils import (iterator_func,
                          pointwise_square,
                          )
@@ -16,7 +15,7 @@ except ImportError:
 
 def process_motion_energy_from_files(filenames,
                                      size=None,
-                                     nimages=np.inf,
+                                     nimages=float('inf'),
                                      batch_size=1000,
                                      dtype='float32',
                                      mask=None,
@@ -170,7 +169,7 @@ class StimulusTotalMotionEnergy(object):
     def __init__(self,
                  video_file,
                  size=None,
-                 nimages=np.inf,
+                 nimages=float('inf'),
                  batch_size=1000,
                  output_nonlinearity=pointwise_square,
                  dtype='float32',
@@ -224,7 +223,6 @@ class StimulusTotalMotionEnergy(object):
         npixels : int
             Total number of pixels in the video (after downsampling).
         '''
-        import moten.utils
 
         if generator is None:
             # allow the user to provide their own frame difference generator
@@ -287,7 +285,6 @@ class StimulusTotalMotionEnergy(object):
         decomposition_temporal_pcs : list, (ntimepoints, npcs)
             The temporal compoonents are scaled by their singular values (:math:`US`).
         '''
-        import moten.utils
 
         if generator is None:
             # allow the user to provide their own frame difference generator

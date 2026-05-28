@@ -6,7 +6,7 @@
 #  Anwar O. Nunez-Elizalde (Apr, 2020)
 #
 #
-import numpy as np
+from moten.backend import get_backend
 
 with_tqdm = True
 try:
@@ -21,15 +21,17 @@ except ImportError:
 ##############################
 
 def log_compress(x, offset=1e-05):
-    '''Computes :math:`log(x + \epsilon)`
+    r'''Computes :math:`log(x + \epsilon)`
     '''
-    return np.log(x + offset)
+    backend = get_backend()
+    return backend.log(x + offset)
 
 
 def sqrt_sum_squares(x,y):
     '''Computes :math:`(x^2 + y^2)^{1/2}`
     '''
-    return np.sqrt(x**2 + y**2)
+    backend = get_backend()
+    return backend.sqrt(x**2 + y**2)
 
 def pointwise_square(data):
     '''Computes :math:`x^2`
