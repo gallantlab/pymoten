@@ -1,47 +1,63 @@
-name: Deploy to PyPI
-# Deploy to PyPI if the __version__ variable in moten/__init__.py
-# is larger than the latest version on PyPI.
+name: Publish to PyPI
+# Publish to PyPI when a GitHub release is published.
+# The version is derived from the release tag by setuptools-scm.
 
 on:
-  push:
-    branches:    
-      - main
-    paths:
-      # trigger workflow only on commits that change __init__.py
-      - 'moten/__init__.py'
+  release:
+    types: [published]
 
 jobs:
-  deploy-pypi:
+  build:
+    name: Build distribution
     runs-on: ubuntu-latest
+    permissions:
+      contents: read  # Required to checkout the repository
+
     steps:
     - uses: actions/checkout@v6
-    - uses: actions/setup-python@v6
+      with:
+        fetch-depth: 0  # Required for setuptools-scm to get version from tags
 
-    - name: Get versions
-      # Compare the latest version on PyPI, and the current version
-      run: |
-        python -m pip install --upgrade -q pip
-        pip index versions pymoten
-        LATEST=$(pip index versions pymoten | grep 'pymoten' |awk '{print $2}' | tr -d '(' | tr -d ')')
-        CURRENT=$(cat moten/__init__.py | grep "__version__" | awk '{print $3}' | tr -d "'" | tr -d '"')
-        EQUAL=$([ "$CURRENT" = "$LATEST" ] && echo 1 || echo 0)
-        echo "LATEST=$LATEST" >> $GITHUB_ENV
-        echo "CURRENT=$CURRENT" >> $GITHUB_ENV
-        echo "EQUAL=$EQUAL" >> $GITHUB_ENV
-    
-    - name: Print versions
-      run: |
-        echo ${{ env.LATEST }}
-        echo ${{ env.CURRENT }}
-        echo ${{ env.EQUAL }}
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: "3.12"
 
-    - name: Build and publish
-      if: ${{ env.EQUAL == 0 }}
-      env:
-        TWINE_USERNAME: __token__
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+    - name: Install build dependencies
       run: |
         python -m pip install --upgrade pip
-        python -m pip install build setuptools twine wheel
-        python -m build
-        python -m twine upload dist/*
+        python -m pip install build
+
+    - name: Build package
+      run: python -m build
+
+    - name: Check package with twine (informational)
+      run: |
+        python -m pip install twine
+        python -m twine check dist/* || true
+
+    - name: Upload distribution artifacts
+      uses: actions/upload-artifact@v7
+      with:
+        name: python-package-distributions
+        path: dist/
+
+  publish-to-pypi:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pymoten
+    permissions:
+      id-token: write  # Required for trusted publishing
+
+    steps:
+    - name: Download distribution artifacts
+      uses: actions/download-artifact@v8
+      with:
+        name: python-package-distributions
+        path: dist/
+
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@release/v1

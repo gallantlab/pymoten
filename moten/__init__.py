@@ -53,7 +53,12 @@ def get_default_pyramid(vhsize=(144, 256), fps=24, **kwargs):
 
 __all__ = ['utils', 'core', 'viz', 'io', 'set_backend', 'get_backend']
 
-__version__ = '0.0.8'
+# Version is automatically managed by setuptools-scm, which generates
+# moten/_version.py during the build from the latest git tag.
+try:
+    from moten._version import version as __version__
+except ImportError:
+    __version__ = '0.0.0+unknown'
 
 if __name__ == '__main__':
     pass

@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=64", "setuptools-scm>=8", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -20,7 +20,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Scientific/Engineering :: Image Processing",
 ]
-requires-python = ">=3.6"
+requires-python = ">=3.9"
 dependencies = [
     "matplotlib",
     "numpy",
@@ -68,5 +68,6 @@ omit = [
     "examples/*",
 ]
 
-[tool.setuptools.dynamic]
-version = {attr = "moten.__version__"}
+[tool.setuptools_scm]
+version_file = "moten/_version.py"
+local_scheme = "no-local-version"
