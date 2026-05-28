@@ -1,27 +1,26 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>moten.io &mdash; pymoten 0.0.8 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
-      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+  <title>moten.io &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=53b53b71"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -38,9 +37,6 @@
           <a href="../../index.html" class="icon icon-home">
             pymoten
           </a>
-              <div class="version">
-                0.0.8
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -55,6 +51,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/benchmark_backends.html">Benchmark backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/index.html">Motion energy pyramids</a></li>
 </ul>
@@ -65,6 +62,10 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../autodoc/moten.html">moten package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.colorspace.html">moten.colorspace module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.core.html">moten.core module</a></li>
@@ -75,7 +76,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.viz.html">moten.viz module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#module-moten">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -113,18 +118,18 @@
 <span class="c1">#  Anwar O. Nunez-Elizalde (Apr, 2020)</span>
 <span class="c1">#</span>
 <span class="c1">#</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">moten.utils</span> <span class="kn">import</span> <span class="n">iterator_func</span>
-<span class="kn">from</span> <span class="nn">moten.colorspace</span> <span class="kn">import</span> <span class="n">rgb2lab</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">moten.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">iterator_func</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">moten.colorspace</span><span class="w"> </span><span class="kn">import</span> <span class="n">rgb2lab</span>
 
 <span class="n">ANTIALIAS</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">Resampling</span><span class="o">.</span><span class="n">LANCZOS</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">Image</span><span class="p">,</span> <span class="s2">&quot;Resampling&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="n">Image</span><span class="o">.</span><span class="n">ANTIALIAS</span>
 
 
 <div class="viewcode-block" id="video_buffer">
 <a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.video_buffer">[docs]</a>
-<span class="k">def</span> <span class="nf">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">video_buffer</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Generator for a video file.</span>
 
 <span class="sd">    Yields individual uint8 images from a video file.</span>
@@ -151,7 +156,7 @@
 <span class="sd">    &gt;&gt;&gt; print(movie.shape) # (nimages, vdim, hdim, color)</span>
 <span class="sd">    (50, 144, 256, 3)</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="kn">import</span> <span class="nn">cv2</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
     <span class="n">cap</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">VideoCapture</span><span class="p">(</span><span class="n">video_file</span><span class="p">)</span>
     <span class="n">frameidx</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -168,7 +173,7 @@
 
 <div class="viewcode-block" id="generate_frames_from_greyvideo">
 <a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.generate_frames_from_greyvideo">[docs]</a>
-<span class="k">def</span> <span class="nf">generate_frames_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_frames_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Yields one frame from the greyscale video file.</span>
 
 <span class="sd">    Notes</span>
@@ -204,7 +209,7 @@
 
 <div class="viewcode-block" id="generate_frame_difference_from_greyvideo">
 <a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.generate_frame_difference_from_greyvideo">[docs]</a>
-<span class="k">def</span> <span class="nf">generate_frame_difference_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_frame_difference_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span>
                                              <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                              <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
                                              <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
@@ -246,7 +251,7 @@
 
 <div class="viewcode-block" id="video2luminance">
 <a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.video2luminance">[docs]</a>
-<span class="k">def</span> <span class="nf">video2luminance</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">video2luminance</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Convert the video frames to luminance images.</span>
 
 <span class="sd">    Internally, this function loads one video frame into memory at a time.</span>
@@ -283,7 +288,7 @@
 
 <div class="viewcode-block" id="video2grey">
 <a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.video2grey">[docs]</a>
-<span class="k">def</span> <span class="nf">video2grey</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">video2grey</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Convert the video frames to greyscale images.</span>
 
 <span class="sd">    This function computes the mean across RGB color channels.</span>
@@ -319,7 +324,7 @@
 
 <div class="viewcode-block" id="imagearray2luminance">
 <a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.imagearray2luminance">[docs]</a>
-<span class="k">def</span> <span class="nf">imagearray2luminance</span><span class="p">(</span><span class="n">uint8arr</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">ANTIALIAS</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">imagearray2luminance</span><span class="p">(</span><span class="n">uint8arr</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="n">ANTIALIAS</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Convert an array of uint8 RGB images to a luminance image</span>
 
 <span class="sd">    Parameters</span>
@@ -336,8 +341,8 @@
 <span class="sd">        The luminance image representation.</span>
 <span class="sd">        Pixel values are in the 0-100 range.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">misc</span>
-    <span class="kn">from</span> <span class="nn">moten.colorspace</span> <span class="kn">import</span> <span class="n">rgb2lab</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">misc</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">moten.colorspace</span><span class="w"> </span><span class="kn">import</span> <span class="n">rgb2lab</span>
 
     <span class="k">if</span> <span class="n">uint8arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="c1"># handle single image case</span>
@@ -361,7 +366,7 @@
 
 <div class="viewcode-block" id="resize_image">
 <a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.resize_image">[docs]</a>
-<span class="k">def</span> <span class="nf">resize_image</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">96</span><span class="p">,</span><span class="mi">96</span><span class="p">),</span> <span class="nb">filter</span><span class="o">=</span><span class="n">ANTIALIAS</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">resize_image</span><span class="p">(</span><span class="n">im</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">96</span><span class="p">,</span><span class="mi">96</span><span class="p">),</span> <span class="nb">filter</span><span class="o">=</span><span class="n">ANTIALIAS</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Resize an image and return its array representation.</span>
 
 <span class="sd">    Parameters</span>
@@ -397,7 +402,7 @@
 
 <div class="viewcode-block" id="load_image_luminance">
 <a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.load_image_luminance">[docs]</a>
-<span class="k">def</span> <span class="nf">load_image_luminance</span><span class="p">(</span><span class="n">image_files</span><span class="p">,</span> <span class="n">hdim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vdim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">load_image_luminance</span><span class="p">(</span><span class="n">image_files</span><span class="p">,</span> <span class="n">hdim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">vdim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Load a set of RGB images and return its luminance representation.</span>
 
 <span class="sd">    Parameters</span>
@@ -435,7 +440,7 @@
 
 <div class="viewcode-block" id="apply_mask">
 <a class="viewcode-back" href="../../autodoc/moten.io.html#moten.io.apply_mask">[docs]</a>
-<span class="k">def</span> <span class="nf">apply_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">generator</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">apply_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">generator</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>

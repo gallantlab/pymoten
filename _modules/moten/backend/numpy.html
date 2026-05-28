@@ -1,0 +1,221 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>moten.backend.numpy &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pymoten
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Welcome to pymoten!</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../auto_examples/benchmark_backends.html">Benchmark backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/introduction/index.html">Motion energy pyramids</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../autodoc/moten.html">moten package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../autodoc/moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autodoc/moten.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.colorspace.html">moten.colorspace module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.core.html">moten.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.extras.html">moten.extras module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.io.html">moten.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.pyramids.html">moten.pyramids module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.utils.html">moten.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.viz.html">moten.viz module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autodoc/moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pymoten</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">moten.backend.numpy</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for moten.backend.numpy</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;The &quot;numpy&quot; CPU backend, based on NumPy.</span>
+
+<span class="sd">To use this backend, call ``moten.backend.set_backend(&quot;numpy&quot;)``.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">scipy_linalg</span>
+    <span class="n">_has_scipy</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">_has_scipy</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1">###############################################################################</span>
+
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;numpy&quot;</span>
+
+<span class="c1"># Constants</span>
+<span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+<span class="n">inf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+<span class="n">nan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="n">float32</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+<span class="n">float64</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">float64</span>
+
+<span class="c1"># Math functions</span>
+<span class="n">sin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span>
+<span class="n">cos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span>
+<span class="n">exp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span>
+<span class="n">sqrt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span>
+<span class="n">log</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span>
+<span class="nb">abs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span>
+<span class="n">real</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">real</span>
+<span class="n">arctan2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span>
+<span class="n">mod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span>
+
+<span class="c1"># Array creation</span>
+<span class="n">zeros</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span>
+<span class="n">zeros_like</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span>
+<span class="n">asarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span>
+<span class="n">arange</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span>
+<span class="n">linspace</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span>
+<span class="n">meshgrid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span>
+<span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span>
+
+<span class="c1"># Array operations</span>
+<span class="n">prod</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span>
+<span class="n">unique</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span>
+<span class="n">ceil</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span>
+<span class="n">floor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">floor</span>
+<span class="n">allclose</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span>
+<span class="n">concatenate</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span>
+<span class="n">stack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">stack</span>
+<span class="n">matmul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">matmul</span>
+<span class="n">diag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span>
+
+
+<div class="viewcode-block" id="column_stack">
+<a class="viewcode-back" href="../../../autodoc/moten.backend.numpy.html#moten.backend.numpy.column_stack">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">column_stack</span><span class="p">(</span><span class="n">arrays</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Stack 1-D arrays as columns into a 2-D array.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">arrays</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="to_numpy">
+<a class="viewcode-back" href="../../../autodoc/moten.backend.numpy.html#moten.backend.numpy.to_numpy">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">to_numpy</span><span class="p">(</span><span class="n">array</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert array to numpy. Identity for numpy backend.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">array</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="eigh">
+<a class="viewcode-back" href="../../../autodoc/moten.backend.numpy.html#moten.backend.numpy.eigh">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">eigh</span><span class="p">(</span><span class="n">matrix</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Symmetric eigenvalue decomposition.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">_has_scipy</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">scipy_linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">matrix</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Anwar O. Nunez-Elizalde.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

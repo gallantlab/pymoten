@@ -3,5 +3,5 @@ moten.io module
 
 .. automodule:: moten.io
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

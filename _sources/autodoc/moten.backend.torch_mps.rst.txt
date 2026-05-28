@@ -1,0 +1,7 @@
+moten.backend.torch\_mps module
+===============================
+
+.. automodule:: moten.backend.torch_mps
+   :members:
+   :show-inheritance:
+   :undoc-members:

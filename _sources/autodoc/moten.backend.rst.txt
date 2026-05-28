@@ -1,0 +1,21 @@
+moten.backend package
+=====================
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 4
+
+   moten.backend.numpy
+   moten.backend.torch
+   moten.backend.torch_cuda
+   moten.backend.torch_mps
+
+Module contents
+---------------
+
+.. automodule:: moten.backend
+   :members:
+   :show-inheritance:
+   :undoc-members:

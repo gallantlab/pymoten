@@ -3,5 +3,5 @@ moten.viz module
 
 .. automodule:: moten.viz
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

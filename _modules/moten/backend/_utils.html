@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>moten.backend._utils &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery.css?v=fd6457a4" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            pymoten
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Welcome to pymoten!</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../auto_examples/benchmark_backends.html">Benchmark backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../auto_examples/introduction/index.html">Motion energy pyramids</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../autodoc/moten.html">moten package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../autodoc/moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autodoc/moten.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.colorspace.html">moten.colorspace module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.core.html">moten.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.extras.html">moten.extras module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.io.html">moten.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.pyramids.html">moten.pyramids module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.utils.html">moten.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.viz.html">moten.viz module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../autodoc/moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../autodoc/moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">pymoten</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">moten.backend._utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for moten.backend._utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Backend utilities for pymoten.</span>
+
+<span class="sd">Provides set_backend/get_backend for switching between numpy and torch.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">types</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+<span class="n">ALL_BACKENDS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;numpy&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;torch&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;torch_cuda&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;torch_mps&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">CURRENT_BACKEND</span> <span class="o">=</span> <span class="s2">&quot;numpy&quot;</span>
+
+
+<div class="viewcode-block" id="set_backend">
+<a class="viewcode-back" href="../../../autodoc/moten.backend.html#moten.set_backend">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">set_backend</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">on_error</span><span class="o">=</span><span class="s2">&quot;raise&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the backend using a global variable, and return the backend module.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    backend : str or module</span>
+<span class="sd">        Name or module of the backend.</span>
+<span class="sd">    on_error : str in {&quot;raise&quot;, &quot;warn&quot;}</span>
+<span class="sd">        Define what is done if the backend fails to be loaded.</span>
+<span class="sd">        If &quot;warn&quot;, this function only warns, and keeps the previous backend.</span>
+<span class="sd">        If &quot;raise&quot;, this function raises on errors.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    module : python module</span>
+<span class="sd">        Module of the backend.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">CURRENT_BACKEND</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">):</span>
+            <span class="n">backend</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="k">if</span> <span class="n">backend</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ALL_BACKENDS</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unknown backend=</span><span class="si">%r</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="p">))</span>
+
+        <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">__package__</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">backend</span><span class="p">)</span>
+        <span class="n">CURRENT_BACKEND</span> <span class="o">=</span> <span class="n">backend</span>
+
+        <span class="k">if</span> <span class="n">backend</span> <span class="o">==</span> <span class="s2">&quot;torch_mps&quot;</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;You are using the torch_mps backend which operates with &quot;</span>
+                <span class="s2">&quot;float32 precision. Results may be less precise than other &quot;</span>
+                <span class="s2">&quot;backends due to MPS framework limitations.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span>
+            <span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">on_error</span> <span class="o">==</span> <span class="s2">&quot;raise&quot;</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">error</span>
+        <span class="k">elif</span> <span class="n">on_error</span> <span class="o">==</span> <span class="s2">&quot;warn&quot;</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting backend to </span><span class="si">{</span><span class="n">backend</span><span class="si">}</span><span class="s2"> failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
+                          <span class="sa">f</span><span class="s2">&quot;Falling back to </span><span class="si">{</span><span class="n">CURRENT_BACKEND</span><span class="si">}</span><span class="s2"> backend.&quot;</span><span class="p">)</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">get_backend</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Unknown value on_error=</span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">on_error</span><span class="p">,</span> <span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">module</span></div>
+
+
+
+<div class="viewcode-block" id="get_backend">
+<a class="viewcode-back" href="../../../autodoc/moten.backend.html#moten.get_backend">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_backend</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the current backend module.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    module : python module</span>
+<span class="sd">        Module of the backend.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">__package__</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span> <span class="o">+</span> <span class="n">CURRENT_BACKEND</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">module</span></div>
+
+
+
+<div class="viewcode-block" id="benchmark">
+<a class="viewcode-back" href="../../../autodoc/moten.backend.html#moten.benchmark">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">benchmark</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">vdim</span><span class="o">=</span><span class="mi">96</span><span class="p">,</span> <span class="n">hdim</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Benchmark motion energy computation across one or more backends.</span>
+
+<span class="sd">    Runs a small motion energy pyramid projection and reports the wall-clock</span>
+<span class="sd">    time for each backend. Useful for comparing CPU vs GPU performance.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    backend : str or None</span>
+<span class="sd">        Name of a single backend to benchmark, or None to benchmark all</span>
+<span class="sd">        available backends.</span>
+<span class="sd">    nimages : int</span>
+<span class="sd">        Number of video frames in the test stimulus.</span>
+<span class="sd">    vdim : int</span>
+<span class="sd">        Vertical dimension of the test stimulus (pixels).</span>
+<span class="sd">    hdim : int</span>
+<span class="sd">        Horizontal dimension of the test stimulus (pixels).</span>
+<span class="sd">    stimulus_fps : int</span>
+<span class="sd">        Stimulus frame rate.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    results : dict</span>
+<span class="sd">        Dictionary mapping backend name to a dict with keys:</span>
+<span class="sd">        - ``duration_seconds``: wall-clock time for per-filter projection</span>
+<span class="sd">        - ``duration_batched_seconds``: wall-clock time for batched projection</span>
+<span class="sd">        - ``speedup``: ratio of per-filter to batched duration</span>
+<span class="sd">        - ``nimages``: number of frames processed</span>
+<span class="sd">        - ``vhsize``: ``(vdim, hdim)``</span>
+<span class="sd">        - ``nfilters``: number of filters in the pyramid</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; from moten.backend import benchmark</span>
+<span class="sd">    &gt;&gt;&gt; results = benchmark(&quot;numpy&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; print(f&quot;numpy: {results[&#39;numpy&#39;][&#39;duration_seconds&#39;]:.3f}s&quot;)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+    <span class="n">original_backend</span> <span class="o">=</span> <span class="n">CURRENT_BACKEND</span>
+
+    <span class="k">if</span> <span class="n">backend</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">backends_to_test</span> <span class="o">=</span> <span class="p">[</span><span class="n">backend</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">backends_to_test</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ALL_BACKENDS</span><span class="p">)</span>
+
+    <span class="c1"># Create stimulus once (always on CPU as numpy)</span>
+    <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">stimulus_np</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span>
+
+    <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">backend_name</span> <span class="ow">in</span> <span class="n">backends_to_test</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">backend_mod</span> <span class="o">=</span> <span class="n">set_backend</span><span class="p">(</span><span class="n">backend_name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">BaseException</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exc</span><span class="p">,</span> <span class="p">(</span><span class="ne">KeyboardInterrupt</span><span class="p">,</span> <span class="ne">SystemExit</span><span class="p">)):</span>
+                    <span class="k">raise</span>
+                <span class="k">continue</span>
+
+            <span class="c1"># Lazy imports inside the loop to avoid import errors</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">moten</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyramids</span>
+
+            <span class="n">stimulus</span> <span class="o">=</span> <span class="n">backend_mod</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">stimulus_np</span><span class="p">)</span>
+            <span class="n">pyramid</span> <span class="o">=</span> <span class="n">pyramids</span><span class="o">.</span><span class="n">MotionEnergyPyramid</span><span class="p">(</span>
+                <span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
+                <span class="n">stimulus_fps</span><span class="o">=</span><span class="n">stimulus_fps</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Warm-up run (important for GPU backends)</span>
+            <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+            <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus_batched</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+
+            <span class="c1"># Timed run -- original (per-filter)</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+            <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+            <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+            <span class="c1"># Timed run -- batched</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+            <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus_batched</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">)</span>
+            <span class="n">duration_batched</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+            <span class="n">results</span><span class="p">[</span><span class="n">backend_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;duration_seconds&quot;</span><span class="p">:</span> <span class="n">duration</span><span class="p">,</span>
+                <span class="s2">&quot;duration_batched_seconds&quot;</span><span class="p">:</span> <span class="n">duration_batched</span><span class="p">,</span>
+                <span class="s2">&quot;speedup&quot;</span><span class="p">:</span> <span class="n">duration</span> <span class="o">/</span> <span class="n">duration_batched</span> <span class="k">if</span> <span class="n">duration_batched</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span>
+                <span class="s2">&quot;nimages&quot;</span><span class="p">:</span> <span class="n">nimages</span><span class="p">,</span>
+                <span class="s2">&quot;vhsize&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
+                <span class="s2">&quot;nfilters&quot;</span><span class="p">:</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">nfilters</span><span class="p">,</span>
+            <span class="p">}</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">set_backend</span><span class="p">(</span><span class="n">original_backend</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">results</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_dtype_to_str</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Cast dtype to string, such as &quot;float32&quot;, or &quot;float64&quot;.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">dtype</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">):</span>  <span class="c1"># works for numpy</span>
+        <span class="k">return</span> <span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">elif</span> <span class="s2">&quot;torch.&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">dtype</span><span class="p">):</span>  <span class="c1"># works for torch</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">dtype</span><span class="p">)[</span><span class="mi">6</span><span class="p">:]</span>
+    <span class="k">elif</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">elif</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;bool&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Cannot convert dtype </span><span class="si">{</span><span class="n">dtype</span><span class="si">!r}</span><span class="s2"> (type=</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">) &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;to string. Supported: str, numpy dtype, torch dtype, None, or bool.&quot;</span>
+        <span class="p">)</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Anwar O. Nunez-Elizalde.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

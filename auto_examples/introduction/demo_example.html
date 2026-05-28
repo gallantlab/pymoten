@@ -1,28 +1,27 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Using the motion energy pyramid class &mdash; pymoten 0.0.8 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
-      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+  <title>Using the motion energy pyramid class &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=53b53b71"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -41,9 +40,6 @@
           <a href="../../index.html" class="icon icon-home">
             pymoten
           </a>
-              <div class="version">
-                0.0.8
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -58,6 +54,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">Gallery of examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../benchmark_backends.html">Benchmark backends</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="../index.html#motion-energy-pyramids">Motion energy pyramids</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="index.html">Motion energy pyramids</a></li>
 </ul>
@@ -68,6 +65,10 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../autodoc/moten.html">moten package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.colorspace.html">moten.colorspace module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.core.html">moten.core module</a></li>
@@ -78,7 +79,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.viz.html">moten.viz module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#module-moten">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -126,8 +131,8 @@ to download the full example code.</p>
 <video width=100% height=100% preload=none muted controls>
  <source src="https://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4" type="video/mp4">
 </video><p>The video is RGB. So, the first step is to convert it to a luminance representation. Internally, this is achieved by converting RGB pixel values to CIE-LAB pixel values and keeping only the “L” channel. The function <a class="reference internal" href="../../autodoc/moten.io.html#moten.io.video2luminance" title="moten.io.video2luminance"><code class="xref py py-func docutils literal notranslate"><span class="pre">moten.io.video2luminance()</span></code></a> takes care of downloading the video, converting RGB to luminance, and spatial downsampling if needed.</p>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">moten</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">moten</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 <span class="n">luminance_images</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">video2luminance</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="n">nimages</span><span class="p">)</span>
 <span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">luminance_images</span><span class="o">.</span><span class="n">shape</span>
 </pre></div>
@@ -153,7 +158,7 @@ to download the full example code.</p>
 <img src="../../_images/sphx_glr_demo_example_001.png" srcset="../../_images/sphx_glr_demo_example_001.png" alt="demo example" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(200, 2530)
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 11.828 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 12.503 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-example-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/c012954147d7ebfe4431b6d9d438ef79/demo_example.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">demo_example.ipynb</span></code></a></p>

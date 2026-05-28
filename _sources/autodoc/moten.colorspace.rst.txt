@@ -3,5 +3,5 @@ moten.colorspace module
 
 .. automodule:: moten.colorspace
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

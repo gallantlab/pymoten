@@ -3,5 +3,5 @@ moten.pyramids module
 
 .. automodule:: moten.pyramids
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

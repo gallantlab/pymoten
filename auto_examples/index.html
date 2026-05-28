@@ -1,32 +1,31 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gallery of examples &mdash; pymoten 0.0.8 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
-      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+  <title>Gallery of examples &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=53b53b71"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Motion energy pyramids" href="introduction/index.html" />
+    <link rel="next" title="&lt;no title&gt;" href="compare_numpy_vs_gpu.html" />
     <link rel="prev" title="Welcome to pymoten!" href="../index.html" /> 
 </head>
 
@@ -41,9 +40,6 @@
           <a href="../index.html" class="icon icon-home">
             pymoten
           </a>
-              <div class="version">
-                0.0.8
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -58,6 +54,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="benchmark_backends.html">Benchmark backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#motion-energy-pyramids">Motion energy pyramids</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="introduction/index.html">Motion energy pyramids</a></li>
 </ul>
@@ -68,6 +65,10 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../autodoc/moten.html">moten package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../autodoc/moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../autodoc/moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../autodoc/moten.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../autodoc/moten.colorspace.html">moten.colorspace module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../autodoc/moten.core.html">moten.core module</a></li>
@@ -78,7 +79,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../autodoc/moten.viz.html">moten.viz module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../autodoc/moten.html#module-moten">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../autodoc/moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../autodoc/moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../autodoc/moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -109,22 +114,30 @@
              
   <section id="gallery-of-examples">
 <span id="general-examples"></span><h1>Gallery of examples<a class="headerlink" href="#gallery-of-examples" title="Link to this heading"></a></h1>
-<div class="sphx-glr-thumbnails"></div><section id="motion-energy-pyramids">
+<div id='sg-tag-list' class='sphx-glr-tag-list'></div><div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="Downloads a short demo video, extracts motion energy features using both numpy and a GPU backend (torch_mps or torch_cuda), and saves the results."><img alt="" src="../_images/sphx_glr_compare_numpy_vs_gpu_thumb.png" />
+<p><a class="reference internal" href="compare_numpy_vs_gpu.html"><span class="doc">&lt;no title&gt;</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Compare numpy vs GPU backend on a real video stimulus.</div>
+</div><div class="sphx-glr-thumbcontainer" tooltip="Compare motion energy computation speed across available backends (numpy, torch, torch_cuda, torch_mps)."><img alt="" src="../_images/sphx_glr_benchmark_backends_thumb.png" />
+<p><a class="reference internal" href="benchmark_backends.html"><span class="doc">Benchmark backends</span></a></p>
+  <div class="sphx-glr-thumbnail-title">Benchmark backends</div>
+</div></div><div class="toctree-wrapper compound">
+</div>
+<section id="motion-energy-pyramids">
 <h2>Motion energy pyramids<a class="headerlink" href="#motion-energy-pyramids" title="Link to this heading"></a></h2>
-<div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract motion energy features from a video."><img alt="" src="../_images/sphx_glr_demo_example_thumb.png" />
-<p><a class="reference internal" href="introduction/demo_example.html#sphx-glr-auto-examples-introduction-demo-example-py"><span class="std std-ref">Using the motion energy pyramid class</span></a></p>
+<div id='sg-tag-list' class='sphx-glr-tag-list'></div><div class="sphx-glr-thumbnails"><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract motion energy features from a video."><img alt="" src="../_images/sphx_glr_demo_example_thumb.png" />
+<p><a class="reference internal" href="introduction/demo_example.html"><span class="doc">Using the motion energy pyramid class</span></a></p>
   <div class="sphx-glr-thumbnail-title">Using the motion energy pyramid class</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example demonstrates how to display a motion energy filter from the pyramid."><img alt="" src="../_images/sphx_glr_demo_show_filters_thumb.png" />
-<p><a class="reference internal" href="introduction/demo_show_filters.html#sphx-glr-auto-examples-introduction-demo-show-filters-py"><span class="std std-ref">Visualizing the motion energy filters</span></a></p>
+<p><a class="reference internal" href="introduction/demo_show_filters.html"><span class="doc">Visualizing the motion energy filters</span></a></p>
   <div class="sphx-glr-thumbnail-title">Visualizing the motion energy filters</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows the spatial components of the spatio-temporal filters used in motion energy features. It does not show the temporal components, since this gallery does not support animation. To visualize the filters with their temporal components, you can use moten.viz.plot_3dgabor. Here we demonstrate how the spatial filters vary in term of spatial frequencies, locations, and directions."><img alt="" src="../_images/sphx_glr_demo_gabor_filters_thumb.png" />
-<p><a class="reference internal" href="introduction/demo_gabor_filters.html#sphx-glr-auto-examples-introduction-demo-gabor-filters-py"><span class="std std-ref">Spatial components of the motion energy filters</span></a></p>
+<p><a class="reference internal" href="introduction/demo_gabor_filters.html"><span class="doc">Spatial components of the motion energy filters</span></a></p>
   <div class="sphx-glr-thumbnail-title">Spatial components of the motion energy filters</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="This example shows how to extract motion energy features from batches of a video."><img alt="" src="../_images/sphx_glr_demo_batching_thumb.png" />
-<p><a class="reference internal" href="introduction/demo_batching.html#sphx-glr-auto-examples-introduction-demo-batching-py"><span class="std std-ref">Computing motion energy features from batches of stimuli</span></a></p>
+<p><a class="reference internal" href="introduction/demo_batching.html"><span class="doc">Computing motion energy features from batches of stimuli</span></a></p>
   <div class="sphx-glr-thumbnail-title">Computing motion energy features from batches of stimuli</div>
 </div><div class="sphx-glr-thumbcontainer" tooltip="Description of the image coordinates used to define the motion energy filters."><img alt="" src="../_images/sphx_glr_demo_image_coordinates_thumb.png" />
-<p><a class="reference internal" href="introduction/demo_image_coordinates.html#sphx-glr-auto-examples-introduction-demo-image-coordinates-py"><span class="std std-ref">Image coordinates</span></a></p>
+<p><a class="reference internal" href="introduction/demo_image_coordinates.html"><span class="doc">Image coordinates</span></a></p>
   <div class="sphx-glr-thumbnail-title">Image coordinates</div>
 </div></div><div class="toctree-wrapper compound">
 </div>
@@ -145,7 +158,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../index.html" class="btn btn-neutral float-left" title="Welcome to pymoten!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="introduction/index.html" class="btn btn-neutral float-right" title="Motion energy pyramids" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="compare_numpy_vs_gpu.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

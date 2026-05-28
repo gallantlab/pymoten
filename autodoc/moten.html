@@ -1,33 +1,31 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>moten package &mdash; pymoten 0.0.8 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
-      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+  <title>moten package &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=53b53b71"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="moten.colorspace module" href="moten.colorspace.html" />
+    <link rel="next" title="moten.backend package" href="moten.backend.html" />
     <link rel="prev" title="Image coordinates" href="../auto_examples/introduction/demo_image_coordinates.html" /> 
 </head>
 
@@ -42,9 +40,6 @@
           <a href="../index.html" class="icon icon-home">
             pymoten
           </a>
-              <div class="version">
-                0.0.8
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -59,6 +54,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/benchmark_backends.html">Benchmark backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/index.html">Motion energy pyramids</a></li>
 </ul>
@@ -69,6 +65,10 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">moten package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="moten.colorspace.html">moten.colorspace module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="moten.core.html">moten.core module</a></li>
@@ -79,7 +79,11 @@
 <li class="toctree-l3"><a class="reference internal" href="moten.viz.html">moten.viz module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#module-moten">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -110,6 +114,34 @@
              
   <section id="moten-package">
 <h1>moten package<a class="headerlink" href="#moten-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="moten.backend.html">moten.backend package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="moten.backend.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.numpy.html">moten.backend.numpy module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="moten.backend.numpy.html#moten.backend.numpy.column_stack"><code class="docutils literal notranslate"><span class="pre">column_stack()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="moten.backend.numpy.html#moten.backend.numpy.eigh"><code class="docutils literal notranslate"><span class="pre">eigh()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="moten.backend.numpy.html#moten.backend.numpy.to_numpy"><code class="docutils literal notranslate"><span class="pre">to_numpy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.torch.html">moten.backend.torch module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.torch_cuda.html">moten.backend.torch_cuda module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.torch_mps.html">moten.backend.torch_mps module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="moten.backend.html#module-moten.backend">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.html#moten.backend.benchmark"><code class="docutils literal notranslate"><span class="pre">benchmark()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.html#moten.backend.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.html#moten.backend.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 <div class="toctree-wrapper compound">
@@ -127,9 +159,11 @@
 <li class="toctree-l2"><a class="reference internal" href="moten.core.html#moten.core.dotspatial_frames"><code class="docutils literal notranslate"><span class="pre">dotspatial_frames()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="moten.core.html#moten.core.generate_3dgabor_array"><code class="docutils literal notranslate"><span class="pre">generate_3dgabor_array()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="moten.core.html#moten.core.mk_3d_gabor"><code class="docutils literal notranslate"><span class="pre">mk_3d_gabor()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="moten.core.html#moten.core.mk_3d_gabor_batched"><code class="docutils literal notranslate"><span class="pre">mk_3d_gabor_batched()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="moten.core.html#moten.core.mk_moten_pyramid_params"><code class="docutils literal notranslate"><span class="pre">mk_moten_pyramid_params()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="moten.core.html#moten.core.mk_spatiotemporal_gabor"><code class="docutils literal notranslate"><span class="pre">mk_spatiotemporal_gabor()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="moten.core.html#moten.core.project_stimulus"><code class="docutils literal notranslate"><span class="pre">project_stimulus()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="moten.core.html#moten.core.project_stimulus_batched"><code class="docutils literal notranslate"><span class="pre">project_stimulus_batched()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="moten.core.html#moten.core.raw_project_stimulus"><code class="docutils literal notranslate"><span class="pre">raw_project_stimulus()</span></code></a></li>
 </ul>
 </li>
@@ -175,6 +209,7 @@
 <li class="toctree-l3"><a class="reference internal" href="moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures"><code class="docutils literal notranslate"><span class="pre">MotionEnergyPyramid.get_filter_spatiotemporal_quadratures()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature"><code class="docutils literal notranslate"><span class="pre">MotionEnergyPyramid.get_filter_temporal_quadrature()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.project_stimulus"><code class="docutils literal notranslate"><span class="pre">MotionEnergyPyramid.project_stimulus()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.project_stimulus_batched"><code class="docutils literal notranslate"><span class="pre">MotionEnergyPyramid.project_stimulus_batched()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.raw_project_stimulus"><code class="docutils literal notranslate"><span class="pre">MotionEnergyPyramid.raw_project_stimulus()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.show_filter"><code class="docutils literal notranslate"><span class="pre">MotionEnergyPyramid.show_filter()</span></code></a></li>
 </ul>
@@ -210,6 +245,42 @@
 </section>
 <section id="module-moten">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-moten" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="moten.get_backend">
+<span class="sig-prename descclassname"><span class="pre">moten.</span></span><span class="sig-name descname"><span class="pre">get_backend</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/backend/_utils.html#get_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.get_backend" title="Link to this definition"></a></dt>
+<dd><p>Get the current backend module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>module</strong> – Module of the backend.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>python module</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="moten.set_backend">
+<span class="sig-prename descclassname"><span class="pre">moten.</span></span><span class="sig-name descname"><span class="pre">set_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">on_error</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'raise'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/backend/_utils.html#set_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.set_backend" title="Link to this definition"></a></dt>
+<dd><p>Set the backend using a global variable, and return the backend module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>backend</strong> (<em>str</em><em> or </em><em>module</em>) – Name or module of the backend.</p></li>
+<li><p><strong>on_error</strong> (<em>str in {&quot;raise&quot;</em><em>, </em><em>&quot;warn&quot;}</em>) – Define what is done if the backend fails to be loaded.
+If “warn”, this function only warns, and keeps the previous backend.
+If “raise”, this function raises on errors.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>module</strong> – Module of the backend.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>python module</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 
@@ -218,7 +289,7 @@
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="../auto_examples/introduction/demo_image_coordinates.html" class="btn btn-neutral float-left" title="Image coordinates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="moten.colorspace.html" class="btn btn-neutral float-right" title="moten.colorspace module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="moten.backend.html" class="btn btn-neutral float-right" title="moten.backend package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

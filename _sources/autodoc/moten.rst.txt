@@ -1,6 +1,14 @@
 moten package
 =============
 
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   moten.backend
+
 Submodules
 ----------
 
@@ -20,5 +28,5 @@ Module contents
 
 .. automodule:: moten
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:

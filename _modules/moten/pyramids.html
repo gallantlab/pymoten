@@ -1,27 +1,26 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>moten.pyramids &mdash; pymoten 0.0.8 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
-      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+  <title>moten.pyramids &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=53b53b71"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -38,9 +37,6 @@
           <a href="../../index.html" class="icon icon-home">
             pymoten
           </a>
-              <div class="version">
-                0.0.8
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -55,6 +51,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/benchmark_backends.html">Benchmark backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/index.html">Motion energy pyramids</a></li>
 </ul>
@@ -65,6 +62,10 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../autodoc/moten.html">moten package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.colorspace.html">moten.colorspace module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.core.html">moten.core module</a></li>
@@ -75,7 +76,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.viz.html">moten.viz module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#module-moten">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -122,10 +127,10 @@
 <span class="c1">#</span>
 <span class="c1"># TODO: Fix terminology in moten.core to match API.</span>
 <span class="c1">#</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-
-<span class="kn">from</span> <span class="nn">moten</span> <span class="kn">import</span> <span class="p">(</span><span class="n">utils</span><span class="p">,</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">moten.backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_backend</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">moten</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">utils</span><span class="p">,</span>
                    <span class="n">core</span><span class="p">,</span>
                    <span class="n">viz</span><span class="p">,</span>
                    <span class="p">)</span>
@@ -141,7 +146,7 @@
 
 <div class="viewcode-block" id="MotionEnergyPyramid">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid">[docs]</a>
-<span class="k">class</span> <span class="nc">MotionEnergyPyramid</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MotionEnergyPyramid</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Construct a motion energy pyramid that tiles the stimulus.</span>
 
 <span class="sd">    Generates motion energy filters at the desired</span>
@@ -199,7 +204,7 @@
 <span class="sd">    See :func:`moten.core.mk_moten_pyramid_params` for more details on</span>
 <span class="sd">    making the pyramid.</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">576</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
                  <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span>
                  <span class="n">temporal_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
@@ -293,7 +298,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">parameters_names</span> <span class="o">=</span> <span class="n">parameter_names</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mask_threshold</span> <span class="o">=</span> <span class="mf">0.001</span> <span class="c1"># HARDCODED. TODO: Make parameter.</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">info</span> <span class="o">=</span> <span class="s1">&#39;&lt;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1"> [#</span><span class="si">%i</span><span class="s1"> filters (ntfq=</span><span class="si">%i</span><span class="s1">, nsfq=</span><span class="si">%i</span><span class="s1">, ndirs=</span><span class="si">%i</span><span class="s1">) aspect=</span><span class="si">%0.03f</span><span class="s1">]&gt;&#39;</span>
         <span class="n">details</span> <span class="o">=</span> <span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span><span class="p">,</span>
                    <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">temporal_frequencies</span><span class="p">),</span>
@@ -304,7 +309,7 @@
 
 <div class="viewcode-block" id="MotionEnergyPyramid.filters_at_vhposition">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.filters_at_vhposition">[docs]</a>
-    <span class="k">def</span> <span class="nf">filters_at_vhposition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centerv</span><span class="p">,</span> <span class="n">centerh</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filters_at_vhposition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centerv</span><span class="p">,</span> <span class="n">centerh</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Center spatio-temporal filters to requested vh-position.</span>
 
 <span class="sd">        Parameters</span>
@@ -333,7 +338,7 @@
 
 <div class="viewcode-block" id="MotionEnergyPyramid.get_filter_spatiotemporal_quadratures">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_spatiotemporal_quadratures">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_filter_spatiotemporal_quadratures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_filter_spatiotemporal_quadratures</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Generate the spatial and temporal arrays that define the motion energy filter.</span>
 
 <span class="sd">        Parameters</span>
@@ -369,7 +374,7 @@
 
 <div class="viewcode-block" id="MotionEnergyPyramid.get_filter_temporal_quadrature">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_temporal_quadrature">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_filter_temporal_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_filter_temporal_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Generate the temporal arrays that define the motion energy filter.</span>
 
 <span class="sd">        Parameters</span>
@@ -391,7 +396,7 @@
 
 <div class="viewcode-block" id="MotionEnergyPyramid.get_filter_spatial_quadrature">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_spatial_quadrature">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_filter_spatial_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_filter_spatial_quadrature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Generate the spatial arrays that define the motion energy filter.</span>
 
 <span class="sd">        Parameters</span>
@@ -413,7 +418,7 @@
 
 <div class="viewcode-block" id="MotionEnergyPyramid.get_filter_mask">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_mask">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_filter_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_filter_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Generate a mask of the filter in the image</span>
 
 <span class="sd">        Parameters</span>
@@ -424,20 +429,21 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        mask : 2D np.ndarray, (vdim, hdim)</span>
-<span class="sd">            Filter spatial mask</span>
+<span class="sd">        mask : 2D array, (vdim, hdim)</span>
+<span class="sd">            Filter spatial mask. The array type depends on the active backend</span>
+<span class="sd">            (e.g. ``np.ndarray`` for numpy, ``torch.Tensor`` for torch).</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="nb">abs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span>
+        <span class="n">backend</span> <span class="o">=</span> <span class="n">get_backend</span><span class="p">()</span>
         <span class="n">threshold</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mask_threshold</span>
 
         <span class="n">spsin</span><span class="p">,</span> <span class="n">spcos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_filter_spatial_quadrature</span><span class="p">(</span><span class="n">filterid</span><span class="p">)</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">spsin</span><span class="p">)</span> <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="n">spcos</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">threshold</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">spsin</span><span class="p">)</span> <span class="o">+</span> <span class="n">backend</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">spcos</span><span class="p">))</span> <span class="o">&gt;</span> <span class="n">threshold</span>
         <span class="k">return</span> <span class="n">mask</span></div>
 
 
 <div class="viewcode-block" id="MotionEnergyPyramid.get_filter_pixel_sizes">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.get_filter_pixel_sizes">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_filter_pixel_sizes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_filter_pixel_sizes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Measure the size of the each filter in the pyramid in pixels.</span>
 
 <span class="sd">        Returns</span>
@@ -455,7 +461,7 @@
 
 <div class="viewcode-block" id="MotionEnergyPyramid.show_filter">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.show_filter">[docs]</a>
-    <span class="k">def</span> <span class="nf">show_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">show_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filterid</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">speed</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Display the motion energy filter as an animation.</span>
 
 <span class="sd">        Parameters</span>
@@ -503,7 +509,7 @@
         <span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="k">for</span> <span class="n">pdx</span><span class="p">,</span> <span class="p">(</span><span class="n">pname</span><span class="p">,</span> <span class="n">pval</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">gabor_params_dict</span><span class="o">.</span><span class="n">items</span><span class="p">())):</span>
             <span class="n">title</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">=</span><span class="si">%0.02f</span><span class="s1">, &#39;</span><span class="o">%</span><span class="p">(</span><span class="n">pname</span><span class="p">,</span> <span class="n">pval</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">mod</span><span class="p">(</span><span class="n">pdx</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">pdx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">pdx</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">pdx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">title</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 
         <span class="k">return</span> <span class="n">viz</span><span class="o">.</span><span class="n">plot_3dgabor</span><span class="p">(</span><span class="n">vhsize</span><span class="p">,</span>
@@ -514,7 +520,7 @@
 
 <div class="viewcode-block" id="MotionEnergyPyramid.project_stimulus">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.project_stimulus">[docs]</a>
-    <span class="k">def</span> <span class="nf">project_stimulus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_stimulus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                          <span class="n">stimulus</span><span class="p">,</span>
                          <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
                          <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">sqrt_sum_squares</span><span class="p">,</span>
@@ -560,9 +566,65 @@
         <span class="k">return</span> <span class="n">output</span></div>
 
 
+<div class="viewcode-block" id="MotionEnergyPyramid.project_stimulus_batched">
+<a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.project_stimulus_batched">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_stimulus_batched</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                 <span class="n">stimulus</span><span class="p">,</span>
+                                 <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+                                 <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">sqrt_sum_squares</span><span class="p">,</span>
+                                 <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">log_compress</span><span class="p">,</span>
+                                 <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">,</span>
+                                 <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&#39;&#39;&#39;Compute motion energy responses using batched operations.</span>
+
+<span class="sd">        Functionally equivalent to :meth:`project_stimulus` but</span>
+<span class="sd">        significantly faster, especially on GPU backends, because it</span>
+<span class="sd">        constructs gabor filter banks in batches and replaces per-filter</span>
+<span class="sd">        dot products with a single large matrix multiply per batch.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stimulus : array, (nimages, vdim, hdim) or (nimages, npixels)</span>
+<span class="sd">            The movie frames.</span>
+<span class="sd">        filters : optional, &#39;all&#39; or list of dicts</span>
+<span class="sd">            By default compute the responses for all filters.</span>
+<span class="sd">        quadrature_combination : callable, optional</span>
+<span class="sd">            Defaults to ``sqrt_sum_squares``.</span>
+<span class="sd">        output_nonlinearity : callable, optional</span>
+<span class="sd">            Defaults to ``log_compress``.</span>
+<span class="sd">        dtype : str</span>
+<span class="sd">            Output dtype.</span>
+<span class="sd">        batch_size : int</span>
+<span class="sd">            Number of filters to process simultaneously.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        filter_responses : array, (nimages, nfilters)</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="k">if</span> <span class="n">filters</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+            <span class="n">filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span>
+
+        <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">definition</span><span class="o">.</span><span class="n">stimulus_vhsize</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">project_stimulus_batched</span><span class="p">(</span>
+            <span class="n">stimulus</span><span class="p">,</span>
+            <span class="n">filters</span><span class="p">,</span>
+            <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">quadrature_combination</span><span class="p">,</span>
+            <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">output_nonlinearity</span><span class="p">,</span>
+            <span class="n">vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+            <span class="c1"># NOTE: the per-filter project_stimulus path uses the hardcoded</span>
+            <span class="c1"># dotspatial_frames default (0.001); mask_threshold is also 0.001,</span>
+            <span class="c1"># so the two paths agree. Keep them in sync if either changes.</span>
+            <span class="n">masklimit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mask_threshold</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">output</span></div>
+
+
 <div class="viewcode-block" id="MotionEnergyPyramid.raw_project_stimulus">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.MotionEnergyPyramid.raw_project_stimulus">[docs]</a>
-    <span class="k">def</span> <span class="nf">raw_project_stimulus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stimulus</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">raw_project_stimulus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stimulus</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Obtain responses to the stimulus from all filter quadrature-pairs.</span>
 
 <span class="sd">        Parameters</span>
@@ -595,7 +657,7 @@
 
 <div class="viewcode-block" id="StimulusMotionEnergy">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy">[docs]</a>
-<span class="k">class</span> <span class="nc">StimulusMotionEnergy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">StimulusMotionEnergy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Parametrize a motion energy pyramid that tiles the stimulus.</span>
 
 <span class="sd">    Generates motion energy filters at the desired</span>
@@ -635,7 +697,7 @@
 <span class="sd">    stimulus_vhsize : tuple of ints, (vdim, hdim)</span>
 <span class="sd">    original_stimulus : 3D np.ndarray, (nimages, vdim, hdim)</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">stimulus</span><span class="p">,</span>
                  <span class="n">stimulus_fps</span><span class="p">,</span>
                  <span class="n">temporal_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span>
@@ -685,7 +747,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">pyramid</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nfilters</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">nfilters</span>
 
-    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">info</span> <span class="o">=</span> <span class="s1">&#39;&lt;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1"> [</span><span class="si">%i</span><span class="s1"> nframes @ </span><span class="si">%i</span><span class="s1"> fps. #</span><span class="si">%i</span><span class="s1"> filters. aspect=</span><span class="si">%0.03f</span><span class="s1">]&gt;&#39;</span>
         <span class="n">details</span> <span class="o">=</span> <span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
                    <span class="bp">self</span><span class="o">.</span><span class="n">nimages</span><span class="p">,</span>
@@ -696,7 +758,7 @@
 
 <div class="viewcode-block" id="StimulusMotionEnergy.project_stimulus">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy.project_stimulus">[docs]</a>
-    <span class="k">def</span> <span class="nf">project_stimulus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_stimulus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;See :meth:`MotionEnergyPyramid.project_stimulus`</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">filter_responses</span>  <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
@@ -705,7 +767,7 @@
 
 <div class="viewcode-block" id="StimulusMotionEnergy.project">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy.project">[docs]</a>
-    <span class="k">def</span> <span class="nf">project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
                 <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">sqrt_sum_squares</span><span class="p">,</span>
                 <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">log_compress</span><span class="p">,</span>
                 <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
@@ -745,7 +807,7 @@
 
 <div class="viewcode-block" id="StimulusMotionEnergy.project_at_vhposition">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy.project_at_vhposition">[docs]</a>
-    <span class="k">def</span> <span class="nf">project_at_vhposition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centerv</span><span class="p">,</span> <span class="n">centerh</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">project_at_vhposition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">centerv</span><span class="p">,</span> <span class="n">centerh</span><span class="p">,</span>
                               <span class="n">quadrature_combination</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">sqrt_sum_squares</span><span class="p">,</span>
                               <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">utils</span><span class="o">.</span><span class="n">log_compress</span><span class="p">,</span>
                               <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
@@ -780,7 +842,7 @@
 
 <div class="viewcode-block" id="StimulusMotionEnergy.raw_projection">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusMotionEnergy.raw_projection">[docs]</a>
-    <span class="k">def</span> <span class="nf">raw_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">raw_projection</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Obtain responses to the stimulus from all filter quadrature-pairs.</span>
 
 <span class="sd">        Parameters</span>
@@ -808,10 +870,10 @@
 
 <div class="viewcode-block" id="StimulusStaticGaborPyramid">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.StimulusStaticGaborPyramid">[docs]</a>
-<span class="k">class</span> <span class="nc">StimulusStaticGaborPyramid</span><span class="p">(</span><span class="n">StimulusMotionEnergy</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">StimulusStaticGaborPyramid</span><span class="p">(</span><span class="n">StimulusMotionEnergy</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">stimulus</span><span class="p">,</span>
                  <span class="n">spatial_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">16</span><span class="p">],</span>
                  <span class="n">spatial_orientations</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">45</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">135</span><span class="p">),</span>
@@ -830,7 +892,7 @@
                                          <span class="n">max_spatial_env</span><span class="o">=</span><span class="n">max_spatial_env</span><span class="p">,</span>
                                          <span class="n">filter_spacing</span><span class="o">=</span><span class="n">filter_spacing</span><span class="p">,</span>
                                          <span class="c1"># fixed parameters for static filters:</span>
-                                         <span class="n">max_temp_env</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                                         <span class="n">max_temp_env</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span>
                                          <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
                                          <span class="n">temporal_frequencies</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
                                          <span class="n">filter_temporal_width</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
@@ -840,44 +902,44 @@
 
 <div class="viewcode-block" id="DefaultPyramids">
 <a class="viewcode-back" href="../../autodoc/moten.pyramids.html#moten.pyramids.DefaultPyramids">[docs]</a>
-<span class="k">class</span> <span class="nc">DefaultPyramids</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DefaultPyramids</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">pass</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pyramid15fps512x512</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pyramid15fps512x512</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span>
                                        <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pyramid</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pyramid15fps96x96</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pyramid15fps96x96</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">96</span><span class="p">,</span> <span class="mi">96</span><span class="p">),</span>
                                        <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pyramid</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pyramid24fps800x600</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pyramid24fps800x600</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">800</span><span class="p">),</span>
                                        <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pyramid</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pyramid24fps640x480</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pyramid24fps640x480</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">480</span><span class="p">,</span> <span class="mi">640</span><span class="p">),</span>
                                        <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pyramid</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pyramid24fps128x72</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pyramid24fps128x72</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">72</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
                                        <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pyramid</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">pyramid24fps256x144</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">pyramid24fps256x144</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">pyramid</span> <span class="o">=</span>  <span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="mi">144</span><span class="p">,</span> <span class="mi">256</span><span class="p">),</span>
                                        <span class="n">stimulus_fps</span><span class="o">=</span><span class="mi">24</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">pyramid</span></div>

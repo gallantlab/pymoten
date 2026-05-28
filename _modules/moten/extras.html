@@ -1,27 +1,26 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>moten.extras &mdash; pymoten 0.0.8 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=fd3f3429" />
-      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
+  <title>moten.extras &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=53b53b71"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
@@ -38,9 +37,6 @@
           <a href="../../index.html" class="icon icon-home">
             pymoten
           </a>
-              <div class="version">
-                0.0.8
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -55,6 +51,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../auto_examples/benchmark_backends.html">Benchmark backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../auto_examples/introduction/index.html">Motion energy pyramids</a></li>
 </ul>
@@ -65,6 +62,10 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../autodoc/moten.html">moten package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#submodules">Submodules</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.colorspace.html">moten.colorspace module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.core.html">moten.core module</a></li>
@@ -75,7 +76,11 @@
 <li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.viz.html">moten.viz module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#module-moten">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -107,32 +112,31 @@
   <h1>Source code for moten.extras</h1><div class="highlight"><pre>
 <span></span><span class="sd">&#39;&#39;&#39;Compute total motion energy from greyscale videos.</span>
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="kn">import</span> <span class="nn">moten</span>
-<span class="kn">from</span> <span class="nn">moten.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">iterator_func</span><span class="p">,</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">moten.utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span><span class="n">iterator_func</span><span class="p">,</span>
                          <span class="n">pointwise_square</span><span class="p">,</span>
                          <span class="p">)</span>
 
 <span class="c1"># Make tqdm optional</span>
 <span class="n">with_tqdm</span> <span class="o">=</span> <span class="kc">True</span>
 <span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">tqdm</span> <span class="kn">import</span> <span class="n">tqdm</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="n">with_tqdm</span> <span class="o">=</span> <span class="kc">False</span>
 
 <div class="viewcode-block" id="process_motion_energy_from_files">
 <a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.process_motion_energy_from_files">[docs]</a>
-<span class="k">def</span> <span class="nf">process_motion_energy_from_files</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">process_motion_energy_from_files</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span>
                                      <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                     <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                                     <span class="n">nimages</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span>
                                      <span class="n">batch_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
                                      <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">,</span>
                                      <span class="n">mask</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                      <span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="kn">import</span> <span class="nn">moten.io</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">moten.io</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
         <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">filenames</span><span class="p">]</span>
 
@@ -156,7 +160,7 @@
 
 <div class="viewcode-block" id="pixbypix_covariance_from_frames_generator">
 <a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.pixbypix_covariance_from_frames_generator">[docs]</a>
-<span class="k">def</span> <span class="nf">pixbypix_covariance_from_frames_generator</span><span class="p">(</span><span class="n">data_generator</span><span class="p">,</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">pixbypix_covariance_from_frames_generator</span><span class="p">(</span><span class="n">data_generator</span><span class="p">,</span>
                                               <span class="n">batch_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
                                               <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">pointwise_square</span><span class="p">,</span>
                                               <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">):</span>
@@ -225,7 +229,7 @@
 
 <div class="viewcode-block" id="StimulusTotalMotionEnergy">
 <a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy">[docs]</a>
-<span class="k">class</span> <span class="nc">StimulusTotalMotionEnergy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">StimulusTotalMotionEnergy</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Compute the principal components of the total motion energy.</span>
 
 <span class="sd">    Total motion energy is defined as the squared difference</span>
@@ -282,10 +286,10 @@
 <span class="sd">    &gt;&gt;&gt; totalmoten.compute_spatial_pcs(npcs=10)</span>
 <span class="sd">    &gt;&gt;&gt; totalmoten.compute_temporal_pcs()</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                  <span class="n">video_file</span><span class="p">,</span>
                  <span class="n">size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">nimages</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+                 <span class="n">nimages</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="s1">&#39;inf&#39;</span><span class="p">),</span>
                  <span class="n">batch_size</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
                  <span class="n">output_nonlinearity</span><span class="o">=</span><span class="n">pointwise_square</span><span class="p">,</span>
                  <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">,</span>
@@ -303,11 +307,11 @@
 
 <div class="viewcode-block" id="StimulusTotalMotionEnergy.get_frame_difference_generator">
 <a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy.get_frame_difference_generator">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_frame_difference_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_frame_difference_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Return a video buffer that generates the difference between</span>
 <span class="sd">        the previous and the current frame.</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="kn">import</span> <span class="nn">moten.io</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">moten.io</span>
         <span class="n">generator</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">generate_frame_difference_from_greyvideo</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">nimages</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
 
@@ -319,7 +323,7 @@
 
 <div class="viewcode-block" id="StimulusTotalMotionEnergy.compute_pixel_by_pixel_covariance">
 <a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy.compute_pixel_by_pixel_covariance">[docs]</a>
-    <span class="k">def</span> <span class="nf">compute_pixel_by_pixel_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_pixel_by_pixel_covariance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
                                           <span class="n">generator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                           <span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Compute the pixel-by-pixel covariance of the total energy video.</span>
@@ -344,7 +348,6 @@
 <span class="sd">        npixels : int</span>
 <span class="sd">            Total number of pixels in the video (after downsampling).</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="kn">import</span> <span class="nn">moten.utils</span>
 
         <span class="k">if</span> <span class="n">generator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># allow the user to provide their own frame difference generator</span>
@@ -360,7 +363,7 @@
 
 <div class="viewcode-block" id="StimulusTotalMotionEnergy.compute_spatial_pcs">
 <a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy.compute_spatial_pcs">[docs]</a>
-    <span class="k">def</span> <span class="nf">compute_spatial_pcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npcs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_spatial_pcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">npcs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Compute the principal components from the pixel-by-pixel total energy covariance matrix.</span>
 
 <span class="sd">        Parameters</span>
@@ -373,7 +376,7 @@
 <span class="sd">        decomposition_spatial_pcs : np.ndarray, (npixels, npcs)</span>
 <span class="sd">        decomposition_eigenvalues : np.ndarray</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">linalg</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy</span><span class="w"> </span><span class="kn">import</span> <span class="n">linalg</span>
 
         <span class="k">if</span> <span class="n">npcs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">npcs</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">npixels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">covariance_nframes</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
@@ -395,7 +398,7 @@
 
 <div class="viewcode-block" id="StimulusTotalMotionEnergy.compute_temporal_pcs">
 <a class="viewcode-back" href="../../autodoc/moten.extras.html#moten.extras.StimulusTotalMotionEnergy.compute_temporal_pcs">[docs]</a>
-    <span class="k">def</span> <span class="nf">compute_temporal_pcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_first</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compute_temporal_pcs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">skip_first</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&#39;&#39;&#39;Extract the temporal principal components of the total motion energy.</span>
 
 <span class="sd">        Parameters</span>
@@ -413,7 +416,6 @@
 <span class="sd">        decomposition_temporal_pcs : list, (ntimepoints, npcs)</span>
 <span class="sd">            The temporal compoonents are scaled by their singular values (:math:`US`).</span>
 <span class="sd">        &#39;&#39;&#39;</span>
-        <span class="kn">import</span> <span class="nn">moten.utils</span>
 
         <span class="k">if</span> <span class="n">generator</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="c1"># allow the user to provide their own frame difference generator</span>

@@ -1,29 +1,28 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>moten.extras module &mdash; pymoten 0.0.8 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
-      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+  <title>moten.extras module &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=53b53b71"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -42,9 +41,6 @@
           <a href="../index.html" class="icon icon-home">
             pymoten
           </a>
-              <div class="version">
-                0.0.8
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -59,6 +55,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/benchmark_backends.html">Benchmark backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/index.html">Motion energy pyramids</a></li>
 </ul>
@@ -69,6 +66,10 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="moten.html">moten package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current"><a class="reference internal" href="moten.html#submodules">Submodules</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="moten.colorspace.html">moten.colorspace module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="moten.core.html">moten.core module</a></li>
@@ -79,7 +80,11 @@
 <li class="toctree-l3"><a class="reference internal" href="moten.viz.html">moten.viz module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="moten.html#module-moten">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -114,7 +119,7 @@
 <p>Compute total motion energy from greyscale videos.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="moten.extras.StimulusTotalMotionEnergy">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">moten.extras.</span></span><span class="sig-name descname"><span class="pre">StimulusTotalMotionEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">video_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nimages=inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nonlinearity=&lt;function</span> <span class="pre">pointwise_square&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype='float32'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy" title="Link to this definition"></a></dt>
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">moten.extras.</span></span><span class="sig-name descname"><span class="pre">StimulusTotalMotionEnergy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">video_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nimages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">inf</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nonlinearity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">pointwise_square&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'float32'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mask</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#StimulusTotalMotionEnergy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.extras.StimulusTotalMotionEnergy" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Compute the principal components of the total motion energy.</p>
 <p>Total motion energy is defined as the squared difference
@@ -157,7 +162,7 @@ The spatial components are <span class="math notranslate nohighlight">\(V\)</spa
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">moten.extras</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">moten.extras</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">small_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span> <span class="c1"># (vdim, hdim)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">totalmoten</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">StimulusTotalMotionEnergy</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">small_size</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
@@ -236,7 +241,7 @@ the previous and the current frame.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="moten.extras.pixbypix_covariance_from_frames_generator">
-<span class="sig-prename descclassname"><span class="pre">moten.extras.</span></span><span class="sig-name descname"><span class="pre">pixbypix_covariance_from_frames_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_generator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size=1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nonlinearity=&lt;function</span> <span class="pre">pointwise_square&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype='float32'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#pixbypix_covariance_from_frames_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.extras.pixbypix_covariance_from_frames_generator" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">moten.extras.</span></span><span class="sig-name descname"><span class="pre">pixbypix_covariance_from_frames_generator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_generator</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nonlinearity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">pointwise_square&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'float32'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/extras.html#pixbypix_covariance_from_frames_generator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.extras.pixbypix_covariance_from_frames_generator" title="Link to this definition"></a></dt>
 <dd><p>Compute the pixel-by-pixel covariance from a video frame generator in batches.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -248,11 +253,11 @@ the previous and the current frame.</p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">moten</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">moten</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">video_file</span> <span class="o">=</span> <span class="s1">&#39;http://anwarnunez.github.io/downloads/avsnr150s24fps_tiny.mp4&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">small_size</span> <span class="o">=</span> <span class="p">(</span><span class="mi">36</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>  <span class="c1"># downsample to (vdim, hdim) 16:9 aspect ratio</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">fdiffgen</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">generate_frame_difference_from_greyvideo</span><span class="p">(</span><span class="n">video_file</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">small_size</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">333</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">nimages</span><span class="p">,</span> <span class="n">XTX</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">pixbypix_covariance_from_frames_generator</span><span class="p">(</span><span class="n">fdiffgen</span><span class="p">)</span> 
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nimages</span><span class="p">,</span> <span class="n">XTX</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">extras</span><span class="o">.</span><span class="n">pixbypix_covariance_from_frames_generator</span><span class="p">(</span><span class="n">fdiffgen</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>

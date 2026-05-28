@@ -1,28 +1,27 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>moten.core module &mdash; pymoten 0.0.8 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=fd3f3429" />
-      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
+  <title>moten.core module &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=fd6457a4" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-dataframe.css?v=2082cf3c" />
       <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../_static/documentation_options.js?v=53b53b71"></script>
-        <script src="../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../_static/sg-tags.js?v=d80f6fa4"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -41,9 +40,6 @@
           <a href="../index.html" class="icon icon-home">
             pymoten
           </a>
-              <div class="version">
-                0.0.8
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -58,6 +54,7 @@
 <p class="caption" role="heading"><span class="caption-text">Examples</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../auto_examples/index.html">Gallery of examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../auto_examples/benchmark_backends.html">Benchmark backends</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../auto_examples/index.html#motion-energy-pyramids">Motion energy pyramids</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="../auto_examples/introduction/index.html">Motion energy pyramids</a></li>
 </ul>
@@ -68,6 +65,10 @@
 <p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="moten.html">moten package</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
 <li class="toctree-l2 current"><a class="reference internal" href="moten.html#submodules">Submodules</a><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="moten.colorspace.html">moten.colorspace module</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">moten.core module</a></li>
@@ -78,7 +79,11 @@
 <li class="toctree-l3"><a class="reference internal" href="moten.viz.html">moten.viz module</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="moten.html#module-moten">Module contents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -112,7 +117,7 @@
 <span id="moten-core-module"></span><h1>moten.core module<a class="headerlink" href="#module-moten.core" title="Link to this heading"></a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="moten.core.compute_filter_responses">
-<span class="sig-prename descclassname"><span class="pre">moten.core.</span></span><span class="sig-name descname"><span class="pre">compute_filter_responses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stimulus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stimulus_fps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect_ratio='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_temporal_width='auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_combination=&lt;function</span> <span class="pre">sqrt_sum_squares&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nonlinearity=&lt;function</span> <span class="pre">log_compress&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dozscore=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.float64'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyramid_parameters={}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_filter_responses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.core.compute_filter_responses" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">moten.core.</span></span><span class="sig-name descname"><span class="pre">compute_filter_responses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stimulus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stimulus_fps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_temporal_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_combination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">sqrt_sum_squares&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nonlinearity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">log_compress&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dozscore</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'float64'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pyramid_parameters</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_filter_responses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.core.compute_filter_responses" title="Link to this definition"></a></dt>
 <dd><p>Compute the motion energy filters’ response to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -129,7 +134,7 @@ Defaults to: (sin^2 + cos^2)^1/2</p></li>
 non-linearity. The function input is the (<cite>n</cite>,`nfilters`) array.
 Defaults to: ln(x + 1e-05)</p></li>
 <li><p><strong>dozscore</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to z-score the channel responses in time</p></li>
-<li><p><strong>dtype</strong> (<em>np.dtype</em>) – Defaults to np.float64</p></li>
+<li><p><strong>dtype</strong> (<em>str</em><em> or </em><em>dtype</em>) – Defaults to ‘float64’</p></li>
 <li><p><strong>pyramid_parameters</strong> (<em>dict</em>) – See <a class="reference internal" href="#moten.core.mk_moten_pyramid_params" title="moten.core.mk_moten_pyramid_params"><code class="xref py py-func docutils literal notranslate"><span class="pre">mk_moten_pyramid_params()</span></code></a> for details on parameters
 specifiying a motion energy pyramid.</p></li>
 </ul>
@@ -145,7 +150,7 @@ specifiying a motion energy pyramid.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="moten.core.compute_spatial_gabor_responses">
-<span class="sig-prename descclassname"><span class="pre">moten.core.</span></span><span class="sig-name descname"><span class="pre">compute_spatial_gabor_responses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">stimulus,</span> <span class="pre">aspect_ratio='auto',</span> <span class="pre">spatial_frequencies=[0,</span> <span class="pre">2,</span> <span class="pre">4,</span> <span class="pre">8,</span> <span class="pre">16,</span> <span class="pre">32],</span> <span class="pre">quadrature_combination=&lt;function</span> <span class="pre">sqrt_sum_squares&gt;,</span> <span class="pre">output_nonlinearity=&lt;function</span> <span class="pre">log_compress&gt;,</span> <span class="pre">dtype=&lt;class</span> <span class="pre">'numpy.float64'&gt;,</span> <span class="pre">dozscore=True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_spatial_gabor_responses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.core.compute_spatial_gabor_responses" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">moten.core.</span></span><span class="sig-name descname"><span class="pre">compute_spatial_gabor_responses</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">stimulus,</span> <span class="pre">aspect_ratio='auto',</span> <span class="pre">spatial_frequencies=[0,</span> <span class="pre">2,</span> <span class="pre">4,</span> <span class="pre">8,</span> <span class="pre">16,</span> <span class="pre">32],</span> <span class="pre">quadrature_combination=&lt;function</span> <span class="pre">sqrt_sum_squares&gt;,</span> <span class="pre">output_nonlinearity=&lt;function</span> <span class="pre">log_compress&gt;,</span> <span class="pre">dtype='float64',</span> <span class="pre">dozscore=True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#compute_spatial_gabor_responses"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.core.compute_spatial_gabor_responses" title="Link to this definition"></a></dt>
 <dd><p>Compute the spatial gabor filters’ response to each stimulus.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -159,7 +164,7 @@ Defaults to: (sin^2 + cos^2)^1/2</p></li>
 non-linearity. The function input is the (<cite>n</cite>,`nfilters`) array.
 Defaults to: ln(x + 1e-05)</p></li>
 <li><p><strong>dozscore</strong> (<em>bool</em><em>, </em><em>optional</em>) – Whether to z-score the channel responses in time</p></li>
-<li><p><strong>dtype</strong> (<em>np.dtype</em>) – Defaults to np.float64</p></li>
+<li><p><strong>dtype</strong> (<em>str</em><em> or </em><em>dtype</em>) – Defaults to ‘float64’</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -275,6 +280,32 @@ a 90 degree phase offset relative to <code class="docutils literal notranslate">
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="moten.core.mk_3d_gabor_batched">
+<span class="sig-prename descclassname"><span class="pre">moten.core.</span></span><span class="sig-name descname"><span class="pre">mk_3d_gabor_batched</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vhsize</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters_batch</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#mk_3d_gabor_batched"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.core.mk_3d_gabor_batched" title="Link to this definition"></a></dt>
+<dd><p>Build spatial and temporal gabor filter banks for a batch of filters.</p>
+<p>Vectorizes <a class="reference internal" href="#moten.core.mk_3d_gabor" title="moten.core.mk_3d_gabor"><code class="xref py py-func docutils literal notranslate"><span class="pre">mk_3d_gabor()</span></code></a> across multiple filters so that all
+gabor arrays are constructed with batched tensor operations instead
+of a Python for-loop.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vhsize</strong> (<em>tuple</em><em> of </em><em>ints</em><em>, </em><em>(</em><em>vdim</em><em>, </em><em>hdim</em><em>)</em>)</p></li>
+<li><p><strong>filters_batch</strong> (<em>list</em><em> of </em><em>dicts</em>) – Each dict has the same keys accepted by <a class="reference internal" href="#moten.core.mk_3d_gabor" title="moten.core.mk_3d_gabor"><code class="xref py py-func docutils literal notranslate"><span class="pre">mk_3d_gabor()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>spatial_gabors_sin</strong> (<em>array, (B, npixels)</em>)</p></li>
+<li><p><strong>spatial_gabors_cos</strong> (<em>array, (B, npixels)</em>)</p></li>
+<li><p><strong>temporal_gabors_sin</strong> (<em>array, (B, T)</em>)</p></li>
+<li><p><strong>temporal_gabors_cos</strong> (<em>array, (B, T)</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="moten.core.mk_moten_pyramid_params">
 <span class="sig-prename descclassname"><span class="pre">moten.core.</span></span><span class="sig-name descname"><span class="pre">mk_moten_pyramid_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stimulus_fps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter_temporal_width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aspect_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'auto'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temporal_frequencies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">2,</span> <span class="pre">4]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_frequencies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">2,</span> <span class="pre">4,</span> <span class="pre">8,</span> <span class="pre">16,</span> <span class="pre">32]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_directions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">45,</span> <span class="pre">90,</span> <span class="pre">135,</span> <span class="pre">180,</span> <span class="pre">225,</span> <span class="pre">270,</span> <span class="pre">315]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sf_gauss_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_spatial_env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gabor_spacing</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tf_gauss_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_temp_env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_phase_offset</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_edges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#mk_moten_pyramid_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.core.mk_moten_pyramid_params" title="Link to this definition"></a></dt>
 <dd><p>Parametrize a motion energy pyramid that tiles the stimulus.</p>
@@ -359,7 +390,7 @@ This is useful for visualization.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="moten.core.project_stimulus">
-<span class="sig-prename descclassname"><span class="pre">moten.core.</span></span><span class="sig-name descname"><span class="pre">project_stimulus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stimulus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_combination=&lt;function</span> <span class="pre">sqrt_sum_squares&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nonlinearity=&lt;function</span> <span class="pre">log_compress&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vhsize=()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype='float32'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#project_stimulus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.core.project_stimulus" title="Link to this definition"></a></dt>
+<span class="sig-prename descclassname"><span class="pre">moten.core.</span></span><span class="sig-name descname"><span class="pre">project_stimulus</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stimulus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_combination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">sqrt_sum_squares&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nonlinearity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">log_compress&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vhsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'float32'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#project_stimulus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.core.project_stimulus" title="Link to this definition"></a></dt>
 <dd><p>Compute the motion energy filter responses to the stimuli.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -372,6 +403,39 @@ If <cite>stimulus</cite> is two-dimensional with shape (nimages, npixels), then
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>np.ndarray, (nimages, nfilters)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="moten.core.project_stimulus_batched">
+<span class="sig-prename descclassname"><span class="pre">moten.core.</span></span><span class="sig-name descname"><span class="pre">project_stimulus_batched</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stimulus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quadrature_combination</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">sqrt_sum_squares&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_nonlinearity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">&lt;function</span> <span class="pre">log_compress&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vhsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'float32'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">128</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">masklimit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/moten/core.html#project_stimulus_batched"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#moten.core.project_stimulus_batched" title="Link to this definition"></a></dt>
+<dd><p>Compute motion energy responses using batched operations.</p>
+<p>Functionally equivalent to <a class="reference internal" href="#moten.core.project_stimulus" title="moten.core.project_stimulus"><code class="xref py py-func docutils literal notranslate"><span class="pre">project_stimulus()</span></code></a> but constructs
+spatial and temporal gabor filter banks in batches and uses a single
+large matrix multiply per batch instead of per-filter dot products.
+This is significantly faster on GPU backends and can also be faster
+on CPU for large filter sets.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stimulus</strong> (<em>array</em><em>, </em><em>(</em><em>nimages</em><em>, </em><em>vdim</em><em>, </em><em>hdim</em><em>) or </em><em>(</em><em>nimages</em><em>, </em><em>npixels</em><em>)</em>) – The movie frames.</p></li>
+<li><p><strong>filters</strong> (<em>list</em><em> of </em><em>dicts</em>) – Filter parameter dictionaries (as produced by a pyramid).</p></li>
+<li><p><strong>quadrature_combination</strong> (<em>callable</em><em>, </em><em>optional</em>) – Defaults to <code class="docutils literal notranslate"><span class="pre">sqrt_sum_squares</span></code>.</p></li>
+<li><p><strong>output_nonlinearity</strong> (<em>callable</em><em>, </em><em>optional</em>) – Defaults to <code class="docutils literal notranslate"><span class="pre">log_compress</span></code>.</p></li>
+<li><p><strong>vhsize</strong> (<em>tuple</em><em> of </em><em>ints</em>) – <code class="docutils literal notranslate"><span class="pre">(vdim,</span> <span class="pre">hdim)</span></code> required when stimulus is 2-D.</p></li>
+<li><p><strong>dtype</strong> (<em>str</em>) – Output dtype.</p></li>
+<li><p><strong>batch_size</strong> (<em>int</em>) – Number of filters to process simultaneously.  Larger values use
+more memory but reduce Python-loop overhead.</p></li>
+<li><p><strong>masklimit</strong> (<em>float</em>) – Threshold for zeroing near-zero gabor pixels. Matches the
+<code class="docutils literal notranslate"><span class="pre">masklimit</span></code> parameter of <a class="reference internal" href="#moten.core.dotspatial_frames" title="moten.core.dotspatial_frames"><code class="xref py py-func docutils literal notranslate"><span class="pre">dotspatial_frames()</span></code></a>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>filter_responses</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array, (nimages, nfilters)</p>
 </dd>
 </dl>
 </dd></dl>
