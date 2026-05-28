@@ -769,35 +769,29 @@ def project_stimulus_batched(stimulus,
         spatial_sin = (sg_sin @ stim_T).T  # (nimages, B)
         spatial_cos = (sg_cos @ stim_T).T  # (nimages, B)
 
-        # Temporal convolution via broadcasting
-        # (nimages, B, 1) * (1, B, T) → (nimages, B, T)
+        # Temporal convolution + delay shifting.
+        # The final response sums over the temporal dimension T, so we
+        # accumulate directly into (nimages, B) instead of materializing
+        # (nimages, B, T) tensors. This cuts peak memory by a factor of ~T,
+        # which matters for GPU OOM on long stimuli or large batch_size.
         T = tg_sin.shape[1]
-        sin_3d = spatial_sin.reshape(nimages, B, 1)
-        cos_3d = spatial_cos.reshape(nimages, B, 1)
-        tg_sin_3d = tg_sin.reshape(1, B, T)
-        tg_cos_3d = tg_cos.reshape(1, B, T)
-
-        outs = sin_3d * tg_cos_3d + cos_3d * tg_sin_3d   # (nimages, B, T)
-        outc = -sin_3d * tg_sin_3d + cos_3d * tg_cos_3d  # (nimages, B, T)
-
-        # Delay shifting -- loop over T (small, typically ~16)
-        nouts = backend.zeros_like(outs)
-        noutc = backend.zeros_like(outc)
+        channel_sin = backend.zeros((nimages, B), dtype=dtype)
+        channel_cos = backend.zeros((nimages, B), dtype=dtype)
         tdxc = int(math.ceil(T / 2.0))
         for ddx in range(T):
             num = ddx - tdxc + 1
+            # quadrature components for this delay: (nimages, B) * (B,)
+            curr_outs = spatial_sin * tg_cos[:, ddx] + spatial_cos * tg_sin[:, ddx]
+            curr_outc = -spatial_sin * tg_sin[:, ddx] + spatial_cos * tg_cos[:, ddx]
             if num == 0:
-                nouts[:, :, ddx] = outs[:, :, ddx]
-                noutc[:, :, ddx] = outc[:, :, ddx]
+                channel_sin += curr_outs
+                channel_cos += curr_outc
             elif num > 0:
-                nouts[num:, :, ddx] = outs[:-num, :, ddx]
-                noutc[num:, :, ddx] = outc[:-num, :, ddx]
+                channel_sin[num:, :] += curr_outs[:-num, :]
+                channel_cos[num:, :] += curr_outc[:-num, :]
             elif num < 0:
-                nouts[:num, :, ddx] = outs[abs(num):, :, ddx]
-                noutc[:num, :, ddx] = outc[abs(num):, :, ddx]
-
-        channel_sin = nouts.sum(-1)  # (nimages, B)
-        channel_cos = noutc.sum(-1)  # (nimages, B)
+                channel_sin[:num, :] += curr_outs[abs(num):, :]
+                channel_cos[:num, :] += curr_outc[abs(num):, :]
 
         channel_response = quadrature_combination(channel_sin, channel_cos)
         channel_response = output_nonlinearity(channel_response)
