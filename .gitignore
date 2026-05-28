@@ -84,6 +84,9 @@ target/
 profile_default/
 ipython_config.py
 
+# setuptools-scm generated version file
+moten/_version.py
+
 # pyenv
 .python-version
 
