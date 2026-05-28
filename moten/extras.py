@@ -2,7 +2,6 @@
 '''
 import numpy as np
 
-import moten
 from moten.utils import (iterator_func,
                          pointwise_square,
                          )
@@ -224,7 +223,6 @@ class StimulusTotalMotionEnergy(object):
         npixels : int
             Total number of pixels in the video (after downsampling).
         '''
-        import moten.utils
 
         if generator is None:
             # allow the user to provide their own frame difference generator
@@ -250,6 +248,8 @@ class StimulusTotalMotionEnergy(object):
         decomposition_spatial_pcs : np.ndarray, (npixels, npcs)
         decomposition_eigenvalues : np.ndarray
         '''
+        from scipy import linalg
+
         if npcs is None:
             npcs = min(self.npixels, self.covariance_nframes) + 1
 
@@ -257,11 +257,11 @@ class StimulusTotalMotionEnergy(object):
         # Q L QT = XTX
         # U,S,Vt = X
         # Q = V
-        L, Q = np.linalg.eigh(self.covariance_pixbypix)
+        L, Q = linalg.eigh(self.covariance_pixbypix)
 
-        # increasing order (eigh returns ascending, we want descending)
-        L = L[::-1]
-        Q = Q[:, ::-1]
+        # increasing order
+        L = L[::-1]             # eigenvals (npcs)
+        Q = Q[:, ::-1]          # eigenvecs (npixels, npcs)
 
         # store: (npixels, npcs)
         self.decomposition_spatial_pcs = np.asarray(Q[:, :npcs], dtype=self.dtype)
@@ -285,7 +285,6 @@ class StimulusTotalMotionEnergy(object):
         decomposition_temporal_pcs : list, (ntimepoints, npcs)
             The temporal compoonents are scaled by their singular values (:math:`US`).
         '''
-        import moten.utils
 
         if generator is None:
             # allow the user to provide their own frame difference generator

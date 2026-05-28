@@ -474,6 +474,9 @@ class MotionEnergyPyramid(object):
             vhsize=(vdim, hdim),
             dtype=dtype,
             batch_size=batch_size,
+            # NOTE: the per-filter project_stimulus path uses the hardcoded
+            # dotspatial_frames default (0.001); mask_threshold is also 0.001,
+            # so the two paths agree. Keep them in sync if either changes.
             masklimit=self.mask_threshold)
 
         return output

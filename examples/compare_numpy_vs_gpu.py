@@ -22,7 +22,7 @@ import numpy as np
 
 import moten.io
 import moten.pyramids
-from moten.backend import set_backend, get_backend
+from moten.backend import set_backend
 
 
 def detect_gpu_backend():
@@ -32,7 +32,7 @@ def detect_gpu_backend():
             set_backend(name)
             set_backend("numpy")
             return name
-        except BaseException:
+        except Exception:
             pass
     return None
 
@@ -95,7 +95,7 @@ def main():
         try:
             set_backend(gpu_backend)
             set_backend("numpy")
-        except BaseException as e:
+        except Exception as e:
             print(f"Backend '{gpu_backend}' not available: {e}")
             sys.exit(1)
 
@@ -119,7 +119,7 @@ def main():
     print(f"  Filters: {pyramid.nfilters}")
 
     # --- numpy ---
-    print(f"\nRunning numpy...")
+    print("\nRunning numpy...")
     set_backend("numpy")
     features_np, time_np, times_np = run_projection(
         pyramid, luminance_images, args.repeats, args.batch_size, batched=False)

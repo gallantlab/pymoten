@@ -22,7 +22,7 @@ os.environ["TQDM_DISABLE"] = "1"
 
 import numpy as np
 
-from moten.backend import set_backend, get_backend, ALL_BACKENDS
+from moten.backend import set_backend, ALL_BACKENDS
 from moten import pyramids
 
 
@@ -33,7 +33,7 @@ def detect_available_backends():
         try:
             set_backend(name)
             available.append(name)
-        except BaseException:
+        except Exception:
             pass
     set_backend("numpy")
     return available

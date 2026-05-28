@@ -15,13 +15,6 @@ ALL_BACKENDS = [
 
 CURRENT_BACKEND = "numpy"
 
-MATCHING_CPU_BACKEND = {
-    "numpy": "numpy",
-    "torch": "torch",
-    "torch_cuda": "torch",
-    "torch_mps": "torch",
-}
-
 
 def set_backend(backend, on_error="raise"):
     """Set the backend using a global variable, and return the backend module.
@@ -51,14 +44,6 @@ def set_backend(backend, on_error="raise"):
 
         module = importlib.import_module(__package__ + "." + backend)
         CURRENT_BACKEND = backend
-
-        if backend == "torch_mps":
-            warnings.warn(
-                "You are using the torch_mps backend which operates with "
-                "float32 precision. Results may be less precise than other "
-                "backends due to MPS framework limitations.",
-                UserWarning
-            )
     except Exception as error:
         if on_error == "raise":
             raise error
