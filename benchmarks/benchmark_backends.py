@@ -8,9 +8,9 @@ Compare motion energy computation speed across available backends
 
 Usage::
 
-    python examples/benchmark_backends.py
-    python examples/benchmark_backends.py --nimages 200 --vdim 128 --hdim 256
-    python examples/benchmark_backends.py --backends numpy torch_cuda
+    python benchmarks/benchmark_backends.py
+    python benchmarks/benchmark_backends.py --nimages 200 --vdim 128 --hdim 256
+    python benchmarks/benchmark_backends.py --backends numpy torch_cuda
 """
 import argparse
 import os

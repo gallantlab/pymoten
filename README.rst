@@ -73,6 +73,35 @@ Simple example using a video file
    moten_features = pyramid.project_stimulus(luminance_images)
 
 
+GPU acceleration
+================
+
+``pymoten`` supports multiple computational backends. By default it runs on the
+CPU with NumPy, but it can also run on the GPU using PyTorch, which is much
+faster for large stimuli. The available backends are ``"numpy"`` (default),
+``"torch"``, ``"torch_cuda"`` (NVIDIA GPUs), and ``"torch_mps"`` (Apple Silicon
+GPUs). The torch backends require `PyTorch <https://pytorch.org>`_ to be
+installed.
+
+.. code-block:: python
+
+   import moten
+   from moten.backend import set_backend
+
+   # Switch to a GPU backend (returns the backend module)
+   backend = set_backend("torch_cuda")
+
+   pyramid = moten.get_default_pyramid(vhsize=(vdim, hdim), fps=24)
+
+   # Move the stimulus onto the GPU, project, then bring the result back
+   stimulus_gpu = backend.asarray(luminance_images)
+   moten_features = pyramid.project_stimulus_batched(stimulus_gpu)
+   moten_features = backend.to_numpy(moten_features)
+
+See the `examples gallery <https://gallantlab.org/pymoten/auto_examples/index.html>`_
+for a complete walkthrough.
+
+
 .. |Build Status| image:: https://travis-ci.org/gallantlab/pymoten.svg?branch=main
     :target: https://travis-ci.org/gallantlab/pymoten
     
