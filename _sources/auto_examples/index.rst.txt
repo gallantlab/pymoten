@@ -17,52 +17,11 @@ Gallery of examples
 
 .. thumbnail-parent-div-open
 
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Downloads a short demo video, extracts motion energy features using both numpy and a GPU backend (torch_mps or torch_cuda), and saves the results.">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_compare_numpy_vs_gpu_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/compare_numpy_vs_gpu`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Compare numpy vs GPU backend on a real video stimulus.</div>
-    </div>
-
-
-.. raw:: html
-
-    <div class="sphx-glr-thumbcontainer" tooltip="Compare motion energy computation speed across available backends (numpy, torch, torch_cuda, torch_mps).">
-
-.. only:: html
-
-  .. image:: /auto_examples/images/thumb/sphx_glr_benchmark_backends_thumb.png
-    :alt:
-
-  :doc:`/auto_examples/benchmark_backends`
-
-.. raw:: html
-
-      <div class="sphx-glr-thumbnail-title">Benchmark backends</div>
-    </div>
-
-
 .. thumbnail-parent-div-close
 
 .. raw:: html
 
     </div>
-
-
-.. toctree::
-   :hidden:
-
-   /auto_examples/compare_numpy_vs_gpu
-   /auto_examples/benchmark_backends
 
 Motion energy pyramids
 ----------------------
@@ -144,6 +103,23 @@ Motion energy pyramids
 .. raw:: html
 
       <div class="sphx-glr-thumbnail-title">Computing motion energy features from batches of stimuli</div>
+    </div>
+
+
+.. raw:: html
+
+    <div class="sphx-glr-thumbcontainer" tooltip="This example shows how to use the different computational backends available in pymoten to extract motion energy features. Backends let you run the exact same pyramid projection on the CPU with NumPy (the default) or on the GPU with PyTorch, which can be substantially faster for large stimuli.">
+
+.. only:: html
+
+  .. image:: /auto_examples/introduction/images/thumb/sphx_glr_demo_backends_thumb.png
+    :alt:
+
+  :doc:`/auto_examples/introduction/demo_backends`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Using different backends (NumPy, PyTorch, GPU)</div>
     </div>
 
 

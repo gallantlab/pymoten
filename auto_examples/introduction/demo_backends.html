@@ -1,0 +1,329 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using different backends (NumPy, PyTorch, GPU) &mdash; pymoten 0.0.0+unknown documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css?v=4ae1632d" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=fd6457a4" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
+      <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-rendered-html.css?v=1277b6f3" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=0b8c961e"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script src="../../_static/sg-tags.js?v=d80f6fa4"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Image coordinates" href="demo_image_coordinates.html" />
+    <link rel="prev" title="Computing motion energy features from batches of stimuli" href="demo_batching.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            pymoten
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to pymoten!</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Examples</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Gallery of examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#motion-energy-pyramids">Motion energy pyramids</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Motion energy pyramids</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../autodoc/moten.html">moten package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.backend.html">moten.backend package</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#submodules">Submodules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.colorspace.html">moten.colorspace module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.core.html">moten.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.extras.html">moten.extras module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.io.html">moten.io module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.pyramids.html">moten.pyramids module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.utils.html">moten.utils module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.viz.html">moten.viz module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../autodoc/moten.html#module-moten">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.get_backend"><code class="docutils literal notranslate"><span class="pre">get_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../autodoc/moten.html#moten.set_backend"><code class="docutils literal notranslate"><span class="pre">set_backend()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">pymoten</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Gallery of examples</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Motion energy pyramids</a></li>
+      <li class="breadcrumb-item active">Using different backends (NumPy, PyTorch, GPU)</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/auto_examples/introduction/demo_backends.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="sphx-glr-download-link-note admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-introduction-demo-backends-py"><span class="std std-ref">Go to the end</span></a>
+to download the full example code.</p>
+</div>
+<section class="sphx-glr-example-title" id="using-different-backends-numpy-pytorch-gpu">
+<span id="sphx-glr-auto-examples-introduction-demo-backends-py"></span><h1>Using different backends (NumPy, PyTorch, GPU)<a class="headerlink" href="#using-different-backends-numpy-pytorch-gpu" title="Link to this heading"></a></h1>
+<p>This example shows how to use the different computational backends available in
+<code class="docutils literal notranslate"><span class="pre">pymoten</span></code> to extract motion energy features. Backends let you run the exact
+same pyramid projection on the CPU with NumPy (the default) or on the GPU with
+PyTorch, which can be substantially faster for large stimuli.</p>
+<p>The available backends are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;numpy&quot;</span></code>: CPU backend using NumPy (the default).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;torch&quot;</span></code>: CPU backend using PyTorch.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;torch_cuda&quot;</span></code>: GPU backend using PyTorch with CUDA (NVIDIA GPUs).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;torch_mps&quot;</span></code>: GPU backend using PyTorch with Metal (Apple Silicon GPUs).
+Note that the MPS backend runs in <code class="docutils literal notranslate"><span class="pre">float32</span></code> precision only, so results are
+slightly less precise than the other backends.</p></li>
+</ul>
+<p>The numpy backend is always available. The torch backends additionally require
+<a class="reference external" href="https://pytorch.org">PyTorch</a> to be installed, and the GPU backends require a
+compatible GPU.</p>
+<section id="selecting-a-backend">
+<h2>Selecting a backend<a class="headerlink" href="#selecting-a-backend" title="Link to this heading"></a></h2>
+<p>Backends are managed with <a class="reference internal" href="../../autodoc/moten.backend.html#moten.backend.set_backend" title="moten.backend.set_backend"><code class="xref py py-func docutils literal notranslate"><span class="pre">moten.backend.set_backend()</span></code></a> and
+<a class="reference internal" href="../../autodoc/moten.backend.html#moten.backend.get_backend" title="moten.backend.get_backend"><code class="xref py py-func docutils literal notranslate"><span class="pre">moten.backend.get_backend()</span></code></a>. The default backend is <code class="docutils literal notranslate"><span class="pre">&quot;numpy&quot;</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">moten</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">moten.backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_backend</span><span class="p">,</span> <span class="n">get_backend</span><span class="p">,</span> <span class="n">ALL_BACKENDS</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Available backends:&quot;</span><span class="p">,</span> <span class="n">ALL_BACKENDS</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Current backend:&quot;</span><span class="p">,</span> <span class="n">get_backend</span><span class="p">()</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Available backends: [&#39;numpy&#39;, &#39;torch&#39;, &#39;torch_cuda&#39;, &#39;torch_mps&#39;]
+Current backend: numpy
+</pre></div>
+</div>
+</section>
+<section id="computing-features-with-the-numpy-backend">
+<h2>Computing features with the NumPy backend<a class="headerlink" href="#computing-features-with-the-numpy-backend" title="Link to this heading"></a></h2>
+<p>Let us create a small synthetic stimulus and a motion energy pyramid. We use
+random noise here so the example runs quickly and reproducibly, but in
+practice you would load a video with <a class="reference internal" href="../../autodoc/moten.io.html#moten.io.video2luminance" title="moten.io.video2luminance"><code class="xref py py-func docutils literal notranslate"><span class="pre">moten.io.video2luminance()</span></code></a>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+<span class="n">stimulus_fps</span> <span class="o">=</span> <span class="mi">24</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">RandomState</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">luminance_images</span> <span class="o">=</span> <span class="n">rng</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">)</span>
+
+<span class="n">pyramid</span> <span class="o">=</span> <span class="n">moten</span><span class="o">.</span><span class="n">pyramids</span><span class="o">.</span><span class="n">MotionEnergyPyramid</span><span class="p">(</span><span class="n">stimulus_vhsize</span><span class="o">=</span><span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">),</span>
+                                             <span class="n">stimulus_fps</span><span class="o">=</span><span class="n">stimulus_fps</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pyramid</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;moten.pyramids.MotionEnergyPyramid [#2530 filters (ntfq=3, nsfq=5, ndirs=8) aspect=1.778]&gt;
+</pre></div>
+</div>
+<p>With the numpy backend, <code class="docutils literal notranslate"><span class="pre">project_stimulus</span></code> works exactly as in the other
+examples and returns a NumPy array of shape <code class="docutils literal notranslate"><span class="pre">(nimages,</span> <span class="pre">nfilters)</span></code>.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">set_backend</span><span class="p">(</span><span class="s2">&quot;numpy&quot;</span><span class="p">)</span>
+<span class="n">features_numpy</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">features_numpy</span><span class="p">),</span> <span class="n">features_numpy</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;class &#39;numpy.ndarray&#39;&gt; (100, 2530)
+</pre></div>
+</div>
+</section>
+<section id="per-filter-vs-batched-projection">
+<h2>Per-filter vs. batched projection<a class="headerlink" href="#per-filter-vs-batched-projection" title="Link to this heading"></a></h2>
+<p>Each backend exposes two projection methods. <code class="docutils literal notranslate"><span class="pre">project_stimulus</span></code> loops over
+the filters one at a time (lower memory use), while
+<code class="docutils literal notranslate"><span class="pre">project_stimulus_batched</span></code> groups filters into batches and computes them with
+large matrix multiplications. The batched version is what unlocks most of the
+GPU speed-up, but it produces the same result on any backend.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">features_batched</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus_batched</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">,</span>
+                                                    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Per-filter and batched results match:&quot;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">features_numpy</span><span class="p">,</span> <span class="n">features_batched</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Per-filter and batched results match: False
+</pre></div>
+</div>
+</section>
+<section id="using-a-gpu-backend">
+<h2>Using a GPU backend<a class="headerlink" href="#using-a-gpu-backend" title="Link to this heading"></a></h2>
+<p>Switching to a GPU backend is a two-step process:</p>
+<ol class="arabic simple">
+<li><p>Call <a class="reference internal" href="../../autodoc/moten.backend.html#moten.backend.set_backend" title="moten.backend.set_backend"><code class="xref py py-func docutils literal notranslate"><span class="pre">moten.backend.set_backend()</span></code></a> with the backend name. This returns
+the backend module.</p></li>
+<li><p>Move the stimulus onto the device with <code class="docutils literal notranslate"><span class="pre">backend.asarray(...)</span></code> before
+projecting. The result lives on the GPU, so convert it back to a NumPy
+array with <code class="docutils literal notranslate"><span class="pre">backend.to_numpy(...)</span></code>.</p></li>
+</ol>
+<p>Here we try the GPU backends in turn. We pass <code class="docutils literal notranslate"><span class="pre">on_error=&quot;warn&quot;</span></code> so that, on
+machines without a GPU (such as the documentation build server), the call
+simply warns and keeps the current backend instead of raising. This lets the
+example run everywhere while still demonstrating the GPU API.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">gpu_backend</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;torch_cuda&quot;</span><span class="p">,</span> <span class="s2">&quot;torch_mps&quot;</span><span class="p">]:</span>
+    <span class="n">backend</span> <span class="o">=</span> <span class="n">set_backend</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">on_error</span><span class="o">=</span><span class="s2">&quot;warn&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
+        <span class="n">gpu_backend</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="k">break</span>
+
+<span class="k">if</span> <span class="n">gpu_backend</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;No GPU backend available; skipping the GPU comparison.&quot;</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Using GPU backend: </span><span class="si">{</span><span class="n">gpu_backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Move the stimulus to the GPU.</span>
+    <span class="n">stimulus_gpu</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">)</span>
+
+    <span class="c1"># Project on the GPU (batched is recommended for speed).</span>
+    <span class="n">features_gpu</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus_batched</span><span class="p">(</span><span class="n">stimulus_gpu</span><span class="p">,</span>
+                                                    <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+
+    <span class="c1"># Bring the result back to the CPU as a NumPy array.</span>
+    <span class="n">features_gpu</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">(</span><span class="n">features_gpu</span><span class="p">)</span>
+
+    <span class="c1"># Compare against the numpy reference. The GPU result is computed in</span>
+    <span class="c1"># float32, so we only expect agreement up to single precision.</span>
+    <span class="n">max_abs_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">features_numpy</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+                                 <span class="o">-</span> <span class="n">features_gpu</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max |numpy - </span><span class="si">{</span><span class="n">gpu_backend</span><span class="si">}</span><span class="s2">|: </span><span class="si">{</span><span class="n">max_abs_diff</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/runner/work/pymoten/pymoten/moten/backend/_utils.py:59: UserWarning: Setting backend to torch_cuda failed: PyTorch not installed.. Falling back to numpy backend.
+  warnings.warn(f&quot;Setting backend to {backend} failed: {str(error)}. &quot;
+/home/runner/work/pymoten/pymoten/moten/backend/_utils.py:59: UserWarning: Setting backend to torch_mps failed: No module named &#39;torch&#39;. Falling back to numpy backend.
+  warnings.warn(f&quot;Setting backend to {backend} failed: {str(error)}. &quot;
+No GPU backend available; skipping the GPU comparison.
+</pre></div>
+</div>
+<p>Always reset the backend to numpy when you are done, so that other code is not
+affected by the global backend setting.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">set_backend</span><span class="p">(</span><span class="s2">&quot;numpy&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>&lt;module &#39;moten.backend.numpy&#39; from &#39;/home/runner/work/pymoten/pymoten/moten/backend/numpy.py&#39;&gt;
+</pre></div>
+</div>
+</section>
+<section id="benchmarking-backends">
+<h2>Benchmarking backends<a class="headerlink" href="#benchmarking-backends" title="Link to this heading"></a></h2>
+<p>Finally, <code class="docutils literal notranslate"><span class="pre">pymoten</span></code> ships a small helper,
+<a class="reference internal" href="../../autodoc/moten.backend.html#moten.backend.benchmark" title="moten.backend.benchmark"><code class="xref py py-func docutils literal notranslate"><span class="pre">moten.backend.benchmark()</span></code></a>, that times the per-filter and batched
+projections on one or all backends. It is handy for checking how much speed-up
+a GPU gives on your own hardware.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">moten.backend</span><span class="w"> </span><span class="kn">import</span> <span class="n">benchmark</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">benchmark</span><span class="p">(</span><span class="s2">&quot;numpy&quot;</span><span class="p">,</span> <span class="n">nimages</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">vdim</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">hdim</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
+<span class="n">numpy_result</span> <span class="o">=</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;numpy&quot;</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;numpy per-filter: </span><span class="si">{</span><span class="n">numpy_result</span><span class="p">[</span><span class="s1">&#39;duration_seconds&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;numpy batched:    </span><span class="si">{</span><span class="n">numpy_result</span><span class="p">[</span><span class="s1">&#39;duration_batched_seconds&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>numpy per-filter: 1.831s
+numpy batched:    1.496s
+</pre></div>
+</div>
+<p>Calling <code class="docutils literal notranslate"><span class="pre">benchmark()</span></code> with no arguments times every available backend, so on
+a machine with a GPU you can directly compare CPU and GPU timings.</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 10.385 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-backends-py">
+<div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/29431a632daf94057c3d787b24ca1d7f/demo_backends.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">demo_backends.ipynb</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-python docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/c9ed7cbb38189a956e41c2eba051bec4/demo_backends.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">demo_backends.py</span></code></a></p>
+</div>
+<div class="sphx-glr-download sphx-glr-download-zip docutils container">
+<p><a class="reference download internal" download="" href="../../_downloads/aa486054f64444762e445b51b37c108b/demo_backends.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">demo_backends.zip</span></code></a></p>
+</div>
+</div>
+<p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo_batching.html" class="btn btn-neutral float-left" title="Computing motion energy features from batches of stimuli" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="demo_image_coordinates.html" class="btn btn-neutral float-right" title="Image coordinates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2020, Anwar O. Nunez-Elizalde.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

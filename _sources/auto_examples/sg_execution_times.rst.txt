@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:00.000** total execution time for 2 files **from auto_examples**:
+**00:00.000** total execution time for 0 files **from auto_examples**:
 
 .. container::
 
@@ -32,9 +32,6 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_benchmark_backends.py` (``benchmark_backends.py``)
-     - 00:00.000
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_compare_numpy_vs_gpu.py` (``compare_numpy_vs_gpu.py``)
-     - 00:00.000
-     - 0.0
+   * - N/A
+     - N/A
+     - N/A
