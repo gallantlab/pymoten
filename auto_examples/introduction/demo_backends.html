@@ -25,8 +25,8 @@
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Image coordinates" href="demo_image_coordinates.html" />
-    <link rel="prev" title="Computing motion energy features from batches of stimuli" href="demo_batching.html" /> 
+    <link rel="next" title="moten package" href="../../autodoc/moten.html" />
+    <link rel="prev" title="Image coordinates" href="demo_image_coordinates.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -189,14 +189,38 @@ examples and returns a NumPy array of shape <code class="docutils literal notran
 the filters one at a time (lower memory use), while
 <code class="docutils literal notranslate"><span class="pre">project_stimulus_batched</span></code> groups filters into batches and computes them with
 large matrix multiplications. The batched version is what unlocks most of the
-GPU speed-up, but it produces the same result on any backend.</p>
+GPU speed-up, and it computes the same quantity as the per-filter version.</p>
+<p>The two methods are <em>mathematically</em> equivalent, but they sum the filter
+responses in a different order (a single large matrix multiply per batch
+versus one dot product per filter). In the default <code class="docutils literal notranslate"><span class="pre">float32</span></code> precision this
+reordering produces tiny rounding differences, so the results agree to about
+single-precision accuracy rather than bit-for-bit. We therefore compare them
+with a <code class="docutils literal notranslate"><span class="pre">float32</span></code>-appropriate tolerance instead of the (much stricter)
+<code class="docutils literal notranslate"><span class="pre">numpy.allclose</span></code> defaults.</p>
 <div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">features_batched</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus_batched</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">,</span>
                                                     <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Per-filter and batched results match:&quot;</span><span class="p">,</span>
-      <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">features_numpy</span><span class="p">,</span> <span class="n">features_batched</span><span class="p">))</span>
+
+<span class="n">max_abs_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">features_numpy</span> <span class="o">-</span> <span class="n">features_batched</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Max |per-filter - batched|: </span><span class="si">{</span><span class="n">max_abs_diff</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Per-filter and batched results match (float32 tolerance):&quot;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">features_numpy</span><span class="p">,</span> <span class="n">features_batched</span><span class="p">,</span> <span class="n">atol</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span> <span class="n">rtol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Per-filter and batched results match: False
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Max |per-filter - batched|: 9.79e-04
+Per-filter and batched results match (float32 tolerance): True
+</pre></div>
+</div>
+<p>The small discrepancy really is just floating-point rounding: running both
+methods in <code class="docutils literal notranslate"><span class="pre">float64</span></code> makes them agree to roughly machine precision.</p>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="n">features_numpy_f64</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+<span class="n">features_batched_f64</span> <span class="o">=</span> <span class="n">pyramid</span><span class="o">.</span><span class="n">project_stimulus_batched</span><span class="p">(</span><span class="n">luminance_images</span><span class="p">,</span>
+                                                        <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+                                                        <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float64&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Per-filter and batched match in float64:&quot;</span><span class="p">,</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">features_numpy_f64</span><span class="p">,</span> <span class="n">features_batched_f64</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>Per-filter and batched match in float64: True
 </pre></div>
 </div>
 </section>
@@ -273,13 +297,13 @@ a GPU gives on your own hardware.</p>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;numpy batched:    </span><span class="si">{</span><span class="n">numpy_result</span><span class="p">[</span><span class="s1">&#39;duration_batched_seconds&#39;</span><span class="p">]</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>numpy per-filter: 1.831s
-numpy batched:    1.496s
+<div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>numpy per-filter: 1.913s
+numpy batched:    1.505s
 </pre></div>
 </div>
 <p>Calling <code class="docutils literal notranslate"><span class="pre">benchmark()</span></code> with no arguments times every available backend, so on
 a machine with a GPU you can directly compare CPU and GPU timings.</p>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 10.385 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 14.780 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-introduction-demo-backends-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../../_downloads/29431a632daf94057c3d787b24ca1d7f/demo_backends.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">demo_backends.ipynb</span></code></a></p>
@@ -299,8 +323,8 @@ a machine with a GPU you can directly compare CPU and GPU timings.</p>
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="demo_batching.html" class="btn btn-neutral float-left" title="Computing motion energy features from batches of stimuli" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="demo_image_coordinates.html" class="btn btn-neutral float-right" title="Image coordinates" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="demo_image_coordinates.html" class="btn btn-neutral float-left" title="Image coordinates" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../autodoc/moten.html" class="btn btn-neutral float-right" title="moten package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

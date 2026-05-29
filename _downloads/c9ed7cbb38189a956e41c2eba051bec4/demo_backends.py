@@ -70,12 +70,34 @@ print(type(features_numpy), features_numpy.shape)
 # the filters one at a time (lower memory use), while
 # ``project_stimulus_batched`` groups filters into batches and computes them with
 # large matrix multiplications. The batched version is what unlocks most of the
-# GPU speed-up, but it produces the same result on any backend.
+# GPU speed-up, and it computes the same quantity as the per-filter version.
+#
+# The two methods are *mathematically* equivalent, but they sum the filter
+# responses in a different order (a single large matrix multiply per batch
+# versus one dot product per filter). In the default ``float32`` precision this
+# reordering produces tiny rounding differences, so the results agree to about
+# single-precision accuracy rather than bit-for-bit. We therefore compare them
+# with a ``float32``-appropriate tolerance instead of the (much stricter)
+# ``numpy.allclose`` defaults.
 
 features_batched = pyramid.project_stimulus_batched(luminance_images,
                                                     batch_size=128)
-print("Per-filter and batched results match:",
-      np.allclose(features_numpy, features_batched))
+
+max_abs_diff = np.max(np.abs(features_numpy - features_batched))
+print(f"Max |per-filter - batched|: {max_abs_diff:.2e}")
+print("Per-filter and batched results match (float32 tolerance):",
+      np.allclose(features_numpy, features_batched, atol=1e-3, rtol=1e-4))
+
+# %%
+# The small discrepancy really is just floating-point rounding: running both
+# methods in ``float64`` makes them agree to roughly machine precision.
+
+features_numpy_f64 = pyramid.project_stimulus(luminance_images, dtype="float64")
+features_batched_f64 = pyramid.project_stimulus_batched(luminance_images,
+                                                        batch_size=128,
+                                                        dtype="float64")
+print("Per-filter and batched match in float64:",
+      np.allclose(features_numpy_f64, features_batched_f64))
 
 # %%
 # Using a GPU backend

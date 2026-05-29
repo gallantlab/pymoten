@@ -138,7 +138,7 @@ examples and returns a NumPy array of shape ``(nimages, nfilters)``.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 66-74
+.. GENERATED FROM PYTHON SOURCE LINES 66-82
 
 Per-filter vs. batched projection
 =================================
@@ -147,17 +147,28 @@ Each backend exposes two projection methods. ``project_stimulus`` loops over
 the filters one at a time (lower memory use), while
 ``project_stimulus_batched`` groups filters into batches and computes them with
 large matrix multiplications. The batched version is what unlocks most of the
-GPU speed-up, but it produces the same result on any backend.
+GPU speed-up, and it computes the same quantity as the per-filter version.
 
-.. GENERATED FROM PYTHON SOURCE LINES 74-80
+The two methods are *mathematically* equivalent, but they sum the filter
+responses in a different order (a single large matrix multiply per batch
+versus one dot product per filter). In the default ``float32`` precision this
+reordering produces tiny rounding differences, so the results agree to about
+single-precision accuracy rather than bit-for-bit. We therefore compare them
+with a ``float32``-appropriate tolerance instead of the (much stricter)
+``numpy.allclose`` defaults.
+
+.. GENERATED FROM PYTHON SOURCE LINES 82-91
 
 .. code-block:: Python
 
 
     features_batched = pyramid.project_stimulus_batched(luminance_images,
                                                         batch_size=128)
-    print("Per-filter and batched results match:",
-          np.allclose(features_numpy, features_batched))
+
+    max_abs_diff = np.max(np.abs(features_numpy - features_batched))
+    print(f"Max |per-filter - batched|: {max_abs_diff:.2e}")
+    print("Per-filter and batched results match (float32 tolerance):",
+          np.allclose(features_numpy, features_batched, atol=1e-3, rtol=1e-4))
 
 
 
@@ -167,12 +178,43 @@ GPU speed-up, but it produces the same result on any backend.
 
  .. code-block:: none
 
-    Per-filter and batched results match: False
+    Max |per-filter - batched|: 9.79e-04
+    Per-filter and batched results match (float32 tolerance): True
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 81-96
+.. GENERATED FROM PYTHON SOURCE LINES 92-94
+
+The small discrepancy really is just floating-point rounding: running both
+methods in ``float64`` makes them agree to roughly machine precision.
+
+.. GENERATED FROM PYTHON SOURCE LINES 94-102
+
+.. code-block:: Python
+
+
+    features_numpy_f64 = pyramid.project_stimulus(luminance_images, dtype="float64")
+    features_batched_f64 = pyramid.project_stimulus_batched(luminance_images,
+                                                            batch_size=128,
+                                                            dtype="float64")
+    print("Per-filter and batched match in float64:",
+          np.allclose(features_numpy_f64, features_batched_f64))
+
+
+
+
+
+.. rst-class:: sphx-glr-script-out
+
+ .. code-block:: none
+
+    Per-filter and batched match in float64: True
+
+
+
+
+.. GENERATED FROM PYTHON SOURCE LINES 103-118
 
 Using a GPU backend
 ===================
@@ -190,7 +232,7 @@ machines without a GPU (such as the documentation build server), the call
 simply warns and keeps the current backend instead of raising. This lets the
 example run everywhere while still demonstrating the GPU API.
 
-.. GENERATED FROM PYTHON SOURCE LINES 96-125
+.. GENERATED FROM PYTHON SOURCE LINES 118-147
 
 .. code-block:: Python
 
@@ -240,12 +282,12 @@ example run everywhere while still demonstrating the GPU API.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 126-128
+.. GENERATED FROM PYTHON SOURCE LINES 148-150
 
 Always reset the backend to numpy when you are done, so that other code is not
 affected by the global backend setting.
 
-.. GENERATED FROM PYTHON SOURCE LINES 128-131
+.. GENERATED FROM PYTHON SOURCE LINES 150-153
 
 .. code-block:: Python
 
@@ -265,7 +307,7 @@ affected by the global backend setting.
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 132-139
+.. GENERATED FROM PYTHON SOURCE LINES 154-161
 
 Benchmarking backends
 =====================
@@ -275,7 +317,7 @@ Finally, ``pymoten`` ships a small helper,
 projections on one or all backends. It is handy for checking how much speed-up
 a GPU gives on your own hardware.
 
-.. GENERATED FROM PYTHON SOURCE LINES 139-147
+.. GENERATED FROM PYTHON SOURCE LINES 161-169
 
 .. code-block:: Python
 
@@ -295,13 +337,13 @@ a GPU gives on your own hardware.
 
  .. code-block:: none
 
-    numpy per-filter: 1.831s
-    numpy batched:    1.496s
+    numpy per-filter: 1.913s
+    numpy batched:    1.505s
 
 
 
 
-.. GENERATED FROM PYTHON SOURCE LINES 148-150
+.. GENERATED FROM PYTHON SOURCE LINES 170-172
 
 Calling ``benchmark()`` with no arguments times every available backend, so on
 a machine with a GPU you can directly compare CPU and GPU timings.
@@ -309,7 +351,7 @@ a machine with a GPU you can directly compare CPU and GPU timings.
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 10.385 seconds)
+   **Total running time of the script:** (0 minutes 14.780 seconds)
 
 
 .. _sphx_glr_download_auto_examples_introduction_demo_backends.py:
