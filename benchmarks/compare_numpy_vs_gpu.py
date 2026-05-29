@@ -6,9 +6,9 @@ numpy and a GPU backend (torch_mps or torch_cuda), and saves the results.
 
 Usage::
 
-    python examples/demo_numpy_vs_gpu.py
-    python examples/demo_numpy_vs_gpu.py --backend torch_cuda
-    python examples/demo_numpy_vs_gpu.py --nimages 100 --output my_features.npz
+    python benchmarks/compare_numpy_vs_gpu.py
+    python benchmarks/compare_numpy_vs_gpu.py --backend torch_cuda
+    python benchmarks/compare_numpy_vs_gpu.py --nimages 100 --output my_features.npz
 """
 import argparse
 import os
