@@ -464,22 +464,16 @@ class MotionEnergyPyramid(object):
             ``None`` (default), all frames are processed together.
             When set, the stimulus is split into overlapping temporal
             batches to reduce VRAM usage for long stimuli.
-        frames_in_cpu : bool, optional
-            When ``False`` (default), the entire stimulus is moved to
-            the active backend device before processing.  When ``True``,
-            the stimulus is kept in CPU memory and only the frames
-            needed for each temporal batch are copied to the device,
-            reducing VRAM usage on GPU backends.
-        responses_in_cpu : bool, optional
-            When ``False`` (default), the full ``(nimages, nfilters)``
-            output array is allocated on the active backend device.
-            When ``True``, the output array is allocated in CPU memory
-            (NumPy) and each batch's responses are copied back from the
-            device, preventing the full response matrix from consuming
-            GPU VRAM.  When ``True``, the return value is always a
-            NumPy ndarray.
-
-        Returns
+		frames_in_cpu : bool, optional
+			When ``False`` (default), the entire stimulus is moved to the
+			active backend device before processing. When ``True``, only the
+			frames in each batch are copied to reduce VRAM use.
+		responses_in_cpu : bool, optional
+			When ``False`` (default), the full ``(nimages, nfilters)`` output
+			array is allocated on the active backend device.  When ``True``, 
+			the output array is a numpy array on CPU, and each batch's response
+			is copied out of the GPU at to reduce VRAM use.
+			Returns
         -------
         filter_responses : array, (nimages, nfilters)
             When ``responses_in_cpu=True`` this is always a NumPy
