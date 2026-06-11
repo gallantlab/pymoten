@@ -826,6 +826,43 @@
 
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">_compute_temporal_pad</span><span class="p">(</span><span class="n">filters</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&#39;&#39;&#39;Compute the number of padding frames needed for temporal batching.</span>
+
+<span class="sd">    The temporal convolution shifts frames by up to</span>
+<span class="sd">    ``filter_temporal_width // 2`` positions in either direction.  To</span>
+<span class="sd">    avoid edge artifacts when processing temporal batches, each batch is</span>
+<span class="sd">    conservatively padded by ``filter_temporal_width - 1`` frames on</span>
+<span class="sd">    each side.  The filter width is negligible compared to typical</span>
+<span class="sd">    stimulus durations, so the extra overlap imposes little overhead.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filters : list of dicts</span>
+<span class="sd">        Filter parameter dictionaries.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pad : int</span>
+<span class="sd">        Number of frames to pad on each side of a temporal batch.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1"># All filters in a pyramid share the same filter_temporal_width,</span>
+    <span class="c1"># but compute the max across all filters to be safe.</span>
+    <span class="n">max_filter_temporal_width</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+        <span class="n">filter_temporal_width</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;filter_temporal_width&#39;</span><span class="p">,</span> <span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">filter_temporal_width</span> <span class="o">==</span> <span class="s1">&#39;auto&#39;</span><span class="p">:</span>
+            <span class="n">filter_temporal_width</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="p">[</span><span class="s1">&#39;stimulus_fps&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mf">3.</span><span class="p">))</span>
+        <span class="n">max_filter_temporal_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_filter_temporal_width</span><span class="p">,</span>
+                                        <span class="nb">int</span><span class="p">(</span><span class="n">filter_temporal_width</span><span class="p">))</span>
+    <span class="c1"># The delay shifting in project_stimulus_batched makes the output at</span>
+    <span class="c1"># frame t depend on input frames in [t - (T - tdxc), t + (tdxc - 1)],</span>
+    <span class="c1"># where tdxc = ceil(T / 2), i.e. at most T // 2 frames away.  Pad by</span>
+    <span class="c1"># T - 1 frames to stay conservative; the extra overlap is negligible</span>
+    <span class="c1"># compared to typical stimulus durations.</span>
+    <span class="k">return</span> <span class="n">max_filter_temporal_width</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">max_filter_temporal_width</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+
+
 <div class="viewcode-block" id="project_stimulus_batched">
 <a class="viewcode-back" href="../../autodoc/moten.core.html#moten.core.project_stimulus_batched">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">project_stimulus_batched</span><span class="p">(</span><span class="n">stimulus</span><span class="p">,</span>
@@ -835,6 +872,7 @@
                              <span class="n">vhsize</span><span class="o">=</span><span class="p">(),</span>
                              <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;float32&#39;</span><span class="p">,</span>
                              <span class="n">batch_size</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+                             <span class="n">stimulus_batch_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                              <span class="n">masklimit</span><span class="o">=</span><span class="mf">0.001</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&#39;&#39;&#39;Compute motion energy responses using batched operations.</span>
 
@@ -861,6 +899,13 @@
 <span class="sd">    batch_size : int</span>
 <span class="sd">        Number of filters to process simultaneously.  Larger values use</span>
 <span class="sd">        more memory but reduce Python-loop overhead.</span>
+<span class="sd">    stimulus_batch_size : int or None</span>
+<span class="sd">        Number of stimulus frames to process at a time.  When ``None``</span>
+<span class="sd">        (default), all frames are processed together, preserving the</span>
+<span class="sd">        original behaviour.  When set, the stimulus is split into</span>
+<span class="sd">        overlapping temporal batches to reduce VRAM usage for long</span>
+<span class="sd">        stimuli.  The overlap is computed automatically from the temporal</span>
+<span class="sd">        filter width to avoid edge artifacts.</span>
 <span class="sd">    masklimit : float</span>
 <span class="sd">        Threshold for zeroing near-zero gabor pixels. Matches the</span>
 <span class="sd">        ``masklimit`` parameter of :func:`dotspatial_frames`.</span>
@@ -871,7 +916,8 @@
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="k">if</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span> <span class="o">=</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">stimulus</span> <span class="o">=</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">stimulus</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># reshape with explicit sizes (not -1) so empty stimuli also work</span>
+        <span class="n">stimulus</span> <span class="o">=</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">nimages</span><span class="p">,</span> <span class="n">vdim</span> <span class="o">*</span> <span class="n">hdim</span><span class="p">)</span>
         <span class="n">vhsize</span> <span class="o">=</span> <span class="p">(</span><span class="n">vdim</span><span class="p">,</span> <span class="n">hdim</span><span class="p">)</span>
 
     <span class="n">backend</span> <span class="o">=</span> <span class="n">get_backend</span><span class="p">()</span>
@@ -882,20 +928,32 @@
     <span class="k">assert</span> <span class="n">vhsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">vhsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">batch_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;batch_size must be positive, got </span><span class="si">{</span><span class="n">batch_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">stimulus_batch_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">stimulus_batch_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;stimulus_batch_size must be positive or None, got </span><span class="si">{</span><span class="n">stimulus_batch_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
     <span class="n">nfilters</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
     <span class="n">nimages</span> <span class="o">=</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># Determine temporal padding for stimulus batching</span>
+    <span class="k">if</span> <span class="n">stimulus_batch_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">temporal_pad</span> <span class="o">=</span> <span class="n">_compute_temporal_pad</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">temporal_pad</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Process all frames at once (max with 1 so that range() below</span>
+        <span class="c1"># gets a nonzero step when the stimulus is empty).</span>
+        <span class="n">stimulus_batch_size</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">nimages</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
     <span class="n">filter_responses</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nimages</span><span class="p">,</span> <span class="n">nfilters</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
 
-    <span class="c1"># stimulus transpose computed once -- (npixels, nimages)</span>
-    <span class="n">stim_T</span> <span class="o">=</span> <span class="n">stimulus</span><span class="o">.</span><span class="n">T</span>
-
+    <span class="c1"># Iterate over filter batches first so that gabor banks are computed</span>
+    <span class="c1"># once per batch and reused across all temporal chunks.</span>
     <span class="k">for</span> <span class="n">batch_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nfilters</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
         <span class="n">batch_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">batch_start</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">nfilters</span><span class="p">)</span>
         <span class="n">batch_filters</span> <span class="o">=</span> <span class="n">filters</span><span class="p">[</span><span class="n">batch_start</span><span class="p">:</span><span class="n">batch_end</span><span class="p">]</span>
         <span class="n">B</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch_filters</span><span class="p">)</span>
 
-        <span class="c1"># Build gabor filter banks for this batch</span>
+        <span class="c1"># Build gabor filter banks for this batch (computed once)</span>
         <span class="n">sg_sin</span><span class="p">,</span> <span class="n">sg_cos</span><span class="p">,</span> <span class="n">tg_sin</span><span class="p">,</span> <span class="n">tg_cos</span> <span class="o">=</span> <span class="n">mk_3d_gabor_batched</span><span class="p">(</span><span class="n">vhsize</span><span class="p">,</span>
                                                                <span class="n">batch_filters</span><span class="p">)</span>
         <span class="c1"># sg_sin: (B, npixels), tg_sin: (B, T)</span>
@@ -907,38 +965,57 @@
         <span class="n">sg_sin</span> <span class="o">=</span> <span class="n">sg_sin</span> <span class="o">*</span> <span class="n">gabor_mask</span>
         <span class="n">sg_cos</span> <span class="o">=</span> <span class="n">sg_cos</span> <span class="o">*</span> <span class="n">gabor_mask</span>
 
-        <span class="c1"># Spatial dot product -- single matmul per batch</span>
-        <span class="c1"># (B, npixels) @ (npixels, nimages) → (B, nimages) → transpose</span>
-        <span class="n">spatial_sin</span> <span class="o">=</span> <span class="p">(</span><span class="n">sg_sin</span> <span class="o">@</span> <span class="n">stim_T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># (nimages, B)</span>
-        <span class="n">spatial_cos</span> <span class="o">=</span> <span class="p">(</span><span class="n">sg_cos</span> <span class="o">@</span> <span class="n">stim_T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># (nimages, B)</span>
-
-        <span class="c1"># Temporal convolution + delay shifting.</span>
-        <span class="c1"># The final response sums over the temporal dimension T, so we</span>
-        <span class="c1"># accumulate directly into (nimages, B) instead of materializing</span>
-        <span class="c1"># (nimages, B, T) tensors. This cuts peak memory by a factor of ~T,</span>
-        <span class="c1"># which matters for GPU OOM on long stimuli or large batch_size.</span>
         <span class="n">T</span> <span class="o">=</span> <span class="n">tg_sin</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">channel_sin</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nimages</span><span class="p">,</span> <span class="n">B</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
-        <span class="n">channel_cos</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nimages</span><span class="p">,</span> <span class="n">B</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
         <span class="n">tdxc</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">T</span> <span class="o">/</span> <span class="mf">2.0</span><span class="p">))</span>
-        <span class="k">for</span> <span class="n">ddx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
-            <span class="n">num</span> <span class="o">=</span> <span class="n">ddx</span> <span class="o">-</span> <span class="n">tdxc</span> <span class="o">+</span> <span class="mi">1</span>
-            <span class="c1"># quadrature components for this delay: (nimages, B) * (B,)</span>
-            <span class="n">curr_outs</span> <span class="o">=</span> <span class="n">spatial_sin</span> <span class="o">*</span> <span class="n">tg_cos</span><span class="p">[:,</span> <span class="n">ddx</span><span class="p">]</span> <span class="o">+</span> <span class="n">spatial_cos</span> <span class="o">*</span> <span class="n">tg_sin</span><span class="p">[:,</span> <span class="n">ddx</span><span class="p">]</span>
-            <span class="n">curr_outc</span> <span class="o">=</span> <span class="o">-</span><span class="n">spatial_sin</span> <span class="o">*</span> <span class="n">tg_sin</span><span class="p">[:,</span> <span class="n">ddx</span><span class="p">]</span> <span class="o">+</span> <span class="n">spatial_cos</span> <span class="o">*</span> <span class="n">tg_cos</span><span class="p">[:,</span> <span class="n">ddx</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">channel_sin</span> <span class="o">+=</span> <span class="n">curr_outs</span>
-                <span class="n">channel_cos</span> <span class="o">+=</span> <span class="n">curr_outc</span>
-            <span class="k">elif</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">channel_sin</span><span class="p">[</span><span class="n">num</span><span class="p">:,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">curr_outs</span><span class="p">[:</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span>
-                <span class="n">channel_cos</span><span class="p">[</span><span class="n">num</span><span class="p">:,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">curr_outc</span><span class="p">[:</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span>
-            <span class="k">elif</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">channel_sin</span><span class="p">[:</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">curr_outs</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">num</span><span class="p">):,</span> <span class="p">:]</span>
-                <span class="n">channel_cos</span><span class="p">[:</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">curr_outc</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">num</span><span class="p">):,</span> <span class="p">:]</span>
 
-        <span class="n">channel_response</span> <span class="o">=</span> <span class="n">quadrature_combination</span><span class="p">(</span><span class="n">channel_sin</span><span class="p">,</span> <span class="n">channel_cos</span><span class="p">)</span>
-        <span class="n">channel_response</span> <span class="o">=</span> <span class="n">output_nonlinearity</span><span class="p">(</span><span class="n">channel_response</span><span class="p">)</span>
-        <span class="n">filter_responses</span><span class="p">[:,</span> <span class="n">batch_start</span><span class="p">:</span><span class="n">batch_end</span><span class="p">]</span> <span class="o">=</span> <span class="n">channel_response</span>
+        <span class="c1"># Iterate over temporal batches of the stimulus</span>
+        <span class="k">for</span> <span class="n">t_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">nimages</span><span class="p">,</span> <span class="n">stimulus_batch_size</span><span class="p">):</span>
+            <span class="n">t_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t_start</span> <span class="o">+</span> <span class="n">stimulus_batch_size</span><span class="p">,</span> <span class="n">nimages</span><span class="p">)</span>
+
+            <span class="c1"># Compute padded window boundaries</span>
+            <span class="n">pad_start</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">t_start</span> <span class="o">-</span> <span class="n">temporal_pad</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="n">pad_end</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">t_end</span> <span class="o">+</span> <span class="n">temporal_pad</span><span class="p">,</span> <span class="n">nimages</span><span class="p">)</span>
+
+            <span class="c1"># Extract the padded stimulus chunk</span>
+            <span class="n">stim_chunk</span> <span class="o">=</span> <span class="n">stimulus</span><span class="p">[</span><span class="n">pad_start</span><span class="p">:</span><span class="n">pad_end</span><span class="p">]</span>  <span class="c1"># (chunk_len, npixels)</span>
+            <span class="n">chunk_len</span> <span class="o">=</span> <span class="n">stim_chunk</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="c1"># Offsets to slice valid (non-padded) results from the chunk output</span>
+            <span class="n">valid_start</span> <span class="o">=</span> <span class="n">t_start</span> <span class="o">-</span> <span class="n">pad_start</span>
+            <span class="n">valid_end</span> <span class="o">=</span> <span class="n">valid_start</span> <span class="o">+</span> <span class="p">(</span><span class="n">t_end</span> <span class="o">-</span> <span class="n">t_start</span><span class="p">)</span>
+
+            <span class="c1"># stimulus transpose for this chunk -- (npixels, chunk_len)</span>
+            <span class="n">stim_T</span> <span class="o">=</span> <span class="n">stim_chunk</span><span class="o">.</span><span class="n">T</span>
+
+            <span class="c1"># Spatial dot product -- single matmul per batch</span>
+            <span class="c1"># (B, npixels) @ (npixels, chunk_len) → (B, chunk_len) → transpose</span>
+            <span class="n">spatial_sin</span> <span class="o">=</span> <span class="p">(</span><span class="n">sg_sin</span> <span class="o">@</span> <span class="n">stim_T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># (chunk_len, B)</span>
+            <span class="n">spatial_cos</span> <span class="o">=</span> <span class="p">(</span><span class="n">sg_cos</span> <span class="o">@</span> <span class="n">stim_T</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>  <span class="c1"># (chunk_len, B)</span>
+
+            <span class="c1"># Temporal convolution + delay shifting.</span>
+            <span class="n">channel_sin</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">chunk_len</span><span class="p">,</span> <span class="n">B</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="n">channel_cos</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">chunk_len</span><span class="p">,</span> <span class="n">B</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">ddx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">T</span><span class="p">):</span>
+                <span class="n">num</span> <span class="o">=</span> <span class="n">ddx</span> <span class="o">-</span> <span class="n">tdxc</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">curr_outs</span> <span class="o">=</span> <span class="n">spatial_sin</span> <span class="o">*</span> <span class="n">tg_cos</span><span class="p">[:,</span> <span class="n">ddx</span><span class="p">]</span> <span class="o">+</span> <span class="n">spatial_cos</span> <span class="o">*</span> <span class="n">tg_sin</span><span class="p">[:,</span> <span class="n">ddx</span><span class="p">]</span>
+                <span class="n">curr_outc</span> <span class="o">=</span> <span class="o">-</span><span class="n">spatial_sin</span> <span class="o">*</span> <span class="n">tg_sin</span><span class="p">[:,</span> <span class="n">ddx</span><span class="p">]</span> <span class="o">+</span> <span class="n">spatial_cos</span> <span class="o">*</span> <span class="n">tg_cos</span><span class="p">[:,</span> <span class="n">ddx</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">num</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">channel_sin</span> <span class="o">+=</span> <span class="n">curr_outs</span>
+                    <span class="n">channel_cos</span> <span class="o">+=</span> <span class="n">curr_outc</span>
+                <span class="k">elif</span> <span class="n">num</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">channel_sin</span><span class="p">[</span><span class="n">num</span><span class="p">:,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">curr_outs</span><span class="p">[:</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span>
+                    <span class="n">channel_cos</span><span class="p">[</span><span class="n">num</span><span class="p">:,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">curr_outc</span><span class="p">[:</span><span class="o">-</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span>
+                <span class="k">elif</span> <span class="n">num</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">channel_sin</span><span class="p">[:</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">curr_outs</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">num</span><span class="p">):,</span> <span class="p">:]</span>
+                    <span class="n">channel_cos</span><span class="p">[:</span><span class="n">num</span><span class="p">,</span> <span class="p">:]</span> <span class="o">+=</span> <span class="n">curr_outc</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">num</span><span class="p">):,</span> <span class="p">:]</span>
+
+            <span class="c1"># Extract only the valid (non-padded) portion</span>
+            <span class="n">channel_sin</span> <span class="o">=</span> <span class="n">channel_sin</span><span class="p">[</span><span class="n">valid_start</span><span class="p">:</span><span class="n">valid_end</span><span class="p">]</span>
+            <span class="n">channel_cos</span> <span class="o">=</span> <span class="n">channel_cos</span><span class="p">[</span><span class="n">valid_start</span><span class="p">:</span><span class="n">valid_end</span><span class="p">]</span>
+
+            <span class="n">channel_response</span> <span class="o">=</span> <span class="n">quadrature_combination</span><span class="p">(</span><span class="n">channel_sin</span><span class="p">,</span> <span class="n">channel_cos</span><span class="p">)</span>
+            <span class="n">channel_response</span> <span class="o">=</span> <span class="n">output_nonlinearity</span><span class="p">(</span><span class="n">channel_response</span><span class="p">)</span>
+            <span class="n">filter_responses</span><span class="p">[</span><span class="n">t_start</span><span class="p">:</span><span class="n">t_end</span><span class="p">,</span> <span class="n">batch_start</span><span class="p">:</span><span class="n">batch_end</span><span class="p">]</span> <span class="o">=</span> <span class="n">channel_response</span>
 
     <span class="k">return</span> <span class="n">filter_responses</span></div>
 
