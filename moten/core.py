@@ -795,41 +795,46 @@ def project_stimulus_batched(stimulus,
 
     filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
 
-    # Iterate over temporal batches of the stimulus
-    for t_start in range(0, nimages, stimulus_batch_size):
-        t_end = min(t_start + stimulus_batch_size, nimages)
+    # Iterate over filter batches first so that gabor banks are computed
+    # once per batch and reused across all temporal chunks.
+    for batch_start in range(0, nfilters, batch_size):
+        batch_end = min(batch_start + batch_size, nfilters)
+        batch_filters = filters[batch_start:batch_end]
+        B = len(batch_filters)
 
-        # Compute padded window boundaries
-        pad_start = max(t_start - temporal_pad, 0)
-        pad_end = min(t_end + temporal_pad, nimages)
+        # Build gabor filter banks for this batch (computed once)
+        sg_sin, sg_cos, tg_sin, tg_cos = mk_3d_gabor_batched(vhsize,
+                                                               batch_filters)
+        # sg_sin: (B, npixels), tg_sin: (B, T)
 
-        # Extract the padded stimulus chunk
-        stim_chunk = stimulus[pad_start:pad_end]  # (chunk_len, npixels)
-        chunk_len = stim_chunk.shape[0]
+        # Apply per-filter mask: zero out pixels where the gabor
+        # amplitude is below threshold (matches dotspatial_frames
+        # masklimit behaviour without breaking the batched matmul).
+        gabor_mask = (backend.abs(sg_sin) + backend.abs(sg_cos)) > masklimit
+        sg_sin = sg_sin * gabor_mask
+        sg_cos = sg_cos * gabor_mask
 
-        # Offsets to slice valid (non-padded) results from the chunk output
-        valid_start = t_start - pad_start
-        valid_end = valid_start + (t_end - t_start)
+        T = tg_sin.shape[1]
+        tdxc = int(math.ceil(T / 2.0))
 
-        # stimulus transpose for this chunk -- (npixels, chunk_len)
-        stim_T = stim_chunk.T
+        # Iterate over temporal batches of the stimulus
+        for t_start in range(0, nimages, stimulus_batch_size):
+            t_end = min(t_start + stimulus_batch_size, nimages)
 
-        for batch_start in range(0, nfilters, batch_size):
-            batch_end = min(batch_start + batch_size, nfilters)
-            batch_filters = filters[batch_start:batch_end]
-            B = len(batch_filters)
+            # Compute padded window boundaries
+            pad_start = max(t_start - temporal_pad, 0)
+            pad_end = min(t_end + temporal_pad, nimages)
 
-            # Build gabor filter banks for this batch
-            sg_sin, sg_cos, tg_sin, tg_cos = mk_3d_gabor_batched(vhsize,
-                                                                   batch_filters)
-            # sg_sin: (B, npixels), tg_sin: (B, T)
+            # Extract the padded stimulus chunk
+            stim_chunk = stimulus[pad_start:pad_end]  # (chunk_len, npixels)
+            chunk_len = stim_chunk.shape[0]
 
-            # Apply per-filter mask: zero out pixels where the gabor
-            # amplitude is below threshold (matches dotspatial_frames
-            # masklimit behaviour without breaking the batched matmul).
-            gabor_mask = (backend.abs(sg_sin) + backend.abs(sg_cos)) > masklimit
-            sg_sin = sg_sin * gabor_mask
-            sg_cos = sg_cos * gabor_mask
+            # Offsets to slice valid (non-padded) results from the chunk output
+            valid_start = t_start - pad_start
+            valid_end = valid_start + (t_end - t_start)
+
+            # stimulus transpose for this chunk -- (npixels, chunk_len)
+            stim_T = stim_chunk.T
 
             # Spatial dot product -- single matmul per batch
             # (B, npixels) @ (npixels, chunk_len) → (B, chunk_len) → transpose
@@ -837,10 +842,8 @@ def project_stimulus_batched(stimulus,
             spatial_cos = (sg_cos @ stim_T).T  # (chunk_len, B)
 
             # Temporal convolution + delay shifting.
-            T = tg_sin.shape[1]
             channel_sin = backend.zeros((chunk_len, B), dtype=dtype)
             channel_cos = backend.zeros((chunk_len, B), dtype=dtype)
-            tdxc = int(math.ceil(T / 2.0))
             for ddx in range(T):
                 num = ddx - tdxc + 1
                 curr_outs = spatial_sin * tg_cos[:, ddx] + spatial_cos * tg_sin[:, ddx]
