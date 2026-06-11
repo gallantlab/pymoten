@@ -308,6 +308,23 @@ class TestStimulusBatchSize:
             result, ref, atol=1e-5, rtol=1e-5,
             err_msg=f"stimulus_batch_size={stim_batch} mismatch")
 
+    @pytest.mark.skipif(not has_torch(), reason="PyTorch not installed")
+    @pytest.mark.parametrize("stim_batch", [10, 25, 50])
+    def test_various_stimulus_batch_sizes_torch(self, stim_batch):
+        """Different stimulus_batch_size values match unbatched result on torch."""
+        set_backend("torch")
+        backend = get_backend()
+        stimulus_t = backend.asarray(make_test_stimulus(nimages=50))
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = backend.to_numpy(pyramid.project_stimulus_batched(stimulus_t))
+        result = backend.to_numpy(pyramid.project_stimulus_batched(
+            stimulus_t, stimulus_batch_size=stim_batch))
+
+        np.testing.assert_allclose(
+            result, ref, atol=1e-5, rtol=1e-5,
+            err_msg=f"torch stimulus_batch_size={stim_batch} mismatch")
+
     def test_stimulus_batch_larger_than_nimages(self):
         """stimulus_batch_size larger than nimages works correctly."""
         set_backend("numpy")
