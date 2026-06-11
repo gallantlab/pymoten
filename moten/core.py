@@ -730,7 +730,9 @@ def project_stimulus_batched(stimulus,
                              dtype='float32',
                              batch_size=128,
                              stimulus_batch_size=None,
-                             masklimit=0.001):
+                             masklimit=0.001,
+                             frames_in_cpu=False,
+                             responses_in_cpu=False):
     '''Compute motion energy responses using batched operations.
 
     Functionally equivalent to :func:`project_stimulus` but constructs
@@ -766,11 +768,31 @@ def project_stimulus_batched(stimulus,
     masklimit : float
         Threshold for zeroing near-zero gabor pixels. Matches the
         ``masklimit`` parameter of :func:`dotspatial_frames`.
+    frames_in_cpu : bool, optional
+        When ``False`` (default), the entire stimulus is moved to the
+        active backend device before processing (current behaviour).
+        When ``True``, the stimulus is kept in CPU memory and only the
+        frames needed for each temporal batch are copied to the device.
+        This reduces VRAM usage for GPU backends (``torch_cuda``,
+        ``torch_mps``) when processing long stimuli.
+    responses_in_cpu : bool, optional
+        When ``False`` (default), the full ``(nimages, nfilters)`` output
+        array is allocated on the active backend device (current
+        behaviour).  When ``True``, the output array is allocated in CPU
+        memory (NumPy) and each batch's computed responses are copied
+        back from the device after computation.  This prevents the full
+        response matrix from consuming GPU VRAM.  When ``True``, the
+        return value is always a NumPy ndarray regardless of the active
+        backend.
 
     Returns
     -------
     filter_responses : array, (nimages, nfilters)
+        When ``responses_in_cpu=True`` this is always a NumPy ndarray.
+        Otherwise the array lives on the active backend device.
     '''
+    import numpy as _np
+
     if stimulus.ndim == 3:
         nimages, vdim, hdim = stimulus.shape
         # reshape with explicit sizes (not -1) so empty stimuli also work
@@ -778,7 +800,14 @@ def project_stimulus_batched(stimulus,
         vhsize = (vdim, hdim)
 
     backend = get_backend()
-    stimulus = backend.asarray(stimulus)
+
+    if frames_in_cpu:
+        # Keep stimulus in CPU; convert to a plain NumPy array so that
+        # per-chunk slices remain on CPU until explicitly moved to device.
+        # backend.to_numpy() handles both plain arrays and device tensors.
+        stimulus = _np.asarray(backend.to_numpy(stimulus))
+    else:
+        stimulus = backend.asarray(stimulus)
 
     assert stimulus.ndim == 2
     assert isinstance(vhsize, tuple) and len(vhsize) == 2
@@ -801,7 +830,10 @@ def project_stimulus_batched(stimulus,
         # gets a nonzero step when the stimulus is empty).
         stimulus_batch_size = max(nimages, 1)
 
-    filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
+    if responses_in_cpu:
+        filter_responses = _np.zeros((nimages, nfilters), dtype=dtype)
+    else:
+        filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
 
     # Iterate over filter batches first so that gabor banks are computed
     # once per batch and reused across all temporal chunks.
@@ -836,6 +868,10 @@ def project_stimulus_batched(stimulus,
             # Extract the padded stimulus chunk
             stim_chunk = stimulus[pad_start:pad_end]  # (chunk_len, npixels)
             chunk_len = stim_chunk.shape[0]
+
+            if frames_in_cpu:
+                # Move only this chunk to the active device
+                stim_chunk = backend.asarray(stim_chunk)
 
             # Offsets to slice valid (non-padded) results from the chunk output
             valid_start = t_start - pad_start
@@ -872,7 +908,13 @@ def project_stimulus_batched(stimulus,
 
             channel_response = quadrature_combination(channel_sin, channel_cos)
             channel_response = output_nonlinearity(channel_response)
-            filter_responses[t_start:t_end, batch_start:batch_end] = channel_response
+
+            if responses_in_cpu:
+                filter_responses[t_start:t_end, batch_start:batch_end] = (
+                    backend.to_numpy(channel_response))
+            else:
+                filter_responses[t_start:t_end, batch_start:batch_end] = (
+                    channel_response)
 
     return filter_responses
 

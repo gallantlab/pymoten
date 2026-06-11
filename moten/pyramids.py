@@ -435,7 +435,9 @@ class MotionEnergyPyramid(object):
                                  output_nonlinearity=utils.log_compress,
                                  dtype='float32',
                                  batch_size=128,
-                                 stimulus_batch_size=None):
+                                 stimulus_batch_size=None,
+                                 frames_in_cpu=False,
+                                 responses_in_cpu=False):
         '''Compute motion energy responses using batched operations.
 
         Functionally equivalent to :meth:`project_stimulus` but
@@ -462,10 +464,27 @@ class MotionEnergyPyramid(object):
             ``None`` (default), all frames are processed together.
             When set, the stimulus is split into overlapping temporal
             batches to reduce VRAM usage for long stimuli.
+        frames_in_cpu : bool, optional
+            When ``False`` (default), the entire stimulus is moved to
+            the active backend device before processing.  When ``True``,
+            the stimulus is kept in CPU memory and only the frames
+            needed for each temporal batch are copied to the device,
+            reducing VRAM usage on GPU backends.
+        responses_in_cpu : bool, optional
+            When ``False`` (default), the full ``(nimages, nfilters)``
+            output array is allocated on the active backend device.
+            When ``True``, the output array is allocated in CPU memory
+            (NumPy) and each batch's responses are copied back from the
+            device, preventing the full response matrix from consuming
+            GPU VRAM.  When ``True``, the return value is always a
+            NumPy ndarray.
 
         Returns
         -------
         filter_responses : array, (nimages, nfilters)
+            When ``responses_in_cpu=True`` this is always a NumPy
+            ndarray.  Otherwise the array lives on the active backend
+            device.
         '''
         if filters == 'all':
             filters = self.filters
@@ -484,7 +503,9 @@ class MotionEnergyPyramid(object):
             # NOTE: the per-filter project_stimulus path uses the hardcoded
             # dotspatial_frames default (0.001); mask_threshold is also 0.001,
             # so the two paths agree. Keep them in sync if either changes.
-            masklimit=self.mask_threshold)
+            masklimit=self.mask_threshold,
+            frames_in_cpu=frames_in_cpu,
+            responses_in_cpu=responses_in_cpu)
 
         return output
 

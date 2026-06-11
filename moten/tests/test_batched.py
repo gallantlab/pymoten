@@ -439,3 +439,185 @@ class TestStimulusBatchSize:
             stimulus, stimulus_batch_size=8)
         assert result.shape == (40, pyramid.nfilters)
         np.testing.assert_allclose(result, ref, atol=1e-5, rtol=1e-5)
+
+
+# ---------------------------------------------------------------------------
+# CPU frames / CPU responses flags
+# ---------------------------------------------------------------------------
+
+class TestCpuMemoryFlags:
+    """Test frames_in_cpu and responses_in_cpu flags."""
+
+    def test_responses_in_cpu_returns_numpy(self):
+        """responses_in_cpu=True always returns a NumPy ndarray."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus()
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        result = pyramid.project_stimulus_batched(
+            stimulus, responses_in_cpu=True)
+        assert isinstance(result, np.ndarray), (
+            "responses_in_cpu=True should return a numpy ndarray")
+
+    def test_responses_in_cpu_matches_default_numpy(self):
+        """responses_in_cpu=True matches default output on numpy backend."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus()
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, responses_in_cpu=True)
+
+        np.testing.assert_allclose(
+            result, ref, atol=1e-10, rtol=1e-10,
+            err_msg="responses_in_cpu=True mismatch on numpy backend")
+
+    def test_frames_in_cpu_matches_default_numpy(self):
+        """frames_in_cpu=True matches default output on numpy backend."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus()
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, frames_in_cpu=True)
+
+        np.testing.assert_allclose(
+            result, ref, atol=1e-10, rtol=1e-10,
+            err_msg="frames_in_cpu=True mismatch on numpy backend")
+
+    def test_both_flags_matches_default_numpy(self):
+        """frames_in_cpu=True and responses_in_cpu=True match default on numpy."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus()
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, frames_in_cpu=True, responses_in_cpu=True)
+
+        assert isinstance(result, np.ndarray)
+        np.testing.assert_allclose(
+            result, ref, atol=1e-10, rtol=1e-10,
+            err_msg="both cpu flags mismatch on numpy backend")
+
+    def test_both_flags_with_stimulus_batching_numpy(self):
+        """CPU flags work together with stimulus_batch_size on numpy."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=50)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, stimulus_batch_size=10,
+            frames_in_cpu=True, responses_in_cpu=True)
+
+        assert isinstance(result, np.ndarray)
+        np.testing.assert_allclose(
+            result, ref, atol=1e-5, rtol=1e-5,
+            err_msg="cpu flags + stimulus batching mismatch")
+
+    def test_core_responses_in_cpu(self):
+        """core.project_stimulus_batched with responses_in_cpu=True returns numpy."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus()
+        vhsize = (16, 24)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+        filters = pyramid.filters
+
+        ref = core.project_stimulus_batched(stimulus, filters, vhsize=vhsize)
+        result = core.project_stimulus_batched(
+            stimulus, filters, vhsize=vhsize, responses_in_cpu=True)
+
+        assert isinstance(result, np.ndarray)
+        np.testing.assert_allclose(
+            result, ref, atol=1e-10, rtol=1e-10,
+            err_msg="core responses_in_cpu mismatch")
+
+    def test_core_frames_in_cpu(self):
+        """core.project_stimulus_batched with frames_in_cpu=True works."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus()
+        vhsize = (16, 24)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+        filters = pyramid.filters
+
+        ref = core.project_stimulus_batched(stimulus, filters, vhsize=vhsize)
+        result = core.project_stimulus_batched(
+            stimulus, filters, vhsize=vhsize, frames_in_cpu=True)
+
+        np.testing.assert_allclose(
+            result, ref, atol=1e-10, rtol=1e-10,
+            err_msg="core frames_in_cpu mismatch")
+
+    @pytest.mark.skipif(not has_torch(), reason="PyTorch not installed")
+    def test_responses_in_cpu_returns_numpy_torch(self):
+        """responses_in_cpu=True returns NumPy ndarray on torch backend."""
+        set_backend("torch")
+        backend = get_backend()
+        stimulus = make_test_stimulus()
+        stimulus_t = backend.asarray(stimulus)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        result = pyramid.project_stimulus_batched(
+            stimulus_t, responses_in_cpu=True)
+        assert isinstance(result, np.ndarray), (
+            "responses_in_cpu=True should return a numpy ndarray on torch")
+
+    @pytest.mark.skipif(not has_torch(), reason="PyTorch not installed")
+    def test_responses_in_cpu_matches_default_torch(self):
+        """responses_in_cpu=True matches default output on torch backend."""
+        set_backend("torch")
+        backend = get_backend()
+        stimulus = make_test_stimulus()
+        stimulus_t = backend.asarray(stimulus)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = backend.to_numpy(pyramid.project_stimulus_batched(stimulus_t))
+        result = pyramid.project_stimulus_batched(
+            stimulus_t, responses_in_cpu=True)
+
+        assert isinstance(result, np.ndarray)
+        np.testing.assert_allclose(
+            result, ref, atol=1e-10, rtol=1e-10,
+            err_msg="responses_in_cpu=True mismatch on torch backend")
+
+    @pytest.mark.skipif(not has_torch(), reason="PyTorch not installed")
+    def test_frames_in_cpu_numpy_stimulus_torch(self):
+        """frames_in_cpu=True accepts a NumPy stimulus with torch backend."""
+        set_backend("torch")
+        backend = get_backend()
+        stimulus = make_test_stimulus()  # plain numpy array
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        # Reference using the default path (stimulus moved to device upfront)
+        stimulus_t = backend.asarray(stimulus)
+        ref = backend.to_numpy(pyramid.project_stimulus_batched(stimulus_t))
+
+        # frames_in_cpu=True with a numpy stimulus
+        result_raw = pyramid.project_stimulus_batched(
+            stimulus, frames_in_cpu=True, responses_in_cpu=True)
+
+        assert isinstance(result_raw, np.ndarray)
+        np.testing.assert_allclose(
+            result_raw, ref, atol=1e-4, rtol=1e-4,
+            err_msg="frames_in_cpu=True numpy stimulus mismatch on torch")
+
+    @pytest.mark.skipif(not has_torch(), reason="PyTorch not installed")
+    def test_both_flags_torch(self):
+        """Both CPU flags work together on torch backend."""
+        set_backend("torch")
+        backend = get_backend()
+        stimulus = make_test_stimulus()
+        stimulus_t = backend.asarray(stimulus)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = backend.to_numpy(pyramid.project_stimulus_batched(stimulus_t))
+        result = pyramid.project_stimulus_batched(
+            stimulus_t, frames_in_cpu=True, responses_in_cpu=True)
+
+        assert isinstance(result, np.ndarray)
+        np.testing.assert_allclose(
+            result, ref, atol=1e-4, rtol=1e-4,
+            err_msg="both cpu flags mismatch on torch")
