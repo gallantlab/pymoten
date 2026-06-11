@@ -383,6 +383,8 @@ class TestStimulusBatchSize:
         stimulus = make_test_stimulus(nimages=40)
         pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
 
+        ref = pyramid.project_stimulus_batched(stimulus)
         result = pyramid.project_stimulus_batched(
             stimulus, stimulus_batch_size=8)
         assert result.shape == (40, pyramid.nfilters)
+        np.testing.assert_allclose(result, ref, atol=1e-5, rtol=1e-5)
