@@ -434,7 +434,8 @@ class MotionEnergyPyramid(object):
                                  quadrature_combination=utils.sqrt_sum_squares,
                                  output_nonlinearity=utils.log_compress,
                                  dtype='float32',
-                                 batch_size=128):
+                                 batch_size=128,
+                                 stimulus_batch_size=None):
         '''Compute motion energy responses using batched operations.
 
         Functionally equivalent to :meth:`project_stimulus` but
@@ -456,6 +457,11 @@ class MotionEnergyPyramid(object):
             Output dtype.
         batch_size : int
             Number of filters to process simultaneously.
+        stimulus_batch_size : int or None
+            Number of stimulus frames to process at a time.  When
+            ``None`` (default), all frames are processed together.
+            When set, the stimulus is split into overlapping temporal
+            batches to reduce VRAM usage for long stimuli.
 
         Returns
         -------
@@ -474,6 +480,7 @@ class MotionEnergyPyramid(object):
             vhsize=(vdim, hdim),
             dtype=dtype,
             batch_size=batch_size,
+            stimulus_batch_size=stimulus_batch_size,
             # NOTE: the per-filter project_stimulus path uses the hardcoded
             # dotspatial_frames default (0.001); mask_threshold is also 0.001,
             # so the two paths agree. Keep them in sync if either changes.

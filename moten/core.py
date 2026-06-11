@@ -685,6 +685,43 @@ def mk_3d_gabor_batched(vhsize, filters_batch):
     return spatial_gabors_sin, spatial_gabors_cos, temporal_gabors_sin, temporal_gabors_cos
 
 
+def _compute_temporal_pad(filters):
+    '''Compute the number of padding frames needed for temporal batching.
+
+    The temporal convolution shifts frames by up to
+    ``filter_temporal_width // 2`` positions in either direction.  To
+    avoid edge artifacts when processing temporal batches, each batch is
+    conservatively padded by ``filter_temporal_width - 1`` frames on
+    each side.  The filter width is negligible compared to typical
+    stimulus durations, so the extra overlap imposes little overhead.
+
+    Parameters
+    ----------
+    filters : list of dicts
+        Filter parameter dictionaries.
+
+    Returns
+    -------
+    pad : int
+        Number of frames to pad on each side of a temporal batch.
+    '''
+    # All filters in a pyramid share the same filter_temporal_width,
+    # but compute the max across all filters to be safe.
+    max_filter_temporal_width = 0
+    for f in filters:
+        filter_temporal_width = f.get('filter_temporal_width', 'auto')
+        if filter_temporal_width == 'auto':
+            filter_temporal_width = int(f['stimulus_fps'] * (2 / 3.))
+        max_filter_temporal_width = max(max_filter_temporal_width,
+                                        int(filter_temporal_width))
+    # The delay shifting in project_stimulus_batched makes the output at
+    # frame t depend on input frames in [t - (T - tdxc), t + (tdxc - 1)],
+    # where tdxc = ceil(T / 2), i.e. at most T // 2 frames away.  Pad by
+    # T - 1 frames to stay conservative; the extra overlap is negligible
+    # compared to typical stimulus durations.
+    return max_filter_temporal_width - 1 if max_filter_temporal_width > 0 else 0
+
+
 def project_stimulus_batched(stimulus,
                              filters,
                              quadrature_combination=sqrt_sum_squares,
@@ -692,6 +729,7 @@ def project_stimulus_batched(stimulus,
                              vhsize=(),
                              dtype='float32',
                              batch_size=128,
+                             stimulus_batch_size=None,
                              masklimit=0.001):
     '''Compute motion energy responses using batched operations.
 
@@ -718,6 +756,13 @@ def project_stimulus_batched(stimulus,
     batch_size : int
         Number of filters to process simultaneously.  Larger values use
         more memory but reduce Python-loop overhead.
+    stimulus_batch_size : int or None
+        Number of stimulus frames to process at a time.  When ``None``
+        (default), all frames are processed together, preserving the
+        original behaviour.  When set, the stimulus is split into
+        overlapping temporal batches to reduce VRAM usage for long
+        stimuli.  The overlap is computed automatically from the temporal
+        filter width to avoid edge artifacts.
     masklimit : float
         Threshold for zeroing near-zero gabor pixels. Matches the
         ``masklimit`` parameter of :func:`dotspatial_frames`.
@@ -728,7 +773,8 @@ def project_stimulus_batched(stimulus,
     '''
     if stimulus.ndim == 3:
         nimages, vdim, hdim = stimulus.shape
-        stimulus = stimulus.reshape(stimulus.shape[0], -1)
+        # reshape with explicit sizes (not -1) so empty stimuli also work
+        stimulus = stimulus.reshape(nimages, vdim * hdim)
         vhsize = (vdim, hdim)
 
     backend = get_backend()
@@ -739,20 +785,32 @@ def project_stimulus_batched(stimulus,
     assert vhsize[0] * vhsize[1] == stimulus.shape[1]
     if batch_size <= 0:
         raise ValueError(f"batch_size must be positive, got {batch_size}")
+    if stimulus_batch_size is not None and stimulus_batch_size <= 0:
+        raise ValueError(
+            f"stimulus_batch_size must be positive or None, got {stimulus_batch_size}")
 
     nfilters = len(filters)
     nimages = stimulus.shape[0]
+
+    # Determine temporal padding for stimulus batching
+    if stimulus_batch_size is not None:
+        temporal_pad = _compute_temporal_pad(filters)
+    else:
+        temporal_pad = 0
+        # Process all frames at once (max with 1 so that range() below
+        # gets a nonzero step when the stimulus is empty).
+        stimulus_batch_size = max(nimages, 1)
+
     filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
 
-    # stimulus transpose computed once -- (npixels, nimages)
-    stim_T = stimulus.T
-
+    # Iterate over filter batches first so that gabor banks are computed
+    # once per batch and reused across all temporal chunks.
     for batch_start in range(0, nfilters, batch_size):
         batch_end = min(batch_start + batch_size, nfilters)
         batch_filters = filters[batch_start:batch_end]
         B = len(batch_filters)
 
-        # Build gabor filter banks for this batch
+        # Build gabor filter banks for this batch (computed once)
         sg_sin, sg_cos, tg_sin, tg_cos = mk_3d_gabor_batched(vhsize,
                                                                batch_filters)
         # sg_sin: (B, npixels), tg_sin: (B, T)
@@ -764,38 +822,57 @@ def project_stimulus_batched(stimulus,
         sg_sin = sg_sin * gabor_mask
         sg_cos = sg_cos * gabor_mask
 
-        # Spatial dot product -- single matmul per batch
-        # (B, npixels) @ (npixels, nimages) → (B, nimages) → transpose
-        spatial_sin = (sg_sin @ stim_T).T  # (nimages, B)
-        spatial_cos = (sg_cos @ stim_T).T  # (nimages, B)
-
-        # Temporal convolution + delay shifting.
-        # The final response sums over the temporal dimension T, so we
-        # accumulate directly into (nimages, B) instead of materializing
-        # (nimages, B, T) tensors. This cuts peak memory by a factor of ~T,
-        # which matters for GPU OOM on long stimuli or large batch_size.
         T = tg_sin.shape[1]
-        channel_sin = backend.zeros((nimages, B), dtype=dtype)
-        channel_cos = backend.zeros((nimages, B), dtype=dtype)
         tdxc = int(math.ceil(T / 2.0))
-        for ddx in range(T):
-            num = ddx - tdxc + 1
-            # quadrature components for this delay: (nimages, B) * (B,)
-            curr_outs = spatial_sin * tg_cos[:, ddx] + spatial_cos * tg_sin[:, ddx]
-            curr_outc = -spatial_sin * tg_sin[:, ddx] + spatial_cos * tg_cos[:, ddx]
-            if num == 0:
-                channel_sin += curr_outs
-                channel_cos += curr_outc
-            elif num > 0:
-                channel_sin[num:, :] += curr_outs[:-num, :]
-                channel_cos[num:, :] += curr_outc[:-num, :]
-            elif num < 0:
-                channel_sin[:num, :] += curr_outs[abs(num):, :]
-                channel_cos[:num, :] += curr_outc[abs(num):, :]
 
-        channel_response = quadrature_combination(channel_sin, channel_cos)
-        channel_response = output_nonlinearity(channel_response)
-        filter_responses[:, batch_start:batch_end] = channel_response
+        # Iterate over temporal batches of the stimulus
+        for t_start in range(0, nimages, stimulus_batch_size):
+            t_end = min(t_start + stimulus_batch_size, nimages)
+
+            # Compute padded window boundaries
+            pad_start = max(t_start - temporal_pad, 0)
+            pad_end = min(t_end + temporal_pad, nimages)
+
+            # Extract the padded stimulus chunk
+            stim_chunk = stimulus[pad_start:pad_end]  # (chunk_len, npixels)
+            chunk_len = stim_chunk.shape[0]
+
+            # Offsets to slice valid (non-padded) results from the chunk output
+            valid_start = t_start - pad_start
+            valid_end = valid_start + (t_end - t_start)
+
+            # stimulus transpose for this chunk -- (npixels, chunk_len)
+            stim_T = stim_chunk.T
+
+            # Spatial dot product -- single matmul per batch
+            # (B, npixels) @ (npixels, chunk_len) → (B, chunk_len) → transpose
+            spatial_sin = (sg_sin @ stim_T).T  # (chunk_len, B)
+            spatial_cos = (sg_cos @ stim_T).T  # (chunk_len, B)
+
+            # Temporal convolution + delay shifting.
+            channel_sin = backend.zeros((chunk_len, B), dtype=dtype)
+            channel_cos = backend.zeros((chunk_len, B), dtype=dtype)
+            for ddx in range(T):
+                num = ddx - tdxc + 1
+                curr_outs = spatial_sin * tg_cos[:, ddx] + spatial_cos * tg_sin[:, ddx]
+                curr_outc = -spatial_sin * tg_sin[:, ddx] + spatial_cos * tg_cos[:, ddx]
+                if num == 0:
+                    channel_sin += curr_outs
+                    channel_cos += curr_outc
+                elif num > 0:
+                    channel_sin[num:, :] += curr_outs[:-num, :]
+                    channel_cos[num:, :] += curr_outc[:-num, :]
+                elif num < 0:
+                    channel_sin[:num, :] += curr_outs[abs(num):, :]
+                    channel_cos[:num, :] += curr_outc[abs(num):, :]
+
+            # Extract only the valid (non-padded) portion
+            channel_sin = channel_sin[valid_start:valid_end]
+            channel_cos = channel_cos[valid_start:valid_end]
+
+            channel_response = quadrature_combination(channel_sin, channel_cos)
+            channel_response = output_nonlinearity(channel_response)
+            filter_responses[t_start:t_end, batch_start:batch_end] = channel_response
 
     return filter_responses
 
