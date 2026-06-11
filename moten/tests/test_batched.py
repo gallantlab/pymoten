@@ -272,3 +272,117 @@ class TestCoreBatchedFunction:
 
         np.testing.assert_allclose(
             result, ref, atol=1e-10, rtol=1e-10)
+
+
+# ---------------------------------------------------------------------------
+# stimulus_batch_size (temporal batching) tests
+# ---------------------------------------------------------------------------
+
+class TestStimulusBatchSize:
+    """Test that stimulus_batch_size produces results equivalent to no batching."""
+
+    def test_none_is_default(self):
+        """stimulus_batch_size=None gives same result as omitting it."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=50)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, stimulus_batch_size=None)
+
+        np.testing.assert_allclose(result, ref, atol=1e-10, rtol=1e-10)
+
+    @pytest.mark.parametrize("stim_batch", [5, 10, 15, 25, 50])
+    def test_various_stimulus_batch_sizes(self, stim_batch):
+        """Different stimulus_batch_size values match unbatched result."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=50)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, stimulus_batch_size=stim_batch)
+
+        np.testing.assert_allclose(
+            result, ref, atol=1e-5, rtol=1e-5,
+            err_msg=f"stimulus_batch_size={stim_batch} mismatch")
+
+    def test_stimulus_batch_larger_than_nimages(self):
+        """stimulus_batch_size larger than nimages works correctly."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=20)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, stimulus_batch_size=1000)
+
+        np.testing.assert_allclose(result, ref, atol=1e-10, rtol=1e-10)
+
+    def test_stimulus_batch_size_one(self):
+        """stimulus_batch_size=1 (degenerate) still runs."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=30)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, stimulus_batch_size=1)
+
+        # With batch_size=1 each frame has limited temporal context from
+        # padding, so results should still be close at interior frames.
+        np.testing.assert_allclose(
+            result, ref, atol=1e-5, rtol=1e-5,
+            err_msg="stimulus_batch_size=1 mismatch")
+
+    def test_combined_filter_and_stimulus_batching(self):
+        """Both batch_size and stimulus_batch_size can be used together."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=50)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, batch_size=4, stimulus_batch_size=10)
+
+        np.testing.assert_allclose(
+            result, ref, atol=1e-5, rtol=1e-5,
+            err_msg="Combined filter+stimulus batching mismatch")
+
+    def test_core_level_stimulus_batch(self):
+        """core.project_stimulus_batched with stimulus_batch_size matches."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=50)
+        vhsize = (16, 24)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+        filters = pyramid.filters
+
+        ref = core.project_stimulus_batched(
+            stimulus, filters, vhsize=vhsize)
+        result = core.project_stimulus_batched(
+            stimulus, filters, vhsize=vhsize, stimulus_batch_size=12)
+
+        np.testing.assert_allclose(
+            result, ref, atol=1e-5, rtol=1e-5,
+            err_msg="core-level stimulus batching mismatch")
+
+    def test_invalid_stimulus_batch_size(self):
+        """Negative stimulus_batch_size raises ValueError."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=20)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        with pytest.raises(ValueError, match="stimulus_batch_size"):
+            pyramid.project_stimulus_batched(
+                stimulus, stimulus_batch_size=-1)
+
+    def test_output_shape_with_stimulus_batch(self):
+        """Output shape is correct with stimulus batching."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=40)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        result = pyramid.project_stimulus_batched(
+            stimulus, stimulus_batch_size=8)
+        assert result.shape == (40, pyramid.nfilters)
