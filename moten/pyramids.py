@@ -473,7 +473,7 @@ class MotionEnergyPyramid(object):
 			array is allocated on the active backend device.  When ``True``, 
 			the output array is a numpy array on CPU, and each batch's response
 			is copied out of the GPU at to reduce VRAM use.
-			Returns
+		Returns
         -------
         filter_responses : array, (nimages, nfilters)
             When ``responses_in_cpu=True`` this is always a NumPy
