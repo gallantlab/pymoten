@@ -330,7 +330,7 @@ class TestStimulusBatchSize:
         result = pyramid.project_stimulus_batched(
             stimulus, stimulus_batch_size=1)
 
-        # With batch_size=1 each frame has limited temporal context from
+        # With stimulus_batch_size=1 each frame has limited temporal context from
         # padding, so results should still be close at interior frames.
         np.testing.assert_allclose(
             result, ref, atol=1e-5, rtol=1e-5,
