@@ -14,6 +14,7 @@ from PIL import Image
 import numpy as np
 
 from moten.backend import get_backend
+from moten.backend._utils import _dtype_to_str
 from moten.utils import (DotDict,
                          iterator_func,
                          log_compress,
@@ -730,7 +731,9 @@ def project_stimulus_batched(stimulus,
                              dtype='float32',
                              batch_size=128,
                              stimulus_batch_size=None,
-                             masklimit=0.001):
+                             masklimit=0.001,
+                             frames_in_cpu=False,
+                             responses_in_cpu=False):
     '''Compute motion energy responses using batched operations.
 
     Functionally equivalent to :func:`project_stimulus` but constructs
@@ -758,19 +761,29 @@ def project_stimulus_batched(stimulus,
         more memory but reduce Python-loop overhead.
     stimulus_batch_size : int or None
         Number of stimulus frames to process at a time.  When ``None``
-        (default), all frames are processed together, preserving the
-        original behaviour.  When set, the stimulus is split into
-        overlapping temporal batches to reduce VRAM usage for long
-        stimuli.  The overlap is computed automatically from the temporal
-        filter width to avoid edge artifacts.
+        (default), all frames are processed together. Otherwise, the
+        stimulus is processed in frame batchs with this size.
     masklimit : float
         Threshold for zeroing near-zero gabor pixels. Matches the
         ``masklimit`` parameter of :func:`dotspatial_frames`.
+    frames_in_cpu : bool, optional
+        When ``False`` (default), the entire stimulus is moved to the
+        active backend device before processing. When ``True``, only the
+        frames in each batch are copied to reduce VRAM use.
+    responses_in_cpu : bool, optional
+        When ``False`` (default), the full ``(nimages, nfilters)`` output
+        array is allocated on the active backend device.  When ``True``, 
+        the output array is a numpy array on CPU, and each batch's response
+        is copied out of the GPU at to reduce VRAM use.
 
     Returns
     -------
     filter_responses : array, (nimages, nfilters)
+        When ``responses_in_cpu=True`` this is always a NumPy ndarray.
+        Otherwise the array lives on the active backend device.
     '''
+    import numpy as _np
+
     if stimulus.ndim == 3:
         nimages, vdim, hdim = stimulus.shape
         # reshape with explicit sizes (not -1) so empty stimuli also work
@@ -778,7 +791,14 @@ def project_stimulus_batched(stimulus,
         vhsize = (vdim, hdim)
 
     backend = get_backend()
-    stimulus = backend.asarray(stimulus)
+
+    if frames_in_cpu:
+        # Keep stimulus in CPU; convert to a plain NumPy array so that
+        # per-chunk slices remain on CPU until explicitly moved to device.
+        # backend.to_numpy() handles both plain arrays and device tensors.
+        stimulus = _np.asarray(backend.to_numpy(stimulus))
+    else:
+        stimulus = backend.asarray(stimulus)
 
     assert stimulus.ndim == 2
     assert isinstance(vhsize, tuple) and len(vhsize) == 2
@@ -801,7 +821,10 @@ def project_stimulus_batched(stimulus,
         # gets a nonzero step when the stimulus is empty).
         stimulus_batch_size = max(nimages, 1)
 
-    filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
+    if responses_in_cpu:
+        filter_responses = _np.zeros((nimages, nfilters), dtype=_dtype_to_str(dtype))
+    else:
+        filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
 
     # Iterate over filter batches first so that gabor banks are computed
     # once per batch and reused across all temporal chunks.
@@ -836,6 +859,10 @@ def project_stimulus_batched(stimulus,
             # Extract the padded stimulus chunk
             stim_chunk = stimulus[pad_start:pad_end]  # (chunk_len, npixels)
             chunk_len = stim_chunk.shape[0]
+
+            if frames_in_cpu:
+                # Move only this chunk to the active device
+                stim_chunk = backend.asarray(stim_chunk)
 
             # Offsets to slice valid (non-padded) results from the chunk output
             valid_start = t_start - pad_start
@@ -872,7 +899,13 @@ def project_stimulus_batched(stimulus,
 
             channel_response = quadrature_combination(channel_sin, channel_cos)
             channel_response = output_nonlinearity(channel_response)
-            filter_responses[t_start:t_end, batch_start:batch_end] = channel_response
+
+            if responses_in_cpu:
+                filter_responses[t_start:t_end, batch_start:batch_end] = (
+                    backend.to_numpy(channel_response))
+            else:
+                filter_responses[t_start:t_end, batch_start:batch_end] = (
+                    channel_response)
 
     return filter_responses
 
