@@ -347,11 +347,36 @@ class TestStimulusBatchSize:
         result = pyramid.project_stimulus_batched(
             stimulus, stimulus_batch_size=1)
 
-        # With stimulus_batch_size=1 each frame has limited temporal context from
-        # padding, so results should still be close at interior frames.
+        # The temporal padding gives every chunk its full temporal context,
+        # so even single-frame chunks match the unbatched result up to
+        # floating-point reordering.
         np.testing.assert_allclose(
             result, ref, atol=1e-5, rtol=1e-5,
             err_msg="stimulus_batch_size=1 mismatch")
+
+    @pytest.mark.parametrize("filter_temporal_width", [9, 10])
+    @pytest.mark.parametrize("stim_batch", [1, 7, 20])
+    def test_odd_and_even_filter_temporal_width(self, filter_temporal_width,
+                                                stim_batch):
+        """Padding handles both parities of filter_temporal_width.
+
+        The shift range of the delay loop is asymmetric for even widths
+        (tdxc - 1 != T - tdxc), so check both odd and even T explicitly.
+        """
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=50)
+        pyramid = moten.pyramids.MotionEnergyPyramid(
+            filter_temporal_width=filter_temporal_width,
+            **SMALL_PYRAMID_KWARGS)
+
+        ref = pyramid.project_stimulus_batched(stimulus)
+        result = pyramid.project_stimulus_batched(
+            stimulus, stimulus_batch_size=stim_batch)
+
+        np.testing.assert_allclose(
+            result, ref, atol=1e-5, rtol=1e-5,
+            err_msg=(f"filter_temporal_width={filter_temporal_width}, "
+                     f"stimulus_batch_size={stim_batch} mismatch"))
 
     def test_combined_filter_and_stimulus_batching(self):
         """Both batch_size and stimulus_batch_size can be used together."""
@@ -383,6 +408,15 @@ class TestStimulusBatchSize:
         np.testing.assert_allclose(
             result, ref, atol=1e-5, rtol=1e-5,
             err_msg="core-level stimulus batching mismatch")
+
+    def test_empty_stimulus(self):
+        """An empty stimulus returns an empty (0, nfilters) response."""
+        set_backend("numpy")
+        stimulus = make_test_stimulus(nimages=0)
+        pyramid = moten.pyramids.MotionEnergyPyramid(**SMALL_PYRAMID_KWARGS)
+
+        result = pyramid.project_stimulus_batched(stimulus)
+        assert result.shape == (0, pyramid.nfilters)
 
     def test_invalid_stimulus_batch_size(self):
         """Negative stimulus_batch_size raises ValueError."""

@@ -689,9 +689,11 @@ def _compute_temporal_pad(filters):
     '''Compute the number of padding frames needed for temporal batching.
 
     The temporal convolution shifts frames by up to
-    ``filter_temporal_width - 1`` positions.  To avoid edge artifacts
-    when processing temporal batches, each batch must be padded by this
-    many frames on each side.
+    ``filter_temporal_width // 2`` positions in either direction.  To
+    avoid edge artifacts when processing temporal batches, each batch is
+    conservatively padded by ``filter_temporal_width - 1`` frames on
+    each side.  The filter width is negligible compared to typical
+    stimulus durations, so the extra overlap imposes little overhead.
 
     Parameters
     ----------
@@ -712,8 +714,11 @@ def _compute_temporal_pad(filters):
             filter_temporal_width = int(f['stimulus_fps'] * (2 / 3.))
         max_filter_temporal_width = max(max_filter_temporal_width,
                                         int(filter_temporal_width))
-    # The delay shifting uses indices from -(tdxc-1) to T-tdxc where
-    # tdxc = ceil(T/2).  The maximum absolute shift is T-1.
+    # The delay shifting in project_stimulus_batched makes the output at
+    # frame t depend on input frames in [t - (T - tdxc), t + (tdxc - 1)],
+    # where tdxc = ceil(T / 2), i.e. at most T // 2 frames away.  Pad by
+    # T - 1 frames to stay conservative; the extra overlap is negligible
+    # compared to typical stimulus durations.
     return max_filter_temporal_width - 1 if max_filter_temporal_width > 0 else 0
 
 
@@ -768,7 +773,8 @@ def project_stimulus_batched(stimulus,
     '''
     if stimulus.ndim == 3:
         nimages, vdim, hdim = stimulus.shape
-        stimulus = stimulus.reshape(stimulus.shape[0], -1)
+        # reshape with explicit sizes (not -1) so empty stimuli also work
+        stimulus = stimulus.reshape(nimages, vdim * hdim)
         vhsize = (vdim, hdim)
 
     backend = get_backend()
@@ -791,7 +797,9 @@ def project_stimulus_batched(stimulus,
         temporal_pad = _compute_temporal_pad(filters)
     else:
         temporal_pad = 0
-        stimulus_batch_size = nimages  # process all frames at once
+        # Process all frames at once (max with 1 so that range() below
+        # gets a nonzero step when the stimulus is empty).
+        stimulus_batch_size = max(nimages, 1)
 
     filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
 
