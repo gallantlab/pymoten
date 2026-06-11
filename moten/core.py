@@ -820,10 +820,11 @@ def project_stimulus_batched(stimulus,
         # gets a nonzero step when the stimulus is empty).
         stimulus_batch_size = max(nimages, 1)
 
-    if responses_in_cpu:
-        filter_responses = _np.zeros((nimages, nfilters), dtype=dtype)
-    else:
-        filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
+from moten.backend._utils import _dtype_to_str
+if responses_in_cpu:
+    filter_responses = _np.zeros((nimages, nfilters), dtype=_dtype_to_str(dtype))
+else:
+    filter_responses = backend.zeros((nimages, nfilters), dtype=dtype)
 
     # Iterate over filter batches first so that gabor banks are computed
     # once per batch and reused across all temporal chunks.
