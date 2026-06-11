@@ -689,7 +689,7 @@ def _compute_temporal_pad(filters):
     '''Compute the number of padding frames needed for temporal batching.
 
     The temporal convolution shifts frames by up to
-    ``filter_temporal_width - 1`` positions.  To avoid edge artefacts
+    ``filter_temporal_width - 1`` positions.  To avoid edge artifacts
     when processing temporal batches, each batch must be padded by this
     many frames on each side.
 
@@ -705,15 +705,16 @@ def _compute_temporal_pad(filters):
     '''
     # All filters in a pyramid share the same filter_temporal_width,
     # but compute the max across all filters to be safe.
-    max_ftw = 0
+    max_filter_temporal_width = 0
     for f in filters:
-        ftw = f.get('filter_temporal_width', 'auto')
-        if ftw == 'auto':
-            ftw = int(f['stimulus_fps'] * (2 / 3.))
-        max_ftw = max(max_ftw, int(ftw))
+        filter_temporal_width = f.get('filter_temporal_width', 'auto')
+        if filter_temporal_width == 'auto':
+            filter_temporal_width = int(f['stimulus_fps'] * (2 / 3.))
+        max_filter_temporal_width = max(max_filter_temporal_width,
+                                        int(filter_temporal_width))
     # The delay shifting uses indices from -(tdxc-1) to T-tdxc where
     # tdxc = ceil(T/2).  The maximum absolute shift is T-1.
-    return max_ftw - 1 if max_ftw > 0 else 0
+    return max_filter_temporal_width - 1 if max_filter_temporal_width > 0 else 0
 
 
 def project_stimulus_batched(stimulus,
@@ -756,7 +757,7 @@ def project_stimulus_batched(stimulus,
         original behaviour.  When set, the stimulus is split into
         overlapping temporal batches to reduce VRAM usage for long
         stimuli.  The overlap is computed automatically from the temporal
-        filter width to avoid edge artefacts.
+        filter width to avoid edge artifacts.
     masklimit : float
         Threshold for zeroing near-zero gabor pixels. Matches the
         ``masklimit`` parameter of :func:`dotspatial_frames`.
