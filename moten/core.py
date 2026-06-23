@@ -1,7 +1,7 @@
 '''
 '''
 #
-# Adapted from MATLAB code written by S. Nishimoto (see Nishimoto, et al., 2011).
+# Adapted from MATLAB code written by S. Nishimoto (see Nishimoto, et al., 2011; https://github.com/gallantlab/motion_energy_matlab).
 # Anwar O. Nunez-Elizalde (Jan, 2016)
 #
 # Updates:
